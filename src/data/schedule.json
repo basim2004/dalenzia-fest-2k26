@@ -1,0 +1,29 @@
+{
+  "days": [
+    {
+      "day": "Day 01",
+      "date": "December 21, 2026",
+      "malayalam": "ഡിസംബർ 21, 2026",
+      "events": [
+        { "time": "08:30 AM", "title": "Flag Hoisting & Grand Inception", "malayalam": "പതാക ഉയർത്തൽ & ഉദ്ഘാടനം", "stage": "Stage 01 - Cordova Arena", "status": "completed" },
+        { "time": "10:00 AM", "title": "Junior Quran Recitation", "malayalam": "ജൂനിയർ ഖുർആൻ പാരായണം", "stage": "Stage 01 - Cordova Arena", "status": "completed" },
+        { "time": "11:30 AM", "title": "Pencil Drawing & Creative Arts", "malayalam": "പെൻസിൽ ഡ്രോയിംഗ് & ചിത്രരചന", "stage": "Stage 04 - Art Gallery", "status": "completed" },
+        { "time": "02:00 PM", "title": "Malayalam & English Elocution", "malayalam": "പ്രസംഗ മത്സരങ്ങൾ", "stage": "Stage 02 - Al-Azhar Hall", "status": "live" },
+        { "time": "04:30 PM", "title": "Mappilapattu Stage Prelims", "malayalam": "മാപ്പിളപ്പാട്ട് പ്രാഥമിക റൗണ്ട്", "stage": "Stage 01 - Cordova Arena", "status": "upcoming" },
+        { "time": "07:30 PM", "title": "Grand Cultural Colloquium & Ghazal Night", "malayalam": "സാംസ്കാരിക സദസ്സ് & ഗസൽ രാവ്", "stage": "Stage 01 - Cordova Arena", "status": "upcoming" }
+      ]
+    },
+    {
+      "day": "Day 02",
+      "date": "December 22, 2026",
+      "malayalam": "ഡിസംബർ 22, 2026",
+      "events": [
+        { "time": "09:00 AM", "title": "Arabic Calligraphy & Typographic Art", "malayalam": "കാലിഗ്രാഫി & ടൈപ്പോഗ്രാഫി", "stage": "Stage 04 - Art Gallery", "status": "upcoming" },
+        { "time": "10:30 AM", "title": "Sufi Geetham & Group Harmony", "malayalam": "സൂഫി ഗീതം & ഗ്രൂപ്പ് ഗാനം", "stage": "Stage 01 - Cordova Arena", "status": "upcoming" },
+        { "time": "01:30 PM", "title": "Extempore & Academic Debates", "malayalam": "തത്സമയ പ്രസംഗം & സംവാദം", "stage": "Stage 02 - Al-Azhar Hall", "status": "upcoming" },
+        { "time": "03:30 PM", "title": "Qawwali Grand Finale", "malayalam": "ഖവാലി ഫിനാലെ", "stage": "Stage 01 - Cordova Arena", "status": "upcoming" },
+        { "time": "06:30 PM", "title": "Valedictory Ceremony & Prize Distribution", "malayalam": "സമാപന സമ്മേളനം & പുരസ്കാര സമർപ്പണം", "stage": "Stage 01 - Cordova Arena", "status": "upcoming" }
+      ]
+    }
+  ]
+}

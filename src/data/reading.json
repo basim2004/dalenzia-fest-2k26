@@ -1,0 +1,31 @@
+{
+  "articles": [
+    {
+      "id": "1",
+      "title": "A New Era: Tradition and Technology Walking Forward",
+      "malayalam": "പുതിയ യുഗം: പാരമ്പര്യവും സാങ്കേതികവിദ്യയും കൈകോർക്കുമ്പോൾ",
+      "author": "Academic Board, Dalailussunna Dars",
+      "category": "Theme Concept",
+      "readTime": "4 min read",
+      "snippet": "Nueva Era stands at the intersection of classical scholarship and digital frontiers, redefining cultural expression for the next generation."
+    },
+    {
+      "id": "2",
+      "title": "The Lamp and The Books: Illumination of Ayiroor",
+      "malayalam": "വിളക്കും കിതാബുകളും: അയിരൂരിന്റെ ജ്ഞാനവെളിച്ചം",
+      "author": "Usthad Zainudheen Saqafi",
+      "category": "Heritage",
+      "readTime": "6 min read",
+      "snippet": "Tracing the profound legacy of Dars education in Malappuram and how Ayiroor continues to nurture knowledge seekers across decades."
+    },
+    {
+      "id": "3",
+      "title": "Poetry in Motion: Mappila Heritage & Modernity",
+      "malayalam": "മാപ്പിള പൈതൃകവും ആധുനികതയും",
+      "author": "Dr. K. Faisal Ayiroor",
+      "category": "Art & Literature",
+      "readTime": "5 min read",
+      "snippet": "Exploring the linguistic charm of Arabi-Malayalam verses and their evolving rhythm in contemporary youth festivals."
+    }
+  ]
+}

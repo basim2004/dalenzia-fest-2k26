@@ -1,0 +1,48 @@
+{
+  "venues": [
+    {
+      "id": "stage-1",
+      "number": "01",
+      "name": "Cordova Arena",
+      "malayalam": "കൊർദോവ അരീന",
+      "capacity": "2,000 Seats",
+      "currentEvent": "Senior Sufi Geetham Finals",
+      "currentMalayalam": "സീനിയർ സൂഫി ഗീതം ഫൈനൽ",
+      "upNext": "Qawwali Grand Round",
+      "status": "Live Now"
+    },
+    {
+      "id": "stage-2",
+      "number": "02",
+      "name": "Al-Azhar Hall",
+      "malayalam": "അൽ-അസ്ഹർ ഹാൾ",
+      "capacity": "600 Seats",
+      "currentEvent": "High School English Elocution",
+      "currentMalayalam": "ഹൈസ്കൂൾ ഇംഗ്ലീഷ് പ്രസംഗം",
+      "upNext": "Extempore Malayalam",
+      "status": "Live Now"
+    },
+    {
+      "id": "stage-3",
+      "number": "03",
+      "name": "Baghdad Seminar Hall",
+      "malayalam": "ബാഗ്ദാദ് ഹാൾ",
+      "capacity": "450 Seats",
+      "currentEvent": "Literary Essay Presentation",
+      "currentMalayalam": "സാഹിത്യ ഉപന്യാസ സമർപ്പണം",
+      "upNext": "Poetry Recital Session",
+      "status": "Up Next"
+    },
+    {
+      "id": "stage-4",
+      "number": "04",
+      "name": "Granada Art Pavilion",
+      "malayalam": "ഗ്രാനഡ ആർട്ട് ഗാലറി",
+      "capacity": "300 Seats",
+      "currentEvent": "Live Arabic Calligraphy Exhibition",
+      "currentMalayalam": "അറബിക് കാലിഗ്രാഫി പ്രദർശനം",
+      "upNext": "Water Colour Contest",
+      "status": "Live Now"
+    }
+  ]
+}

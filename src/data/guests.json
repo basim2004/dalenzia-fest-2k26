@@ -1,0 +1,36 @@
+{
+  "guests": [
+    {
+      "name": "Usthad Sayyid Ali Thangal",
+      "malayalam": "ഉസ്താദ് സയ്യിദ് അലി തങ്ങൾ",
+      "title": "Patron & Spiritual Guide",
+      "role": "Dalailussunna Dars, Ayiroor",
+      "tag": "Inaugural Address",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "name": "Prof. K. M. Bahauddin",
+      "malayalam": "പ്രൊഫ. കെ. എം. ബഹാഉദ്ദീൻ",
+      "title": "Scholar & Historian",
+      "role": "Keynote Speaker on Nueva Era",
+      "tag": "Theme Discourse",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "name": "Usthad Zainudheen Saqafi",
+      "malayalam": "ഉസ്താദ് സൈനുദ്ദീൻ സഖാഫി",
+      "title": "Principal & Chief Mentor",
+      "role": "Dalailussunna Dars",
+      "tag": "Valedictory Blessings",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "name": "Sameer K. Ayiroor",
+      "malayalam": "സമീർ കെ. അയിരൂർ",
+      "title": "Cultural Critic & Author",
+      "role": "Special Guest",
+      "tag": "Literary Colloquium",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "totalSectors": 12,
+  "registeredContestants": 850,
+  "totalItems": 64,
+  "activeStages": 5,
+  "festivalDays": 2,
+  "counters": [
+    { "id": "sectors", "label": "Sectors", "malayalam": "മേഖലകൾ", "value": 12, "suffix": "" },
+    { "id": "participants", "label": "Contestants", "malayalam": "മത്സരാർത്ഥികൾ", "value": 850, "suffix": "+" },
+    { "id": "items", "label": "Competitions", "malayalam": "ഇനങ്ങൾ", "value": 64, "suffix": "" },
+    { "id": "stages", "label": "Active Stages", "malayalam": "വേദികൾ", "value": 5, "suffix": "" }
+  ]
+}

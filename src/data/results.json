@@ -1,0 +1,142 @@
+{
+  "categories": [
+    {
+      "id": "junior",
+      "name": "Junior",
+      "malayalam": "ജൂനിയർ",
+      "items": [
+        {
+          "id": "j_quran",
+          "name": "Holy Quran Recitation",
+          "malayalam": "ഖുർആൻ പാരായണം",
+          "stage": "Stage 01 - Cordova Arena",
+          "winners": [
+            { "rank": 1, "name": "Ahmad Faris", "chestNo": "104", "sector": "Ayiroor Central", "grade": "A+", "points": 10 },
+            { "rank": 2, "name": "Muhammed Rayan", "chestNo": "112", "sector": "Perumpadappu North", "grade": "A", "points": 7 },
+            { "rank": 3, "name": "Bilal Thanseer", "chestNo": "128", "sector": "Ponnani West", "grade": "A", "points": 5 }
+          ]
+        },
+        {
+          "id": "j_elocution_mal",
+          "name": "Malayalam Elocution",
+          "malayalam": "മലയാള പ്രസംഗം",
+          "stage": "Stage 02 - Al-Azhar Hall",
+          "winners": [
+            { "rank": 1, "name": "Zayan Abdullah", "chestNo": "109", "sector": "Maranchery East", "grade": "A+", "points": 10 },
+            { "rank": 2, "name": "Adnan Shafi", "chestNo": "115", "sector": "Edappal South", "grade": "A+", "points": 7 },
+            { "rank": 3, "name": "Hanan Basheer", "chestNo": "122", "sector": "Ayiroor Central", "grade": "A", "points": 5 }
+          ]
+        },
+        {
+          "id": "j_pencil_drawing",
+          "name": "Pencil Drawing",
+          "malayalam": "പെൻസിൽ ഡ്രോയിംഗ്",
+          "stage": "Stage 04 - Art Gallery",
+          "winners": [
+            { "rank": 1, "name": "Sinan Salih", "chestNo": "131", "sector": "Veliyancode Coast", "grade": "A+", "points": 10 },
+            { "rank": 2, "name": "Yaseen Nabeel", "chestNo": "107", "sector": "Ponnani West", "grade": "A", "points": 7 },
+            { "rank": 3, "name": "Aman Rasheed", "chestNo": "119", "sector": "Perumpadappu North", "grade": "A", "points": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "high_school",
+      "name": "High School",
+      "malayalam": "ഹൈസ്കൂൾ",
+      "items": [
+        {
+          "id": "hs_mappilapattu",
+          "name": "Mappilapattu",
+          "malayalam": "മാപ്പിളപ്പാട്ട്",
+          "stage": "Stage 01 - Cordova Arena",
+          "winners": [
+            { "rank": 1, "name": "Salman Faris", "chestNo": "205", "sector": "Ayiroor Central", "grade": "A+", "points": 10 },
+            { "rank": 2, "name": "Mishab Kareem", "chestNo": "218", "sector": "Edappal South", "grade": "A+", "points": 7 },
+            { "rank": 3, "name": "Nihal Shamsu", "chestNo": "233", "sector": "Maranchery East", "grade": "A", "points": 5 }
+          ]
+        },
+        {
+          "id": "hs_english_speech",
+          "name": "English Speech",
+          "malayalam": "ഇംഗ്ലീഷ് പ്രസംഗം",
+          "stage": "Stage 02 - Al-Azhar Hall",
+          "winners": [
+            { "rank": 1, "name": "Afnan Zameel", "chestNo": "210", "sector": "Ponnani West", "grade": "A+", "points": 10 },
+            { "rank": 2, "name": "Rizwan Munir", "chestNo": "224", "sector": "Veliyancode Coast", "grade": "A+", "points": 7 },
+            { "rank": 3, "name": "Danish Faizal", "chestNo": "201", "sector": "Ayiroor Central", "grade": "A", "points": 5 }
+          ]
+        },
+        {
+          "id": "hs_calligraphy",
+          "name": "Arabic Calligraphy",
+          "malayalam": "അറബിക് കാലിഗ്രാഫി",
+          "stage": "Stage 04 - Art Gallery",
+          "winners": [
+            { "rank": 1, "name": "Ihsan Hameed", "chestNo": "240", "sector": "Perumpadappu North", "grade": "A+", "points": 10 },
+            { "rank": 2, "name": "Mufeed Rahman", "chestNo": "214", "sector": "Maranchery East", "grade": "A", "points": 7 },
+            { "rank": 3, "name": "Anas Thwaha", "chestNo": "229", "sector": "Edappal South", "grade": "A", "points": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "higher_secondary",
+      "name": "Higher Secondary",
+      "malayalam": "ഹയർ സെക്കൻഡറി",
+      "items": [
+        {
+          "id": "hss_sufi_geetham",
+          "name": "Sufi Geetham",
+          "malayalam": "സൂഫി ഗീതം",
+          "stage": "Stage 01 - Cordova Arena",
+          "winners": [
+            { "rank": 1, "name": "Shamil Shoukath", "chestNo": "315", "sector": "Ayiroor Central", "grade": "A+", "points": 10 },
+            { "rank": 2, "name": "Hashir Jaleel", "chestNo": "304", "sector": "Ponnani West", "grade": "A+", "points": 7 },
+            { "rank": 3, "name": "Ajmal Sayeed", "chestNo": "321", "sector": "Veliyancode Coast", "grade": "A", "points": 5 }
+          ]
+        },
+        {
+          "id": "hss_essay",
+          "name": "Essay Writing (Malayalam)",
+          "malayalam": "ഉപന്യാസ രചന",
+          "stage": "Stage 03 - Baghdad Hall",
+          "winners": [
+            { "rank": 1, "name": "Zubair Latheef", "chestNo": "309", "sector": "Edappal South", "grade": "A+", "points": 10 },
+            { "rank": 2, "name": "Muadh Musthafa", "chestNo": "318", "sector": "Ayiroor Central", "grade": "A+", "points": 7 },
+            { "rank": 3, "name": "Rinshad Nizar", "chestNo": "325", "sector": "Perumpadappu North", "grade": "A", "points": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "senior",
+      "name": "Senior / Campus",
+      "malayalam": "സീനിയർ / കാമ്പസ്",
+      "items": [
+        {
+          "id": "sr_qawwali",
+          "name": "Qawwali Ensemble",
+          "malayalam": "ഖവാലി സംഗമം",
+          "stage": "Stage 01 - Cordova Arena",
+          "winners": [
+            { "rank": 1, "name": "Team Ayiroor", "chestNo": "401", "sector": "Ayiroor Central", "grade": "A+", "points": 15 },
+            { "rank": 2, "name": "Team Maranchery", "chestNo": "408", "sector": "Maranchery East", "grade": "A+", "points": 10 },
+            { "rank": 3, "name": "Team Ponnani", "chestNo": "415", "sector": "Ponnani West", "grade": "A", "points": 7 }
+          ]
+        },
+        {
+          "id": "sr_extempore",
+          "name": "Extempore Speech",
+          "malayalam": "തത്സമയ പ്രസംഗം",
+          "stage": "Stage 02 - Al-Azhar Hall",
+          "winners": [
+            { "rank": 1, "name": "Mansoor Ahamed", "chestNo": "422", "sector": "Perumpadappu North", "grade": "A+", "points": 10 },
+            { "rank": 2, "name": "Basil Ameen", "chestNo": "405", "sector": "Ayiroor Central", "grade": "A+", "points": 7 },
+            { "rank": 3, "name": "Thoufeeq Ali", "chestNo": "412", "sector": "Edappal South", "grade": "A", "points": 5 }
+          ]
+        }
+      ]
+    }
+  ]
+}

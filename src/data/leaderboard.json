@@ -1,0 +1,93 @@
+{
+  "lastUpdated": "Live Just Now",
+  "sectors": [
+    {
+      "rank": 1,
+      "name": "Ayiroor Central",
+      "malayalam": "അയിരൂർ സെൻട്രൽ",
+      "points": 348,
+      "gold": 14,
+      "silver": 8,
+      "bronze": 6,
+      "badge": "Top Leader",
+      "color": "#A91F35"
+    },
+    {
+      "rank": 2,
+      "name": "Perumpadappu North",
+      "malayalam": "പെരുമ്പടപ്പ് നോർത്ത്",
+      "points": 312,
+      "gold": 11,
+      "silver": 10,
+      "bronze": 5,
+      "badge": "Runner Up",
+      "color": "#E6A916"
+    },
+    {
+      "rank": 3,
+      "name": "Ponnani West",
+      "malayalam": "പൊന്നാനി വെസ്റ്റ്",
+      "points": 284,
+      "gold": 9,
+      "silver": 8,
+      "bronze": 9,
+      "badge": "3rd Place",
+      "color": "#9A3412"
+    },
+    {
+      "rank": 4,
+      "name": "Maranchery East",
+      "malayalam": "മാറഞ്ചേരി ഈസ്റ്റ്",
+      "points": 246,
+      "gold": 7,
+      "silver": 9,
+      "bronze": 6,
+      "badge": "",
+      "color": "#A91F35"
+    },
+    {
+      "rank": 5,
+      "name": "Edappal South",
+      "malayalam": "എടപ്പാൾ സൗത്ത്",
+      "points": 218,
+      "gold": 6,
+      "silver": 7,
+      "bronze": 8,
+      "badge": "",
+      "color": "#E6A916"
+    },
+    {
+      "rank": 6,
+      "name": "Veliyancode Coast",
+      "malayalam": "വെളിയങ്കോട് കോസ്റ്റ്",
+      "points": 194,
+      "gold": 5,
+      "silver": 6,
+      "bronze": 7,
+      "badge": "",
+      "color": "#9A3412"
+    },
+    {
+      "rank": 7,
+      "name": "Changaramkulam",
+      "malayalam": "ചങ്ങരംകുളം",
+      "points": 162,
+      "gold": 4,
+      "silver": 5,
+      "bronze": 5,
+      "badge": "",
+      "color": "#A91F35"
+    },
+    {
+      "rank": 8,
+      "name": "Tavanur Valley",
+      "malayalam": "തവനൂർ വാലി",
+      "points": 140,
+      "gold": 3,
+      "silver": 4,
+      "bronze": 6,
+      "badge": "",
+      "color": "#E6A916"
+    }
+  ]
+}

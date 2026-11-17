@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+  --color-crimson: #A91F35;
+  --color-crimson-dark: #7e1425;
+  --color-crimson-light: #c82844;
+  --color-gold: #E6A916;
+  --color-gold-light: #f7bd38;
+  --color-gold-dark: #b88209;
+  --color-cream: #F7F3E9;
+  --color-cream-dark: #ece6d8;
+  --font-sans: 'Poppins', sans-serif;
+  --font-serif: 'DM Serif Display', serif;
+  --font-malayalam: 'Noto Sans Malayalam', sans-serif;
+}
+
+:root {
+  --color-crimson: #A91F35;
+  --color-gold: #E6A916;
+  --color-cream: #F7F3E9;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #F7F3E9;
+  color: #1c1917;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F3E9;
+}
+::-webkit-scrollbar-thumb {
+  background: #A91F35;
+  border-radius: 9999px;
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 20s linear infinite;
+}
+
+@keyframes laserScan {
+  0% {
+    top: 5%;
+    opacity: 0.2;
+  }
+  50% {
+    top: 85%;
+    opacity: 0.9;
+  }
+  100% {
+    top: 5%;
+    opacity: 0.2;
+  }
+}
+
+.animate-laser-scan {
+  animation: laserScan 4s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.04);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
