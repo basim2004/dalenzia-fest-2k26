@@ -12,9 +12,9 @@ export default function PageLoader({ onFinish }) {
           clearInterval(timer);
           return 100;
         }
-        return prev + 2;
+        return prev + 4;
       });
-    }, 28);
+    }, 20);
 
     return () => clearInterval(timer);
   }, []);
