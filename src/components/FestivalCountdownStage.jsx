@@ -44,7 +44,7 @@ export default function FestivalCountdownStage() {
           </h2>
 
           <p className="text-xs md:text-sm text-white/80 font-medium">
-            Join the grand congregation at Dalailussunna Dars, Ayiroor on December 21, 2026.
+            Join the grand congregation at Dalailussunna Dars, Ayiroor on 21, 22, 23 DECEMBER 2026.
           </p>
         </div>
 
@@ -108,12 +108,14 @@ export default function FestivalCountdownStage() {
         {/* Closing Action */}
         <div className="pt-4">
           <a
-            href="https://wa.me/918589951951?text=Hello%20Dalenzia%20Fest%202K26,%20I%20would%20like%20to%20register%20or%20support%20the%20festival."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#E6A916] text-[#A91F35] font-extrabold text-xs md:text-sm shadow-xl hover:bg-[#ffd166] active:scale-95 transition-all"
+            href="#register"
+            onClick={() => {
+              window.location.hash = '#register';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#E6A916] text-[#A91F35] font-extrabold text-xs md:text-sm shadow-xl hover:bg-[#ffd166] active:scale-95 transition-all cursor-pointer"
           >
-            <span>Register or Inquire via WhatsApp</span>
+            <span>Register for Dalenzia Fest 2K26</span>
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>

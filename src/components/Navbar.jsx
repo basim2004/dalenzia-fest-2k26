@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowUpRight, Flame, Sparkles } from 'lucide-react';
 
-export default function Navbar({ lang, setLang }) {
+export default function Navbar({ lang, setLang, currentPage = 'home', setCurrentPage }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -15,20 +15,125 @@ export default function Navbar({ lang, setLang }) {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#hero' },
-    { name: 'About', href: '#about' },
-    { name: 'Events', href: '#events' },
-    { name: 'Guests', href: '#guests' },
-    { name: 'Schedule', href: '#schedule' },
-    { name: 'Results', href: '#results' },
-    { name: 'Countdown', href: '#countdown' },
+    { name: 'Home', href: '#home', id: 'home' },
+    { name: 'Events', href: '#events', id: 'events' },
+    { name: 'Guests', href: '#guests', id: 'guests' },
+    { name: 'Schedule', href: '#schedule', id: 'schedule' },
+    { name: 'Results', href: '#results', id: 'results' },
+    { name: '2K25 Edition', href: '#previous', id: 'previous' },
+    { name: 'Downloads', href: '#downloads', id: 'downloads' },
+    { name: 'Gallery', href: '#gallery', id: 'gallery' },
+    { name: 'Countdown', href: '#countdown', id: 'countdown' },
   ];
 
-  const handleLinkClick = (href) => {
+  const handleRegisterClick = (e) => {
+    if (e) e.preventDefault();
     setIsOpen(false);
-    const element = document.querySelector(href);
+    if (setCurrentPage) {
+      setCurrentPage('register');
+    }
+    window.location.hash = '#register';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleLinkClick = (link) => {
+    setIsOpen(false);
+
+    if (link.id === 'downloads' || link.id === 'posters') {
+      if (setCurrentPage) {
+        setCurrentPage('downloads');
+        window.location.hash = '#downloads';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (link.id === 'gallery') {
+      if (setCurrentPage) {
+        setCurrentPage('gallery');
+        window.location.hash = '#gallery';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (link.id === 'results') {
+      if (setCurrentPage) {
+        setCurrentPage('results');
+        window.location.hash = '#results';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (link.id === 'schedule') {
+      if (setCurrentPage) {
+        setCurrentPage('schedule');
+        window.location.hash = '#schedule';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (link.id === 'guests') {
+      if (setCurrentPage) {
+        setCurrentPage('guests');
+        window.location.hash = '#guests';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (link.id === 'events') {
+      if (setCurrentPage) {
+        setCurrentPage('events');
+        window.location.hash = '#events';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (link.id === 'previous') {
+      if (setCurrentPage) {
+        setCurrentPage('previous');
+        window.location.hash = '#previous';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (link.id === 'home') {
+      if (setCurrentPage) {
+        setCurrentPage('home');
+        window.location.hash = '#home';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    // For other sections (events, guests, schedule, results, countdown)
+    if (currentPage !== 'home' && setCurrentPage) {
+      setCurrentPage('home');
+      window.location.hash = link.href;
+      setTimeout(() => {
+        const element = document.querySelector(link.href);
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+      return;
+    }
+
+    const element = document.querySelector(link.href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    if (setCurrentPage) {
+      setCurrentPage('home');
+      window.location.hash = '#home';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -42,71 +147,55 @@ export default function Navbar({ lang, setLang }) {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
-          {/* Left: Dual Brand Lockup (DALENZIA + NUEVA ERA) */}
-          <a
-            href="#hero"
-            className="flex items-center gap-3 group focus:outline-none"
+          {/* Left: Festival Identity Only (DALENZIA FEST) */}
+          <button
+            onClick={handleLogoClick}
+            className="flex items-center group focus:outline-none cursor-pointer text-left"
+            title="Dalenzia Fest 2K26"
           >
-            {/* Dalenzia Mark */}
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-[#A91F35] flex items-center justify-center p-1 shadow-sm group-hover:scale-105 transition-transform">
-                <img
-                  src="/assets/golden_hourglass.png"
-                  alt="D"
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-base font-extrabold tracking-tight text-[#1c1917] font-serif leading-none">
-                  Dalenzia
-                </span>
-                <span className="text-[10px] font-bold tracking-widest text-[#A91F35] uppercase">
-                  Fest 2K26
-                </span>
-              </div>
-            </div>
-
-            {/* Elegant Divider */}
-            <span className="h-6 w-[1.5px] bg-[#A91F35]/25 hidden sm:block" />
-
-            {/* Official Nueva Era Theme Logo */}
-            <div className="h-7 hidden sm:flex items-center">
+            {/* Official Dalenzia Fest Logo */}
+            <div className="h-8 sm:h-9 md:h-10 flex items-center">
               <img
-                src="/assets/nueva_era_logo.png"
-                alt="Nueva Era"
-                className="h-full w-auto object-contain"
+                src="/assets/dalenzia_fest_logo.png"
+                alt="Dalenzia Fest 2K26"
+                className="h-full w-auto object-contain transition-transform group-hover:scale-105"
               />
             </div>
-          </a>
+          </button>
 
           {/* Desktop Nav Links */}
           <nav className="hidden lg:flex items-center gap-1 bg-white/70 backdrop-blur-sm px-4 py-1.5 rounded-full border border-[#A91F35]/15 shadow-sm">
-            {navLinks.map((link, idx) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className={`px-3.5 py-1 text-xs font-semibold rounded-full transition-all ${
-                  idx === 0
-                    ? 'bg-[#A91F35] text-white shadow-sm'
-                    : 'text-[#1c1917]/80 hover:text-[#A91F35] hover:bg-[#A91F35]/10'
-                }`}
-              >
-                {link.name}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = currentPage === link.id;
+              return (
+                <button
+                  key={link.name}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleLinkClick(link);
+                  }}
+                  className={`px-3.5 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-[#A91F35] text-white shadow-sm'
+                      : 'text-[#1c1917]/80 hover:text-[#A91F35] hover:bg-[#A91F35]/10'
+                  }`}
+                >
+                  {link.name}
+                </button>
+              );
+            })}
           </nav>
 
           {/* Right Action: Register Now CTA */}
           <div className="flex items-center gap-3">
-            <a
-              href="https://wa.me/918589951951?text=Hello%20Dalenzia%20Fest%202K26,%20I%20would%20like%20to%20register."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-[#E6A916] text-[#A91F35] hover:bg-[#ffd166] text-xs font-extrabold tracking-wide shadow-md transition-all active:scale-95 group"
+            <button
+              type="button"
+              onClick={handleRegisterClick}
+              className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-[#E6A916] text-[#A91F35] hover:bg-[#ffd166] text-xs font-extrabold tracking-wide shadow-md transition-all active:scale-95 group cursor-pointer"
             >
               <span>Register Now</span>
               <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </a>
+            </button>
 
             {/* Mobile Menu Button */}
             <button
@@ -137,14 +226,16 @@ export default function Navbar({ lang, setLang }) {
 
             <div className="relative z-10 space-y-6">
               <div className="border-b border-white/20 pb-4">
-                <div className="h-9 mb-3">
-                  <img src="/assets/nueva_era_logo.png" alt="Nueva Era" className="h-full w-auto object-contain brightness-0 invert" />
+                <div className="flex items-center gap-3 bg-white/10 p-3 rounded-2xl backdrop-blur-md mb-3">
+                  <div className="h-9">
+                    <img src="/assets/dalenzia_fest_logo.png" alt="Dalenzia Fest" className="h-full w-auto object-contain" />
+                  </div>
                 </div>
-                <h3 className="text-xl font-serif text-white font-bold">
+                <h3 className="text-lg font-serif text-white font-bold">
                   Dalenzia Fest 2K26
                 </h3>
                 <p className="text-xs text-[#E6A916] font-semibold mt-0.5">
-                  Second Edition · December 21–22, 2026
+                  Second Edition · 21, 22, 23 DECEMBER 2026
                 </p>
                 <p className="text-[11px] text-white/70">
                   Dalailussunna Dars, Ayiroor, Malappuram
@@ -152,32 +243,56 @@ export default function Navbar({ lang, setLang }) {
               </div>
 
               <nav className="flex flex-col space-y-2">
-                {navLinks.map((item, idx) => (
-                  <motion.button
-                    key={item.href}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.04 }}
-                    onClick={() => handleLinkClick(item.href)}
-                    className="flex items-center justify-between py-3 px-3 rounded-xl hover:bg-white/10 transition-colors text-left text-base font-semibold group"
-                  >
-                    <span>{item.name}</span>
-                    <ArrowUpRight className="w-4 h-4 text-[#E6A916] opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                  </motion.button>
-                ))}
+                {navLinks.map((item, idx) => {
+                  const isActive = currentPage === item.id;
+                  return (
+                    <motion.button
+                      key={item.name}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.04 }}
+                      onClick={() => handleLinkClick(item)}
+                      className={`flex items-center justify-between py-3 px-3 rounded-xl transition-colors text-left text-base font-semibold group ${
+                        isActive
+                          ? 'bg-white/20 text-[#E6A916]'
+                          : 'hover:bg-white/10 text-white'
+                      }`}
+                    >
+                      <span>{item.name}</span>
+                      <ArrowUpRight className="w-4 h-4 text-[#E6A916] opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                    </motion.button>
+                  );
+                })}
               </nav>
             </div>
 
             <div className="relative z-10 border-t border-white/20 pt-6 space-y-3">
-              <a
-                href="https://wa.me/918589951951?text=Hello%20Dalenzia%20Fest%202K26,%20I%20would%20like%20to%20register."
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setIsOpen(false)}
-                className="w-full py-3 px-4 bg-[#E6A916] text-[#A91F35] font-extrabold text-sm rounded-xl text-center shadow-lg block hover:bg-[#ffd166] transition-colors"
+              <button
+                type="button"
+                onClick={handleRegisterClick}
+                className="w-full py-3 px-4 bg-[#E6A916] text-[#A91F35] font-extrabold text-sm rounded-xl text-center shadow-lg block hover:bg-[#ffd166] transition-colors cursor-pointer"
               >
                 Register Now ↗
-              </a>
+              </button>
+
+              {/* Authorized Login Options */}
+              <div className="pt-2 flex items-center justify-center gap-2">
+                <a
+                  href="#convener"
+                  onClick={() => setIsOpen(false)}
+                  className="px-4 py-2 rounded-full bg-white/10 hover:bg-[#E6A916] text-white hover:text-[#A91F35] text-xs font-black tracking-wider uppercase border border-white/20 transition-all text-center flex-1"
+                >
+                  CONVENER
+                </a>
+                <a
+                  href="#developer"
+                  onClick={() => setIsOpen(false)}
+                  className="px-4 py-2 rounded-full bg-[#E6A916]/20 hover:bg-[#E6A916] text-[#E6A916] hover:text-[#A91F35] text-xs font-black tracking-wider uppercase border border-[#E6A916]/40 transition-all text-center flex-1"
+                >
+                  DEVELOPER
+                </a>
+              </div>
+
               <div className="flex items-center justify-between text-xs text-white/70 pt-1">
                 <span>Helpdesk: +91 8589951951</span>
                 <span>Ayiroor, Kerala</span>

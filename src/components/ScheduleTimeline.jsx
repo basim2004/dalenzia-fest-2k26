@@ -20,7 +20,7 @@ export default function ScheduleTimeline({ lang }) {
         </h2>
         <p className="text-xs text-[#1c1917]/70 font-medium mt-1">
           {lang === 'en'
-            ? 'Complete timeline for Dec 21–22, 2026'
+            ? 'Complete timeline for 21, 22, 23 DECEMBER 2026'
             : 'രണ്ട് ദിവസങ്ങളിലായി നടക്കുന്ന പരിപാടികളുടെ സമയക്രമം'}
         </p>
       </div>

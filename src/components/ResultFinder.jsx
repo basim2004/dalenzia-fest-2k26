@@ -122,7 +122,7 @@ export default function ResultFinder({ lang }) {
         {currentItem && (
           <div className="pt-1 flex items-center justify-between text-[11px] text-[#1c1917]/60 font-medium">
             <span>{currentItem.stage}</span>
-            <span className="text-[#A91F35] font-semibold">Dec 21–22, 2026</span>
+            <span className="text-[#A91F35] font-semibold">21, 22, 23 DECEMBER 2026</span>
           </div>
         )}
       </div>

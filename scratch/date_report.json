@@ -1,0 +1,277 @@
+[
+  {
+    "file": "src/admin/components/DashboardView.jsx",
+    "lineNo": 119,
+    "text": "21, 22, 23 DECEMBER 2026 • Dalailussunna Dars, Ayiroor"
+  },
+  {
+    "file": "src/admin/components/ScheduleModule.jsx",
+    "lineNo": 700,
+    "text": "<span className=\"font-bold text-[#A91F35]\">21, 22, 23 DECEMBER 2026</span>"
+  },
+  {
+    "file": "src/admin/components/StudentsModule.jsx",
+    "lineNo": 1601,
+    "text": "<div>21, 22, 23 DECEMBER 2026</div>"
+  },
+  {
+    "file": "src/admin/data/festivalStore.js",
+    "lineNo": 7,
+    "text": "officialDate: '21, 22, 23 DECEMBER 2026',"
+  },
+  {
+    "file": "src/admin/data/festivalStore.js",
+    "lineNo": 8,
+    "text": "officialDateFormatted: '21, 22, 23 DECEMBER 2026',"
+  },
+  {
+    "file": "src/admin/data/festivalStore.js",
+    "lineNo": 12,
+    "text": "daysFormatted: '21, 22, 23',"
+  },
+  {
+    "file": "src/admin/data/festivalStore.js",
+    "lineNo": 2344,
+    "text": "// 2. Festival Date Restriction (21, 22, 23 DECEMBER 2026)"
+  },
+  {
+    "file": "src/admin/data/festivalStore.js",
+    "lineNo": 2345,
+    "text": "const validDates = ['Dec 21, 2026', 'Dec 22, 2026', 'Dec 23, 2026', 'December 21, 2026', 'December 22, 2026', 'December 23, 2026', '2026-12-21', '2026-12-22', '2026-12-23', '21, 22, 23 DECEMBER 2026'];"
+  },
+  {
+    "file": "src/admin/data/festivalStore.js",
+    "lineNo": 2350,
+    "text": "message: `Selected date \"${date}\" is outside official festival dates (21, 22, 23 DECEMBER 2026).`"
+  },
+  {
+    "file": "src/admin/data/festivalStore.js",
+    "lineNo": 8578,
+    "text": "message: 'The official Programme Schedule for 21, 22, 23 DECEMBER 2026 has been certified by the Convener Secretariat.',"
+  },
+  {
+    "file": "src/admin/data/festivalStore.js",
+    "lineNo": 8620,
+    "text": "festivalDates: '21, 22, 23 DECEMBER 2026',"
+  },
+  {
+    "file": "src/components/AboutSection.jsx",
+    "lineNo": 49,
+    "text": "<span>21, 22, 23 DECEMBER 2026</span>"
+  },
+  {
+    "file": "src/components/CinematicHero.jsx",
+    "lineNo": 177,
+    "text": "21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/components/FestivalCountdownStage.jsx",
+    "lineNo": 47,
+    "text": "Join the grand congregation at Dalailussunna Dars, Ayiroor on 21, 22, 23 DECEMBER 2026."
+  },
+  {
+    "file": "src/components/FestivalDiscovery.jsx",
+    "lineNo": 37,
+    "text": "tagline: '21, 22, 23 DECEMBER 2026',"
+  },
+  {
+    "file": "src/components/Footer.jsx",
+    "lineNo": 65,
+    "text": "<span className=\"text-white font-bold\">21, 22, 23 DECEMBER 2026</span>"
+  },
+  {
+    "file": "src/components/Hero3D.jsx",
+    "lineNo": 188,
+    "text": "21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/components/Hero3D.jsx",
+    "lineNo": 252,
+    "text": "21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/components/InstagramShowcaseSection.jsx",
+    "lineNo": 119,
+    "text": "Connect with our 21, 22, 23 DECEMBER 2026 visual stories, live updates, candidate performances, and scholastic heritage across both official Instagram profiles."
+  },
+  {
+    "file": "src/components/Navbar.jsx",
+    "lineNo": 253,
+    "text": "Second Edition · 21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/components/PosterModal.jsx",
+    "lineNo": 161,
+    "text": "ctx.fillText('21, 22, 23 DECEMBER 2026 · Perumpadappu, Malappuram', width / 2, 1200);"
+  },
+  {
+    "file": "src/components/RegistrationBanner.jsx",
+    "lineNo": 21,
+    "text": "<span>{lang === 'en' ? '21, 22, 23 DECEMBER 2026 • Registration Active' : '21, 22, 23 ഡിസംബർ 2026 • രജിസ്ട്രേഷൻ പുരോഗമിക്കുന്നു'}</span>"
+  },
+  {
+    "file": "src/components/ResultFinder.jsx",
+    "lineNo": 125,
+    "text": "<span className=\"text-[#A91F35] font-semibold\">21, 22, 23 DECEMBER 2026</span>"
+  },
+  {
+    "file": "src/components/ScheduleTimeline.jsx",
+    "lineNo": 23,
+    "text": "? 'Complete timeline for 21, 22, 23 DECEMBER 2026'"
+  },
+  {
+    "file": "src/components/WhatsAppCommunitySection.jsx",
+    "lineNo": 85,
+    "text": "Stay connected with the Dalenzia community. Join our official WhatsApp group for 21, 22, 23 DECEMBER 2026 festival updates, announcements, live alerts and memorable moments."
+  },
+  {
+    "file": "src/convener/components/ConvenerLayout.jsx",
+    "lineNo": 130,
+    "text": "<span className=\"text-[10px] text-white/60 font-mono\">21, 22, 23 DEC 2026</span>"
+  },
+  {
+    "file": "src/convener/components/ConvenerLogin.jsx",
+    "lineNo": 209,
+    "text": "<span className=\"text-[10px] text-stone-400\">Festival Dates: 21, 22, 23 DECEMBER 2026</span>"
+  },
+  {
+    "file": "src/data/schedule.json",
+    "lineNo": 5,
+    "text": "\"date\": \"December 21, 2026\","
+  },
+  {
+    "file": "src/judge/JudgePortal.jsx",
+    "lineNo": 67,
+    "text": "designation: 'Festival Jury Head • 21, 22, 23 DECEMBER 2026',"
+  },
+  {
+    "file": "src/pages/AboutPage.jsx",
+    "lineNo": 164,
+    "text": "year: '21, 22, 23 DECEMBER 2026',"
+  },
+  {
+    "file": "src/pages/AboutPage.jsx",
+    "lineNo": 266,
+    "text": "21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/pages/EventsPage.jsx",
+    "lineNo": 268,
+    "text": "21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/pages/EventsPage.jsx",
+    "lineNo": 778,
+    "text": "desc: 'Report to Dalailussunna Dars, Ayiroor on 21, 22, 23 DECEMBER 2026, receive your stage credentials and compete!'"
+  },
+  {
+    "file": "src/pages/EventsPage.jsx",
+    "lineNo": 983,
+    "text": "Festival Date: 21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/pages/GalleryPage.jsx",
+    "lineNo": 210,
+    "text": "Live broadcast feeds and recorded transmission reels from Dalenzia Fest 2K26 are scheduled for <strong>21, 22, 23 DECEMBER 2026</strong>. Preview the cinematic theme teaser below or explore our recorded video archives."
+  },
+  {
+    "file": "src/pages/GuestsPage.jsx",
+    "lineNo": 214,
+    "text": "21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/pages/PreviousEditionPage.jsx",
+    "lineNo": 2489,
+    "text": "Join the second edition taking place on 21, 22, 23 DECEMBER 2026. Explore live schedules, candidate registrations, and official scorecards."
+  },
+  {
+    "file": "src/pages/ResultsPage.jsx",
+    "lineNo": 1100,
+    "text": "Second Edition · 21, 22, 23 DECEMBER 2026 · Dalailussunna Dars, Ayiroor, Kerala"
+  },
+  {
+    "file": "src/pages/SchedulePage.jsx",
+    "lineNo": 90,
+    "text": "dateLabel: 'Monday · December 21, 2026',"
+  },
+  {
+    "file": "src/pages/SchedulePage.jsx",
+    "lineNo": 551,
+    "text": "21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/pages/SchedulePage.jsx",
+    "lineNo": 672,
+    "text": "Explore the official 3-day schedule across 21, 22, 23 DECEMBER 2026 to view the sequence of competitive arenas, keynote addresses, and evening cultural conclaves."
+  },
+  {
+    "file": "src/pages/SchedulePage.jsx",
+    "lineNo": 1016,
+    "text": "Dalenzia Fest 2K26 · 21, 22, 23 DECEMBER 2026 · Ayiroor, Malappuram"
+  },
+  {
+    "file": "src/pages/SchedulePage.jsx",
+    "lineNo": 1051,
+    "text": "DAY 01 – MONDAY, DECEMBER 21, 2026"
+  },
+  {
+    "file": "src/stagecontroller/components/StageControllerLayout.jsx",
+    "lineNo": 207,
+    "text": "21, 22, 23 DECEMBER 2026 • Assigned: <strong>Stage {session?.stageNumber || '01'}</strong> ({session?.venue || 'Cordova Grand Stage'}) • Controller: <strong>{session?.name || 'Official'}</strong>"
+  },
+  {
+    "file": "src/stagecontroller/components/StageControllerLogin.jsx",
+    "lineNo": 92,
+    "text": "21, 22, 23 DECEMBER 2026 • Live Random Code Draw & Calling"
+  },
+  {
+    "file": "src/student/components/StudentDashboard.jsx",
+    "lineNo": 134,
+    "text": "{ label: 'My Personalized Schedule', desc: 'Timeline for 21, 22, 23 DECEMBER 2026', icon: Clock, action: 'schedule' },"
+  },
+  {
+    "file": "src/student/components/StudentDashboard.jsx",
+    "lineNo": 375,
+    "text": "<div className=\"font-bold text-[11px]\">21, 22, 23 DECEMBER 2026</div>"
+  },
+  {
+    "file": "src/student/components/StudentIdCard.jsx",
+    "lineNo": 95,
+    "text": "Dalailussunna Dars, Ayiroor • 21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/student/components/StudentIdCard.jsx",
+    "lineNo": 173,
+    "text": "<span>Valid: 21, 22, 23 DECEMBER 2026</span>"
+  },
+  {
+    "file": "src/student/components/StudentPosters.jsx",
+    "lineNo": 69,
+    "text": "<span>{pos.date || '21, 22, 23 DECEMBER 2026'}</span>"
+  },
+  {
+    "file": "src/student/components/StudentResults.jsx",
+    "lineNo": 40,
+    "text": "21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/student/components/StudentSchedule.jsx",
+    "lineNo": 40,
+    "text": "Combined chronological timeline of your stage arenas and festival sessions across 21, 22, 23 DECEMBER 2026."
+  },
+  {
+    "file": "src/teamleader/components/TeamLeaderSchedule.jsx",
+    "lineNo": 55,
+    "text": "21, 22, 23 DECEMBER 2026"
+  },
+  {
+    "file": "src/teamleader/components/TeamLeaderSchedule.jsx",
+    "lineNo": 86,
+    "text": "<option value=\"all\">All Dates (21, 22, 23 DECEMBER 2026)</option>"
+  },
+  {
+    "file": "index.html",
+    "lineNo": 8,
+    "text": "<title>Dalenzia Fest 2K26 – 21, 22, 23 DECEMBER 2026 | Nueva Era</title>"
+  }
+]

@@ -15,22 +15,28 @@ export default function Footer({ lang }) {
 
       <div className="max-w-md mx-auto px-6 relative z-10 space-y-6 text-center">
         {/* Emblem & Branding */}
-        <div className="flex flex-col items-center">
-          <div className="w-14 h-14 rounded-2xl bg-white p-2 shadow-lg mb-3">
-            <img
-              src="/assets/golden_hourglass.png"
-              alt="Dalenzia Logo"
-              className="w-full h-full object-contain"
-            />
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <div className="h-10">
+              <img
+                src="/assets/dalenzia_fest_logo.png"
+                alt="Dalenzia Fest"
+                className="h-full w-auto object-contain"
+              />
+            </div>
+            <div className="h-9">
+              <img
+                src="/assets/nueva_era_logo.png"
+                alt="Nueva Era"
+                className="h-full w-auto object-contain"
+              />
+            </div>
           </div>
 
-          <h3 className="text-2xl font-serif font-bold text-white tracking-wide">
-            DALENZIA FEST 2026
-          </h3>
           <span className="text-xs uppercase tracking-widest text-[#E6A916] font-extrabold mt-0.5">
             SECOND EDITION · NUEVA ERA
           </span>
-          <p className="text-xs text-white/80 mt-1 max-w-xs">
+          <p className="text-xs text-white/80 max-w-xs">
             Where tradition and technology walk forward together.
           </p>
         </div>
@@ -56,7 +62,7 @@ export default function Footer({ lang }) {
 
           <div className="flex items-center justify-between pt-1 border-t border-white/10 text-[11px] text-[#E6A916] font-semibold">
             <span>Festival Dates:</span>
-            <span className="text-white font-bold">December 21–22, 2026</span>
+            <span className="text-white font-bold">21, 22, 23 DECEMBER 2026</span>
           </div>
         </div>
 

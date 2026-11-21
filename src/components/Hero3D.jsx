@@ -185,7 +185,7 @@ export default function Hero3D({ lang }) {
         <div className="flex items-center gap-3 text-[11px] font-semibold text-[#A91F35] pt-1">
           <span className="flex items-center gap-1">
             <Calendar className="w-3.5 h-3.5 text-[#E6A916]" />
-            Dec 21–22, 2026
+            21, 22, 23 DECEMBER 2026
           </span>
           <span>•</span>
           <span className="flex items-center gap-1">
@@ -249,7 +249,7 @@ export default function Hero3D({ lang }) {
 
             <div className="relative z-10 border-t border-[#E6A916]/40 pt-1.5 pb-1 space-y-0.5">
               <span className="text-[9px] uppercase tracking-wider block text-white/90 font-mono">
-                2026 DEC 21, 22
+                21, 22, 23 DECEMBER 2026
               </span>
               <p className="text-[8px] font-bold text-[#E6A916] leading-tight">
                 Dalailussunna Dars

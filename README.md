@@ -1,16 +1,31 @@
-# React + Vite
+# dalenzia-fest-2k26
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## DALENZIA FEST 2K26 – NUEVA ERA
+Official Festival Platform, Executive Admin Control Centre, Convener Portal, Judge Portal, Programme Master, and Live Result Management Engine for Dalailussunna Dars, Ayiroor.
 
-Currently, two official plugins are available:
+### 🌟 Features & Portals
+- **Public Festival Portal:** Interactive 3D visual storytelling, Event Explorer (83 official programmes across 5 categories: Minor, Sub-Junior, Junior, Senior, General), Live Championship Standings (Dazzlers vs Dynamos), and Photo Gallery.
+- **Executive Admin Dashboard:** Operational festival ERP, Team & Student Roster Management, Programme Management, and Adjudicator Panels.
+- **Marks & Grade Configuration:** Strict compliance with the official Charter (Page 4 position points: 3-2-1 for Individual, 10-8-6 for Group) and central grade configuration.
+- **Judge Portal:** Independent, secure adjudication console with criteria-wise mark entries.
+- **Convener Portal:** Real-time tabulation, tie-breaker review, and idempotent official publishing.
+- **Registration Desk:** Centralized ticket and candidate registration management.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 🛠️ Tech Stack
+- React 19 + Vite
+- Tailwind CSS
+- Three.js / @react-three/fiber / @react-three/drei
+- Lucide Icons
+- Framer Motion
 
-## React Compiler
+### 🚀 Getting Started
+```bash
+# Install dependencies
+npm install
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Start local development server
+npm run dev
 
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+# Build production bundle
+npm run build
+```

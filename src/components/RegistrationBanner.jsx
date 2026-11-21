@@ -18,7 +18,7 @@ export default function RegistrationBanner({ lang }) {
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E6A916] text-[#A91F35] text-[10px] font-black uppercase tracking-wider shadow-sm">
           <Sparkles className="w-3 h-3" />
-          <span>{lang === 'en' ? 'Registration Is Active' : 'രജിസ്ട്രേഷൻ പുരോഗമിക്കുന്നു'}</span>
+          <span>{lang === 'en' ? '21, 22, 23 DECEMBER 2026 • Registration Active' : '21, 22, 23 ഡിസംബർ 2026 • രജിസ്ട്രേഷൻ പുരോഗമിക്കുന്നു'}</span>
         </div>
 
         <div className="space-y-1">
@@ -35,13 +35,15 @@ export default function RegistrationBanner({ lang }) {
         </div>
 
         <a
-          href="https://wa.me/918589951951?text=Hello%20Dalenzia%20Fest%202026%20Helpdesk,%20I%20would%20like%20to%20inquire%20about%20Contestant%20Registration."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-[#E6A916] text-[#A91F35] rounded-xl font-bold text-xs shadow-md hover:bg-[#ffd166] active:scale-95 transition-all"
+          href="#register"
+          onClick={() => {
+            window.location.hash = '#register';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-[#E6A916] text-[#A91F35] rounded-xl font-bold text-xs shadow-md hover:bg-[#ffd166] active:scale-95 transition-all cursor-pointer"
         >
           <UserCheck className="w-4 h-4" />
-          <span>{lang === 'en' ? 'Register Now via Helpdesk' : 'ഇപ്പോൾ രജിസ്റ്റർ ചെയ്യാം'}</span>
+          <span>{lang === 'en' ? 'Register Now' : 'ഇപ്പോൾ രജിസ്റ്റർ ചെയ്യാം'}</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </a>
       </motion.div>

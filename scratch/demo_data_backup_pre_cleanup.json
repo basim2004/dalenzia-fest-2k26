@@ -1,0 +1,5213 @@
+{
+  "timestamp": "2026-11-19T11:58:09.677Z",
+  "description": "Full pre-cleanup backup of DALENZIA FEST 2K26 demo data and initial store state",
+  "data": {
+    "teams": [
+      {
+        "id": "team-01",
+        "code": "TA001",
+        "name": "Team A",
+        "subname": "Areekode Central",
+        "leader": "Ahmed Rifai",
+        "leaderContact": "+91 98471 20001",
+        "members": 86,
+        "points": 2840,
+        "rank": 1,
+        "badge": "👑",
+        "status": "Active",
+        "students": [
+          {
+            "id": "STU-1001",
+            "chestNo": "C-101",
+            "name": "Ahmad Rayan K.",
+            "category": "Junior",
+            "compCategory": "Literary Arena",
+            "events": [
+              "Arabic Essay",
+              "Extempore"
+            ]
+          },
+          {
+            "id": "STU-1002",
+            "chestNo": "C-102",
+            "name": "Hafiz Anas M.",
+            "category": "Senior",
+            "compCategory": "Islamic Heritage",
+            "events": [
+              "Qur'an Recitation"
+            ]
+          },
+          {
+            "id": "STU-1003",
+            "chestNo": "C-103",
+            "name": "Zayan Kabeer",
+            "category": "Junior",
+            "compCategory": "Public Speaking",
+            "events": [
+              "Malayalam Elocution"
+            ]
+          },
+          {
+            "id": "STU-1004",
+            "chestNo": "C-104",
+            "name": "Adil Munawwar",
+            "category": "Senior",
+            "compCategory": "Media & Cultural",
+            "events": [
+              "Short Film"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "team-02",
+        "code": "TB002",
+        "name": "Team B",
+        "subname": "Pulikkal Valley",
+        "leader": "Muhammed Shamil",
+        "leaderContact": "+91 98471 20002",
+        "members": 82,
+        "points": 2560,
+        "rank": 2,
+        "badge": "📖",
+        "status": "Active",
+        "students": [
+          {
+            "id": "STU-1005",
+            "chestNo": "C-201",
+            "name": "Muhammed Sinan T.",
+            "category": "Junior",
+            "compCategory": "Literary Arena",
+            "events": [
+              "Arabic Essay"
+            ]
+          },
+          {
+            "id": "STU-1006",
+            "chestNo": "C-202",
+            "name": "Bilal Rahman",
+            "category": "Junior",
+            "compCategory": "Performing Arts",
+            "events": [
+              "Story Telling",
+              "Debate"
+            ]
+          },
+          {
+            "id": "STU-1007",
+            "chestNo": "C-203",
+            "name": "Mubarak Ali",
+            "category": "Senior",
+            "compCategory": "Visual Arts",
+            "events": [
+              "Calligraphy"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "team-03",
+        "code": "TC003",
+        "name": "Team C",
+        "subname": "Manjeri West",
+        "leader": "Fahad Ali",
+        "leaderContact": "+91 98471 20003",
+        "members": 79,
+        "points": 2210,
+        "rank": 3,
+        "badge": "🔥",
+        "status": "Active",
+        "students": [
+          {
+            "id": "STU-1008",
+            "chestNo": "C-301",
+            "name": "Faris K.",
+            "category": "Senior",
+            "compCategory": "Public Speaking",
+            "events": [
+              "Quiz Competition",
+              "Debate"
+            ]
+          },
+          {
+            "id": "STU-1009",
+            "chestNo": "C-302",
+            "name": "Salmanul Faris",
+            "category": "Senior",
+            "compCategory": "Visual Arts",
+            "events": [
+              "Arabic Typography"
+            ]
+          },
+          {
+            "id": "STU-1010",
+            "chestNo": "C-303",
+            "name": "Hafiz Rashid P.",
+            "category": "Senior",
+            "compCategory": "Islamic Heritage",
+            "events": [
+              "Qur'an Recitation"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "team-04",
+        "code": "TD004",
+        "name": "Team D",
+        "subname": "Wandoor Heights",
+        "leader": "Ibrahim Badusha",
+        "leaderContact": "+91 98471 20004",
+        "members": 77,
+        "points": 1960,
+        "rank": 4,
+        "badge": "🌙",
+        "status": "Active",
+        "students": [
+          {
+            "id": "STU-1011",
+            "chestNo": "C-401",
+            "name": "Nihal Shareef V.",
+            "category": "Junior",
+            "compCategory": "Performing Arts",
+            "events": [
+              "Story Telling"
+            ]
+          },
+          {
+            "id": "STU-1012",
+            "chestNo": "C-402",
+            "name": "Sharafudheen T.",
+            "category": "Senior",
+            "compCategory": "Public Speaking",
+            "events": [
+              "Extempore"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "team-05",
+        "code": "TE005",
+        "name": "Team E",
+        "subname": "Maranchery East",
+        "leader": "Sufiyan K",
+        "leaderContact": "+91 98471 20005",
+        "members": 74,
+        "points": 1740,
+        "rank": 5,
+        "badge": "🪶",
+        "status": "Active",
+        "students": [
+          {
+            "id": "STU-1013",
+            "chestNo": "C-501",
+            "name": "Hashim Basheer",
+            "category": "General",
+            "compCategory": "Media & Cultural",
+            "events": [
+              "Photography"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "team-06",
+        "code": "TF006",
+        "name": "Team F",
+        "subname": "Edappal South",
+        "leader": "Ibrahim Khalil",
+        "leaderContact": "+91 98471 20006",
+        "members": 71,
+        "points": 1580,
+        "rank": 6,
+        "badge": "⭐",
+        "status": "Active",
+        "students": []
+      },
+      {
+        "id": "team-07",
+        "code": "TG007",
+        "name": "Team G",
+        "subname": "Ponnani Coastal",
+        "leader": "Munavir Hassan",
+        "leaderContact": "+91 98471 20007",
+        "members": 68,
+        "points": 1420,
+        "rank": 7,
+        "badge": "⭐",
+        "status": "Active",
+        "students": []
+      },
+      {
+        "id": "team-08",
+        "code": "TH008",
+        "name": "Team H",
+        "subname": "Tirur Horizon",
+        "leader": "Rashid Ali P.",
+        "leaderContact": "+91 98471 20008",
+        "members": 65,
+        "points": 1310,
+        "rank": 8,
+        "badge": "⭐",
+        "status": "Active",
+        "students": []
+      },
+      {
+        "id": "team-09",
+        "code": "TI009",
+        "name": "Team I",
+        "subname": "Kondotty Royal",
+        "leader": "Salman Faizi",
+        "leaderContact": "+91 98471 20009",
+        "members": 63,
+        "points": 1190,
+        "rank": 9,
+        "badge": "⭐",
+        "status": "Active",
+        "students": []
+      },
+      {
+        "id": "team-10",
+        "code": "TJ010",
+        "name": "Team J",
+        "subname": "Malappuram Metro",
+        "leader": "Kabeer Ahsani",
+        "leaderContact": "+91 98471 20010",
+        "members": 60,
+        "points": 1040,
+        "rank": 10,
+        "badge": "⭐",
+        "status": "Active",
+        "students": []
+      },
+      {
+        "id": "team-11",
+        "code": "TK011",
+        "name": "Team K",
+        "subname": "Nilambur Valley",
+        "leader": "Shakir Saqafi",
+        "leaderContact": "+91 98471 20011",
+        "members": 58,
+        "points": 920,
+        "rank": 11,
+        "badge": "⭐",
+        "status": "Active",
+        "students": []
+      },
+      {
+        "id": "team-12",
+        "code": "TL012",
+        "name": "Team L",
+        "subname": "Perinthalmanna Crest",
+        "leader": "Noufal Wafy",
+        "leaderContact": "+91 98471 20012",
+        "members": 55,
+        "points": 810,
+        "rank": 12,
+        "badge": "⭐",
+        "status": "Active",
+        "students": []
+      }
+    ],
+    "registeredStudents": [
+      {
+        "id": "STU-1001",
+        "chestNo": "C-101",
+        "name": "Ahmad Rayan K.",
+        "classCategory": "Junior",
+        "teamId": "team-01",
+        "teamName": "Team A",
+        "dob": "2008-04-12",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 21001",
+        "email": "ahmad.rayan@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-01"
+      },
+      {
+        "id": "STU-1002",
+        "chestNo": "C-102",
+        "name": "Hafiz Anas M.",
+        "classCategory": "Senior",
+        "teamId": "team-01",
+        "teamName": "Team A",
+        "dob": "2006-08-22",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 21002",
+        "email": "anas.m@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-01"
+      },
+      {
+        "id": "STU-1003",
+        "chestNo": "C-103",
+        "name": "Zayan Kabeer",
+        "classCategory": "Junior",
+        "teamId": "team-01",
+        "teamName": "Team A",
+        "dob": "2008-11-05",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 21003",
+        "email": "zayan.k@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-02"
+      },
+      {
+        "id": "STU-1004",
+        "chestNo": "C-104",
+        "name": "Adil Munawwar",
+        "classCategory": "Senior",
+        "teamId": "team-01",
+        "teamName": "Team A",
+        "dob": "2005-12-19",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 21004",
+        "email": "adil.m@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-02"
+      },
+      {
+        "id": "STU-1005",
+        "chestNo": "C-201",
+        "name": "Muhammed Sinan T.",
+        "classCategory": "Junior",
+        "teamId": "team-02",
+        "teamName": "Team B",
+        "dob": "2008-03-15",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 22001",
+        "email": "sinan.t@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-03"
+      },
+      {
+        "id": "STU-1006",
+        "chestNo": "C-202",
+        "name": "Bilal Rahman",
+        "classCategory": "Junior",
+        "teamId": "team-02",
+        "teamName": "Team B",
+        "dob": "2007-09-28",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 22002",
+        "email": "bilal.r@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-03"
+      },
+      {
+        "id": "STU-1007",
+        "chestNo": "C-203",
+        "name": "Mubarak Ali",
+        "classCategory": "Senior",
+        "teamId": "team-02",
+        "teamName": "Team B",
+        "dob": "2006-01-14",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 22003",
+        "email": "mubarak.a@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-04"
+      },
+      {
+        "id": "STU-1008",
+        "chestNo": "C-301",
+        "name": "Faris K.",
+        "classCategory": "Senior",
+        "teamId": "team-03",
+        "teamName": "Team C",
+        "dob": "2005-07-30",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 23001",
+        "email": "faris.k@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-05"
+      },
+      {
+        "id": "STU-1009",
+        "chestNo": "C-302",
+        "name": "Salmanul Faris",
+        "classCategory": "Senior",
+        "teamId": "team-03",
+        "teamName": "Team C",
+        "dob": "2006-05-18",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 23002",
+        "email": "salman.f@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-05"
+      },
+      {
+        "id": "STU-1010",
+        "chestNo": "C-303",
+        "name": "Hafiz Rashid P.",
+        "classCategory": "Senior",
+        "teamId": "team-03",
+        "teamName": "Team C",
+        "dob": "2006-10-11",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 23003",
+        "email": "rashid.p@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-06"
+      },
+      {
+        "id": "STU-1011",
+        "chestNo": "C-401",
+        "name": "Nihal Shareef V.",
+        "classCategory": "Junior",
+        "teamId": "team-04",
+        "teamName": "Team D",
+        "dob": "2008-06-25",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 24001",
+        "email": "nihal.s@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-07"
+      },
+      {
+        "id": "STU-1012",
+        "chestNo": "C-402",
+        "name": "Sharafudheen T.",
+        "classCategory": "Senior",
+        "teamId": "team-04",
+        "teamName": "Team D",
+        "dob": "2005-03-09",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 24002",
+        "email": "sharaf.t@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-07"
+      },
+      {
+        "id": "STU-1013",
+        "chestNo": "C-501",
+        "name": "Hashim Basheer",
+        "classCategory": "General",
+        "teamId": "team-05",
+        "teamName": "Team E",
+        "dob": "2007-02-14",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 25001",
+        "email": "hashim.b@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-08"
+      },
+      {
+        "id": "STU-1014",
+        "chestNo": "C-601",
+        "name": "Anas Cherushola",
+        "classCategory": "Senior",
+        "teamId": null,
+        "teamName": "Unassigned",
+        "dob": "2006-11-19",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 26001",
+        "email": "anas.c@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-09"
+      },
+      {
+        "id": "STU-1015",
+        "chestNo": "C-602",
+        "name": "Junaid Kuttipuram",
+        "classCategory": "Junior",
+        "teamId": null,
+        "teamName": "Unassigned",
+        "dob": "2008-01-20",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 26002",
+        "email": "junaid.k@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-09"
+      },
+      {
+        "id": "STU-1016",
+        "chestNo": "C-603",
+        "name": "Rashad Vengara",
+        "classCategory": "General",
+        "teamId": null,
+        "teamName": "Unassigned",
+        "dob": "2007-04-05",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 26003",
+        "email": "rashad.v@dalanzia.org",
+        "status": "Inactive",
+        "gender": "Male",
+        "registeredAt": "2026-11-10"
+      },
+      {
+        "id": "STU-1017",
+        "chestNo": "C-604",
+        "name": "Thwaheer Calicut",
+        "classCategory": "Senior",
+        "teamId": null,
+        "teamName": "Unassigned",
+        "dob": "2006-07-16",
+        "institution": "Dalailussunna Dars, Ayiroor",
+        "phone": "+91 98471 26004",
+        "email": "thwaheer.c@dalanzia.org",
+        "status": "Active",
+        "gender": "Male",
+        "registeredAt": "2026-11-10"
+      }
+    ],
+    "programmeCategories": [
+      {
+        "id": "CAT-INA",
+        "name": "Inauguration",
+        "code": "INA",
+        "description": "Opening ceremonies, blessing prayers & lamp lighting",
+        "color": "#A91F35",
+        "isActive": true
+      },
+      {
+        "id": "CAT-CON",
+        "name": "Academic Conclave",
+        "code": "CON",
+        "description": "Keynotes, scholarly discourses & philosophy symposiums",
+        "color": "#E6A916",
+        "isActive": true
+      },
+      {
+        "id": "CAT-CMP",
+        "name": "Competitions",
+        "code": "CMP",
+        "description": "Official stage arenas, literary and performance contests",
+        "color": "#2563EB",
+        "isActive": true
+      },
+      {
+        "id": "CAT-CUL",
+        "name": "Cultural Stage",
+        "code": "CUL",
+        "description": "Traditional choral odes, Qawwali ensemble & Sufi symphony",
+        "color": "#10B981",
+        "isActive": true
+      },
+      {
+        "id": "CAT-AWD",
+        "name": "Award Ceremony",
+        "code": "AWD",
+        "description": "Championship trophy presentation & valedictory honours",
+        "color": "#D97706",
+        "isActive": true
+      },
+      {
+        "id": "CAT-ADM",
+        "name": "Administrative",
+        "code": "ADM",
+        "description": "Registration check-in, delegate reception & briefings",
+        "color": "#6B7280",
+        "isActive": true
+      },
+      {
+        "id": "CAT-WKS",
+        "name": "Special Session",
+        "code": "WKS",
+        "description": "Workshops, exhibitions, book launches & interactive forums",
+        "color": "#8B5CF6",
+        "isActive": true
+      }
+    ],
+    "programmes": [
+      {
+        "id": "PRG-001",
+        "code": "PRG-ADM-01",
+        "title": "Delegate Reception & Registration Check-in",
+        "malayalamTitle": "പ്രതിനിധി രജിസ്ട്രേഷൻ & റിസപ്ഷൻ",
+        "category": "Administrative",
+        "categoryCode": "ADM",
+        "desc": "Verification of candidate credentials, distribution of official stage badges, syllabus kits, and delegation escorting to pavilions.",
+        "date": "Dec 21, 2026",
+        "time": "08:00 AM – 09:00 AM",
+        "startTime": "08:00 AM",
+        "endTime": "09:00 AM",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "coordinatorName": "Prof. K.V. Zaid",
+        "coordinatorPhone": "+91 98470 11223",
+        "guestId": null,
+        "guestName": "Festival Reception Bureau",
+        "relatedCompId": null,
+        "relatedComp": "Central Registration",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Scheduled",
+        "isPublished": true,
+        "createdAt": "2026-11-01T08:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "users"
+      },
+      {
+        "id": "PRG-002",
+        "code": "PRG-INA-02",
+        "title": "Grand Inauguration Ceremony & Lamp Lighting",
+        "malayalamTitle": "മഹാ ഉദ്ഘാടന സമ്മേളനം & ദീപ പ്രകാശനം",
+        "category": "Inauguration",
+        "categoryCode": "INA",
+        "desc": "Grand ceremonial opening of Dalenzia Fest 2K26 with sacred knowledge lamp lighting, Qur’an recitation, and opening blessing address.",
+        "date": "Dec 21, 2026",
+        "time": "09:00 AM – 11:00 AM",
+        "startTime": "09:00 AM",
+        "endTime": "11:00 AM",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "coordinatorName": "Sayyid Aslam Ayiroor",
+        "coordinatorPhone": "+91 98471 44556",
+        "guestId": "GST-04",
+        "guestName": "Dr. Sayyid Munawwar Ali",
+        "relatedCompId": null,
+        "relatedComp": "Opening Conclave",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Scheduled",
+        "isPublished": true,
+        "createdAt": "2026-11-01T08:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "mic"
+      },
+      {
+        "id": "PRG-003",
+        "code": "PRG-CON-03",
+        "title": "Keynote Conclave: Nueva Era & Classical Heritage",
+        "malayalamTitle": "പ്രത്യേക പണ്ഡിത സെമിനാർ: ന്യൂവേര ദർശനം",
+        "category": "Academic Conclave",
+        "categoryCode": "CON",
+        "desc": "Keynote discourse on Islamic Intellectual Heritage and Nueva Era by Dr. Ahmed Faris examining classical epistemological foundations.",
+        "date": "Dec 21, 2026",
+        "time": "11:30 AM – 01:00 PM",
+        "startTime": "11:30 AM",
+        "endTime": "01:00 PM",
+        "venue": "Al-Farabi Heritage Hall (Stage 02)",
+        "coordinatorName": "Prof. Abdul Majeed",
+        "coordinatorPhone": "+91 94472 66778",
+        "guestId": "GST-02",
+        "guestName": "Dr. Ahmed Faris",
+        "relatedCompId": null,
+        "relatedComp": "Special Scholastic Conclave",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Scheduled",
+        "isPublished": true,
+        "createdAt": "2026-11-01T09:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "users"
+      },
+      {
+        "id": "PRG-004",
+        "code": "PRG-CMP-04",
+        "title": "Junior Arabic Essay Colloquium & Finals",
+        "malayalamTitle": "ജൂനിയർ അറബിക് ഉപന്യാസ ഫൈനൽ",
+        "category": "Competitions",
+        "categoryCode": "CMP",
+        "desc": "Live on-stage commentary and evaluation symposium for top position Junior Arabic Essay contestants.",
+        "date": "Dec 21, 2026",
+        "time": "02:00 PM – 04:30 PM",
+        "startTime": "02:00 PM",
+        "endTime": "04:30 PM",
+        "venue": "Ibn Khaldun Academic Hall (Stage 03)",
+        "coordinatorName": "Usthad Rashad",
+        "coordinatorPhone": "+91 97455 88990",
+        "guestId": null,
+        "guestName": "Literary Judging Panel",
+        "relatedCompId": "COMP-LIT-01",
+        "relatedComp": "Junior Arabic Essay (LIT-JR-102)",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Scheduled",
+        "isPublished": true,
+        "createdAt": "2026-11-01T09:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "book"
+      },
+      {
+        "id": "PRG-005",
+        "code": "PRG-CMP-05",
+        "title": "Senior Malayalam Elocution Grand Stage",
+        "malayalamTitle": "സീനിയർ മലയാളം പ്രസംഗ മത്സരം",
+        "category": "Competitions",
+        "categoryCode": "CMP",
+        "desc": "High-level oratory championship arena addressing contemporary ethics, faith resilience, and literary aesthetics.",
+        "date": "Dec 21, 2026",
+        "time": "04:30 PM – 06:30 PM",
+        "startTime": "04:30 PM",
+        "endTime": "06:30 PM",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "coordinatorName": "Sayyid Aslam Ayiroor",
+        "coordinatorPhone": "+91 98471 44556",
+        "guestId": null,
+        "guestName": "Elocution Jury Council",
+        "relatedCompId": "COMP-SPK-02",
+        "relatedComp": "Senior Malayalam Elocution (SPK-SR-201)",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Scheduled",
+        "isPublished": true,
+        "createdAt": "2026-11-01T10:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "mic"
+      },
+      {
+        "id": "PRG-006",
+        "code": "PRG-CON-06",
+        "title": "Evening Scholastic Assembly: Tradition Radiating Forward",
+        "malayalamTitle": "സായാഹ്ന പണ്ഡിത സംഗമം",
+        "category": "Academic Conclave",
+        "categoryCode": "CON",
+        "desc": "Scholarly assembly led by Usthad Muhammed Rashid on reviving the traditional Dars methodology in the digital epoch.",
+        "date": "Dec 21, 2026",
+        "time": "07:00 PM – 09:00 PM",
+        "startTime": "07:00 PM",
+        "endTime": "09:00 PM",
+        "venue": "Al-Farabi Heritage Hall (Stage 02)",
+        "coordinatorName": "Prof. K.V. Zaid",
+        "coordinatorPhone": "+91 98470 11223",
+        "guestId": "GST-01",
+        "guestName": "Usthad Muhammed Rashid",
+        "relatedCompId": null,
+        "relatedComp": "Evening Scholastic Conclave",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Upcoming",
+        "isPublished": true,
+        "createdAt": "2026-11-01T10:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "users"
+      },
+      {
+        "id": "PRG-007",
+        "code": "PRG-CMP-07",
+        "title": "Hifz Qur’an Recitation Grand Finals",
+        "malayalamTitle": "ഹിഫ്ളുൽ ഖുർആൻ ഗ്രാന്റ് ഫിനാലെ",
+        "category": "Competitions",
+        "categoryCode": "CMP",
+        "desc": "Sanctioned tajweed and tartil recitation finals adjudicated by certified ten-qira’at sanad holders.",
+        "date": "Dec 22, 2026",
+        "time": "08:30 AM – 11:00 AM",
+        "startTime": "08:30 AM",
+        "endTime": "11:00 AM",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "coordinatorName": "Usthad Rashad",
+        "coordinatorPhone": "+91 97455 88990",
+        "guestId": "GST-06",
+        "guestName": "Usthad Kabeer Faizi",
+        "relatedCompId": "COMP-ISL-04",
+        "relatedComp": "Hifz Qur’an Recitation (ISL-JR-401)",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Scheduled",
+        "isPublished": true,
+        "createdAt": "2026-11-01T11:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "book"
+      },
+      {
+        "id": "PRG-008",
+        "code": "PRG-CON-08",
+        "title": "Special Colloquium: Literature, Eloquence & Ethical Consciousness",
+        "malayalamTitle": "സാഹിത്യ സാംസ്കാരിക സെമിനാർ",
+        "category": "Academic Conclave",
+        "categoryCode": "CON",
+        "desc": "Critical examination of moral aesthetics in classical Arabic and Malayalam literature presented by Usthad Salman Saqafi.",
+        "date": "Dec 22, 2026",
+        "time": "11:30 AM – 01:00 PM",
+        "startTime": "11:30 AM",
+        "endTime": "01:00 PM",
+        "venue": "Al-Farabi Heritage Hall (Stage 02)",
+        "coordinatorName": "Prof. Abdul Majeed",
+        "coordinatorPhone": "+91 94472 66778",
+        "guestId": "GST-03",
+        "guestName": "Usthad Salman Saqafi",
+        "relatedCompId": null,
+        "relatedComp": "Special Literary Colloquium",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Scheduled",
+        "isPublished": true,
+        "createdAt": "2026-11-01T11:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "users"
+      },
+      {
+        "id": "PRG-009",
+        "code": "PRG-CMP-09",
+        "title": "Visual Arts & Islamic Calligraphy Live Exhibition",
+        "malayalamTitle": "ഇസ്ലാമിക് കാലിഗ്രാഫി ലൈവ് എക്സിബിഷൻ",
+        "category": "Competitions",
+        "categoryCode": "CMP",
+        "desc": "Live on-canvas Thuluth, Diwani and Kufic script artistic demonstration and gallery exhibition.",
+        "date": "Dec 22, 2026",
+        "time": "02:00 PM – 04:30 PM",
+        "startTime": "02:00 PM",
+        "endTime": "04:30 PM",
+        "venue": "Media Studio Preview Room",
+        "coordinatorName": "Sayyid Aslam Ayiroor",
+        "coordinatorPhone": "+91 98471 44556",
+        "guestId": null,
+        "guestName": "Guild of Islamic Calligraphers",
+        "relatedCompId": "COMP-ART-03",
+        "relatedComp": "Visual Arts: Islamic Calligraphy (ART-SR-301)",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Scheduled",
+        "isPublished": true,
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "palette"
+      },
+      {
+        "id": "PRG-010",
+        "code": "PRG-CUL-10",
+        "title": "Sufi Symphony, Nasheed Choir & Qawwali Ensemble",
+        "malayalamTitle": "സൂഫി സംഗീത സന്ധ്യ & ഖവ്വാലി",
+        "category": "Cultural Stage",
+        "categoryCode": "CUL",
+        "desc": "Traditional choral odes, Qawwali ensemble and spiritual Sufi melodies presented on the main open stage.",
+        "date": "Dec 22, 2026",
+        "time": "06:30 PM – 08:30 PM",
+        "startTime": "06:30 PM",
+        "endTime": "08:30 PM",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "coordinatorName": "Prof. K.V. Zaid",
+        "coordinatorPhone": "+91 98470 11223",
+        "guestId": null,
+        "guestName": "Dalailussunna Cultural Ensemble",
+        "relatedCompId": "COMP-NAS-09",
+        "relatedComp": "Sufi Choral Ensemble / Nasheed (NAS-GEN-901)",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Scheduled",
+        "isPublished": true,
+        "createdAt": "2026-11-01T12:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "music"
+      },
+      {
+        "id": "PRG-011",
+        "code": "PRG-AWD-11",
+        "title": "Grand Valedictory Conclave & Championship Award",
+        "malayalamTitle": "സമാപന മഹാസമ്മേളനം & ട്രോഫി ദാനം",
+        "category": "Award Ceremony",
+        "categoryCode": "AWD",
+        "desc": "Official championship trophy presentation, gold laurel honouring, valedictory address and closing benediction.",
+        "date": "Dec 22, 2026",
+        "time": "08:30 PM – 10:30 PM",
+        "startTime": "08:30 PM",
+        "endTime": "10:30 PM",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "coordinatorName": "Sayyid Aslam Ayiroor",
+        "coordinatorPhone": "+91 98471 44556",
+        "guestId": "GST-06",
+        "guestName": "Senior Mudarris Council & Patrons",
+        "relatedCompId": null,
+        "relatedComp": "Championship Award Ceremony",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Scheduled",
+        "isPublished": true,
+        "createdAt": "2026-11-01T13:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "award"
+      },
+      {
+        "id": "PRG-012",
+        "code": "PRG-WKS-12",
+        "title": "Digital Heritage & Calligraphic Design Workshop",
+        "malayalamTitle": "ഡിജിറ്റൽ കാലിഗ്രാഫി ശില്പശാല",
+        "category": "Special Session",
+        "categoryCode": "WKS",
+        "desc": "Hands-on workshop on modern digital tools for Islamic typography, vector composition and publication aesthetics.",
+        "date": "Dec 22, 2026",
+        "time": "03:00 PM – 05:00 PM",
+        "startTime": "03:00 PM",
+        "endTime": "05:00 PM",
+        "venue": "Open Amphitheatre",
+        "coordinatorName": "Usthad Rashad",
+        "coordinatorPhone": "+91 97455 88990",
+        "guestId": null,
+        "guestName": "Creative Design Guild",
+        "relatedCompId": "COMP-TYP-12",
+        "relatedComp": "Digital Calligraphy & Typographic Art (ART-GEN-305)",
+        "posterUrl": "/assets/admin/admin_sidebar_logo.png",
+        "status": "Scheduled",
+        "isPublished": true,
+        "createdAt": "2026-11-01T13:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z",
+        "icon": "sparkles"
+      }
+    ],
+    "programmeStages": [
+      {
+        "id": "STG-01",
+        "code": "STG-01",
+        "name": "Cordova Grand Stage (Stage 01)",
+        "shortName": "Cordova Grand Stage",
+        "malayalamName": "കൊർദോവ വേദി",
+        "venue": "Cordova Grand Stage",
+        "type": "Ceremonial Grand Auditorium",
+        "capacity": 2500,
+        "color": "#A91F35",
+        "badgeBg": "bg-rose-50 text-rose-700 border-rose-200"
+      },
+      {
+        "id": "STG-02",
+        "code": "STG-02",
+        "name": "Al-Farabi Heritage Hall (Stage 02)",
+        "shortName": "Al-Farabi Heritage Hall",
+        "malayalamName": "അൽ ഫാറാബി ഹാൾ",
+        "venue": "Al-Farabi Heritage Hall",
+        "type": "Academic Conclave Arena",
+        "capacity": 800,
+        "color": "#E6A916",
+        "badgeBg": "bg-amber-50 text-amber-700 border-amber-200"
+      },
+      {
+        "id": "STG-03",
+        "code": "STG-03",
+        "name": "Ibn Khaldun Academic Hall (Stage 03)",
+        "shortName": "Ibn Khaldun Academic Hall",
+        "malayalamName": "ഇബ്നു ഖൽദൂൻ ഹാൾ",
+        "venue": "Ibn Khaldun Academic Hall",
+        "type": "Colloquium & Debate Chamber",
+        "capacity": 600,
+        "color": "#2563EB",
+        "badgeBg": "bg-blue-50 text-blue-700 border-blue-200"
+      },
+      {
+        "id": "STG-04",
+        "code": "STG-04",
+        "name": "Media Studio Preview Room",
+        "shortName": "Media Studio",
+        "malayalamName": "മീഡിയ സ്റ്റുഡിയോ റൂം",
+        "venue": "Media Studio Preview Room",
+        "type": "Screening & Curation Studio",
+        "capacity": 350,
+        "color": "#8B5CF6",
+        "badgeBg": "bg-purple-50 text-purple-700 border-purple-200"
+      },
+      {
+        "id": "STG-05",
+        "code": "STG-05",
+        "name": "Open Amphitheatre",
+        "shortName": "Open Amphitheatre",
+        "malayalamName": "ഓപ്പൺ ആംഫി തിയേറ്റർ",
+        "venue": "Open Amphitheatre",
+        "type": "Open Cultural Arena",
+        "capacity": 1200,
+        "color": "#10B981",
+        "badgeBg": "bg-emerald-50 text-emerald-700 border-emerald-200"
+      }
+    ],
+    "programmeSchedules": [
+      {
+        "id": "SCH-01",
+        "programmeId": "PRG-001",
+        "programmeCode": "PRG-ADM-01",
+        "programmeTitle": "Delegate Reception & Registration Check-in",
+        "date": "Dec 21, 2026",
+        "startTime": "08:00 AM",
+        "endTime": "09:00 AM",
+        "timeRange": "08:00 AM – 09:00 AM",
+        "stage": "Cordova Grand Stage (Stage 01)",
+        "stageId": "STG-01",
+        "coordinatorName": "Prof. K.V. Zaid",
+        "coordinatorPhone": "+91 98470 11223",
+        "assignedGuestIds": [],
+        "notes": "Registration kits distribution, ID card scanning, and holding pavilion allocation.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T08:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "SCH-02",
+        "programmeId": "PRG-002",
+        "programmeCode": "PRG-INA-02",
+        "programmeTitle": "Grand Inauguration Ceremony & Lamp Lighting",
+        "date": "Dec 21, 2026",
+        "startTime": "09:00 AM",
+        "endTime": "11:00 AM",
+        "timeRange": "09:00 AM – 11:00 AM",
+        "stage": "Cordova Grand Stage (Stage 01)",
+        "stageId": "STG-01",
+        "coordinatorName": "Sayyid Aslam Ayiroor",
+        "coordinatorPhone": "+91 98471 44556",
+        "assignedGuestIds": [
+          "GST-04"
+        ],
+        "notes": "Ceremonial opening, lamp lighting, opening prayer, and keynote address by visiting dignitary.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T08:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "SCH-03",
+        "programmeId": "PRG-003",
+        "programmeCode": "PRG-CON-03",
+        "programmeTitle": "Keynote Conclave: Nueva Era & Classical Heritage",
+        "date": "Dec 21, 2026",
+        "startTime": "11:30 AM",
+        "endTime": "01:00 PM",
+        "timeRange": "11:30 AM – 01:00 PM",
+        "stage": "Al-Farabi Heritage Hall (Stage 02)",
+        "stageId": "STG-02",
+        "coordinatorName": "Prof. Abdul Majeed",
+        "coordinatorPhone": "+91 94472 66778",
+        "assignedGuestIds": [
+          "GST-02"
+        ],
+        "notes": "Scholastic address by Dr. Ahmed Faris on tradition and innovation.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T09:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "SCH-04",
+        "programmeId": "PRG-004",
+        "programmeCode": "PRG-CMP-04",
+        "programmeTitle": "Junior Arabic Essay Colloquium & Finals",
+        "date": "Dec 21, 2026",
+        "startTime": "02:00 PM",
+        "endTime": "04:30 PM",
+        "timeRange": "02:00 PM – 04:30 PM",
+        "stage": "Ibn Khaldun Academic Hall (Stage 03)",
+        "stageId": "STG-03",
+        "coordinatorName": "Usthad Rashad",
+        "coordinatorPhone": "+91 97455 88990",
+        "assignedGuestIds": [],
+        "notes": "On-stage evaluation colloquium and reading of top qualifying essays.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T09:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "SCH-05",
+        "programmeId": "PRG-005",
+        "programmeCode": "PRG-CMP-05",
+        "programmeTitle": "Senior Malayalam Elocution Grand Stage",
+        "date": "Dec 21, 2026",
+        "startTime": "04:30 PM",
+        "endTime": "06:30 PM",
+        "timeRange": "04:30 PM – 06:30 PM",
+        "stage": "Cordova Grand Stage (Stage 01)",
+        "stageId": "STG-01",
+        "coordinatorName": "Sayyid Aslam Ayiroor",
+        "coordinatorPhone": "+91 98471 44556",
+        "assignedGuestIds": [
+          "GST-07"
+        ],
+        "notes": "Championship oratorical contest featuring top seeded house speakers.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T10:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "SCH-06",
+        "programmeId": "PRG-006",
+        "programmeCode": "PRG-CON-06",
+        "programmeTitle": "Evening Scholastic Assembly: Tradition Radiating Forward",
+        "date": "Dec 21, 2026",
+        "startTime": "07:00 PM",
+        "endTime": "09:00 PM",
+        "timeRange": "07:00 PM – 09:00 PM",
+        "stage": "Al-Farabi Heritage Hall (Stage 02)",
+        "stageId": "STG-02",
+        "coordinatorName": "Prof. K.V. Zaid",
+        "coordinatorPhone": "+91 98470 11223",
+        "assignedGuestIds": [
+          "GST-01"
+        ],
+        "notes": "Special discourse by Usthad Muhammed Rashid on moral foundations.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T10:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "SCH-07",
+        "programmeId": "PRG-007",
+        "programmeCode": "PRG-CMP-07",
+        "programmeTitle": "Hifz Qur’an Recitation Grand Finals",
+        "date": "Dec 22, 2026",
+        "startTime": "09:00 AM",
+        "endTime": "11:00 AM",
+        "timeRange": "09:00 AM – 11:00 AM",
+        "stage": "Cordova Grand Stage (Stage 01)",
+        "stageId": "STG-01",
+        "coordinatorName": "Sayyid Aslam Ayiroor",
+        "coordinatorPhone": "+91 98471 44556",
+        "assignedGuestIds": [],
+        "notes": "Tajweed and memorization adjudication before grand jury.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T11:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "SCH-08",
+        "programmeId": "PRG-008",
+        "programmeCode": "PRG-CON-08",
+        "programmeTitle": "Scholastic Symposia: Classical Texts in Modern Contexts",
+        "date": "Dec 22, 2026",
+        "startTime": "11:30 AM",
+        "endTime": "01:00 PM",
+        "timeRange": "11:30 AM – 01:00 PM",
+        "stage": "Al-Farabi Heritage Hall (Stage 02)",
+        "stageId": "STG-02",
+        "coordinatorName": "Prof. Abdul Majeed",
+        "coordinatorPhone": "+91 94472 66778",
+        "assignedGuestIds": [
+          "GST-03"
+        ],
+        "notes": "Symposium on manuscript preservation and contemporary ethical reasoning.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T11:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "SCH-09",
+        "programmeId": "PRG-009",
+        "programmeCode": "PRG-CMP-09",
+        "programmeTitle": "Classical Arabic Munadarah / Parliamentary Debate Finals",
+        "date": "Dec 22, 2026",
+        "startTime": "02:00 PM",
+        "endTime": "04:00 PM",
+        "timeRange": "02:00 PM – 04:00 PM",
+        "stage": "Ibn Khaldun Academic Hall (Stage 03)",
+        "stageId": "STG-03",
+        "coordinatorName": "Usthad Rashad",
+        "coordinatorPhone": "+91 97455 88990",
+        "assignedGuestIds": [],
+        "notes": "Inter-house dialectic tournament in formal Classical Arabic.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T12:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "SCH-10",
+        "programmeId": "PRG-010",
+        "programmeCode": "PRG-CMP-10",
+        "programmeTitle": "Media Curation, Film & Graphic Arts Screening",
+        "date": "Dec 22, 2026",
+        "startTime": "04:30 PM",
+        "endTime": "06:30 PM",
+        "timeRange": "04:30 PM – 06:30 PM",
+        "stage": "Media Studio Preview Room",
+        "stageId": "STG-04",
+        "coordinatorName": "Prof. K.V. Zaid",
+        "coordinatorPhone": "+91 98470 11223",
+        "assignedGuestIds": [
+          "GST-08"
+        ],
+        "notes": "Public projection and jury critique of creative media entries.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T12:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "SCH-11",
+        "programmeId": "PRG-011",
+        "programmeCode": "PRG-VAL-11",
+        "programmeTitle": "Grand Valedictory Assembly & Championship Conferment",
+        "date": "Dec 22, 2026",
+        "startTime": "07:30 PM",
+        "endTime": "09:30 PM",
+        "timeRange": "07:30 PM – 09:30 PM",
+        "stage": "Cordova Grand Stage (Stage 01)",
+        "stageId": "STG-01",
+        "coordinatorName": "Sayyid Aslam Ayiroor",
+        "coordinatorPhone": "+91 98471 44556",
+        "assignedGuestIds": [
+          "GST-05",
+          "GST-06"
+        ],
+        "notes": "Official trophy presentation, presidential valedictory, and closing blessings.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T13:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "SCH-12",
+        "programmeId": "PRG-012",
+        "programmeCode": "PRG-WKS-12",
+        "programmeTitle": "Digital Heritage & Calligraphic Design Workshop",
+        "date": "Dec 22, 2026",
+        "startTime": "03:00 PM",
+        "endTime": "05:00 PM",
+        "timeRange": "03:00 PM – 05:00 PM",
+        "stage": "Open Amphitheatre",
+        "stageId": "STG-05",
+        "coordinatorName": "Usthad Rashad",
+        "coordinatorPhone": "+91 97455 88990",
+        "assignedGuestIds": [],
+        "notes": "Interactive workshop on classical scripts and digital calligraphy tools.",
+        "status": "Scheduled",
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T13:30:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      }
+    ],
+    "guestCategories": [
+      {
+        "id": "GCAT-HON",
+        "name": "Guest of Honour",
+        "code": "HON",
+        "color": "#A91F35"
+      },
+      {
+        "id": "GCAT-CHF",
+        "name": "Chief Guest",
+        "code": "CHF",
+        "color": "#E6A916"
+      },
+      {
+        "id": "GCAT-SPK",
+        "name": "Guest Speaker",
+        "code": "SPK",
+        "color": "#2563EB"
+      },
+      {
+        "id": "GCAT-INA",
+        "name": "Inauguration Guest",
+        "code": "INA",
+        "color": "#10B981"
+      },
+      {
+        "id": "GCAT-VAL",
+        "name": "Closing Ceremony Guest",
+        "code": "VAL",
+        "color": "#D97706"
+      },
+      {
+        "id": "GCAT-SPC",
+        "name": "Special Guest",
+        "code": "SPC",
+        "color": "#8B5CF6"
+      },
+      {
+        "id": "GCAT-ACA",
+        "name": "Academic Conclave Speaker",
+        "code": "ACA",
+        "color": "#059669"
+      }
+    ],
+    "programmeGuests": [
+      {
+        "id": "GST-01",
+        "name": "Usthad Muhammed Rashid",
+        "malayalamName": "ഉസ്താദ് മുഹമ്മദ് റാഷിദ്",
+        "designation": "Scholar & Speaker",
+        "organization": "Dars Academic Council, Ayiroor",
+        "category": "Guest of Honour",
+        "categoryCode": "HON",
+        "shortBio": "Revered Islamic scholar, philosophical orator and educator renowned for bridging classical theological wisdom with contemporary ethical thought.",
+        "bio": "A revered Islamic scholar, philosophical orator and educator renowned for bridging classical theological wisdom with contemporary ethical thought. He has addressed youth conclaves across South Asia and guided scholarly curricula for over two decades.",
+        "photoUrl": "/assets/guests/portrait_muhammed_rashid.png",
+        "assignedProgrammeIds": [
+          "PRG-006"
+        ],
+        "sessionTitle": "Keynote Conclave: The Nueva Era Ideology — Tradition Radiating Forward",
+        "stage": "Al-Farabi Heritage Hall (Stage 02)",
+        "date": "Dec 21, 2026",
+        "time": "07:00 PM – 09:00 PM",
+        "invitationStatus": "Confirmed",
+        "participationStatus": "Arrival Pending",
+        "arrivalDate": "Dec 21, 2026",
+        "arrivalTime": "05:00 PM",
+        "contactPhone": "+91 94471 28910",
+        "contactEmail": "rashid.scholar@dalenziafest.in",
+        "specialNotes": "VIP Suite 1 Reserved at Ayiroor Guest House; Convoy pickup from Calicut International Airport at 03:00 PM.",
+        "credentials": [
+          "President, Dars Academic Council",
+          "Distinguished Islamic Jurisconsult",
+          "Author of 8 Theological Volumes"
+        ],
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T10:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "GST-02",
+        "name": "Dr. Ahmed Faris",
+        "malayalamName": "ഡോ. അഹമ്മദ് ഫാരിസ്",
+        "designation": "Academic & Philologist",
+        "organization": "Calicut University Department of Arabic",
+        "category": "Chief Guest",
+        "categoryCode": "CHF",
+        "shortBio": "Distinguished academic, cultural theorist, and prolific author specializing in Arabic linguistics and pedagogical evolution.",
+        "bio": "Distinguished academic, cultural theorist, and prolific author specializing in Arabic linguistics, Malabar heritage, and pedagogical evolution. His research on Dars educational methodologies has been presented at academic symposiums internationally.",
+        "photoUrl": "/assets/guests/portrait_ahmed_faris.png",
+        "assignedProgrammeIds": [
+          "PRG-003"
+        ],
+        "sessionTitle": "Inaugural Intellectual Address: Knowledge as a Sacred Conduit",
+        "stage": "Al-Farabi Heritage Hall (Stage 02)",
+        "date": "Dec 21, 2026",
+        "time": "11:30 AM – 01:00 PM",
+        "invitationStatus": "Confirmed",
+        "participationStatus": "Arrival Pending",
+        "arrivalDate": "Dec 21, 2026",
+        "arrivalTime": "09:30 AM",
+        "contactPhone": "+91 98460 31245",
+        "contactEmail": "faris.academic@dalenziafest.in",
+        "specialNotes": "Keynote podium requires wireless lavalier mic and digital projector integration.",
+        "credentials": [
+          "Ph.D. in Arabic Philology",
+          "Senior Fellow in Islamic Humanities",
+          "Editorial Director, Classical Texts Journal"
+        ],
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T10:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "GST-03",
+        "name": "Usthad Salman Saqafi",
+        "malayalamName": "ഉസ്താദ് സൽമാൻ സഖാഫി",
+        "designation": "Writer & Researcher",
+        "organization": "Markaz Knowledge City Research Institute",
+        "category": "Guest Speaker",
+        "categoryCode": "SPK",
+        "shortBio": "Acclaimed essayist, Islamic researcher and public intellectual with extensive publications on classical manuscript curation.",
+        "bio": "Acclaimed essayist, Islamic researcher and public intellectual with extensive publications on classical manuscript curation, Quranic sciences, and ethics in the digital information age.",
+        "photoUrl": "/assets/guests/portrait_salman_saqafi.png",
+        "assignedProgrammeIds": [
+          "PRG-008"
+        ],
+        "sessionTitle": "Special Colloquium: Literature, Eloquence & Ethical Consciousness",
+        "stage": "Al-Farabi Heritage Hall (Stage 02)",
+        "date": "Dec 22, 2026",
+        "time": "11:30 AM – 01:00 PM",
+        "invitationStatus": "Confirmed",
+        "participationStatus": "Arrival Pending",
+        "arrivalDate": "Dec 22, 2026",
+        "arrivalTime": "10:00 AM",
+        "contactPhone": "+91 97455 67890",
+        "contactEmail": "salman.saqafi@dalenziafest.in",
+        "specialNotes": "Requires display counter for newly published research manuscript showcase.",
+        "credentials": [
+          "Postgraduate in Hadith Sciences",
+          "Author & Columnist",
+          "Senior Lecturer in Islamic Dialectics"
+        ],
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T10:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "GST-04",
+        "name": "Dr. Sayyid Munawwar Ali",
+        "malayalamName": "ഡോ. സയ്യിദ് മുനവ്വറലി",
+        "designation": "Professor of Arabic Studies",
+        "organization": "Calicut University",
+        "category": "Inauguration Guest",
+        "categoryCode": "INA",
+        "shortBio": "Senior Professor of Arabic Studies, classical rhetoric adjudicator, and esteemed community dignitary.",
+        "bio": "Senior Professor of Arabic Studies, classical rhetoric adjudicator, and esteemed community dignitary presiding over inaugural ceremonial lamp-lighting and blessings.",
+        "photoUrl": "/assets/guests/portrait_muhammed_rashid.png",
+        "assignedProgrammeIds": [
+          "PRG-002"
+        ],
+        "sessionTitle": "Grand Lamp Lighting & Invocational Conclave",
+        "stage": "Cordova Grand Stage (Stage 01)",
+        "date": "Dec 21, 2026",
+        "time": "09:00 AM – 11:00 AM",
+        "invitationStatus": "Confirmed",
+        "participationStatus": "Arrival Pending",
+        "arrivalDate": "Dec 21, 2026",
+        "arrivalTime": "08:30 AM",
+        "contactPhone": "+91 94471 28910",
+        "contactEmail": "judge@dalenziafest.in",
+        "specialNotes": "Presiding dignitary for opening lamp lighting alongside festival patron mudarris.",
+        "credentials": [
+          "Ph.D in Arabic Classical Literature",
+          "M.A, NET-JRF",
+          "Chief Adjudicator"
+        ],
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T10:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "GST-05",
+        "name": "Prof. Abdul Majeed Hudawi",
+        "malayalamName": "പ്രൊഫ. അബ്ദുൽ മജീദ് ഹുദവി",
+        "designation": "Dean of Islamic Epistemology",
+        "organization": "Darul Huda Islamic University, Chemmad",
+        "category": "Academic Conclave Speaker",
+        "categoryCode": "ACA",
+        "shortBio": "Dean of Epistemological Studies, renowned authority on integration of classical Islamic scholarship and modern empirical sciences.",
+        "bio": "Dean of Epistemological Studies, renowned authority on integration of classical Islamic scholarship and modern empirical sciences. Author of numerous treatises on curricular harmonization.",
+        "photoUrl": "/assets/guests/portrait_ahmed_faris.png",
+        "assignedProgrammeIds": [
+          "PRG-003"
+        ],
+        "sessionTitle": "Scholastic Conclave: Islamic Epistemology in Modern Science",
+        "stage": "Al-Farabi Heritage Hall (Stage 02)",
+        "date": "Dec 21, 2026",
+        "time": "11:30 AM – 01:00 PM",
+        "invitationStatus": "Confirmed",
+        "participationStatus": "Arrival Pending",
+        "arrivalDate": "Dec 21, 2026",
+        "arrivalTime": "10:30 AM",
+        "contactPhone": "+91 98460 31245",
+        "contactEmail": "majeed.hudawi@dalenziafest.in",
+        "specialNotes": "Panel co-chair with Dr. Ahmed Faris for Morning Academic Conclave.",
+        "credentials": [
+          "M.Phil Islamic Heritage",
+          "Dean of Epistemology",
+          "Gold Medallist"
+        ],
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T10:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "GST-06",
+        "name": "Usthad Kabeer Faizi",
+        "malayalamName": "ഉസ്താദ് കബീർ ഫൈസി",
+        "designation": "Chief Qira’at Scholar",
+        "organization": "Markaz Knowledge City Institute of Hifz",
+        "category": "Closing Ceremony Guest",
+        "categoryCode": "VAL",
+        "shortBio": "Sanad holder in Ten Qira’at and senior Quranic tajweed master adjudicating grand finals and presiding over closing honours.",
+        "bio": "Sanad holder in Ten Qira’at and senior Quranic tajweed master adjudicating grand finals and presiding over closing honours and trophy distribution.",
+        "photoUrl": "/assets/guests/portrait_salman_saqafi.png",
+        "assignedProgrammeIds": [
+          "PRG-007",
+          "PRG-011"
+        ],
+        "sessionTitle": "Grand Valedictory Ceremony & Championship Award",
+        "stage": "Cordova Grand Stage (Stage 01)",
+        "date": "Dec 22, 2026",
+        "time": "08:30 PM – 10:30 PM",
+        "invitationStatus": "Confirmed",
+        "participationStatus": "Arrival Pending",
+        "arrivalDate": "Dec 22, 2026",
+        "arrivalTime": "07:00 PM",
+        "contactPhone": "+91 97455 67890",
+        "contactEmail": "kabeer.faizi@dalenziafest.in",
+        "specialNotes": "Presiding dignitary delivering Quranic benediction during valedictory ceremony.",
+        "credentials": [
+          "Hafiz-e-Quran",
+          "Ten Qira’at Sanad Holder",
+          "Senior Mentor"
+        ],
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T10:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "GST-07",
+        "name": "Dr. Zubaida Rahman",
+        "malayalamName": "ഡോ. സുബൈദ റഹ്മാൻ",
+        "designation": "Associate Professor of Malayalam & Rhetoric",
+        "organization": "Farook College (Autonomous), Kozhikode",
+        "category": "Special Guest",
+        "categoryCode": "SPC",
+        "shortBio": "Specialist in Malayalam philology, classical meter, and comparative literary dialectics.",
+        "bio": "Specialist in Malayalam philology, classical meter, and comparative literary dialectics with scholarly monographs on Kerala Dars poetic contributions.",
+        "photoUrl": "/assets/guests/portrait_ahmed_faris.png",
+        "assignedProgrammeIds": [
+          "PRG-005"
+        ],
+        "sessionTitle": "Oratory Adjudication & Literary Appreciation Address",
+        "stage": "Cordova Grand Stage (Stage 01)",
+        "date": "Dec 21, 2026",
+        "time": "04:30 PM – 06:30 PM",
+        "invitationStatus": "Confirmed",
+        "participationStatus": "Arrival Pending",
+        "arrivalDate": "Dec 21, 2026",
+        "arrivalTime": "03:30 PM",
+        "contactPhone": "+91 94462 89012",
+        "contactEmail": "zubaida.rahman@dalenziafest.in",
+        "specialNotes": "Guest speaker at Senior Malayalam Elocution finals.",
+        "credentials": [
+          "Ph.D in Linguistics & Rhetoric",
+          "Senior Research Fellow",
+          "Literary Critic"
+        ],
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-01T10:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      },
+      {
+        "id": "GST-08",
+        "name": "Sayyid Hamidali Shihab",
+        "malayalamName": "സയ്യിദ് ഹമീദലി ശിഹാബ്",
+        "designation": "Chancellor & Educational Patron",
+        "organization": "Darul Uloom Islamic Academy",
+        "category": "Guest of Honour",
+        "categoryCode": "HON",
+        "shortBio": "Eminent educational leader, community patron and spiritual guide invited to address the grand convocation.",
+        "bio": "Eminent educational leader, community patron and spiritual guide invited to address the grand convocation of scholars and student laureates.",
+        "photoUrl": "/assets/guests/portrait_muhammed_rashid.png",
+        "assignedProgrammeIds": [],
+        "sessionTitle": "Valedictory Presidium Keynote Address",
+        "stage": "Cordova Grand Stage (Stage 01)",
+        "date": "Dec 22, 2026",
+        "time": "08:30 PM – 10:30 PM",
+        "invitationStatus": "Invitation Sent",
+        "participationStatus": "Arrival Pending",
+        "arrivalDate": "Dec 22, 2026",
+        "arrivalTime": "07:30 PM",
+        "contactPhone": "+91 94470 55443",
+        "contactEmail": "hamidali.patron@dalenziafest.in",
+        "specialNotes": "Official VIP invitation hand-delivered by Festival General Convener; awaiting formal itinerary confirmation.",
+        "credentials": [
+          "Chancellor & Philanthropist",
+          "Council Patron",
+          "Founding Rector"
+        ],
+        "isPublished": true,
+        "isArchived": false,
+        "createdAt": "2026-11-10T10:00:00Z",
+        "updatedAt": "2026-11-18T10:00:00Z"
+      }
+    ],
+    "judges": [
+      {
+        "id": "JDG-1001",
+        "name": "Dr. Sayyid Munawwar Ali",
+        "designation": "Professor of Arabic Studies",
+        "institution": "Calicut University Department of Arabic",
+        "phone": "+91 94471 28910",
+        "email": "judge@dalenziafest.in",
+        "status": "Active",
+        "qualification": "Ph.D in Arabic Classical Literature, M.A, NET-JRF",
+        "assignedCompIds": [
+          "COMP-LIT-01",
+          "COMP-SPK-02"
+        ],
+        "submittedCompIds": [
+          "COMP-LIT-01"
+        ],
+        "evaluationStatus": "Submitted",
+        "avatarColor": "#A91F35",
+        "accountCreated": "2026-12-10"
+      },
+      {
+        "id": "JDG-1002",
+        "name": "Prof. Abdul Majeed Hudawi",
+        "designation": "Dean of Islamic Epistemology",
+        "institution": "Darul Huda Islamic University, Chemmad",
+        "phone": "+91 98460 31245",
+        "email": "majeed.hudawi@dalenziafest.in",
+        "status": "Active",
+        "qualification": "M.Phil Islamic Heritage, Gold Medallist",
+        "assignedCompIds": [
+          "COMP-LIT-01",
+          "COMP-ISL-04"
+        ],
+        "submittedCompIds": [
+          "COMP-LIT-01",
+          "COMP-ISL-04"
+        ],
+        "evaluationStatus": "Completed",
+        "avatarColor": "#E6A916",
+        "accountCreated": "2026-12-11"
+      },
+      {
+        "id": "JDG-1003",
+        "name": "Usthad Kabeer Faizi",
+        "designation": "Chief Adjudicator of Qira’at",
+        "institution": "Markaz Knowledge City Institute of Hifz",
+        "phone": "+91 97455 67890",
+        "email": "kabeer.faizi@dalenziafest.in",
+        "status": "Active",
+        "qualification": "Hafiz-e-Quran, Ten Qira’at Sanad Holder",
+        "assignedCompIds": [
+          "COMP-ISL-04"
+        ],
+        "submittedCompIds": [
+          "COMP-ISL-04"
+        ],
+        "evaluationStatus": "Completed",
+        "avatarColor": "#1e3a8a",
+        "accountCreated": "2026-12-12"
+      },
+      {
+        "id": "JDG-1004",
+        "name": "Dr. Zubaida Rahman",
+        "designation": "Associate Professor of Malayalam & Comparative Rhetoric",
+        "institution": "Farook College (Autonomous), Kozhikode",
+        "phone": "+91 94462 89012",
+        "email": "zubaida.rahman@dalenziafest.in",
+        "status": "Active",
+        "qualification": "Ph.D in Linguistics & Rhetoric",
+        "assignedCompIds": [
+          "COMP-SPK-02",
+          "COMP-DRM-05"
+        ],
+        "submittedCompIds": [
+          "COMP-SPK-02"
+        ],
+        "evaluationStatus": "In Progress",
+        "avatarColor": "#047857",
+        "accountCreated": "2026-12-12"
+      },
+      {
+        "id": "JDG-1005",
+        "name": "Usthad Salman Wafy",
+        "designation": "Lecturer in Calligraphy & Manuscriptology",
+        "institution": "Wafy Islamic Arts Academy",
+        "phone": "+91 98475 43210",
+        "email": "salman.wafy@dalenziafest.in",
+        "status": "Active",
+        "qualification": "International Calligraphy Master (Istanbul Ijazah)",
+        "assignedCompIds": [
+          "COMP-ART-03"
+        ],
+        "submittedCompIds": [
+          "COMP-ART-03"
+        ],
+        "evaluationStatus": "Completed",
+        "avatarColor": "#7c3aed",
+        "accountCreated": "2026-12-13"
+      },
+      {
+        "id": "JDG-1006",
+        "name": "Prof. Faisal Peringathur",
+        "designation": "Head of Media & Visual Communication",
+        "institution": "Thunchath Ezhuthachan Malayalam University",
+        "phone": "+91 94473 11223",
+        "email": "faisal.p@dalenziafest.in",
+        "status": "Active",
+        "qualification": "M.Sc Visual Arts, State Award Recipient",
+        "assignedCompIds": [
+          "COMP-ART-03",
+          "COMP-MED-06"
+        ],
+        "submittedCompIds": [],
+        "evaluationStatus": "Pending",
+        "avatarColor": "#b45309",
+        "accountCreated": "2026-12-13"
+      },
+      {
+        "id": "JDG-1007",
+        "name": "Usthad Sharafudheen Saqafi",
+        "designation": "Senior Scholar of Fiqh & Hadith",
+        "institution": "Ma’din Academy, Malappuram",
+        "phone": "+91 98461 55667",
+        "email": "sharaf.saqafi@dalenziafest.in",
+        "status": "Active",
+        "qualification": "Fazil Jamia Nizamia, Sanad in Hadith",
+        "assignedCompIds": [
+          "COMP-ISL-04"
+        ],
+        "submittedCompIds": [
+          "COMP-ISL-04"
+        ],
+        "evaluationStatus": "Completed",
+        "avatarColor": "#0f766e",
+        "accountCreated": "2026-12-14"
+      },
+      {
+        "id": "JDG-1008",
+        "name": "Dr. Haris Malappuram",
+        "designation": "Research Fellow & Literary Critic",
+        "institution": "Kerala Bhasha Institute",
+        "phone": "+91 94467 88990",
+        "email": "haris.m@dalenziafest.in",
+        "status": "Active",
+        "qualification": "Ph.D in Malayalam Literature",
+        "assignedCompIds": [
+          "COMP-SPK-02"
+        ],
+        "submittedCompIds": [],
+        "evaluationStatus": "In Progress",
+        "avatarColor": "#4338ca",
+        "accountCreated": "2026-12-14"
+      },
+      {
+        "id": "JDG-1009",
+        "name": "Usthad Adil Bukhari",
+        "designation": "Curator of Islamic Heritage Exhibition",
+        "institution": "Bukhari Da’wah College, Kondotty",
+        "phone": "+91 97451 22334",
+        "email": "adil.bukhari@dalenziafest.in",
+        "status": "Active",
+        "qualification": "M.A Islamic History & Heritage",
+        "assignedCompIds": [
+          "COMP-LIT-01"
+        ],
+        "submittedCompIds": [
+          "COMP-LIT-01"
+        ],
+        "evaluationStatus": "Completed",
+        "avatarColor": "#be123c",
+        "accountCreated": "2026-12-15"
+      },
+      {
+        "id": "JDG-1010",
+        "name": "Prof. Shihabudheen Thangal",
+        "designation": "Chairman, Board of Studies in Urdu & Arabic",
+        "institution": "Kerala University",
+        "phone": "+91 94470 66778",
+        "email": "shihab.thangal@dalenziafest.in",
+        "status": "Active",
+        "qualification": "Ph.D in Classical Semitic Dialects",
+        "assignedCompIds": [
+          "COMP-LIT-01"
+        ],
+        "submittedCompIds": [
+          "COMP-LIT-01"
+        ],
+        "evaluationStatus": "Completed",
+        "avatarColor": "#15803d",
+        "accountCreated": "2026-12-15"
+      },
+      {
+        "id": "JDG-1011",
+        "name": "Usthad Basheer Ahsani",
+        "designation": "Instructor of Arabic Eloquence & Balagha",
+        "institution": "Sirajul Huda, Kuttiadi",
+        "phone": "+91 98463 44556",
+        "email": "basheer.ahsani@dalenziafest.in",
+        "status": "Active",
+        "qualification": "M.A Arabic, Al-Azhar Specialization",
+        "assignedCompIds": [
+          "COMP-SPK-02"
+        ],
+        "submittedCompIds": [
+          "COMP-SPK-02"
+        ],
+        "evaluationStatus": "Completed",
+        "avatarColor": "#c2410c",
+        "accountCreated": "2026-12-16"
+      },
+      {
+        "id": "JDG-1012",
+        "name": "Artist Mansoor Chemmad",
+        "designation": "Master Sculptor & Calligraphic Designer",
+        "institution": "Kerala Lalithakala Akademi Member",
+        "phone": "+91 94464 99001",
+        "email": "mansoor.art@dalenziafest.in",
+        "status": "Active",
+        "qualification": "BFA Painting, National Merit Award",
+        "assignedCompIds": [
+          "COMP-ART-03"
+        ],
+        "submittedCompIds": [
+          "COMP-ART-03"
+        ],
+        "evaluationStatus": "Completed",
+        "avatarColor": "#6d28d9",
+        "accountCreated": "2026-12-16"
+      },
+      {
+        "id": "JDG-1013",
+        "name": "Dr. Thasneem Banu",
+        "designation": "Director of Performing Arts Center",
+        "institution": "MES Mampad College",
+        "phone": "+91 97458 11234",
+        "email": "thasneem.b@dalenziafest.in",
+        "status": "Active",
+        "qualification": "Ph.D in Dramatic Literature & Monologue",
+        "assignedCompIds": [
+          "COMP-DRM-05"
+        ],
+        "submittedCompIds": [],
+        "evaluationStatus": "Pending",
+        "avatarColor": "#0369a1",
+        "accountCreated": "2026-12-16"
+      },
+      {
+        "id": "JDG-1014",
+        "name": "Usthad Jafar Sadiq Faizi",
+        "designation": "Head of Qur’an Recitation Research",
+        "institution": "Darul Ma’arif, Ayiroor",
+        "phone": "+91 98478 66778",
+        "email": "jafar.faizi@dalenziafest.in",
+        "status": "Active",
+        "qualification": "Hafiz, Tajweed Specialist",
+        "assignedCompIds": [
+          "COMP-ISL-04"
+        ],
+        "submittedCompIds": [
+          "COMP-ISL-04"
+        ],
+        "evaluationStatus": "Completed",
+        "avatarColor": "#15803d",
+        "accountCreated": "2026-12-17"
+      },
+      {
+        "id": "JDG-1015",
+        "name": "Muhammed Riyas PK",
+        "designation": "Documentary Filmmaker & Cinematographer",
+        "institution": "Visual Waves Media Collective",
+        "phone": "+91 94479 33445",
+        "email": "riyas.pk@dalenziafest.in",
+        "status": "Active",
+        "qualification": "Post Graduate Diploma in Film Making (SRFTI)",
+        "assignedCompIds": [
+          "COMP-MED-06"
+        ],
+        "submittedCompIds": [],
+        "evaluationStatus": "Pending",
+        "avatarColor": "#a21caf",
+        "accountCreated": "2026-12-17"
+      },
+      {
+        "id": "JDG-1016",
+        "name": "Usthad Luqman Wafy",
+        "designation": "Visiting Scholar of Hermeneutics",
+        "institution": "Markaz Garden, Poonoor",
+        "phone": "+91 98466 22110",
+        "email": "luqman.wafy@dalenziafest.in",
+        "status": "Active",
+        "qualification": "Wafy Scholar, M.A Philosophy",
+        "assignedCompIds": [
+          "COMP-DRM-05"
+        ],
+        "submittedCompIds": [],
+        "evaluationStatus": "Pending",
+        "avatarColor": "#4d7c0f",
+        "accountCreated": "2026-12-17"
+      },
+      {
+        "id": "JDG-1017",
+        "name": "Dr. Noorudheen K.",
+        "designation": "Emeritus Professor of Classical Arabic",
+        "institution": "SSUS Kalady",
+        "phone": "+91 94474 55667",
+        "email": "noor.k@dalenziafest.in",
+        "status": "Inactive",
+        "qualification": "Ph.D Arabic Rhetoric",
+        "assignedCompIds": [],
+        "submittedCompIds": [],
+        "evaluationStatus": "Not Started",
+        "avatarColor": "#64748b",
+        "accountCreated": "2026-12-05"
+      },
+      {
+        "id": "JDG-1018",
+        "name": "Usthad Ashiq Darimi",
+        "designation": "Reader in Islamic Jurisprudence",
+        "institution": "Jamia Nooriya Arabic College, Pattikkad",
+        "phone": "+91 98472 88990",
+        "email": "ashiq.darimi@dalenziafest.in",
+        "status": "Inactive",
+        "qualification": "Moulavi Fazil Rahmani",
+        "assignedCompIds": [],
+        "submittedCompIds": [],
+        "evaluationStatus": "Not Started",
+        "avatarColor": "#64748b",
+        "accountCreated": "2026-12-05"
+      }
+    ],
+    "programmeAssignments": [
+      {
+        "id": "ASG-001",
+        "competitionId": "COMP-LIT-01",
+        "competitionCode": "LIT-JR-102",
+        "competitionTitle": "Junior Arabic Essay (LIT-JR-102)",
+        "category": "Literary Arena",
+        "type": "Individual",
+        "venue": "Ibn Khaldun Academic Hall (Stage 03)",
+        "date": "Dec 21, 2026",
+        "time": "02:00 PM",
+        "totalParticipants": 3,
+        "assignedJudgeIds": [
+          "JDG-1001",
+          "JDG-1002",
+          "JDG-1009",
+          "JDG-1010"
+        ],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Thematic Depth & Research",
+            "maxMarks": 30
+          },
+          {
+            "id": "c2",
+            "name": "Classical Arabic Eloquence & Syntax",
+            "maxMarks": 30
+          },
+          {
+            "id": "c3",
+            "name": "Structural Flow & Logical Nuance",
+            "maxMarks": 20
+          },
+          {
+            "id": "c4",
+            "name": "Relevance to Nueva Era Festival Theme",
+            "maxMarks": 20
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Adjudicate independently without consulting peers. Adhere strictly to the classical Arabic rubric.",
+        "status": "Approved",
+        "isPublished": true,
+        "publishedAt": "Dec 21, 2026, 05:40 PM",
+        "participants": [
+          {
+            "studentId": "STU-1001",
+            "chestNo": "C-101",
+            "name": "Ahmad Rayan K.",
+            "teamId": "team-01",
+            "teamName": "Team A"
+          },
+          {
+            "studentId": "STU-1005",
+            "chestNo": "C-201",
+            "name": "Muhammed Sinan T.",
+            "teamId": "team-02",
+            "teamName": "Team B"
+          },
+          {
+            "studentId": "STU-1003",
+            "chestNo": "C-103",
+            "name": "Zayan Kabeer",
+            "teamId": "team-01",
+            "teamName": "Team A"
+          }
+        ]
+      },
+      {
+        "id": "ASG-002",
+        "competitionId": "COMP-SPK-02",
+        "competitionCode": "SPK-SR-201",
+        "competitionTitle": "Senior Malayalam Elocution (SPK-SR-201)",
+        "category": "Public Speaking",
+        "type": "Individual",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "date": "Dec 21, 2026",
+        "time": "04:30 PM",
+        "totalParticipants": 4,
+        "assignedJudgeIds": [
+          "JDG-1001",
+          "JDG-1004",
+          "JDG-1008",
+          "JDG-1011"
+        ],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Oratory Delivery & Diction",
+            "maxMarks": 35
+          },
+          {
+            "id": "c2",
+            "name": "Ideological Clarity & Argumentation",
+            "maxMarks": 35
+          },
+          {
+            "id": "c3",
+            "name": "Stage Presence & Demeanor",
+            "maxMarks": 15
+          },
+          {
+            "id": "c4",
+            "name": "Time Discipline",
+            "maxMarks": 15
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Evaluate speech delivery, tone modulation, rhetorical strength and adherence to the 7-minute limit.",
+        "status": "Under Verification",
+        "isPublished": false,
+        "publishedAt": null,
+        "participants": [
+          {
+            "studentId": "STU-1008",
+            "chestNo": "C-301",
+            "name": "Faris K.",
+            "teamId": "team-03",
+            "teamName": "Team C"
+          },
+          {
+            "studentId": "STU-1012",
+            "chestNo": "C-402",
+            "name": "Sharafudheen T.",
+            "teamId": "team-04",
+            "teamName": "Team D"
+          },
+          {
+            "studentId": "STU-1004",
+            "chestNo": "C-104",
+            "name": "Adil Munawwar",
+            "teamId": "team-01",
+            "teamName": "Team A"
+          },
+          {
+            "studentId": "STU-1006",
+            "chestNo": "C-202",
+            "name": "Bilal Rahman",
+            "teamId": "team-02",
+            "teamName": "Team B"
+          }
+        ]
+      },
+      {
+        "id": "ASG-003",
+        "competitionId": "COMP-ART-03",
+        "competitionCode": "ART-SR-301",
+        "competitionTitle": "Visual Arts: Islamic Calligraphy (ART-SR-301)",
+        "category": "Visual Arts",
+        "type": "Individual",
+        "venue": "Al-Farabi Heritage Hall (Stage 02)",
+        "date": "Dec 22, 2026",
+        "time": "10:00 AM",
+        "totalParticipants": 3,
+        "assignedJudgeIds": [
+          "JDG-1005",
+          "JDG-1006",
+          "JDG-1012"
+        ],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Proportion & Scriptural Rigor (Mizan)",
+            "maxMarks": 40
+          },
+          {
+            "id": "c2",
+            "name": "Ink Uniformity & Penmanship Control",
+            "maxMarks": 30
+          },
+          {
+            "id": "c3",
+            "name": "Artistic Layout & Border Illumination",
+            "maxMarks": 30
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Traditional Thuluth and Diwani script standards must be strictly upheld. Assess balance of geometric letters.",
+        "status": "Submitted",
+        "isPublished": false,
+        "publishedAt": null,
+        "participants": [
+          {
+            "studentId": "STU-1007",
+            "chestNo": "C-203",
+            "name": "Mubarak Ali",
+            "teamId": "team-02",
+            "teamName": "Team B"
+          },
+          {
+            "studentId": "STU-1009",
+            "chestNo": "C-302",
+            "name": "Salmanul Faris",
+            "teamId": "team-03",
+            "teamName": "Team C"
+          },
+          {
+            "studentId": "STU-1013",
+            "chestNo": "C-501",
+            "name": "Hashim Basheer",
+            "teamId": "team-05",
+            "teamName": "Team E"
+          }
+        ]
+      },
+      {
+        "id": "ASG-004",
+        "competitionId": "COMP-ISL-04",
+        "competitionCode": "ISL-JR-401",
+        "competitionTitle": "Hifz Qur’an Recitation (ISL-JR-401)",
+        "category": "Islamic Heritage",
+        "type": "Individual",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "date": "Dec 22, 2026",
+        "time": "01:30 PM",
+        "totalParticipants": 3,
+        "assignedJudgeIds": [
+          "JDG-1002",
+          "JDG-1003",
+          "JDG-1007",
+          "JDG-1014"
+        ],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Tajweed Rules & Makharij Articulation",
+            "maxMarks": 40
+          },
+          {
+            "id": "c2",
+            "name": "Memorization Accuracy & Fluency (Hifz)",
+            "maxMarks": 40
+          },
+          {
+            "id": "c3",
+            "name": "Melodic Cadence & Maqamat Harmony",
+            "maxMarks": 20
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Strict adherence to Hafs an Asim reading standard. Ring bell once for hesitation, twice for uncorrected error.",
+        "status": "Approved",
+        "isPublished": true,
+        "publishedAt": "Dec 22, 2026, 04:15 PM",
+        "participants": [
+          {
+            "studentId": "STU-1002",
+            "chestNo": "C-102",
+            "name": "Hafiz Anas M.",
+            "teamId": "team-01",
+            "teamName": "Team A"
+          },
+          {
+            "studentId": "STU-1010",
+            "chestNo": "C-303",
+            "name": "Hafiz Rashid P.",
+            "teamId": "team-03",
+            "teamName": "Team C"
+          },
+          {
+            "studentId": "STU-1011",
+            "chestNo": "C-401",
+            "name": "Nihal Shareef V.",
+            "teamId": "team-04",
+            "teamName": "Team D"
+          }
+        ]
+      },
+      {
+        "id": "ASG-005",
+        "competitionId": "COMP-DRM-05",
+        "competitionCode": "DRM-GEN-501",
+        "competitionTitle": "Dramatic Heritage Monologue (DRM-GEN-501)",
+        "category": "Performing Arts",
+        "type": "Individual",
+        "venue": "Ibn Khaldun Academic Hall (Stage 03)",
+        "date": "Dec 22, 2026",
+        "time": "05:00 PM",
+        "totalParticipants": 2,
+        "assignedJudgeIds": [
+          "JDG-1004",
+          "JDG-1013",
+          "JDG-1016"
+        ],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Character Immersion & Emotional Range",
+            "maxMarks": 40
+          },
+          {
+            "id": "c2",
+            "name": "Vocal Modulation & Dialect Authenticity",
+            "maxMarks": 30
+          },
+          {
+            "id": "c3",
+            "name": "Thematic Resonance & Stage Movement",
+            "maxMarks": 30
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Assess historical fidelity and monologue pacing. Time limit 10 minutes maximum.",
+        "status": "In Progress",
+        "isPublished": false,
+        "publishedAt": null,
+        "participants": [
+          {
+            "studentId": "STU-1006",
+            "chestNo": "C-202",
+            "name": "Bilal Rahman",
+            "teamId": "team-02",
+            "teamName": "Team B"
+          },
+          {
+            "studentId": "STU-1011",
+            "chestNo": "C-401",
+            "name": "Nihal Shareef V.",
+            "teamId": "team-04",
+            "teamName": "Team D"
+          }
+        ]
+      },
+      {
+        "id": "ASG-006",
+        "competitionId": "COMP-MED-06",
+        "competitionCode": "MED-SR-601",
+        "competitionTitle": "Documentary Short Film (MED-SR-601)",
+        "category": "Media & Cultural",
+        "type": "Group",
+        "venue": "Media Studio Preview Room",
+        "date": "Dec 22, 2026",
+        "time": "06:30 PM",
+        "totalParticipants": 2,
+        "assignedJudgeIds": [
+          "JDG-1006",
+          "JDG-1015"
+        ],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Storytelling & Script Depth",
+            "maxMarks": 35
+          },
+          {
+            "id": "c2",
+            "name": "Cinematography & Framing",
+            "maxMarks": 35
+          },
+          {
+            "id": "c3",
+            "name": "Sound Design & Editing Rhythm",
+            "maxMarks": 30
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Review technical and documentary merits based on ethical storytelling and visual creativity.",
+        "status": "Assigned",
+        "isPublished": false,
+        "publishedAt": null,
+        "participants": [
+          {
+            "studentId": "STU-1004",
+            "chestNo": "C-104",
+            "name": "Adil Munawwar",
+            "teamId": "team-01",
+            "teamName": "Team A"
+          },
+          {
+            "studentId": "STU-1013",
+            "chestNo": "C-501",
+            "name": "Hashim Basheer",
+            "teamId": "team-05",
+            "teamName": "Team E"
+          }
+        ]
+      },
+      {
+        "id": "ASG-007",
+        "competitionId": "COMP-QZ-07",
+        "competitionCode": "QZ-GEN-701",
+        "competitionTitle": "Qur’anic & Scholastic Grand Quiz (QZ-GEN-701)",
+        "category": "Islamic Heritage",
+        "type": "Group",
+        "venue": "Open Amphitheatre",
+        "date": "Dec 22, 2026",
+        "time": "03:00 PM",
+        "totalParticipants": 4,
+        "maxParticipants": 30,
+        "assignedJudgeIds": [
+          "JDG-1003",
+          "JDG-1007"
+        ],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Rapid Buzzer Accuracy",
+            "maxMarks": 40
+          },
+          {
+            "id": "c2",
+            "name": "Tafsir & Hadith Depth",
+            "maxMarks": 40
+          },
+          {
+            "id": "c3",
+            "name": "Team Synergistic Coordination",
+            "maxMarks": 20
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Negative marking applies on buzzer round. Official quizmaster rulings are final.",
+        "description": "Prestigious inter-team intellectual battle testing encyclopedic Islamic history, jurisprudence, and theology.",
+        "rules": "Teams must comprise 3 scholars. No reference materials or electronic aids allowed in quiz pavilion.",
+        "eligibility": "General",
+        "registrationStartDate": "Dec 01, 2026",
+        "registrationCloseDate": "Dec 20, 2026",
+        "status": "Registration Open",
+        "isPublished": false,
+        "publishedAt": null,
+        "participants": [
+          {
+            "studentId": "STU-1001",
+            "chestNo": "C-101",
+            "name": "Ahmad Rayan K.",
+            "teamId": "team-01",
+            "teamName": "Team A"
+          },
+          {
+            "studentId": "STU-1005",
+            "chestNo": "C-201",
+            "name": "Muhammed Sinan T.",
+            "teamId": "team-02",
+            "teamName": "Team B"
+          },
+          {
+            "studentId": "STU-1008",
+            "chestNo": "C-301",
+            "name": "Faris K.",
+            "teamId": "team-03",
+            "teamName": "Team C"
+          },
+          {
+            "studentId": "STU-1011",
+            "chestNo": "C-401",
+            "name": "Nihal Shareef V.",
+            "teamId": "team-04",
+            "teamName": "Team D"
+          }
+        ]
+      },
+      {
+        "id": "ASG-008",
+        "competitionId": "COMP-DEB-08",
+        "competitionCode": "DEB-SR-801",
+        "competitionTitle": "Classical Arabic Munadarah / Parliamentary Debate (DEB-SR-801)",
+        "category": "Debate & Research",
+        "type": "Group",
+        "venue": "Al-Farabi Heritage Hall (Stage 02)",
+        "date": "Dec 21, 2026",
+        "time": "01:00 PM",
+        "totalParticipants": 2,
+        "maxParticipants": 16,
+        "assignedJudgeIds": [
+          "JDG-1001",
+          "JDG-1002"
+        ],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Philosophical Nuance & Argumentation",
+            "maxMarks": 35
+          },
+          {
+            "id": "c2",
+            "name": "Classical Arabic Syntactical Eloquence",
+            "maxMarks": 35
+          },
+          {
+            "id": "c3",
+            "name": "Rebuttal Rigour & Temperament",
+            "maxMarks": 30
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Adjudicate using classical Oxford/Munadarah argumentation frameworks.",
+        "description": "Formal scholastic Arabic debate interrogating contemporary philosophical ethics in the light of Islamic jurisprudence.",
+        "rules": "Speech duration: 6 minutes for prime speakers, 3 minutes for rebuttal. Strictly classical Arabic.",
+        "eligibility": "Senior",
+        "registrationStartDate": "Dec 01, 2026",
+        "registrationCloseDate": "Dec 20, 2026",
+        "status": "Upcoming",
+        "isPublished": false,
+        "publishedAt": null,
+        "participants": [
+          {
+            "studentId": "STU-1002",
+            "chestNo": "C-102",
+            "name": "Hafiz Anas M.",
+            "teamId": "team-01",
+            "teamName": "Team A"
+          },
+          {
+            "studentId": "STU-1009",
+            "chestNo": "C-302",
+            "name": "Salmanul Faris",
+            "teamId": "team-03",
+            "teamName": "Team C"
+          }
+        ]
+      },
+      {
+        "id": "ASG-009",
+        "competitionId": "COMP-NAS-09",
+        "competitionCode": "NAS-GEN-901",
+        "competitionTitle": "Sufi Choral Ensemble / Nasheed (NAS-GEN-901)",
+        "category": "Performing Arts",
+        "type": "Group",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "date": "Dec 22, 2026",
+        "time": "08:00 PM",
+        "totalParticipants": 2,
+        "maxParticipants": 12,
+        "assignedJudgeIds": [
+          "JDG-1008",
+          "JDG-1014"
+        ],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Choral Harmony & Pitch Purity",
+            "maxMarks": 40
+          },
+          {
+            "id": "c2",
+            "name": "Maqamat Precision & Rhythm",
+            "maxMarks": 30
+          },
+          {
+            "id": "c3",
+            "name": "Spiritual Resonance & Devotion",
+            "maxMarks": 30
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Time cap 12 minutes. Live acoustic instrumentation conforming to traditional aesthetic parameters.",
+        "description": "Grand choral vocal performance showcasing classical Arabo-Andalusian and Malabar spiritual heritage hymns.",
+        "rules": "Squad size: 5 to 7 vocalists. Only traditional percussion instruments permitted.",
+        "eligibility": "General",
+        "registrationStartDate": "Dec 01, 2026",
+        "registrationCloseDate": "Dec 20, 2026",
+        "status": "Registration Open",
+        "isPublished": false,
+        "publishedAt": null,
+        "participants": [
+          {
+            "studentId": "STU-1003",
+            "chestNo": "C-103",
+            "name": "Zayan Kabeer",
+            "teamId": "team-01",
+            "teamName": "Team A"
+          },
+          {
+            "studentId": "STU-1007",
+            "chestNo": "C-203",
+            "name": "Mubarak Ali",
+            "teamId": "team-02",
+            "teamName": "Team B"
+          }
+        ]
+      },
+      {
+        "id": "ASG-010",
+        "competitionId": "COMP-URD-10",
+        "competitionCode": "LIT-JR-105",
+        "competitionTitle": "Urdu Nazm & Ghazal Recitation (LIT-JR-105)",
+        "category": "Literary Arena",
+        "type": "Individual",
+        "venue": "Ibn Khaldun Academic Hall (Stage 03)",
+        "date": "Dec 21, 2026",
+        "time": "11:00 AM",
+        "totalParticipants": 2,
+        "maxParticipants": 24,
+        "assignedJudgeIds": [
+          "JDG-1010",
+          "JDG-1017"
+        ],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Urdu Diction & Pronunciation (Talaffuz)",
+            "maxMarks": 35
+          },
+          {
+            "id": "c2",
+            "name": "Emotional Cadence & Rhythm (Tarannum)",
+            "maxMarks": 35
+          },
+          {
+            "id": "c3",
+            "name": "Thematic Expression & Delivery",
+            "maxMarks": 30
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Focus on purity of Lucknow/Delhi diction and emotional nuance.",
+        "description": "Solo artistic presentation of classical Urdu poetry demonstrating prosodic accuracy and melodic meter.",
+        "rules": "Duration: 5 minutes. Memorization mandatory, no cue cards permitted.",
+        "eligibility": "Junior",
+        "registrationStartDate": "Dec 01, 2026",
+        "registrationCloseDate": "Dec 20, 2026",
+        "status": "Upcoming",
+        "isPublished": false,
+        "publishedAt": null,
+        "participants": [
+          {
+            "studentId": "STU-1005",
+            "chestNo": "C-201",
+            "name": "Muhammed Sinan T.",
+            "teamId": "team-02",
+            "teamName": "Team B"
+          },
+          {
+            "studentId": "STU-1015",
+            "chestNo": "C-602",
+            "name": "Junaid Kuttipuram",
+            "teamId": null,
+            "teamName": "Unassigned"
+          }
+        ]
+      },
+      {
+        "id": "ASG-011",
+        "competitionId": "COMP-ENG-11",
+        "competitionCode": "SPK-SR-205",
+        "competitionTitle": "Extempore English Oratory (SPK-SR-205)",
+        "category": "Public Speaking",
+        "type": "Individual",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "date": "Dec 22, 2026",
+        "time": "11:30 AM",
+        "totalParticipants": 2,
+        "maxParticipants": 20,
+        "assignedJudgeIds": [
+          "JDG-1011",
+          "JDG-1013"
+        ],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Spontaneous Logic & Critical Argumentation",
+            "maxMarks": 35
+          },
+          {
+            "id": "c2",
+            "name": "Rhetorical Eloquence & Lexicon",
+            "maxMarks": 35
+          },
+          {
+            "id": "c3",
+            "name": "Stage Persona & Vocal Authority",
+            "maxMarks": 30
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Topic handed to participant 5 minutes prior to stage entry.",
+        "description": "High-stakes spontaneous speech examining global ethical quandaries and youth intellectual leadership.",
+        "rules": "Preparation: 5 minutes. Speech duration: 4 minutes. Bell rings at 3:30.",
+        "eligibility": "Senior",
+        "registrationStartDate": "Dec 01, 2026",
+        "registrationCloseDate": "Dec 20, 2026",
+        "status": "Upcoming",
+        "isPublished": false,
+        "publishedAt": null,
+        "participants": [
+          {
+            "studentId": "STU-1010",
+            "chestNo": "C-303",
+            "name": "Hafiz Rashid P.",
+            "teamId": "team-03",
+            "teamName": "Team C"
+          },
+          {
+            "studentId": "STU-1012",
+            "chestNo": "C-402",
+            "name": "Sharafudheen T.",
+            "teamId": "team-04",
+            "teamName": "Team D"
+          }
+        ]
+      },
+      {
+        "id": "ASG-012",
+        "competitionId": "COMP-TYP-12",
+        "competitionCode": "ART-GEN-305",
+        "competitionTitle": "Digital Calligraphy & Typographic Art (ART-GEN-305)",
+        "category": "Visual Arts",
+        "type": "Individual",
+        "venue": "Media Studio Preview Room",
+        "date": "Dec 21, 2026",
+        "time": "09:30 AM",
+        "totalParticipants": 1,
+        "maxParticipants": 15,
+        "assignedJudgeIds": [],
+        "evaluationCriteria": [
+          {
+            "id": "c1",
+            "name": "Letterform Proportion & Calligraphic Harmony",
+            "maxMarks": 40
+          },
+          {
+            "id": "c2",
+            "name": "Digital Texture & Vector Innovation",
+            "maxMarks": 35
+          },
+          {
+            "id": "c3",
+            "name": "Interpretation of Nueva Era Theme",
+            "maxMarks": 25
+          }
+        ],
+        "totalMaxMarks": 100,
+        "instructions": "Work must be created on-site using provided graphic workstations. Zero AI prompts permitted.",
+        "description": "On-site digital art competition rendering classical Arabic letterforms with contemporary generative layout principles.",
+        "rules": "Duration: 3 hours. Vector output required in 300 DPI CMYK.",
+        "eligibility": "General",
+        "registrationStartDate": "Dec 01, 2026",
+        "registrationCloseDate": "Dec 20, 2026",
+        "status": "Draft",
+        "isPublished": false,
+        "publishedAt": null,
+        "participants": [
+          {
+            "studentId": "STU-1014",
+            "chestNo": "C-601",
+            "name": "Anas Cherushola",
+            "teamId": null,
+            "teamName": "Unassigned"
+          }
+        ]
+      }
+    ],
+    "submittedEvaluations": [
+      {
+        "id": "EVAL-1001-01",
+        "assignmentId": "ASG-001",
+        "competitionId": "COMP-LIT-01",
+        "judgeId": "JDG-1001",
+        "judgeName": "Dr. Sayyid Munawwar Ali",
+        "submittedAt": "2026-12-21 16:15",
+        "status": "Verified",
+        "statusNote": "Approved by Fest Secretariat",
+        "scores": [
+          {
+            "studentId": "STU-1001",
+            "chestNo": "C-101",
+            "name": "Ahmad Rayan K.",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 29,
+              "c2": 29,
+              "c3": 19,
+              "c4": 19
+            },
+            "total": 96,
+            "remarks": "Superb mastery of classical rhetoric and profound conceptual clarity."
+          },
+          {
+            "studentId": "STU-1005",
+            "chestNo": "C-201",
+            "name": "Muhammed Sinan T.",
+            "teamId": "team-02",
+            "teamName": "Team B",
+            "criteriaMarks": {
+              "c1": 28,
+              "c2": 27,
+              "c3": 18,
+              "c4": 19
+            },
+            "total": 92,
+            "remarks": "Expressive vocabulary and thoughtful argumentation."
+          },
+          {
+            "studentId": "STU-1003",
+            "chestNo": "C-103",
+            "name": "Zayan Kabeer",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 26,
+              "c2": 26,
+              "c3": 18,
+              "c4": 17
+            },
+            "total": 87,
+            "remarks": "Solid narrative with slight grammatical hesitations in conclusion."
+          }
+        ]
+      },
+      {
+        "id": "EVAL-1002-01",
+        "assignmentId": "ASG-001",
+        "competitionId": "COMP-LIT-01",
+        "judgeId": "JDG-1002",
+        "judgeName": "Prof. Abdul Majeed Hudawi",
+        "submittedAt": "2026-12-21 16:30",
+        "status": "Verified",
+        "statusNote": "Approved by Fest Secretariat",
+        "scores": [
+          {
+            "studentId": "STU-1001",
+            "chestNo": "C-101",
+            "name": "Ahmad Rayan K.",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 29,
+              "c2": 30,
+              "c3": 20,
+              "c4": 18
+            },
+            "total": 97,
+            "remarks": "Exquisite Balagha phrasing and profound epistemological grounding."
+          },
+          {
+            "studentId": "STU-1005",
+            "chestNo": "C-201",
+            "name": "Muhammed Sinan T.",
+            "teamId": "team-02",
+            "teamName": "Team B",
+            "criteriaMarks": {
+              "c1": 28,
+              "c2": 28,
+              "c3": 18,
+              "c4": 18
+            },
+            "total": 92,
+            "remarks": "Consistent syntax and rich metaphorical structure."
+          },
+          {
+            "studentId": "STU-1003",
+            "chestNo": "C-103",
+            "name": "Zayan Kabeer",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 27,
+              "c2": 27,
+              "c3": 17,
+              "c4": 19
+            },
+            "total": 90,
+            "remarks": "Commendable effort and thematic alignment."
+          }
+        ]
+      },
+      {
+        "id": "EVAL-1009-01",
+        "assignmentId": "ASG-001",
+        "competitionId": "COMP-LIT-01",
+        "judgeId": "JDG-1009",
+        "judgeName": "Usthad Adil Bukhari",
+        "submittedAt": "2026-12-21 16:40",
+        "status": "Verified",
+        "statusNote": "Approved by Fest Secretariat",
+        "scores": [
+          {
+            "studentId": "STU-1001",
+            "chestNo": "C-101",
+            "name": "Ahmad Rayan K.",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 29,
+              "c2": 29,
+              "c3": 19,
+              "c4": 19
+            },
+            "total": 96,
+            "remarks": "Exemplary essay."
+          },
+          {
+            "studentId": "STU-1005",
+            "chestNo": "C-201",
+            "name": "Muhammed Sinan T.",
+            "teamId": "team-02",
+            "teamName": "Team B",
+            "criteriaMarks": {
+              "c1": 27,
+              "c2": 28,
+              "c3": 19,
+              "c4": 18
+            },
+            "total": 92,
+            "remarks": "Very well constructed."
+          },
+          {
+            "studentId": "STU-1003",
+            "chestNo": "C-103",
+            "name": "Zayan Kabeer",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 26,
+              "c2": 27,
+              "c3": 18,
+              "c4": 17
+            },
+            "total": 88,
+            "remarks": "Good flow."
+          }
+        ]
+      },
+      {
+        "id": "EVAL-1010-01",
+        "assignmentId": "ASG-001",
+        "competitionId": "COMP-LIT-01",
+        "judgeId": "JDG-1010",
+        "judgeName": "Prof. Shihabudheen Thangal",
+        "submittedAt": "2026-12-21 16:45",
+        "status": "Verified",
+        "statusNote": "Approved by Fest Secretariat",
+        "scores": [
+          {
+            "studentId": "STU-1001",
+            "chestNo": "C-101",
+            "name": "Ahmad Rayan K.",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 30,
+              "c2": 29,
+              "c3": 19,
+              "c4": 19
+            },
+            "total": 97,
+            "remarks": "Brilliant stylistic synthesis."
+          },
+          {
+            "studentId": "STU-1005",
+            "chestNo": "C-201",
+            "name": "Muhammed Sinan T.",
+            "teamId": "team-02",
+            "teamName": "Team B",
+            "criteriaMarks": {
+              "c1": 28,
+              "c2": 27,
+              "c3": 18,
+              "c4": 19
+            },
+            "total": 92,
+            "remarks": "Eloquent prose."
+          },
+          {
+            "studentId": "STU-1003",
+            "chestNo": "C-103",
+            "name": "Zayan Kabeer",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 27,
+              "c2": 26,
+              "c3": 18,
+              "c4": 18
+            },
+            "total": 89,
+            "remarks": "Very good."
+          }
+        ]
+      },
+      {
+        "id": "EVAL-1001-02",
+        "assignmentId": "ASG-002",
+        "competitionId": "COMP-SPK-02",
+        "judgeId": "JDG-1001",
+        "judgeName": "Dr. Sayyid Munawwar Ali",
+        "submittedAt": "2026-12-21 17:50",
+        "status": "Under Verification",
+        "statusNote": "Pending final review with Judge Panel",
+        "scores": [
+          {
+            "studentId": "STU-1008",
+            "chestNo": "C-301",
+            "name": "Faris K.",
+            "teamId": "team-03",
+            "teamName": "Team C",
+            "criteriaMarks": {
+              "c1": 34,
+              "c2": 34,
+              "c3": 14,
+              "c4": 15
+            },
+            "total": 97,
+            "remarks": "Thunderous delivery with exceptional intellectual maturity."
+          },
+          {
+            "studentId": "STU-1012",
+            "chestNo": "C-402",
+            "name": "Sharafudheen T.",
+            "teamId": "team-04",
+            "teamName": "Team D",
+            "criteriaMarks": {
+              "c1": 32,
+              "c2": 33,
+              "c3": 13,
+              "c4": 14
+            },
+            "total": 92,
+            "remarks": "Persuasive reasoning and high stage control."
+          },
+          {
+            "studentId": "STU-1004",
+            "chestNo": "C-104",
+            "name": "Adil Munawwar",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 30,
+              "c2": 31,
+              "c3": 13,
+              "c4": 14
+            },
+            "total": 88,
+            "remarks": "Warm and reflective presentation."
+          },
+          {
+            "studentId": "STU-1006",
+            "chestNo": "C-202",
+            "name": "Bilal Rahman",
+            "teamId": "team-02",
+            "teamName": "Team B",
+            "criteriaMarks": {
+              "c1": 29,
+              "c2": 30,
+              "c3": 12,
+              "c4": 14
+            },
+            "total": 85,
+            "remarks": "Good attempt, slight deviation from core prompt."
+          }
+        ]
+      },
+      {
+        "id": "EVAL-1004-02",
+        "assignmentId": "ASG-002",
+        "competitionId": "COMP-SPK-02",
+        "judgeId": "JDG-1004",
+        "judgeName": "Dr. Zubaida Rahman",
+        "submittedAt": "2026-12-21 18:05",
+        "status": "Under Verification",
+        "statusNote": "Submitted, awaiting cross-tabulation",
+        "scores": [
+          {
+            "studentId": "STU-1008",
+            "chestNo": "C-301",
+            "name": "Faris K.",
+            "teamId": "team-03",
+            "teamName": "Team C",
+            "criteriaMarks": {
+              "c1": 33,
+              "c2": 35,
+              "c3": 14,
+              "c4": 15
+            },
+            "total": 97,
+            "remarks": "Incisive dialectic analysis and spotless pronunciation."
+          },
+          {
+            "studentId": "STU-1012",
+            "chestNo": "C-402",
+            "name": "Sharafudheen T.",
+            "teamId": "team-04",
+            "teamName": "Team D",
+            "criteriaMarks": {
+              "c1": 32,
+              "c2": 32,
+              "c3": 14,
+              "c4": 14
+            },
+            "total": 92,
+            "remarks": "Compelling delivery."
+          },
+          {
+            "studentId": "STU-1004",
+            "chestNo": "C-104",
+            "name": "Adil Munawwar",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 31,
+              "c2": 30,
+              "c3": 13,
+              "c4": 15
+            },
+            "total": 89,
+            "remarks": "Eloquent phrasing."
+          },
+          {
+            "studentId": "STU-1006",
+            "chestNo": "C-202",
+            "name": "Bilal Rahman",
+            "teamId": "team-02",
+            "teamName": "Team B",
+            "criteriaMarks": {
+              "c1": 29,
+              "c2": 29,
+              "c3": 13,
+              "c4": 14
+            },
+            "total": 85,
+            "remarks": "Strong potential."
+          }
+        ]
+      },
+      {
+        "id": "EVAL-1011-02",
+        "assignmentId": "ASG-002",
+        "competitionId": "COMP-SPK-02",
+        "judgeId": "JDG-1011",
+        "judgeName": "Usthad Basheer Ahsani",
+        "submittedAt": "2026-12-21 18:10",
+        "status": "Under Verification",
+        "statusNote": "Submitted, awaiting cross-tabulation",
+        "scores": [
+          {
+            "studentId": "STU-1008",
+            "chestNo": "C-301",
+            "name": "Faris K.",
+            "teamId": "team-03",
+            "teamName": "Team C",
+            "criteriaMarks": {
+              "c1": 34,
+              "c2": 34,
+              "c3": 14,
+              "c4": 14
+            },
+            "total": 96,
+            "remarks": "Commanding oratorical style."
+          },
+          {
+            "studentId": "STU-1012",
+            "chestNo": "C-402",
+            "name": "Sharafudheen T.",
+            "teamId": "team-04",
+            "teamName": "Team D",
+            "criteriaMarks": {
+              "c1": 32,
+              "c2": 33,
+              "c3": 13,
+              "c4": 14
+            },
+            "total": 92,
+            "remarks": "Sharp analysis."
+          },
+          {
+            "studentId": "STU-1004",
+            "chestNo": "C-104",
+            "name": "Adil Munawwar",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 30,
+              "c2": 30,
+              "c3": 13,
+              "c4": 14
+            },
+            "total": 87,
+            "remarks": "Good speech."
+          },
+          {
+            "studentId": "STU-1006",
+            "chestNo": "C-202",
+            "name": "Bilal Rahman",
+            "teamId": "team-02",
+            "teamName": "Team B",
+            "criteriaMarks": {
+              "c1": 29,
+              "c2": 30,
+              "c3": 12,
+              "c4": 14
+            },
+            "total": 85,
+            "remarks": "Nice structure."
+          }
+        ]
+      },
+      {
+        "id": "EVAL-1005-03",
+        "assignmentId": "ASG-003",
+        "competitionId": "COMP-ART-03",
+        "judgeId": "JDG-1005",
+        "judgeName": "Usthad Salman Wafy",
+        "submittedAt": "2026-12-22 12:15",
+        "status": "Submitted",
+        "statusNote": "Awaiting 2nd and 3rd judge sheets",
+        "scores": [
+          {
+            "studentId": "STU-1007",
+            "chestNo": "C-203",
+            "name": "Mubarak Ali",
+            "teamId": "team-02",
+            "teamName": "Team B",
+            "criteriaMarks": {
+              "c1": 38,
+              "c2": 29,
+              "c3": 28
+            },
+            "total": 95,
+            "remarks": "Magnificent Thuluth curves and equilibrium."
+          },
+          {
+            "studentId": "STU-1009",
+            "chestNo": "C-302",
+            "name": "Salmanul Faris",
+            "teamId": "team-03",
+            "teamName": "Team C",
+            "criteriaMarks": {
+              "c1": 36,
+              "c2": 28,
+              "c3": 27
+            },
+            "total": 91,
+            "remarks": "Creative Diwani layout with bold ink weight."
+          },
+          {
+            "studentId": "STU-1013",
+            "chestNo": "C-501",
+            "name": "Hashim Basheer",
+            "teamId": "team-05",
+            "teamName": "Team E",
+            "criteriaMarks": {
+              "c1": 34,
+              "c2": 27,
+              "c3": 26
+            },
+            "total": 87,
+            "remarks": "Clean script, borders require higher refinement."
+          }
+        ]
+      },
+      {
+        "id": "EVAL-1003-04",
+        "assignmentId": "ASG-004",
+        "competitionId": "COMP-ISL-04",
+        "judgeId": "JDG-1003",
+        "judgeName": "Usthad Kabeer Faizi",
+        "submittedAt": "2026-12-22 15:30",
+        "status": "Verified",
+        "statusNote": "Approved and published",
+        "scores": [
+          {
+            "studentId": "STU-1002",
+            "chestNo": "C-102",
+            "name": "Hafiz Anas M.",
+            "teamId": "team-01",
+            "teamName": "Team A",
+            "criteriaMarks": {
+              "c1": 39,
+              "c2": 40,
+              "c3": 20
+            },
+            "total": 99,
+            "remarks": "Flawless Hifz, pristine Makharij and poignant Maqam Bayati modulation."
+          },
+          {
+            "studentId": "STU-1010",
+            "chestNo": "C-303",
+            "name": "Hafiz Rashid P.",
+            "teamId": "team-03",
+            "teamName": "Team C",
+            "criteriaMarks": {
+              "c1": 38,
+              "c2": 39,
+              "c3": 19
+            },
+            "total": 96,
+            "remarks": "Virtually flawless recitation with steady breath pacing."
+          },
+          {
+            "studentId": "STU-1011",
+            "chestNo": "C-401",
+            "name": "Nihal Shareef V.",
+            "teamId": "team-04",
+            "teamName": "Team D",
+            "criteriaMarks": {
+              "c1": 36,
+              "c2": 37,
+              "c3": 18
+            },
+            "total": 91,
+            "remarks": "Beautiful timber, single minor hesitation at verse transition."
+          }
+        ]
+      }
+    ],
+    "resultPosters": [
+      {
+        "id": "POS-01",
+        "competitionId": "COMP-LIT-01",
+        "competitionCode": "LIT-JR-102",
+        "competitionTitle": "Junior Arabic Essay (LIT-JR-102)",
+        "category": "Literary Arena",
+        "venue": "Ibn Khaldun Academic Hall (Stage 03)",
+        "date": "Dec 21, 2026",
+        "assignedJudgeIds": [
+          "JDG-1001",
+          "JDG-1002",
+          "JDG-1009",
+          "JDG-1010"
+        ],
+        "publishedAt": "Dec 21, 2026, 05:40 PM",
+        "templateStyle": "editorial_crimson",
+        "status": "Published",
+        "firstPrize": {
+          "name": "Ahmad Rayan K.",
+          "chestNo": "C-101",
+          "teamId": "team-01",
+          "teamName": "Team A",
+          "score": "96.5 / 100",
+          "points": 30
+        },
+        "secondPrize": {
+          "name": "Muhammed Sinan T.",
+          "chestNo": "C-201",
+          "teamId": "team-02",
+          "teamName": "Team B",
+          "score": "92.0 / 100",
+          "points": 20
+        },
+        "thirdPrize": {
+          "name": "Zayan Kabeer",
+          "chestNo": "C-103",
+          "teamId": "team-01",
+          "teamName": "Team A",
+          "score": "88.5 / 100",
+          "points": 10
+        }
+      },
+      {
+        "id": "POS-02",
+        "competitionId": "COMP-ISL-04",
+        "competitionCode": "ISL-JR-401",
+        "competitionTitle": "Hifz Qur’an Recitation (ISL-JR-401)",
+        "category": "Islamic Heritage",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "date": "Dec 22, 2026",
+        "assignedJudgeIds": [
+          "JDG-1002",
+          "JDG-1003",
+          "JDG-1007",
+          "JDG-1014"
+        ],
+        "publishedAt": "Dec 22, 2026, 04:15 PM",
+        "templateStyle": "gold_royal",
+        "status": "Published",
+        "firstPrize": {
+          "name": "Hafiz Anas M.",
+          "chestNo": "C-102",
+          "teamId": "team-01",
+          "teamName": "Team A",
+          "score": "99.0 / 100",
+          "points": 30
+        },
+        "secondPrize": {
+          "name": "Hafiz Rashid P.",
+          "chestNo": "C-303",
+          "teamId": "team-03",
+          "teamName": "Team C",
+          "score": "96.0 / 100",
+          "points": 20
+        },
+        "thirdPrize": {
+          "name": "Nihal Shareef V.",
+          "chestNo": "C-401",
+          "teamId": "team-04",
+          "teamName": "Team D",
+          "score": "91.0 / 100",
+          "points": 10
+        }
+      }
+    ],
+    "notifications": [
+      {
+        "id": "NOTIF-01",
+        "judgeId": "JDG-1001",
+        "recipientName": "Dr. Sayyid Munawwar Ali",
+        "type": "Assignment",
+        "title": "New Programme Assignment",
+        "message": "You have been appointed as Lead Adjudicator for Junior Arabic Essay (LIT-JR-102) and Senior Malayalam Elocution (SPK-SR-201).",
+        "date": "Dec 18, 2026, 10:00 AM",
+        "read": true
+      },
+      {
+        "id": "NOTIF-02",
+        "judgeId": "JDG-1001",
+        "recipientName": "Dr. Sayyid Munawwar Ali",
+        "type": "Publication",
+        "title": "Official Result Poster Published",
+        "message": "Official result poster for Junior Arabic Essay (LIT-JR-102) is now published and ready for download.",
+        "date": "Dec 21, 2026, 05:45 PM",
+        "read": true
+      },
+      {
+        "id": "NOTIF-03",
+        "judgeId": "JDG-1004",
+        "recipientName": "Dr. Zubaida Rahman",
+        "type": "Deadline",
+        "title": "Evaluation Reminder",
+        "message": "Senior Malayalam Elocution marks submission window is closing shortly. Please finalize and submit.",
+        "date": "Dec 21, 2026, 06:15 PM",
+        "read": false
+      },
+      {
+        "id": "NOTIF-04",
+        "judgeId": "JDG-1005",
+        "recipientName": "Usthad Salman Wafy",
+        "type": "Submission",
+        "title": "Marks Received & Stored",
+        "message": "Your marks sheet for Visual Arts: Islamic Calligraphy (ART-SR-301) was received and encrypted.",
+        "date": "Dec 22, 2026, 12:20 PM",
+        "read": false
+      }
+    ],
+    "galleryCategories": [
+      {
+        "id": "GC-INA",
+        "name": "Inauguration",
+        "color": "#A91F35"
+      },
+      {
+        "id": "GC-PRG",
+        "name": "Programmes",
+        "color": "#E6A916"
+      },
+      {
+        "id": "GC-CMP",
+        "name": "Competitions",
+        "color": "#2563EB"
+      },
+      {
+        "id": "GC-GST",
+        "name": "Guests",
+        "color": "#10B981"
+      },
+      {
+        "id": "GC-STG",
+        "name": "Stage Events",
+        "color": "#8B5CF6"
+      },
+      {
+        "id": "GC-PRZ",
+        "name": "Prize Distribution",
+        "color": "#D97706"
+      },
+      {
+        "id": "GC-MOM",
+        "name": "Festival Moments",
+        "color": "#EC4899"
+      },
+      {
+        "id": "GC-BTS",
+        "name": "Behind the Scenes",
+        "color": "#64748B"
+      },
+      {
+        "id": "GC-OTH",
+        "name": "Other",
+        "color": "#78716C"
+      }
+    ],
+    "galleryAlbums": [
+      {
+        "id": "ALB-01",
+        "title": "Grand Inauguration & Ceremonial Conclave",
+        "description": "Ceremonial opening moments, sacred lamp lighting, keynote address by Dr. Sayyid Munawwar Ali, and reception of delegates.",
+        "date": "Dec 21, 2026",
+        "category": "Inauguration",
+        "coverImage": "/assets/models/Dalenzia Fest Nueva Era Hero Banner.png",
+        "displayOrder": 1,
+        "status": "Published",
+        "isArchived": false,
+        "createdAt": "2026-11-18T10:00:00Z",
+        "updatedAt": "2026-11-18T12:00:00Z"
+      },
+      {
+        "id": "ALB-02",
+        "title": "Scholastic Conclaves & Heritage Symposia",
+        "description": "Intellectual symposiums on Classical Texts in Modern Contexts, youth academic forums, and tradition radiating forward.",
+        "date": "Dec 21, 2026",
+        "category": "Programmes",
+        "coverImage": "/assets/hero_3d_stage.png",
+        "displayOrder": 2,
+        "status": "Published",
+        "isArchived": false,
+        "createdAt": "2026-11-18T10:15:00Z",
+        "updatedAt": "2026-11-18T12:15:00Z"
+      },
+      {
+        "id": "ALB-03",
+        "title": "Literary & Fine Arts Arenas",
+        "description": "Junior & Senior Arabic Essay colloquium, Malayalam Elocution grand stage, and extempore speech arenas.",
+        "date": "Dec 21, 2026",
+        "category": "Competitions",
+        "coverImage": "/assets/models/Dalenzia Fest Events & Competitions.png",
+        "displayOrder": 3,
+        "status": "Published",
+        "isArchived": false,
+        "createdAt": "2026-11-18T10:30:00Z",
+        "updatedAt": "2026-11-18T12:30:00Z"
+      },
+      {
+        "id": "ALB-04",
+        "title": "Islamic Calligraphy & Media Showcase",
+        "description": "Classical Thuluth and Diwani calligraphy exhibition, short film screenings, and digital typography gallery.",
+        "date": "Dec 22, 2026",
+        "category": "Stage Events",
+        "coverImage": "/assets/models/Dalenzia Fest 2K26 Gallery Highlights.png",
+        "displayOrder": 4,
+        "status": "Published",
+        "isArchived": false,
+        "createdAt": "2026-11-18T11:00:00Z",
+        "updatedAt": "2026-11-18T13:00:00Z"
+      },
+      {
+        "id": "ALB-05",
+        "title": "Guests of Honour & Dignitary Receptions",
+        "description": "Portraits, felicitations, protocol desk moments, and keynote presentations by revered scholars and dignitaries.",
+        "date": "Dec 21, 2026",
+        "category": "Guests",
+        "coverImage": "/assets/models/Guests of Honour Festival Showcase.png",
+        "displayOrder": 5,
+        "status": "Published",
+        "isArchived": false,
+        "createdAt": "2026-11-18T11:30:00Z",
+        "updatedAt": "2026-11-18T13:30:00Z"
+      },
+      {
+        "id": "ALB-06",
+        "title": "Campus Ambience & Behind The Scenes",
+        "description": "Ayiroor campus festival lighting, student volunteer control desk, registration suites, and candid moments.",
+        "date": "Dec 22, 2026",
+        "category": "Behind the Scenes",
+        "coverImage": "/assets/models/Dalenzia Fest_ A New Era of Ideas.png",
+        "displayOrder": 6,
+        "status": "Published",
+        "isArchived": false,
+        "createdAt": "2026-11-18T12:00:00Z",
+        "updatedAt": "2026-11-18T14:00:00Z"
+      }
+    ],
+    "galleryMedia": [
+      {
+        "id": "MED-01",
+        "title": "Torchbearers of Knowledge: Sacred Lamp Lighting",
+        "type": "photo",
+        "url": "/assets/models/Dalenzia Fest Nueva Era Hero Banner.png",
+        "thumbnailUrl": "/assets/models/Dalenzia Fest Nueva Era Hero Banner.png",
+        "caption": "Dr. Sayyid Munawwar Ali and faculty elders lighting the sacred lamp at Cordova Grand Stage, marking the commencement of Dalenzia 2K26.",
+        "albumId": "ALB-01",
+        "albumTitle": "Grand Inauguration & Ceremonial Conclave",
+        "category": "Inauguration",
+        "date": "Dec 21, 2026",
+        "relatedProgrammeId": "PRG-002",
+        "relatedProgrammeTitle": "Grand Inauguration Ceremony & Lamp Lighting",
+        "relatedCompetitionId": null,
+        "displayOrder": 1,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "3.8 MB",
+        "dimensions": "2172x724",
+        "createdAt": "2026-11-18T10:05:00Z",
+        "updatedAt": "2026-11-18T10:05:00Z"
+      },
+      {
+        "id": "MED-02",
+        "title": "Official Nueva Era Theme Teaser Launch",
+        "type": "video",
+        "url": "/assets/teaser.mp4",
+        "thumbnailUrl": "/assets/models/Dalenzia Fest Nueva Era Hero Banner.png",
+        "caption": "Official cinematic theme teaser projection unveiling the philosophy and visual identity of Nueva Era.",
+        "albumId": "ALB-01",
+        "albumTitle": "Grand Inauguration & Ceremonial Conclave",
+        "category": "Inauguration",
+        "date": "Dec 21, 2026",
+        "relatedProgrammeId": "PRG-002",
+        "relatedProgrammeTitle": "Grand Inauguration Ceremony & Lamp Lighting",
+        "relatedCompetitionId": null,
+        "displayOrder": 2,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "14.2 MB",
+        "dimensions": "1920x1080",
+        "createdAt": "2026-11-18T10:10:00Z",
+        "updatedAt": "2026-11-18T10:10:00Z"
+      },
+      {
+        "id": "MED-03",
+        "title": "Delegates Assembly at Cordova Grand Auditorium",
+        "type": "photo",
+        "url": "/assets/extracted_all/img_146_0_R_1045x600.png",
+        "thumbnailUrl": "/assets/extracted_all/img_146_0_R_1045x600.png",
+        "caption": "Over 2,500 students, scholars, and delegates gathered at Cordova Grand Stage for the presidential inaugural address.",
+        "albumId": "ALB-01",
+        "albumTitle": "Grand Inauguration & Ceremonial Conclave",
+        "category": "Inauguration",
+        "date": "Dec 21, 2026",
+        "relatedProgrammeId": "PRG-001",
+        "relatedProgrammeTitle": "Delegate Reception & Registration Check-in",
+        "relatedCompetitionId": null,
+        "displayOrder": 3,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "2.1 MB",
+        "dimensions": "1045x600",
+        "createdAt": "2026-11-18T10:15:00Z",
+        "updatedAt": "2026-11-18T10:15:00Z"
+      },
+      {
+        "id": "MED-04",
+        "title": "Keynote Conclave: Classical Texts in Modern Contexts",
+        "type": "photo",
+        "url": "/assets/hero_3d_stage.png",
+        "thumbnailUrl": "/assets/hero_3d_stage.png",
+        "caption": "Dr. Ahmed Faris addressing the academic assembly on classical jurisprudence, scientific hermeneutics, and modern ethics at Al-Farabi Hall.",
+        "albumId": "ALB-02",
+        "albumTitle": "Scholastic Conclaves & Heritage Symposia",
+        "category": "Programmes",
+        "date": "Dec 21, 2026",
+        "relatedProgrammeId": "PRG-003",
+        "relatedProgrammeTitle": "Keynote Conclave: Nueva Era & Classical Heritage",
+        "relatedCompetitionId": null,
+        "displayOrder": 1,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "2.9 MB",
+        "dimensions": "1920x1080",
+        "createdAt": "2026-11-18T10:20:00Z",
+        "updatedAt": "2026-11-18T10:20:00Z"
+      },
+      {
+        "id": "MED-05",
+        "title": "Scholastic Dialectic Session Q&A",
+        "type": "photo",
+        "url": "/assets/lamp_books.png",
+        "thumbnailUrl": "/assets/lamp_books.png",
+        "caption": "Interactive discourse between senior researchers and scholars on the harmonization of classical jurisprudence and contemporary logic.",
+        "albumId": "ALB-02",
+        "albumTitle": "Scholastic Conclaves & Heritage Symposia",
+        "category": "Programmes",
+        "date": "Dec 21, 2026",
+        "relatedProgrammeId": "PRG-006",
+        "relatedProgrammeTitle": "Evening Scholastic Assembly: Tradition Radiating Forward",
+        "relatedCompetitionId": null,
+        "displayOrder": 2,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "1.8 MB",
+        "dimensions": "1200x800",
+        "createdAt": "2026-11-18T10:25:00Z",
+        "updatedAt": "2026-11-18T10:25:00Z"
+      },
+      {
+        "id": "MED-06",
+        "title": "Heritage Symposia Highlight Video",
+        "type": "video",
+        "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "thumbnailUrl": "/assets/hero_3d_stage.png",
+        "caption": "Summary video covering key intellectual reflections from the Dalenzia Academic Conclave.",
+        "albumId": "ALB-02",
+        "albumTitle": "Scholastic Conclaves & Heritage Symposia",
+        "category": "Programmes",
+        "date": "Dec 21, 2026",
+        "relatedProgrammeId": "PRG-003",
+        "relatedProgrammeTitle": "Keynote Conclave: Nueva Era & Classical Heritage",
+        "relatedCompetitionId": null,
+        "displayOrder": 3,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "External Stream",
+        "dimensions": "1080p HD",
+        "createdAt": "2026-11-18T10:30:00Z",
+        "updatedAt": "2026-11-18T10:30:00Z"
+      },
+      {
+        "id": "MED-07",
+        "title": "Junior Arabic Essay Colloquium in Session",
+        "type": "photo",
+        "url": "/assets/models/Dalenzia Fest Events & Competitions.png",
+        "thumbnailUrl": "/assets/models/Dalenzia Fest Events & Competitions.png",
+        "caption": "Contestants from 12 competing sectors writing their original theses in Classical Arabic at Ibn Khaldun Academic Hall.",
+        "albumId": "ALB-03",
+        "albumTitle": "Literary & Fine Arts Arenas",
+        "category": "Competitions",
+        "date": "Dec 21, 2026",
+        "relatedProgrammeId": "PRG-004",
+        "relatedProgrammeTitle": "Junior Arabic Essay Colloquium & Finals",
+        "relatedCompetitionId": "COMP-001",
+        "displayOrder": 1,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "2.5 MB",
+        "dimensions": "1600x900",
+        "createdAt": "2026-11-18T10:35:00Z",
+        "updatedAt": "2026-11-18T10:35:00Z"
+      },
+      {
+        "id": "MED-08",
+        "title": "Malayalam Elocution Grand Stage Arena",
+        "type": "photo",
+        "url": "/assets/extracted_all/img_183_0_R_1199x1312.png",
+        "thumbnailUrl": "/assets/extracted_all/img_183_0_R_1199x1312.png",
+        "caption": "Finalist delivering an impassioned oration on humanitarian ethics in the era of artificial intelligence.",
+        "albumId": "ALB-03",
+        "albumTitle": "Literary & Fine Arts Arenas",
+        "category": "Competitions",
+        "date": "Dec 21, 2026",
+        "relatedProgrammeId": "PRG-005",
+        "relatedProgrammeTitle": "Senior Malayalam Elocution Grand Stage",
+        "relatedCompetitionId": "COMP-002",
+        "displayOrder": 2,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "2.2 MB",
+        "dimensions": "1199x1312",
+        "createdAt": "2026-11-18T10:40:00Z",
+        "updatedAt": "2026-11-18T10:40:00Z"
+      },
+      {
+        "id": "MED-09",
+        "title": "Extempore Dialectic Tournament Climax",
+        "type": "photo",
+        "url": "/assets/extracted_all/img_187_0_R_1024x1536.png",
+        "thumbnailUrl": "/assets/extracted_all/img_187_0_R_1024x1536.png",
+        "caption": "High-voltage impromptu debate round adjudicating arguments on educational reform and moral sciences.",
+        "albumId": "ALB-03",
+        "albumTitle": "Literary & Fine Arts Arenas",
+        "category": "Competitions",
+        "date": "Dec 22, 2026",
+        "relatedProgrammeId": "PRG-009",
+        "relatedProgrammeTitle": "Classical Extempore Dialectic Tournament",
+        "relatedCompetitionId": "COMP-005",
+        "displayOrder": 3,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "2.7 MB",
+        "dimensions": "1024x1536",
+        "createdAt": "2026-11-18T10:45:00Z",
+        "updatedAt": "2026-11-18T10:45:00Z"
+      },
+      {
+        "id": "MED-10",
+        "title": "Classical Thuluth Calligraphy Masterpiece Display",
+        "type": "photo",
+        "url": "/assets/models/Dalenzia Fest 2K26 Gallery Highlights.png",
+        "thumbnailUrl": "/assets/models/Dalenzia Fest 2K26 Gallery Highlights.png",
+        "caption": "Exquisite Qur’anic calligraphy rendered in hand-ground ink on archival parchment during the Senior Visual Arts championship.",
+        "albumId": "ALB-04",
+        "albumTitle": "Islamic Calligraphy & Media Showcase",
+        "category": "Stage Events",
+        "date": "Dec 22, 2026",
+        "relatedProgrammeId": "PRG-012",
+        "relatedProgrammeTitle": "Digital Heritage & Calligraphic Design Workshop",
+        "relatedCompetitionId": "COMP-003",
+        "displayOrder": 1,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "3.1 MB",
+        "dimensions": "1920x1080",
+        "createdAt": "2026-11-18T11:05:00Z",
+        "updatedAt": "2026-11-18T11:05:00Z"
+      },
+      {
+        "id": "MED-11",
+        "title": "Live Script Writing Demonstration by Usthad Rashad",
+        "type": "video",
+        "url": "/assets/teaser.mp4",
+        "thumbnailUrl": "/assets/models/Dalenzia Fest 2K26 Gallery Highlights.png",
+        "caption": "Step-by-step masterclass demonstrating reed pen preparation, ink ratio balancing, and letter proportioning in Diwani script.",
+        "albumId": "ALB-04",
+        "albumTitle": "Islamic Calligraphy & Media Showcase",
+        "category": "Stage Events",
+        "date": "Dec 22, 2026",
+        "relatedProgrammeId": "PRG-012",
+        "relatedProgrammeTitle": "Digital Heritage & Calligraphic Design Workshop",
+        "relatedCompetitionId": null,
+        "displayOrder": 2,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "14.2 MB",
+        "dimensions": "1920x1080",
+        "createdAt": "2026-11-18T11:10:00Z",
+        "updatedAt": "2026-11-18T11:10:00Z"
+      },
+      {
+        "id": "MED-12",
+        "title": "Media Studio Preview Room: Student Short Film Jury",
+        "type": "photo",
+        "url": "/assets/extracted_all/img_189_0_R_1774x887.png",
+        "thumbnailUrl": "/assets/extracted_all/img_189_0_R_1774x887.png",
+        "caption": "Jury panel screening creative documentary shorts crafted by student teams on social welfare and cultural legacy.",
+        "albumId": "ALB-04",
+        "albumTitle": "Islamic Calligraphy & Media Showcase",
+        "category": "Stage Events",
+        "date": "Dec 22, 2026",
+        "relatedProgrammeId": "PRG-010",
+        "relatedProgrammeTitle": "Media Curation, Film & Graphic Arts Screening",
+        "relatedCompetitionId": "COMP-004",
+        "displayOrder": 3,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "2.4 MB",
+        "dimensions": "1774x887",
+        "createdAt": "2026-11-18T11:15:00Z",
+        "updatedAt": "2026-11-18T11:15:00Z"
+      },
+      {
+        "id": "MED-13",
+        "title": "Dr. Sayyid Munawwar Ali Keynote Address Portrait",
+        "type": "photo",
+        "url": "/assets/guests/card_ahmed_faris.png",
+        "thumbnailUrl": "/assets/guests/card_ahmed_faris.png",
+        "caption": "Dr. Sayyid Munawwar Ali delivering the presidential inaugural keynote at Dalenzia Fest 2K26.",
+        "albumId": "ALB-05",
+        "albumTitle": "Guests of Honour & Dignitary Receptions",
+        "category": "Guests",
+        "date": "Dec 21, 2026",
+        "relatedProgrammeId": "PRG-002",
+        "relatedProgrammeTitle": "Grand Inauguration Ceremony & Lamp Lighting",
+        "relatedCompetitionId": null,
+        "displayOrder": 1,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "1.4 MB",
+        "dimensions": "600x600",
+        "createdAt": "2026-11-18T11:35:00Z",
+        "updatedAt": "2026-11-18T11:35:00Z"
+      },
+      {
+        "id": "MED-14",
+        "title": "Usthad Muhammed Rashid Conclave Portrait",
+        "type": "photo",
+        "url": "/assets/guests/portrait_muhammed_rashid.png",
+        "thumbnailUrl": "/assets/guests/portrait_muhammed_rashid.png",
+        "caption": "Usthad Muhammed Rashid presiding over the academic assembly and conferring felicitation honors.",
+        "albumId": "ALB-05",
+        "albumTitle": "Guests of Honour & Dignitary Receptions",
+        "category": "Guests",
+        "date": "Dec 21, 2026",
+        "relatedProgrammeId": "PRG-006",
+        "relatedProgrammeTitle": "Evening Scholastic Assembly: Tradition Radiating Forward",
+        "relatedCompetitionId": null,
+        "displayOrder": 2,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "1.2 MB",
+        "dimensions": "600x600",
+        "createdAt": "2026-11-18T11:40:00Z",
+        "updatedAt": "2026-11-18T11:40:00Z"
+      },
+      {
+        "id": "MED-15",
+        "title": "Dr. Ahmed Faris Academic Keynote Portrait",
+        "type": "photo",
+        "url": "/assets/guests/portrait_ahmed_faris.png",
+        "thumbnailUrl": "/assets/guests/portrait_ahmed_faris.png",
+        "caption": "Dr. Ahmed Faris addressing scholars at the Heritage Conclave on the evolution of classical jurisprudence.",
+        "albumId": "ALB-05",
+        "albumTitle": "Guests of Honour & Dignitary Receptions",
+        "category": "Guests",
+        "date": "Dec 21, 2026",
+        "relatedProgrammeId": "PRG-003",
+        "relatedProgrammeTitle": "Keynote Conclave: Nueva Era & Classical Heritage",
+        "relatedCompetitionId": null,
+        "displayOrder": 3,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "1.3 MB",
+        "dimensions": "600x600",
+        "createdAt": "2026-11-18T11:45:00Z",
+        "updatedAt": "2026-11-18T11:45:00Z"
+      },
+      {
+        "id": "MED-16",
+        "title": "Ayiroor Campus Night Illumination & Arch Portal",
+        "type": "photo",
+        "url": "/assets/models/Dalenzia Fest_ A New Era of Ideas.png",
+        "thumbnailUrl": "/assets/models/Dalenzia Fest_ A New Era of Ideas.png",
+        "caption": "Spectacular decorative illumination of the main arch portal welcoming visitors and delegations to Dalenzia Fest 2K26.",
+        "albumId": "ALB-06",
+        "albumTitle": "Campus Ambience & Behind The Scenes",
+        "category": "Behind the Scenes",
+        "date": "Dec 22, 2026",
+        "relatedProgrammeId": null,
+        "relatedProgrammeTitle": null,
+        "relatedCompetitionId": null,
+        "displayOrder": 1,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "3.4 MB",
+        "dimensions": "1920x1080",
+        "createdAt": "2026-11-18T12:05:00Z",
+        "updatedAt": "2026-11-18T12:05:00Z"
+      },
+      {
+        "id": "MED-17",
+        "title": "Volunteer Secretariat & Protocol Operations Desk",
+        "type": "photo",
+        "url": "/assets/models/Dalenzia Nueva Era Festival Storyboard.png",
+        "thumbnailUrl": "/assets/models/Dalenzia Nueva Era Festival Storyboard.png",
+        "caption": "Central student coordination desk orchestrating stage logistics, timekeeper sync, and guest hospitality.",
+        "albumId": "ALB-06",
+        "albumTitle": "Campus Ambience & Behind The Scenes",
+        "category": "Behind the Scenes",
+        "date": "Dec 22, 2026",
+        "relatedProgrammeId": "PRG-001",
+        "relatedProgrammeTitle": "Delegate Reception & Registration Check-in",
+        "relatedCompetitionId": null,
+        "displayOrder": 2,
+        "status": "Published",
+        "isArchived": false,
+        "fileSize": "3.6 MB",
+        "dimensions": "1920x1080",
+        "createdAt": "2026-11-18T12:10:00Z",
+        "updatedAt": "2026-11-18T12:10:00Z"
+      },
+      {
+        "id": "MED-18",
+        "title": "Digital Scoreboard & Master Dashboard Operations Desk",
+        "type": "photo",
+        "url": "/assets/models/Dalenzia Fest Team Management Dashboard.png",
+        "thumbnailUrl": "/assets/models/Dalenzia Fest Team Management Dashboard.png",
+        "caption": "Control centre personnel verifying judge marksheets, executing double-entry verification, and streaming live standings.",
+        "albumId": "ALB-06",
+        "albumTitle": "Campus Ambience & Behind The Scenes",
+        "category": "Behind the Scenes",
+        "date": "Dec 22, 2026",
+        "relatedProgrammeId": null,
+        "relatedProgrammeTitle": null,
+        "relatedCompetitionId": null,
+        "displayOrder": 3,
+        "status": "Draft",
+        "isArchived": false,
+        "fileSize": "2.8 MB",
+        "dimensions": "1672x960",
+        "createdAt": "2026-11-18T12:15:00Z",
+        "updatedAt": "2026-11-18T12:15:00Z"
+      }
+    ],
+    "posterCategories": [
+      {
+        "id": "CAT-MAIN",
+        "name": "Festival Main Posters",
+        "color": "#A91F35",
+        "description": "Flagship theme releases, brand launches, and key festival identities"
+      },
+      {
+        "id": "CAT-PRG",
+        "name": "Programme Posters",
+        "color": "#E6A916",
+        "description": "Posters and flyers dedicated to major ceremonies, conclaves, and scholastic symposia"
+      },
+      {
+        "id": "CAT-CMP",
+        "name": "Competition Posters",
+        "color": "#2563EB",
+        "description": "Competition callouts, guidelines, and literary/art arena promo sheets"
+      },
+      {
+        "id": "CAT-RES",
+        "name": "Result Posters",
+        "color": "#10B981",
+        "description": "Official verified winner proclamations, score sheets, and podium declarations"
+      },
+      {
+        "id": "CAT-GST",
+        "name": "Guest Posters",
+        "color": "#8B5CF6",
+        "description": "Dignitary welcomes, scholar profile cards, and key speaker salutations"
+      },
+      {
+        "id": "CAT-ANN",
+        "name": "Announcement Posters",
+        "color": "#D97706",
+        "description": "Secretariat notices, schedule adjustments, and urgent circulars"
+      },
+      {
+        "id": "CAT-SPE",
+        "name": "Special Day Posters",
+        "color": "#EC4899",
+        "description": "Milad celebrations, historic memorial graphics, and festival day greetings"
+      },
+      {
+        "id": "CAT-OTH",
+        "name": "Other Posters",
+        "color": "#64748B",
+        "description": "Campus maps, signage, volunteer recognitions, and miscellaneous artwork"
+      }
+    ],
+    "posters": [
+      {
+        "id": "POSTER-01",
+        "title": "Dalenzia Fest 2K26 Official Main Theme Poster (Nueva Era)",
+        "shortDescription": "The official visual embodiment of the Nueva Era theme celebrating tradition, scholastic heritage, and cultural renaissance.",
+        "category": "Festival Main Posters",
+        "fileUrl": "/assets/main_poster.jpg",
+        "fileName": "dalenzia_official_main_poster_2k26.jpg",
+        "fileSize": "12.4 MB",
+        "fileType": "image/jpeg",
+        "dimensions": "A3 (3508 x 4960 px)",
+        "relatedProgrammeId": "PRG-002",
+        "relatedProgrammeTitle": "Grand Inauguration Ceremony & Lamp Lighting",
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "relatedResultId": null,
+        "displayOrder": 1,
+        "status": "Published",
+        "isArchived": false,
+        "rejectionReason": null,
+        "downloadsCount": 342,
+        "viewsCount": 1890,
+        "tags": [
+          "Official",
+          "Theme",
+          "Nueva Era",
+          "Main"
+        ],
+        "createdAt": "2026-12-10T10:00:00Z",
+        "createdDate": "Dec 10, 2026",
+        "updatedAt": "2026-12-10T10:00:00Z",
+        "approvalHistory": [
+          {
+            "status": "Draft",
+            "changedBy": "Design Bureau",
+            "changedAt": "2026-12-08T09:00:00Z",
+            "reason": "Initial draft upload"
+          },
+          {
+            "status": "Approved",
+            "changedBy": "Fest Controller",
+            "changedAt": "2026-12-09T14:30:00Z",
+            "reason": "Approved by steering committee"
+          },
+          {
+            "status": "Published",
+            "changedBy": "Super Admin",
+            "changedAt": "2026-12-10T10:00:00Z",
+            "reason": "Published to public portal"
+          }
+        ]
+      },
+      {
+        "id": "POSTER-02",
+        "title": "Junior Arabic Essay Championship Official Poster",
+        "shortDescription": "Call for entries and rubric guidelines for the Junior Arabic Essay championship at Ibn Khaldun Academic Hall.",
+        "category": "Competition Posters",
+        "fileUrl": "/assets/events/comp_arabic_essay.png",
+        "fileName": "comp_junior_arabic_essay.png",
+        "fileSize": "3.8 MB",
+        "fileType": "image/png",
+        "dimensions": "1080 x 1350 px (4:5)",
+        "relatedProgrammeId": "PRG-005",
+        "relatedProgrammeTitle": "Literary & Linguistic Competitions Round 1",
+        "relatedCompetitionId": "COMP-LIT-01",
+        "relatedCompetitionTitle": "Junior Arabic Essay (LIT-JR-102)",
+        "relatedResultId": null,
+        "displayOrder": 2,
+        "status": "Published",
+        "isArchived": false,
+        "rejectionReason": null,
+        "downloadsCount": 185,
+        "viewsCount": 920,
+        "tags": [
+          "Competition",
+          "Arabic",
+          "Literary",
+          "Junior"
+        ],
+        "createdAt": "2026-12-12T11:00:00Z",
+        "createdDate": "Dec 12, 2026",
+        "updatedAt": "2026-12-12T11:00:00Z",
+        "approvalHistory": [
+          {
+            "status": "Draft",
+            "changedBy": "Literary Guild",
+            "changedAt": "2026-12-11T10:00:00Z"
+          },
+          {
+            "status": "Published",
+            "changedBy": "Super Admin",
+            "changedAt": "2026-12-12T11:00:00Z"
+          }
+        ]
+      },
+      {
+        "id": "POSTER-03",
+        "title": "Grand Inauguration Ceremony & Cultural Assembly",
+        "shortDescription": "Ceremonial opening convocations, keynote declarations, and presence of distinguished patrons at Cordova Grand Stage.",
+        "category": "Programme Posters",
+        "fileUrl": "/assets/models/Dalenzia Fest Nueva Era Hero Banner.png",
+        "fileName": "prg_grand_inauguration_banner.png",
+        "fileSize": "8.2 MB",
+        "fileType": "image/png",
+        "dimensions": "1920 x 1080 px (16:9)",
+        "relatedProgrammeId": "PRG-002",
+        "relatedProgrammeTitle": "Grand Inauguration Ceremony & Lamp Lighting",
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "relatedResultId": null,
+        "displayOrder": 3,
+        "status": "Published",
+        "isArchived": false,
+        "rejectionReason": null,
+        "downloadsCount": 240,
+        "viewsCount": 1450,
+        "tags": [
+          "Inauguration",
+          "Ceremony",
+          "Keynote",
+          "Grand Stage"
+        ],
+        "createdAt": "2026-12-14T09:00:00Z",
+        "createdDate": "Dec 14, 2026",
+        "updatedAt": "2026-12-14T09:00:00Z",
+        "approvalHistory": [
+          {
+            "status": "Published",
+            "changedBy": "Super Admin",
+            "changedAt": "2026-12-14T09:00:00Z"
+          }
+        ]
+      },
+      {
+        "id": "POSTER-04",
+        "title": "Dignitary Salutation: Dr. Sayyid Munawwar Ali Shihab Thangal",
+        "shortDescription": "Institutional welcome and academic tribute to Chief Patron Dr. Sayyid Munawwar Ali for the inaugural conclave.",
+        "category": "Guest Posters",
+        "fileUrl": "/assets/guests/card_ahmed_faris.png",
+        "fileName": "guest_sayyid_munawwar_ali.png",
+        "fileSize": "4.1 MB",
+        "fileType": "image/png",
+        "dimensions": "1080 x 1350 px (4:5)",
+        "relatedProgrammeId": "PRG-002",
+        "relatedProgrammeTitle": "Grand Inauguration Ceremony & Lamp Lighting",
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "relatedResultId": null,
+        "displayOrder": 4,
+        "status": "Published",
+        "isArchived": false,
+        "rejectionReason": null,
+        "downloadsCount": 310,
+        "viewsCount": 1680,
+        "tags": [
+          "Guest",
+          "Dignitary",
+          "Scholar",
+          "Welcome"
+        ],
+        "createdAt": "2026-12-15T14:00:00Z",
+        "createdDate": "Dec 15, 2026",
+        "updatedAt": "2026-12-15T14:00:00Z",
+        "approvalHistory": [
+          {
+            "status": "Published",
+            "changedBy": "Super Admin",
+            "changedAt": "2026-12-15T14:00:00Z"
+          }
+        ]
+      },
+      {
+        "id": "POSTER-05",
+        "title": "Junior Arabic Essay Result Declaration & Honors Folio",
+        "shortDescription": "Official verified honors folio proclaiming 1st, 2nd and 3rd prize winners in the Junior Arabic Essay championship.",
+        "category": "Result Posters",
+        "fileUrl": "/assets/results/results_hero_stage.png",
+        "fileName": "result_junior_arabic_essay.png",
+        "fileSize": "5.6 MB",
+        "fileType": "image/png",
+        "dimensions": "1080 x 1350 px (4:5)",
+        "relatedProgrammeId": "PRG-005",
+        "relatedProgrammeTitle": "Literary & Linguistic Competitions Round 1",
+        "relatedCompetitionId": "COMP-LIT-01",
+        "relatedCompetitionTitle": "Junior Arabic Essay (LIT-JR-102)",
+        "relatedResultId": "POS-01",
+        "displayOrder": 5,
+        "status": "Published",
+        "isArchived": false,
+        "rejectionReason": null,
+        "downloadsCount": 420,
+        "viewsCount": 2150,
+        "tags": [
+          "Result",
+          "Winners",
+          "Arabic Essay",
+          "Honors"
+        ],
+        "createdAt": "2026-12-21T17:40:00Z",
+        "createdDate": "Dec 21, 2026",
+        "updatedAt": "2026-12-21T17:40:00Z",
+        "approvalHistory": [
+          {
+            "status": "Published",
+            "changedBy": "Super Admin",
+            "changedAt": "2026-12-21T17:40:00Z",
+            "reason": "Verified judge marksheets certified"
+          }
+        ]
+      },
+      {
+        "id": "POSTER-06",
+        "title": "Classical Thuluth Calligraphy Grand Exhibition Poster",
+        "shortDescription": "Exhibition and competitive display of classical Arabic calligraphy manuscripts, pens, and illumination folios.",
+        "category": "Competition Posters",
+        "fileUrl": "/assets/events/comp_poster_design.png",
+        "fileName": "comp_calligraphy_exhibition.png",
+        "fileSize": "6.4 MB",
+        "fileType": "image/png",
+        "dimensions": "1080 x 1350 px (4:5)",
+        "relatedProgrammeId": "PRG-012",
+        "relatedProgrammeTitle": "Digital Heritage & Calligraphic Design Workshop",
+        "relatedCompetitionId": "COMP-ART-02",
+        "relatedCompetitionTitle": "Visual Arts: Islamic Calligraphy (ART-SR-301)",
+        "relatedResultId": null,
+        "displayOrder": 6,
+        "status": "Published",
+        "isArchived": false,
+        "rejectionReason": null,
+        "downloadsCount": 145,
+        "viewsCount": 780,
+        "tags": [
+          "Calligraphy",
+          "Exhibition",
+          "Art",
+          "Thuluth"
+        ],
+        "createdAt": "2026-12-16T12:00:00Z",
+        "createdDate": "Dec 16, 2026",
+        "updatedAt": "2026-12-16T12:00:00Z",
+        "approvalHistory": [
+          {
+            "status": "Published",
+            "changedBy": "Super Admin",
+            "changedAt": "2026-12-16T12:00:00Z"
+          }
+        ]
+      },
+      {
+        "id": "POSTER-07",
+        "title": "Academic Conclave: Classical Arabic Philology in Modern Era",
+        "shortDescription": "Symposium banner for keynote addresses on classical Arabic texts, linguistic developments, and contemporary scholarship.",
+        "category": "Programme Posters",
+        "fileUrl": "/assets/models/Dalenzia Fest_ A New Era of Ideas.png",
+        "fileName": "prg_academic_conclave_philology.png",
+        "fileSize": "7.1 MB",
+        "fileType": "image/png",
+        "dimensions": "1920 x 1080 px (16:9)",
+        "relatedProgrammeId": "PRG-003",
+        "relatedProgrammeTitle": "Keynote Conclave: Nueva Era & Classical Heritage",
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "relatedResultId": null,
+        "displayOrder": 7,
+        "status": "Published",
+        "isArchived": false,
+        "rejectionReason": null,
+        "downloadsCount": 198,
+        "viewsCount": 1120,
+        "tags": [
+          "Philology",
+          "Symposium",
+          "Scholarship",
+          "Arabic"
+        ],
+        "createdAt": "2026-12-17T15:00:00Z",
+        "createdDate": "Dec 17, 2026",
+        "updatedAt": "2026-12-17T15:00:00Z",
+        "approvalHistory": [
+          {
+            "status": "Published",
+            "changedBy": "Super Admin",
+            "changedAt": "2026-12-17T15:00:00Z"
+          }
+        ]
+      },
+      {
+        "id": "POSTER-08",
+        "title": "Urgent Secretariat Circular: Team Badge Re-Verification Notice",
+        "shortDescription": "Official administrative instructions regarding chest number validation and team registration confirmation.",
+        "category": "Announcement Posters",
+        "fileUrl": "/assets/admin/admin_hero_banner.png",
+        "fileName": "notice_team_badge_verification.png",
+        "fileSize": "2.1 MB",
+        "fileType": "image/png",
+        "dimensions": "A4 Portrait",
+        "relatedProgrammeId": null,
+        "relatedProgrammeTitle": null,
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "relatedResultId": null,
+        "displayOrder": 8,
+        "status": "Draft",
+        "isArchived": false,
+        "rejectionReason": null,
+        "downloadsCount": 0,
+        "viewsCount": 12,
+        "tags": [
+          "Notice",
+          "Secretariat",
+          "Badges",
+          "Internal"
+        ],
+        "createdAt": "2026-12-18T10:30:00Z",
+        "createdDate": "Dec 18, 2026",
+        "updatedAt": "2026-12-18T10:30:00Z",
+        "approvalHistory": [
+          {
+            "status": "Draft",
+            "changedBy": "Secretariat Admin",
+            "changedAt": "2026-12-18T10:30:00Z",
+            "reason": "Drafting announcement"
+          }
+        ]
+      },
+      {
+        "id": "POSTER-09",
+        "title": "Milad Commemorative Salawat Assembly Special Poster",
+        "shortDescription": "Spiritual assembly poster with recitation schedules, devotional poetry sessions, and blessed remembrance itinerary.",
+        "category": "Special Day Posters",
+        "fileUrl": "/assets/schedule/schedule_hero_stage.png",
+        "fileName": "special_milad_assembly_poster.png",
+        "fileSize": "4.5 MB",
+        "fileType": "image/png",
+        "dimensions": "1080 x 1350 px (4:5)",
+        "relatedProgrammeId": "PRG-006",
+        "relatedProgrammeTitle": "Evening Scholastic Assembly: Tradition Radiating Forward",
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "relatedResultId": null,
+        "displayOrder": 9,
+        "status": "Pending Approval",
+        "isArchived": false,
+        "rejectionReason": null,
+        "downloadsCount": 0,
+        "viewsCount": 34,
+        "tags": [
+          "Milad",
+          "Spiritual",
+          "Assembly",
+          "Special"
+        ],
+        "createdAt": "2026-12-19T16:00:00Z",
+        "createdDate": "Dec 19, 2026",
+        "updatedAt": "2026-12-19T16:00:00Z",
+        "approvalHistory": [
+          {
+            "status": "Draft",
+            "changedBy": "Cultural Committee",
+            "changedAt": "2026-12-19T11:00:00Z"
+          },
+          {
+            "status": "Pending Approval",
+            "changedBy": "Cultural Lead",
+            "changedAt": "2026-12-19T16:00:00Z",
+            "reason": "Submitted for Admin verification"
+          }
+        ]
+      },
+      {
+        "id": "POSTER-10",
+        "title": "Grand Valedictory Conclave & Championship Award Ceremony",
+        "shortDescription": "Official ceremony poster for the grand finale, rolling trophy presentation, and closing festival benediction.",
+        "category": "Programme Posters",
+        "fileUrl": "/assets/models/Dalenzia Nueva Era Festival Storyboard.png",
+        "fileName": "prg_valedictory_grand_finale.png",
+        "fileSize": "9.3 MB",
+        "fileType": "image/png",
+        "dimensions": "1920 x 1080 px (16:9)",
+        "relatedProgrammeId": "PRG-011",
+        "relatedProgrammeTitle": "Grand Valedictory Conclave & Championship Award",
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "relatedResultId": null,
+        "displayOrder": 10,
+        "status": "Published",
+        "isArchived": false,
+        "rejectionReason": null,
+        "downloadsCount": 275,
+        "viewsCount": 1510,
+        "tags": [
+          "Valedictory",
+          "Trophy",
+          "Awards",
+          "Finale"
+        ],
+        "createdAt": "2026-12-20T11:00:00Z",
+        "createdDate": "Dec 20, 2026",
+        "updatedAt": "2026-12-20T11:00:00Z",
+        "approvalHistory": [
+          {
+            "status": "Published",
+            "changedBy": "Super Admin",
+            "changedAt": "2026-12-20T11:00:00Z"
+          }
+        ]
+      }
+    ],
+    "posterTemplates": [
+      {
+        "id": "TMPL-01",
+        "name": "Official Result Announcement Master Template (Gold Royal)",
+        "category": "Result Posters",
+        "previewUrl": "/assets/models/Dalenzia Fest Results Leaderboard.png",
+        "originalFileUrl": "/assets/models/Dalenzia Fest Results Leaderboard.png",
+        "originalFileName": "dalenzia_result_template_gold.psd",
+        "description": "Layered Adobe Photoshop (.PSD) master file with vector typography, podium rankings, gold foil effects, and chest number smart objects.",
+        "dimensions": "1080 x 1350 px (4:5 Portrait)",
+        "softwareFormat": "Adobe Photoshop (.PSD)",
+        "fileSize": "18.4 MB",
+        "status": "Active",
+        "isArchived": false,
+        "downloadsCount": 88,
+        "createdAt": "2026-12-05T10:00:00Z",
+        "updatedAt": "2026-12-05T10:00:00Z"
+      },
+      {
+        "id": "TMPL-02",
+        "name": "Programme Schedule & Stage Schedule Flyer (Crimson Edition)",
+        "category": "Programme Posters",
+        "previewUrl": "/assets/models/Dalenzia Fest 2K26 Programme Schedule.png",
+        "originalFileUrl": "/assets/models/Dalenzia Fest 2K26 Programme Schedule.png",
+        "originalFileName": "dalenzia_programme_flyer_crimson.ai",
+        "description": "Adobe Illustrator (.AI) vector layout engineered for daily timeline sheets, speaker tags, multi-venue grids, and mobile story format.",
+        "dimensions": "1080 x 1920 px (9:16 Story)",
+        "softwareFormat": "Adobe Illustrator (.AI)",
+        "fileSize": "24.2 MB",
+        "status": "Active",
+        "isArchived": false,
+        "downloadsCount": 65,
+        "createdAt": "2026-12-06T11:00:00Z",
+        "updatedAt": "2026-12-06T11:00:00Z"
+      },
+      {
+        "id": "TMPL-03",
+        "name": "Guest of Honour Salutation & Welcome Banner",
+        "category": "Guest Posters",
+        "previewUrl": "/assets/models/Guests of Honour Festival Showcase.png",
+        "originalFileUrl": "/assets/models/Guests of Honour Festival Showcase.png",
+        "originalFileName": "dalenzia_guest_salutation_master.psd",
+        "description": "High-resolution wide banner template for dignitary welcomes, Islamic arch filigree, scholar designation blocks, and stage backdrop prints.",
+        "dimensions": "1920 x 1080 px (16:9 Landscape)",
+        "softwareFormat": "Adobe Photoshop (.PSD)",
+        "fileSize": "32.0 MB",
+        "status": "Active",
+        "isArchived": false,
+        "downloadsCount": 54,
+        "createdAt": "2026-12-07T12:00:00Z",
+        "updatedAt": "2026-12-07T12:00:00Z"
+      },
+      {
+        "id": "TMPL-04",
+        "name": "Competition Winner Badge & Social Media Story Card",
+        "category": "Competition Posters",
+        "previewUrl": "/assets/models/Dalenzia Fest Events & Competitions.png",
+        "originalFileUrl": "/assets/models/Dalenzia Fest Events & Competitions.png",
+        "originalFileName": "dalenzia_winner_social_pack.fig",
+        "description": "Figma design system bundle with auto-layout variants for individual and team prize declarations, chest badges, and Instagram story frames.",
+        "dimensions": "1080 x 1920 px (9:16)",
+        "softwareFormat": "Figma Component (.FIG)",
+        "fileSize": "12.8 MB",
+        "status": "Active",
+        "isArchived": false,
+        "downloadsCount": 92,
+        "createdAt": "2026-12-08T14:00:00Z",
+        "updatedAt": "2026-12-08T14:00:00Z"
+      },
+      {
+        "id": "TMPL-05",
+        "name": "Official Festival Secretariat Letterhead & Circular Template",
+        "category": "Announcement Posters",
+        "previewUrl": "/assets/banner_full.png",
+        "originalFileUrl": "/assets/banner_full.png",
+        "originalFileName": "dalenzia_official_circular_master.pdf",
+        "description": "Print-ready institutional document template with Ayiroor campus header, registration watermark, secretary sign-off box, and seal markers.",
+        "dimensions": "A4 (210 x 297 mm)",
+        "softwareFormat": "Print PDF / Word",
+        "fileSize": "4.2 MB",
+        "status": "Active",
+        "isArchived": false,
+        "downloadsCount": 110,
+        "createdAt": "2026-12-09T16:00:00Z",
+        "updatedAt": "2026-12-09T16:00:00Z"
+      }
+    ],
+    "announcementCategories": [
+      {
+        "id": "CAT-ANN-GEN",
+        "name": "General Announcement",
+        "color": "#64748B",
+        "description": "General notices, campus directives, and routine festival information"
+      },
+      {
+        "id": "CAT-ANN-IMP",
+        "name": "Important Notice",
+        "color": "#E6A916",
+        "description": "Critical briefings, advisory bulletins, and regulatory instructions"
+      },
+      {
+        "id": "CAT-ANN-CMP",
+        "name": "Competition Update",
+        "color": "#2563EB",
+        "description": "Competition calls, venue shifts, rubric revisions, and participant notices"
+      },
+      {
+        "id": "CAT-ANN-PRG",
+        "name": "Programme Update",
+        "color": "#8B5CF6",
+        "description": "Ceremony schedules, session agendas, and guest arrival notifications"
+      },
+      {
+        "id": "CAT-ANN-SCH",
+        "name": "Schedule Change",
+        "color": "#D97706",
+        "description": "Timeline calibrations, slot extensions, and stage adjustments"
+      },
+      {
+        "id": "CAT-ANN-REG",
+        "name": "Registration Notice",
+        "color": "#10B981",
+        "description": "Chest number confirmations, badge check-ins, and squad rosters"
+      },
+      {
+        "id": "CAT-ANN-RES",
+        "name": "Result Announcement",
+        "color": "#A91F35",
+        "description": "Podium honors declarations, verified score sheets, and point standings"
+      },
+      {
+        "id": "CAT-ANN-EMG",
+        "name": "Emergency Notice",
+        "color": "#DC2626",
+        "description": "Urgent security, weather, logistics, or medical secretariat broadcasts"
+      }
+    ],
+    "announcements": [
+      {
+        "id": "ANN-01",
+        "title": "Grand Inaugural Assembly & Delegate Check-In Guidelines",
+        "summary": "All participating institution delegations, faculty advisors, and team captains must complete physical badge verification at Cordova Welcome Gate by 08:30 AM.",
+        "content": "The Festival Secretariat cordially announces that the ceremonial registration desk at the Cordova Grand Reception Lobby will open promptly at 07:30 AM on Monday, December 21, 2026.\n\nAll 12 institution contingents must present their official authorization letters and digital QR registration confirmations. Student identity credentials and chest badges will be issued simultaneously. Breakfast and delegate welcome refreshments will be served at the Ibn Battuta Dining Pavilion from 08:00 AM.",
+        "category": "Programme Update",
+        "targetAudience": "Everyone",
+        "relatedProgrammeId": "PRG-001",
+        "relatedProgrammeTitle": "Delegate Reception & Registration Check-in",
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "priority": "Urgent",
+        "status": "Published",
+        "publishDate": "Dec 20, 2026",
+        "publishTime": "09:00 AM",
+        "publishTimestamp": "2026-12-20T03:30:00.000Z",
+        "expiryDate": "Dec 22, 2026",
+        "expiryTime": "11:59 PM",
+        "expiryTimestamp": "2026-12-22T18:29:00.000Z",
+        "featuredImageUrl": "/assets/models/Dalenzia Fest Nueva Era Hero Banner.png",
+        "attachmentUrl": "/assets/banner_full.png",
+        "attachmentName": "delegate_checkin_handbook.pdf",
+        "attachmentSize": "2.4 MB",
+        "viewsCount": 1420,
+        "isPinned": true,
+        "isArchived": false,
+        "author": "Festival Secretariat",
+        "createdAt": "2026-12-20T03:30:00.000Z",
+        "updatedAt": "2026-12-20T03:30:00.000Z"
+      },
+      {
+        "id": "ANN-02",
+        "title": "Official Judge Briefing & Encryption Protocol Conclave",
+        "summary": "Mandatory briefing for all 18 appointed academic judges in the Senate Chamber regarding double-entry verification and encrypted PIN rubrics.",
+        "content": "A mandatory technical orientation session for all appointed Adjudicators across Literary, Public Speaking, Fine Arts, and Islamic Heritage panels will be convened at 09:30 AM in the Senate Adjudication Chambers.\n\nPresided over by Chief Adjudicator Dr. Sayyid Munawwar Ali, the session will review the 4-tier rubric evaluation mechanism, double-entry verification checks, and the digital Judge Portal PIN cryptographic locking system.",
+        "category": "Important Notice",
+        "targetAudience": "Judges",
+        "relatedProgrammeId": "PRG-002",
+        "relatedProgrammeTitle": "Grand Inauguration Ceremony & Lamp Lighting",
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "priority": "Urgent",
+        "status": "Published",
+        "publishDate": "Dec 20, 2026",
+        "publishTime": "02:00 PM",
+        "publishTimestamp": "2026-12-20T08:30:00.000Z",
+        "expiryDate": "Dec 22, 2026",
+        "expiryTime": "06:00 PM",
+        "expiryTimestamp": "2026-12-22T12:30:00.000Z",
+        "featuredImageUrl": "/assets/guests/portrait_ahmed_faris.png",
+        "attachmentUrl": "/assets/banner_full.png",
+        "attachmentName": "judge_adjudication_rubric_handbook.pdf",
+        "attachmentSize": "1.8 MB",
+        "viewsCount": 284,
+        "isPinned": true,
+        "isArchived": false,
+        "author": "Academic Board",
+        "createdAt": "2026-12-20T08:30:00.000Z",
+        "updatedAt": "2026-12-20T08:30:00.000Z"
+      },
+      {
+        "id": "ANN-03",
+        "title": "Team Captains Protocol & Chest Number Verification Desk",
+        "summary": "Secretariat announcement for all 12 registered Team Leaders regarding candidate substitutions, timekeeper synchronization, and appeal procedures.",
+        "content": "All official Team Captains and Faculty Mentors are hereby instructed to attend the Captains Advisory Council at 11:00 AM in the Secretariat Conference Room.\n\nStrict adherence to participant chest numbers (C-101 through C-424) is mandatory. Any formal replacement request must be submitted with written endorsement before the 12:00 PM deadline. Uncertified substitutions will incur automatic disqualification.",
+        "category": "Registration Notice",
+        "targetAudience": "Team Leaders",
+        "relatedProgrammeId": null,
+        "relatedProgrammeTitle": null,
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "priority": "Important",
+        "status": "Published",
+        "publishDate": "Dec 20, 2026",
+        "publishTime": "04:30 PM",
+        "publishTimestamp": "2026-12-20T11:00:00.000Z",
+        "expiryDate": "Dec 22, 2026",
+        "expiryTime": "11:59 PM",
+        "expiryTimestamp": "2026-12-22T18:29:00.000Z",
+        "featuredImageUrl": "/assets/models/Dalenzia Fest Team Management Dashboard.png",
+        "attachmentUrl": null,
+        "attachmentName": null,
+        "attachmentSize": null,
+        "viewsCount": 460,
+        "isPinned": false,
+        "isArchived": false,
+        "author": "Festival Secretariat",
+        "createdAt": "2026-12-20T11:00:00.000Z",
+        "updatedAt": "2026-12-20T11:00:00.000Z"
+      },
+      {
+        "id": "ANN-04",
+        "title": "Junior Arabic Essay (LIT-JR-102) Syllabus & Call Time Update",
+        "summary": "Candidates enrolled in Junior Arabic Essay must report to Ibn Khaldun Academic Hall (Stage 03) at 01:30 PM with authorized writing instruments.",
+        "content": "Competitors registered in LIT-JR-102 (Junior Arabic Essay) are instructed that the preliminary writing window begins at 02:00 PM sharp in Ibn Khaldun Hall.\n\nOfficial stamped parchment sheets will be provided by the secretariat invigilators. Students may bring their own blue or black fountain pens. Reference materials, lexicons, and digital smart devices are strictly prohibited.",
+        "category": "Competition Update",
+        "targetAudience": "Students",
+        "relatedProgrammeId": "PRG-005",
+        "relatedProgrammeTitle": "Senior Malayalam Elocution Grand Stage",
+        "relatedCompetitionId": "COMP-LIT-01",
+        "relatedCompetitionTitle": "Junior Arabic Essay (LIT-JR-102)",
+        "priority": "Normal",
+        "status": "Published",
+        "publishDate": "Dec 21, 2026",
+        "publishTime": "08:00 AM",
+        "publishTimestamp": "2026-12-21T02:30:00.000Z",
+        "expiryDate": "Dec 21, 2026",
+        "expiryTime": "06:00 PM",
+        "expiryTimestamp": "2026-12-21T12:30:00.000Z",
+        "featuredImageUrl": "/assets/events/comp_arabic_essay.png",
+        "attachmentUrl": null,
+        "attachmentName": null,
+        "attachmentSize": null,
+        "viewsCount": 790,
+        "isPinned": false,
+        "isArchived": false,
+        "author": "Literary Guild Controller",
+        "createdAt": "2026-12-21T02:30:00.000Z",
+        "updatedAt": "2026-12-21T02:30:00.000Z"
+      },
+      {
+        "id": "ANN-05",
+        "title": "Stage 02 Al-Farabi Hall Acoustic Calibration Adjustment",
+        "summary": "Session 04 start time shifted by 15 minutes to 01:15 PM due to high-precision acoustic tuning for classical poetry recitations.",
+        "content": "The Stage Operations Engineering Team has requested a brief 15-minute acoustic calibration buffer at Stage 02 (Al-Farabi Heritage Hall) to optimize dynamic vocal microphones for the classical Munadarah parliamentary debate.\n\nAll attendees and student debaters should take note that Stage 02 proceedings will resume at 01:15 PM.",
+        "category": "Schedule Change",
+        "targetAudience": "Everyone",
+        "relatedProgrammeId": "PRG-004",
+        "relatedProgrammeTitle": "Thematic Colloquium: Faith, Reason & Global Modernity",
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "priority": "Important",
+        "status": "Published",
+        "publishDate": "Dec 21, 2026",
+        "publishTime": "11:30 AM",
+        "publishTimestamp": "2026-12-21T06:00:00.000Z",
+        "expiryDate": "Dec 21, 2026",
+        "expiryTime": "03:00 PM",
+        "expiryTimestamp": "2026-12-21T09:30:00.000Z",
+        "featuredImageUrl": "/assets/schedule/schedule_hero_stage.png",
+        "attachmentUrl": null,
+        "attachmentName": null,
+        "attachmentSize": null,
+        "viewsCount": 910,
+        "isPinned": false,
+        "isArchived": false,
+        "author": "Stage Logistics Desk",
+        "createdAt": "2026-12-21T06:00:00.000Z",
+        "updatedAt": "2026-12-21T06:00:00.000Z"
+      },
+      {
+        "id": "ANN-06",
+        "title": "Official Result Declaration: Junior Arabic Essay Championship",
+        "summary": "The Secretariat officially proclaims 1st, 2nd, and 3rd prize honours for LIT-JR-102. Team A secures 30 points, Team B 20 points, Team A 10 points.",
+        "content": "Following comprehensive adjudication and double-entry audit certification, the official results for Junior Arabic Essay (LIT-JR-102) are published:\n\n• First Prize: Ahmad Rayan K. (Chest C-101, Team A) — 96.5 / 100 (+30 Pts)\n• Second Prize: Muhammed Sinan T. (Chest C-201, Team B) — 92.0 / 100 (+20 Pts)\n• Third Prize: Zayan Kabeer (Chest C-103, Team A) — 88.5 / 100 (+10 Pts)\n\nOfficial result posters are now accessible on the public Downloads portal and live leaderboard.",
+        "category": "Result Announcement",
+        "targetAudience": "Everyone",
+        "relatedProgrammeId": "PRG-005",
+        "relatedProgrammeTitle": "Senior Malayalam Elocution Grand Stage",
+        "relatedCompetitionId": "COMP-LIT-01",
+        "relatedCompetitionTitle": "Junior Arabic Essay (LIT-JR-102)",
+        "priority": "Important",
+        "status": "Published",
+        "publishDate": "Dec 21, 2026",
+        "publishTime": "05:45 PM",
+        "publishTimestamp": "2026-12-21T12:15:00.000Z",
+        "expiryDate": "Dec 23, 2026",
+        "expiryTime": "11:59 PM",
+        "expiryTimestamp": "2026-12-23T18:29:00.000Z",
+        "featuredImageUrl": "/assets/results/results_hero_stage.png",
+        "attachmentUrl": "/assets/results/results_hero_stage.png",
+        "attachmentName": "official_result_certificate_LIT-JR-102.png",
+        "attachmentSize": "5.6 MB",
+        "viewsCount": 2150,
+        "isPinned": false,
+        "isArchived": false,
+        "author": "Scoring Board",
+        "createdAt": "2026-12-21T12:15:00.000Z",
+        "updatedAt": "2026-12-21T12:15:00.000Z"
+      },
+      {
+        "id": "ANN-07",
+        "title": "Secretariat Emergency Backup Generator Switch Notice",
+        "summary": "Scheduled seamless auxiliary electrical switchover across campus stages at 01:30 PM for 2 minutes. Internal administrative notice only.",
+        "content": "Campus Facility Engineering will conduct a routine auxiliary load switchover for Stage 01 and Stage 03 uninterruptible power systems (UPS) at 01:30 PM.\n\nAll administrative servers, network switches, and judging terminals will remain on isolated battery backup. Technical personnel are requested to monitor stage monitors during this interval.",
+        "category": "Emergency Notice",
+        "targetAudience": "Admin Only",
+        "relatedProgrammeId": null,
+        "relatedProgrammeTitle": null,
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "priority": "Urgent",
+        "status": "Published",
+        "publishDate": "Dec 21, 2026",
+        "publishTime": "01:15 PM",
+        "publishTimestamp": "2026-12-21T07:45:00.000Z",
+        "expiryDate": "Dec 21, 2026",
+        "expiryTime": "02:00 PM",
+        "expiryTimestamp": "2026-12-21T08:30:00.000Z",
+        "featuredImageUrl": null,
+        "attachmentUrl": null,
+        "attachmentName": null,
+        "attachmentSize": null,
+        "viewsCount": 42,
+        "isPinned": false,
+        "isArchived": false,
+        "author": "Technical Controller",
+        "createdAt": "2026-12-21T07:45:00.000Z",
+        "updatedAt": "2026-12-21T07:45:00.000Z"
+      },
+      {
+        "id": "ANN-08",
+        "title": "Championship Trophy Ceremony & Valedictory Seating Order",
+        "summary": "Final evening schedule and VIP procession protocol for the Grand Valedictory Conclave at Cordova Grand Stage.",
+        "content": "The Festival Steering Committee has established the official protocol for the closing Valedictory Assembly.\n\nTeam delegations will be ushered into designated tiered seating by 03:45 PM. The conferment of the Dalenzia 2K26 Rolling Champions Trophy and individual Gold Medallions will take place under the auspices of Chancellor and honorable guest dignitaries.",
+        "category": "Programme Update",
+        "targetAudience": "Everyone",
+        "relatedProgrammeId": "PRG-011",
+        "relatedProgrammeTitle": "Grand Valedictory Conclave & Championship Award",
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "priority": "Normal",
+        "status": "Scheduled",
+        "publishDate": "Dec 22, 2026",
+        "publishTime": "04:00 PM",
+        "publishTimestamp": "2026-12-22T10:30:00.000Z",
+        "expiryDate": "Dec 23, 2026",
+        "expiryTime": "11:59 PM",
+        "expiryTimestamp": "2026-12-23T18:29:00.000Z",
+        "featuredImageUrl": "/assets/models/Dalenzia Nueva Era Festival Storyboard.png",
+        "attachmentUrl": null,
+        "attachmentName": null,
+        "attachmentSize": null,
+        "viewsCount": 0,
+        "isPinned": false,
+        "isArchived": false,
+        "author": "Festival Secretariat",
+        "createdAt": "2026-12-20T10:00:00.000Z",
+        "updatedAt": "2026-12-20T10:00:00.000Z"
+      },
+      {
+        "id": "ANN-09",
+        "title": "Draft Circular: Post-Festival Campus Cleanliness Drive",
+        "summary": "Volunteer green protocol instructions for eco-friendly campus maintenance and waste segregation post-valedictory.",
+        "content": "Draft internal memorandum outlining the deployment of 50 student green volunteers across Cordova Stage and exhibition corridors.\n\nPending approval by the Environmental Welfare Officer.",
+        "category": "General Announcement",
+        "targetAudience": "Students",
+        "relatedProgrammeId": null,
+        "relatedProgrammeTitle": null,
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "priority": "Normal",
+        "status": "Draft",
+        "publishDate": "Dec 22, 2026",
+        "publishTime": "06:00 PM",
+        "publishTimestamp": "2026-12-22T12:30:00.000Z",
+        "expiryDate": null,
+        "expiryTime": null,
+        "expiryTimestamp": null,
+        "featuredImageUrl": null,
+        "attachmentUrl": null,
+        "attachmentName": null,
+        "attachmentSize": null,
+        "viewsCount": 0,
+        "isPinned": false,
+        "isArchived": false,
+        "author": "Green Protocol Committee",
+        "createdAt": "2026-12-20T12:00:00.000Z",
+        "updatedAt": "2026-12-20T12:00:00.000Z"
+      },
+      {
+        "id": "ANN-10",
+        "title": "Expired Notice: Pre-Festival Registration Deadline",
+        "summary": "Historical circular marking the closure of initial team registrations and squad submissions on December 15, 2026.",
+        "content": "Notice of closure for all student registrations. No late entries accepted without steering committee executive dispensation.",
+        "category": "Registration Notice",
+        "targetAudience": "Everyone",
+        "relatedProgrammeId": null,
+        "relatedProgrammeTitle": null,
+        "relatedCompetitionId": null,
+        "relatedCompetitionTitle": null,
+        "priority": "Normal",
+        "status": "Expired",
+        "publishDate": "Dec 15, 2026",
+        "publishTime": "05:00 PM",
+        "publishTimestamp": "2026-12-15T11:30:00.000Z",
+        "expiryDate": "Dec 18, 2026",
+        "expiryTime": "11:59 PM",
+        "expiryTimestamp": "2026-12-18T18:29:00.000Z",
+        "featuredImageUrl": null,
+        "attachmentUrl": null,
+        "attachmentName": null,
+        "attachmentSize": null,
+        "viewsCount": 890,
+        "isPinned": false,
+        "isArchived": false,
+        "author": "Registrar",
+        "createdAt": "2026-12-15T11:30:00.000Z",
+        "updatedAt": "2026-12-18T18:30:00.000Z"
+      }
+    ],
+    "auditLogs": [
+      {
+        "id": "LOG-01",
+        "action": "JUDGE_ASSIGNED",
+        "performedBy": "Fest Controller (Admin)",
+        "details": "Assigned 4 judges to Junior Arabic Essay (LIT-JR-102)",
+        "timestamp": "2026-12-18 10:15"
+      },
+      {
+        "id": "LOG-02",
+        "action": "EVALUATION_SUBMITTED",
+        "performedBy": "Dr. Sayyid Munawwar Ali (JDG-1001)",
+        "details": "Submitted marks for 3 participants in Junior Arabic Essay",
+        "timestamp": "2026-12-21 16:15"
+      },
+      {
+        "id": "LOG-03",
+        "action": "RESULT_VERIFIED_AND_PUBLISHED",
+        "performedBy": "Fest Controller (Admin)",
+        "details": "Published official results & poster for Junior Arabic Essay. Team A +30pts, Team B +20pts, Team A +10pts.",
+        "timestamp": "2026-12-21 17:40"
+      }
+    ],
+    "convenerUser": {
+      "id": "CNV-01",
+      "name": "Usthad Hashir Ali",
+      "email": "convener@dalenziafest.in",
+      "password": "convener2k26",
+      "role": "convener",
+      "roleLabel": "Official Festival Convener",
+      "designation": "General Convener",
+      "institution": "Dalailussunna Dars, Ayiroor",
+      "phone": "+91 98471 55660",
+      "avatar": "/assets/admin/admin_sidebar_logo.png",
+      "lastLogin": "2026-12-21 08:00 AM"
+    },
+    "operationalActivities": [
+      {
+        "id": "ACT-001",
+        "code": "ACT-FOD-01",
+        "title": "Festival Dining & Food Court Logistics",
+        "description": "Coordination of breakfast, lunch, and dinner distribution counters for 1,200+ delegates and judges.",
+        "category": "Logistics & Hospitality",
+        "date": "Dec 21, 2026",
+        "time": "07:30 AM – 09:30 PM",
+        "venue": "Campus Dining Pavilion",
+        "responsiblePerson": "Usthad Anas K. (Food Convener)",
+        "phone": "+91 98471 11223",
+        "status": "In Progress",
+        "priority": "Urgent",
+        "teamId": null,
+        "programmeId": null,
+        "internalRemarks": "Special dietary arrangements confirmed for VIP guest scholars."
+      },
+      {
+        "id": "ACT-002",
+        "code": "ACT-STG-02",
+        "title": "Cordova Stage Lighting & Audio-Visual Trials",
+        "description": "Technical calibration of main line-array sound systems, podium microphones, and dual LED backdrop walls.",
+        "category": "Technical & Stage",
+        "date": "Dec 21, 2026",
+        "time": "08:00 AM – 10:00 AM",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "responsiblePerson": "Er. Niyas V. (AV Lead)",
+        "phone": "+91 97451 22334",
+        "status": "Completed",
+        "priority": "Important",
+        "teamId": null,
+        "programmeId": "PRG-001",
+        "internalRemarks": "Full acoustic sound check completed with zero feedback."
+      },
+      {
+        "id": "ACT-003",
+        "code": "ACT-VOL-03",
+        "title": "Volunteer Roster & Accreditation Desk",
+        "description": "Issuance of volunteer badges, team squad marshaling bands, and arena access tags.",
+        "category": "Volunteer Management",
+        "date": "Dec 21, 2026",
+        "time": "08:30 AM – 11:00 AM",
+        "venue": "Registration Desk (Main Gate)",
+        "responsiblePerson": "Ahmad Rifai (Volunteer Lead)",
+        "phone": "+91 98471 20001",
+        "status": "Completed",
+        "priority": "Normal",
+        "teamId": "team-01",
+        "programmeId": null,
+        "internalRemarks": "86 student volunteers deployed across 5 arenas."
+      },
+      {
+        "id": "ACT-004",
+        "code": "ACT-VIP-04",
+        "title": "Keynote Scholar Reception & Transit Protocol",
+        "description": "Airport and railway pickup coordination for chief guests, keynote scholars, and jury members.",
+        "category": "Guest Protocol",
+        "date": "Dec 21, 2026",
+        "time": "09:00 AM – 02:00 PM",
+        "venue": "VIP Guest Lounge",
+        "responsiblePerson": "Usthad Musthafa Hudawi",
+        "phone": "+91 94471 28910",
+        "status": "In Progress",
+        "priority": "Urgent",
+        "teamId": null,
+        "programmeId": "PRG-002",
+        "internalRemarks": "Escort vehicle standby at Calicut Airport for Dr. Sayyid Munawwar Ali."
+      },
+      {
+        "id": "ACT-005",
+        "code": "ACT-MED-05",
+        "title": "Medical Desk & Emergency First Aid Counter",
+        "description": "Paramedic standby, hydration counter, and basic first aid readiness for participants.",
+        "category": "Safety & Health",
+        "date": "Dec 21, 2026",
+        "time": "08:00 AM – 10:00 PM",
+        "venue": "Campus Health Centre",
+        "responsiblePerson": "Dr. Noufal K. (Medical Officer)",
+        "phone": "+91 98460 31245",
+        "status": "Active",
+        "priority": "Important",
+        "teamId": null,
+        "programmeId": null,
+        "internalRemarks": "Ambulance on standby at North Gate."
+      },
+      {
+        "id": "ACT-006",
+        "code": "ACT-PRZ-06",
+        "title": "Laureate Memento & Certificate Curation",
+        "description": "Cross-checking official verified result posters with mementos and Gold/Silver/Bronze medals.",
+        "category": "Awards & Mementos",
+        "date": "Dec 22, 2026",
+        "time": "02:00 PM – 05:00 PM",
+        "venue": "Academic Secretariat Room",
+        "responsiblePerson": "Usthad Rashad (Certificates In-Charge)",
+        "phone": "+91 97455 88990",
+        "status": "Pending",
+        "priority": "Normal",
+        "teamId": null,
+        "programmeId": "PRG-012",
+        "internalRemarks": "All 48 prize medals checked against certified winner podiums."
+      }
+    ],
+    "publishedResultsHistory": [
+      {
+        "id": "HIST-POS-01",
+        "competitionId": "COMP-LIT-01",
+        "competitionCode": "LIT-JR-102",
+        "competitionTitle": "Junior Arabic Essay (LIT-JR-102)",
+        "category": "Literary Arena",
+        "venue": "Ibn Khaldun Academic Hall (Stage 03)",
+        "version": 1,
+        "publishedBy": "Usthad Hashir Ali (Convener)",
+        "publishedById": "CNV-01",
+        "publishedAt": "Dec 21, 2026, 05:40 PM",
+        "totalParticipants": 4,
+        "assignedJudgesCount": 4
+      },
+      {
+        "id": "HIST-POS-02",
+        "competitionId": "COMP-ISL-04",
+        "competitionCode": "ISL-JR-401",
+        "competitionTitle": "Hifz Qur’an Recitation (ISL-JR-401)",
+        "category": "Islamic Heritage",
+        "venue": "Cordova Grand Stage (Stage 01)",
+        "version": 1,
+        "publishedBy": "Usthad Hashir Ali (Convener)",
+        "publishedById": "CNV-01",
+        "publishedAt": "Dec 22, 2026, 04:15 PM",
+        "totalParticipants": 4,
+        "assignedJudgesCount": 4
+      }
+    ],
+    "teamLeaders": [
+      {
+        "id": "TL-01",
+        "teamId": "team-01",
+        "teamName": "Team A",
+        "name": "Ahmed Rifai",
+        "email": "leader@dalenziafest.in",
+        "alternateEmail": "leader1@dalenziafest.in",
+        "username": "leader1",
+        "password": "leader2k26",
+        "phone": "+91 98471 20001",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "AR",
+        "joinedDate": "Nov 01, 2026"
+      },
+      {
+        "id": "TL-02",
+        "teamId": "team-02",
+        "teamName": "Team B",
+        "name": "Muhammed Shamil",
+        "email": "leader2@dalenziafest.in",
+        "username": "leader2",
+        "password": "leader2k26",
+        "phone": "+91 98471 20002",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "MS",
+        "joinedDate": "Nov 01, 2026"
+      },
+      {
+        "id": "TL-03",
+        "teamId": "team-03",
+        "teamName": "Team C",
+        "name": "Fahad Ali",
+        "email": "leader3@dalenziafest.in",
+        "username": "leader3",
+        "password": "leader2k26",
+        "phone": "+91 98471 20003",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "FA",
+        "joinedDate": "Nov 01, 2026"
+      },
+      {
+        "id": "TL-04",
+        "teamId": "team-04",
+        "teamName": "Team D",
+        "name": "Ibrahim Badusha",
+        "email": "leader4@dalenziafest.in",
+        "username": "leader4",
+        "password": "leader2k26",
+        "phone": "+91 98471 20004",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "IB",
+        "joinedDate": "Nov 01, 2026"
+      },
+      {
+        "id": "TL-05",
+        "teamId": "team-05",
+        "teamName": "Team E",
+        "name": "Sufiyan K",
+        "email": "leader5@dalenziafest.in",
+        "username": "leader5",
+        "password": "leader2k26",
+        "phone": "+91 98471 20005",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "SK",
+        "joinedDate": "Nov 01, 2026"
+      },
+      {
+        "id": "TL-06",
+        "teamId": "team-06",
+        "teamName": "Team F",
+        "name": "Ibrahim Khalil",
+        "email": "leader6@dalenziafest.in",
+        "username": "leader6",
+        "password": "leader2k26",
+        "phone": "+91 98471 20006",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "IK",
+        "joinedDate": "Nov 01, 2026"
+      },
+      {
+        "id": "TL-07",
+        "teamId": "team-07",
+        "teamName": "Team G",
+        "name": "Munavir Hassan",
+        "email": "leader7@dalenziafest.in",
+        "username": "leader7",
+        "password": "leader2k26",
+        "phone": "+91 98471 20007",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "MH",
+        "joinedDate": "Nov 01, 2026"
+      },
+      {
+        "id": "TL-08",
+        "teamId": "team-08",
+        "teamName": "Team H",
+        "name": "Rashid Ali P.",
+        "email": "leader8@dalenziafest.in",
+        "username": "leader8",
+        "password": "leader2k26",
+        "phone": "+91 98471 20008",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "RA",
+        "joinedDate": "Nov 01, 2026"
+      },
+      {
+        "id": "TL-09",
+        "teamId": "team-09",
+        "teamName": "Team I",
+        "name": "Salman Faizi",
+        "email": "leader9@dalenziafest.in",
+        "username": "leader9",
+        "password": "leader2k26",
+        "phone": "+91 98471 20009",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "SF",
+        "joinedDate": "Nov 01, 2026"
+      },
+      {
+        "id": "TL-10",
+        "teamId": "team-10",
+        "teamName": "Team J",
+        "name": "Kabeer Ahsani",
+        "email": "leader10@dalenziafest.in",
+        "username": "leader10",
+        "password": "leader2k26",
+        "phone": "+91 98471 20010",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "KA",
+        "joinedDate": "Nov 01, 2026"
+      },
+      {
+        "id": "TL-11",
+        "teamId": "team-11",
+        "teamName": "Team K",
+        "name": "Shakir Saqafi",
+        "email": "leader11@dalenziafest.in",
+        "username": "leader11",
+        "password": "leader2k26",
+        "phone": "+91 98471 20011",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "SS",
+        "joinedDate": "Nov 01, 2026"
+      },
+      {
+        "id": "TL-12",
+        "teamId": "team-12",
+        "teamName": "Team L",
+        "name": "Noufal Wafy",
+        "email": "leader12@dalenziafest.in",
+        "username": "leader12",
+        "password": "leader2k26",
+        "phone": "+91 98471 20012",
+        "role": "team_leader",
+        "status": "Active",
+        "avatar": "NW",
+        "joinedDate": "Nov 01, 2026"
+      }
+    ],
+    "programmeTeamRegistrations": [
+      {
+        "id": "PRG-REG-01",
+        "programmeId": "PRG-001",
+        "programmeCode": "PRG-ADM-01",
+        "programmeTitle": "Delegate Reception & Registration Check-in",
+        "teamId": "team-01",
+        "teamName": "Team A",
+        "studentIds": [
+          "STU-1001",
+          "STU-1002"
+        ],
+        "registeredAt": "2026-11-15T10:00:00Z",
+        "status": "Confirmed",
+        "notes": "Delegation credentials verified"
+      }
+    ],
+    "studentAccounts": [],
+    "studentCorrectionRequests": [],
+    "stageControllers": [
+      {
+        "id": "SC-01",
+        "stageId": "STG-01",
+        "stageNumber": "01",
+        "stageName": "Cordova Grand Stage (Stage 01)",
+        "name": "Usthad Salman Farisi",
+        "email": "controller1@dalenziafest.in",
+        "username": "controller1",
+        "password": "stage2k26",
+        "phone": "+91 98470 50001",
+        "role": "STAGE_CONTROLLER",
+        "status": "Active",
+        "assignedDate": "Dec 15, 2026"
+      },
+      {
+        "id": "SC-02",
+        "stageId": "STG-02",
+        "stageNumber": "02",
+        "stageName": "Al-Farabi Heritage Hall (Stage 02)",
+        "name": "Prof. Zakariyya Hudawi",
+        "email": "controller2@dalenziafest.in",
+        "username": "controller2",
+        "password": "stage2k26",
+        "phone": "+91 98470 50002",
+        "role": "STAGE_CONTROLLER",
+        "status": "Active",
+        "assignedDate": "Dec 15, 2026"
+      },
+      {
+        "id": "SC-03",
+        "stageId": "STG-03",
+        "stageNumber": "03",
+        "stageName": "Ibn Khaldun Academic Hall (Stage 03)",
+        "name": "Usthad Zainul Abid",
+        "email": "controller3@dalenziafest.in",
+        "username": "controller3",
+        "password": "stage2k26",
+        "phone": "+91 98470 50003",
+        "role": "STAGE_CONTROLLER",
+        "status": "Active",
+        "assignedDate": "Dec 15, 2026"
+      },
+      {
+        "id": "SC-04",
+        "stageId": "STG-04",
+        "stageNumber": "04",
+        "stageName": "Media Studio Preview Room",
+        "name": "Usthad Bilal Shareef",
+        "email": "controller4@dalenziafest.in",
+        "username": "controller4",
+        "password": "stage2k26",
+        "phone": "+91 98470 50004",
+        "role": "STAGE_CONTROLLER",
+        "status": "Active",
+        "assignedDate": "Dec 15, 2026"
+      },
+      {
+        "id": "SC-05",
+        "stageId": "STG-05",
+        "stageNumber": "05",
+        "stageName": "Al-Andalus Exhibition Quadrangle",
+        "name": "Usthad Anas Faizy",
+        "email": "controller5@dalenziafest.in",
+        "username": "controller5",
+        "password": "stage2k26",
+        "phone": "+91 98470 50005",
+        "role": "STAGE_CONTROLLER",
+        "status": "Active",
+        "assignedDate": "Dec 15, 2026"
+      }
+    ],
+    "competitionCodeAssignments": [],
+    "stageDrawSessions": [],
+    "stageDrawResults": [],
+    "stageCallingRecords": []
+  }
+}

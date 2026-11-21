@@ -4,75 +4,54 @@ import { Calendar, MapPin, Sparkles, Eye, Trophy, Users, Layers, Clock, ArrowRig
 
 export default function AboutSection() {
   return (
-    <section id="about" className="relative bg-[#F7F3E9] py-16 md:py-24 border-t border-[#A91F35]/15 select-none overflow-hidden">
+    <section id="about" className="relative bg-[#F7F3E9] py-14 md:py-20 border-t border-[#A91F35]/15 select-none overflow-hidden">
       {/* Background Mandala Watermark */}
       <div className="absolute -top-32 -left-32 w-[500px] h-[500px] opacity-10 pointer-events-none">
         <img src="/assets/mandala.png" alt="" className="w-full h-full object-contain animate-spin-slow" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 space-y-12">
-        {/* Top Split: Text & 3D Composition */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
-          {/* Left Text Column */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="lg:col-span-6 space-y-5 text-left"
-          >
-            <div className="flex items-center gap-2">
-              <span className="w-8 h-[2px] bg-[#A91F35]" />
-              <span className="text-xs md:text-sm font-extrabold uppercase tracking-[0.25em] text-[#A91F35]">
-                ABOUT DALENZIA
-              </span>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 space-y-10">
+        {/* Editorial Festival Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="max-w-3xl mx-auto text-center space-y-4"
+        >
+          <div className="inline-flex items-center gap-2">
+            <span className="w-8 h-[2px] bg-[#A91F35]" />
+            <span className="text-xs md:text-sm font-extrabold uppercase tracking-[0.25em] text-[#A91F35]">
+              ABOUT DALENZIA
+            </span>
+            <span className="w-8 h-[2px] bg-[#A91F35]" />
+          </div>
+
+          <h2 className="text-3xl md:text-5xl font-serif font-bold text-[#1c1917] tracking-tight leading-tight">
+            About the <span className="text-[#A91F35]">Festival</span>
+          </h2>
+
+          <p className="text-sm md:text-base text-[#1c1917]/80 leading-relaxed font-normal max-w-2xl mx-auto">
+            Dalenzia Fest 2K26 is the annual literary and creative festival of Dalailussunna Dars, Ayiroor. A vibrant platform that brings together learning, expression and cultural exploration.
+          </p>
+
+          <p className="text-xs md:text-sm text-[#1c1917]/70 leading-relaxed font-normal max-w-2xl mx-auto">
+            Rooted in centuries-old classical Islamic educational traditions and propelled by the visionary theme <strong className="text-[#A91F35]">"Nueva Era"</strong>, the festival bridges sacred heritage with modern digital thought and student creativity.
+          </p>
+
+          {/* Date & Venue Info */}
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs md:text-sm font-bold text-[#1c1917] pt-2">
+            <div className="flex items-center gap-2 text-[#A91F35]">
+              <Calendar className="w-4 h-4" />
+              <span>21, 22, 23 DECEMBER 2026</span>
             </div>
-
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-[#1c1917] tracking-tight leading-tight">
-              About the <br />
-              <span className="text-[#A91F35]">Festival</span>
-            </h2>
-
-            <p className="text-sm md:text-base text-[#1c1917]/80 leading-relaxed max-w-lg font-normal">
-              Dalenzia Fest 2K26 is the annual literary and creative festival of Dalailussunna Dars, Ayiroor. A vibrant platform that brings together learning, expression and cultural exploration.
-            </p>
-
-            <p className="text-xs md:text-sm text-[#1c1917]/70 leading-relaxed max-w-lg font-normal">
-              Rooted in centuries-old classical Islamic educational traditions and propelled by the visionary theme <strong className="text-[#A91F35]">"Nueva Era"</strong>, the festival bridges sacred heritage with modern digital thought and student creativity.
-            </p>
-
-            {/* Date & Venue Info */}
-            <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm font-bold text-[#1c1917] pt-2">
-              <div className="flex items-center gap-2 text-[#A91F35]">
-                <Calendar className="w-4 h-4" />
-                <span>December 21 – 22, 2026</span>
-              </div>
-              <span className="text-stone-300">•</span>
-              <div className="flex items-center gap-2 text-[#A91F35]">
-                <MapPin className="w-4 h-4" />
-                <span>Dalailussunna Dars, Ayiroor</span>
-              </div>
+            <span className="text-stone-300">•</span>
+            <div className="flex items-center gap-2 text-[#A91F35]">
+              <MapPin className="w-4 h-4" />
+              <span>Dalailussunna Dars, Ayiroor</span>
             </div>
-          </motion.div>
-
-          {/* Right Visual Column (Architectural Arch, Books, Lamp, Hourglass) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="lg:col-span-6 relative flex items-center justify-center"
-          >
-            <div className="relative w-full max-w-[520px] rounded-3xl overflow-hidden shadow-2xl border border-white/50 bg-white">
-              <img
-                src="/assets/about_3d_composition.png"
-                alt="About Dalenzia - Arch, Lamp, Books & Hourglass"
-                className="w-full h-auto object-contain"
-              />
-            </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
 
         {/* Bottom 3-Card Grid: Theme, Vision & Highlights */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
@@ -97,7 +76,7 @@ export default function AboutSection() {
                 <img
                   src="/assets/nueva_era_logo.png"
                   alt="Nueva Era"
-                  className="h-full w-auto object-contain brightness-0 invert"
+                  className="h-full w-auto object-contain"
                 />
               </div>
 

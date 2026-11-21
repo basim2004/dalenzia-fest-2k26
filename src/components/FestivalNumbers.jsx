@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Users, Trophy, Flag, Calendar } from 'lucide-react';
+import { festivalStore } from '../admin/data/festivalStore';
 
 function StatCard({ icon: Icon, targetValue, suffix, label, delay }) {
   const ref = useRef(null);
@@ -60,10 +61,19 @@ function StatCard({ icon: Icon, targetValue, suffix, label, delay }) {
 }
 
 export default function FestivalNumbers() {
+  const [storeStats, setStoreStats] = useState(() => festivalStore.getDashboardStats());
+
+  useEffect(() => {
+    const unsub = festivalStore.subscribe(() => {
+      setStoreStats(festivalStore.getDashboardStats());
+    });
+    return unsub;
+  }, []);
+
   const stats = [
-    { id: 'participants', icon: Users, targetValue: 5000, suffix: '+', label: 'Total Participants', delay: 0.1 },
-    { id: 'competitions', icon: Trophy, targetValue: 40, suffix: '+', label: 'Total Competitions', delay: 0.2 },
-    { id: 'teams', icon: Flag, targetValue: 20, suffix: '+', label: 'Total Teams', delay: 0.3 },
+    { id: 'participants', icon: Users, targetValue: storeStats.totalStudents, suffix: storeStats.totalStudents > 0 ? '+' : '', label: 'Total Participants', delay: 0.1 },
+    { id: 'competitions', icon: Trophy, targetValue: storeStats.totalCompetitions, suffix: storeStats.totalCompetitions > 0 ? '+' : '', label: 'Total Competitions', delay: 0.2 },
+    { id: 'teams', icon: Flag, targetValue: storeStats.totalTeams, suffix: storeStats.totalTeams > 0 ? '+' : '', label: 'Total Teams', delay: 0.3 },
     { id: 'days', icon: Calendar, targetValue: 2, suffix: '', label: 'Festival Days', delay: 0.4 },
   ];
 

@@ -158,7 +158,7 @@ export default function PosterModal({ winner, itemTitle, categoryName, onClose, 
 
     ctx.fillStyle = currentTpl.templateIdx === 1 ? '#777777' : 'rgba(255,255,255,0.7)';
     ctx.font = '400 20px Poppins, sans-serif';
-    ctx.fillText('December 21–22, 2026 · Perumpadappu, Malappuram', width / 2, 1200);
+    ctx.fillText('21, 22, 23 DECEMBER 2026 · Perumpadappu, Malappuram', width / 2, 1200);
 
     // Verification code
     ctx.font = '400 16px monospace';
