@@ -15,6 +15,7 @@ import GalleryModule from './components/GalleryModule';
 import PostersModule from './components/PostersModule';
 import AnnouncementsModule from './components/AnnouncementsModule';
 import ReportsModule from './components/ReportsModule';
+import SystemSettingsModule from './components/SystemSettingsModule';
 import RegistrationDeskModule from '../components/RegistrationDesk/RegistrationDeskModule';
 
 export default function AdminPortal({ onNavigatePublic }) {
@@ -45,6 +46,7 @@ export default function AdminPortal({ onNavigatePublic }) {
       if (hash.includes('posters')) return 'posters';
       if (hash.includes('announcements')) return 'announcements';
       if (hash.includes('reports')) return 'reports';
+      if (hash.includes('settings')) return 'settings';
       if (hash.includes('programme')) return 'programme';
     }
     return 'dashboard';
@@ -190,6 +192,8 @@ export default function AdminPortal({ onNavigatePublic }) {
         <ReportsModule activeSection={activeModule} />
       ) : activeModule === 'programme' || activeModule.startsWith('programme') ? (
         <ProgrammesModule activeSection={activeModule} />
+      ) : activeModule === 'settings' || activeModule.startsWith('settings') ? (
+        <SystemSettingsModule activeSection={activeModule} />
       ) : (
         <TeamManagementView activeSection={activeModule} />
       )}

@@ -75,7 +75,8 @@ export default function AdminLayout({
     { id: 'posters', name: 'Posters & Templates', icon: Image },
     { id: 'gallery', name: 'Gallery', icon: Image },
     { id: 'announcements', name: 'Announcements', icon: Megaphone },
-    { id: 'reports', name: 'Reports', icon: BarChart3 }
+    { id: 'reports', name: 'Reports', icon: BarChart3 },
+    { id: 'settings', name: 'System Settings', icon: Settings }
   ];
 
   return (
