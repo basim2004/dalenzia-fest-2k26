@@ -7,6 +7,8 @@ import {
   Search,
   Filter,
   Trophy,
+  Award,
+  Crown,
   BookOpen,
   Palette,
   Film,

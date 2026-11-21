@@ -30,8 +30,7 @@ export default function RegistrationTicketCard({ registration, onClose, onViewSt
   const [isDownloading, setIsDownloading] = useState(false);
   const ticketRef = useRef(null);
 
-  if (!registration) return null;
-
+  const reg = registration || {};
   const {
     ticketId,
     type,
@@ -48,14 +47,15 @@ export default function RegistrationTicketCard({ registration, onClose, onViewSt
     verificationCode,
     registeredAt,
     notes
-  } = registration;
+  } = reg;
 
   const isDarsStudent = type === 'existing_student' || type === 'Dars Student' || type === 'student' || Boolean(studentId);
-  const isCancelled = status.toLowerCase() === 'cancelled';
-  const isPending = status.toLowerCase() === 'pending';
+  const isCancelled = status ? status.toLowerCase() === 'cancelled' : false;
+  const isPending = status ? status.toLowerCase() === 'pending' : false;
 
-  // Generate QR Code data
+  // Generate QR Code data unconditionally
   useEffect(() => {
+    if (!registration) return;
     const payload = JSON.stringify({
       fest: 'DALENZIA FEST 2K26',
       ticketId,
@@ -130,6 +130,8 @@ export default function RegistrationTicketCard({ registration, onClose, onViewSt
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2500);
   };
+
+  if (!registration) return null;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 print:p-0 print:bg-white print:fixed print:inset-0">
