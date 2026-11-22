@@ -580,112 +580,112 @@ const INITIAL_DATA = {
   scoringConfig: OFFICIAL_SCORING_CONFIG,
   programmes: createDefaultProgrammeAssignments(),
   programmeStages: [
-  {
-    "id": "STG-01",
-    "code": "STG-01",
-    "name": "Cordova Grand Stage (Stage 01)",
-    "shortName": "Cordova Grand Stage",
-    "malayalamName": "കൊർദോവ വേദി",
-    "venue": "Cordova Grand Stage",
-    "type": "Ceremonial Grand Auditorium",
-    "capacity": 2500,
-    "color": "#A91F35",
-    "badgeBg": "bg-rose-50 text-rose-700 border-rose-200"
-  },
-  {
-    "id": "STG-02",
-    "code": "STG-02",
-    "name": "Al-Farabi Heritage Hall (Stage 02)",
-    "shortName": "Al-Farabi Heritage Hall",
-    "malayalamName": "അൽ ഫാറാബി ഹാൾ",
-    "venue": "Al-Farabi Heritage Hall",
-    "type": "Academic Conclave Arena",
-    "capacity": 800,
-    "color": "#E6A916",
-    "badgeBg": "bg-amber-50 text-amber-700 border-amber-200"
-  },
-  {
-    "id": "STG-03",
-    "code": "STG-03",
-    "name": "Ibn Khaldun Academic Hall (Stage 03)",
-    "shortName": "Ibn Khaldun Academic Hall",
-    "malayalamName": "ഇബ്നു ഖൽദൂൻ ഹാൾ",
-    "venue": "Ibn Khaldun Academic Hall",
-    "type": "Colloquium & Debate Chamber",
-    "capacity": 600,
-    "color": "#2563EB",
-    "badgeBg": "bg-blue-50 text-blue-700 border-blue-200"
-  },
-  {
-    "id": "STG-04",
-    "code": "STG-04",
-    "name": "Media Studio Preview Room",
-    "shortName": "Media Studio",
-    "malayalamName": "മീഡിയ സ്റ്റുഡിയോ റൂം",
-    "venue": "Media Studio Preview Room",
-    "type": "Screening & Curation Studio",
-    "capacity": 350,
-    "color": "#8B5CF6",
-    "badgeBg": "bg-purple-50 text-purple-700 border-purple-200"
-  },
-  {
-    "id": "STG-05",
-    "code": "STG-05",
-    "name": "Open Amphitheatre",
-    "shortName": "Open Amphitheatre",
-    "malayalamName": "ഓപ്പൺ ആംഫി തിയേറ്റർ",
-    "venue": "Open Amphitheatre",
-    "type": "Open Cultural Arena",
-    "capacity": 1200,
-    "color": "#10B981",
-    "badgeBg": "bg-emerald-50 text-emerald-700 border-emerald-200"
-  }
-],
+    {
+      "id": "STG-01",
+      "code": "STG-01",
+      "name": "Cordova Grand Stage (Stage 01)",
+      "shortName": "Cordova Grand Stage",
+      "malayalamName": "കൊർദോവ വേദി",
+      "venue": "Cordova Grand Stage",
+      "type": "Ceremonial Grand Auditorium",
+      "capacity": 2500,
+      "color": "#A91F35",
+      "badgeBg": "bg-rose-50 text-rose-700 border-rose-200"
+    },
+    {
+      "id": "STG-02",
+      "code": "STG-02",
+      "name": "Al-Farabi Heritage Hall (Stage 02)",
+      "shortName": "Al-Farabi Heritage Hall",
+      "malayalamName": "അൽ ഫാറാബി ഹാൾ",
+      "venue": "Al-Farabi Heritage Hall",
+      "type": "Academic Conclave Arena",
+      "capacity": 800,
+      "color": "#E6A916",
+      "badgeBg": "bg-amber-50 text-amber-700 border-amber-200"
+    },
+    {
+      "id": "STG-03",
+      "code": "STG-03",
+      "name": "Ibn Khaldun Academic Hall (Stage 03)",
+      "shortName": "Ibn Khaldun Academic Hall",
+      "malayalamName": "ഇബ്നു ഖൽദൂൻ ഹാൾ",
+      "venue": "Ibn Khaldun Academic Hall",
+      "type": "Colloquium & Debate Chamber",
+      "capacity": 600,
+      "color": "#2563EB",
+      "badgeBg": "bg-blue-50 text-blue-700 border-blue-200"
+    },
+    {
+      "id": "STG-04",
+      "code": "STG-04",
+      "name": "Media Studio Preview Room",
+      "shortName": "Media Studio",
+      "malayalamName": "മീഡിയ സ്റ്റുഡിയോ റൂം",
+      "venue": "Media Studio Preview Room",
+      "type": "Screening & Curation Studio",
+      "capacity": 350,
+      "color": "#8B5CF6",
+      "badgeBg": "bg-purple-50 text-purple-700 border-purple-200"
+    },
+    {
+      "id": "STG-05",
+      "code": "STG-05",
+      "name": "Open Amphitheatre",
+      "shortName": "Open Amphitheatre",
+      "malayalamName": "ഓപ്പൺ ആംഫി തിയേറ്റർ",
+      "venue": "Open Amphitheatre",
+      "type": "Open Cultural Arena",
+      "capacity": 1200,
+      "color": "#10B981",
+      "badgeBg": "bg-emerald-50 text-emerald-700 border-emerald-200"
+    }
+  ],
   programmeSchedules: [],
   guestCategories: [
-  {
-    "id": "GCAT-HON",
-    "name": "Guest of Honour",
-    "code": "HON",
-    "color": "#A91F35"
-  },
-  {
-    "id": "GCAT-CHF",
-    "name": "Chief Guest",
-    "code": "CHF",
-    "color": "#E6A916"
-  },
-  {
-    "id": "GCAT-SPK",
-    "name": "Guest Speaker",
-    "code": "SPK",
-    "color": "#2563EB"
-  },
-  {
-    "id": "GCAT-INA",
-    "name": "Inauguration Guest",
-    "code": "INA",
-    "color": "#10B981"
-  },
-  {
-    "id": "GCAT-VAL",
-    "name": "Closing Ceremony Guest",
-    "code": "VAL",
-    "color": "#D97706"
-  },
-  {
-    "id": "GCAT-SPC",
-    "name": "Special Guest",
-    "code": "SPC",
-    "color": "#8B5CF6"
-  },
-  {
-    "id": "GCAT-ACA",
-    "name": "Academic Conclave Speaker",
-    "code": "ACA",
-    "color": "#059669"
-  }
-],
+    {
+      "id": "GCAT-HON",
+      "name": "Guest of Honour",
+      "code": "HON",
+      "color": "#A91F35"
+    },
+    {
+      "id": "GCAT-CHF",
+      "name": "Chief Guest",
+      "code": "CHF",
+      "color": "#E6A916"
+    },
+    {
+      "id": "GCAT-SPK",
+      "name": "Guest Speaker",
+      "code": "SPK",
+      "color": "#2563EB"
+    },
+    {
+      "id": "GCAT-INA",
+      "name": "Inauguration Guest",
+      "code": "INA",
+      "color": "#10B981"
+    },
+    {
+      "id": "GCAT-VAL",
+      "name": "Closing Ceremony Guest",
+      "code": "VAL",
+      "color": "#D97706"
+    },
+    {
+      "id": "GCAT-SPC",
+      "name": "Special Guest",
+      "code": "SPC",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "GCAT-ACA",
+      "name": "Academic Conclave Speaker",
+      "code": "ACA",
+      "color": "#059669"
+    }
+  ],
   programmeGuests: [],
   judges: [
     {
@@ -709,156 +709,156 @@ const INITIAL_DATA = {
   resultPosters: [],
   notifications: [],
   galleryCategories: [
-  {
-    "id": "GC-INA",
-    "name": "Inauguration",
-    "color": "#A91F35"
-  },
-  {
-    "id": "GC-PRG",
-    "name": "Programmes",
-    "color": "#E6A916"
-  },
-  {
-    "id": "GC-CMP",
-    "name": "Competitions",
-    "color": "#2563EB"
-  },
-  {
-    "id": "GC-GST",
-    "name": "Guests",
-    "color": "#10B981"
-  },
-  {
-    "id": "GC-STG",
-    "name": "Stage Events",
-    "color": "#8B5CF6"
-  },
-  {
-    "id": "GC-PRZ",
-    "name": "Prize Distribution",
-    "color": "#D97706"
-  },
-  {
-    "id": "GC-MOM",
-    "name": "Festival Moments",
-    "color": "#EC4899"
-  },
-  {
-    "id": "GC-BTS",
-    "name": "Behind the Scenes",
-    "color": "#64748B"
-  },
-  {
-    "id": "GC-OTH",
-    "name": "Other",
-    "color": "#78716C"
-  }
-],
+    {
+      "id": "GC-INA",
+      "name": "Inauguration",
+      "color": "#A91F35"
+    },
+    {
+      "id": "GC-PRG",
+      "name": "Programmes",
+      "color": "#E6A916"
+    },
+    {
+      "id": "GC-CMP",
+      "name": "Competitions",
+      "color": "#2563EB"
+    },
+    {
+      "id": "GC-GST",
+      "name": "Guests",
+      "color": "#10B981"
+    },
+    {
+      "id": "GC-STG",
+      "name": "Stage Events",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "GC-PRZ",
+      "name": "Prize Distribution",
+      "color": "#D97706"
+    },
+    {
+      "id": "GC-MOM",
+      "name": "Festival Moments",
+      "color": "#EC4899"
+    },
+    {
+      "id": "GC-BTS",
+      "name": "Behind the Scenes",
+      "color": "#64748B"
+    },
+    {
+      "id": "GC-OTH",
+      "name": "Other",
+      "color": "#78716C"
+    }
+  ],
   galleryAlbums: [],
   galleryMedia: [],
   posterCategories: [
-  {
-    "id": "CAT-MAIN",
-    "name": "Festival Main Posters",
-    "color": "#A91F35",
-    "description": "Flagship theme releases, brand launches, and key festival identities"
-  },
-  {
-    "id": "CAT-PRG",
-    "name": "Programme Posters",
-    "color": "#E6A916",
-    "description": "Posters and flyers dedicated to major ceremonies, conclaves, and scholastic symposia"
-  },
-  {
-    "id": "CAT-CMP",
-    "name": "Competition Posters",
-    "color": "#2563EB",
-    "description": "Competition callouts, guidelines, and literary/art arena promo sheets"
-  },
-  {
-    "id": "CAT-RES",
-    "name": "Result Posters",
-    "color": "#10B981",
-    "description": "Official verified winner proclamations, score sheets, and podium declarations"
-  },
-  {
-    "id": "CAT-GST",
-    "name": "Guest Posters",
-    "color": "#8B5CF6",
-    "description": "Dignitary welcomes, scholar profile cards, and key speaker salutations"
-  },
-  {
-    "id": "CAT-ANN",
-    "name": "Announcement Posters",
-    "color": "#D97706",
-    "description": "Secretariat notices, schedule adjustments, and urgent circulars"
-  },
-  {
-    "id": "CAT-SPE",
-    "name": "Special Day Posters",
-    "color": "#EC4899",
-    "description": "Milad celebrations, historic memorial graphics, and festival day greetings"
-  },
-  {
-    "id": "CAT-OTH",
-    "name": "Other Posters",
-    "color": "#64748B",
-    "description": "Campus maps, signage, volunteer recognitions, and miscellaneous artwork"
-  }
-],
+    {
+      "id": "CAT-MAIN",
+      "name": "Festival Main Posters",
+      "color": "#A91F35",
+      "description": "Flagship theme releases, brand launches, and key festival identities"
+    },
+    {
+      "id": "CAT-PRG",
+      "name": "Programme Posters",
+      "color": "#E6A916",
+      "description": "Posters and flyers dedicated to major ceremonies, conclaves, and scholastic symposia"
+    },
+    {
+      "id": "CAT-CMP",
+      "name": "Competition Posters",
+      "color": "#2563EB",
+      "description": "Competition callouts, guidelines, and literary/art arena promo sheets"
+    },
+    {
+      "id": "CAT-RES",
+      "name": "Result Posters",
+      "color": "#10B981",
+      "description": "Official verified winner proclamations, score sheets, and podium declarations"
+    },
+    {
+      "id": "CAT-GST",
+      "name": "Guest Posters",
+      "color": "#8B5CF6",
+      "description": "Dignitary welcomes, scholar profile cards, and key speaker salutations"
+    },
+    {
+      "id": "CAT-ANN",
+      "name": "Announcement Posters",
+      "color": "#D97706",
+      "description": "Secretariat notices, schedule adjustments, and urgent circulars"
+    },
+    {
+      "id": "CAT-SPE",
+      "name": "Special Day Posters",
+      "color": "#EC4899",
+      "description": "Milad celebrations, historic memorial graphics, and festival day greetings"
+    },
+    {
+      "id": "CAT-OTH",
+      "name": "Other Posters",
+      "color": "#64748B",
+      "description": "Campus maps, signage, volunteer recognitions, and miscellaneous artwork"
+    }
+  ],
   posters: [],
   posterTemplates: [],
   announcementCategories: [
-  {
-    "id": "CAT-ANN-GEN",
-    "name": "General Announcement",
-    "color": "#64748B",
-    "description": "General notices, campus directives, and routine festival information"
-  },
-  {
-    "id": "CAT-ANN-IMP",
-    "name": "Important Notice",
-    "color": "#E6A916",
-    "description": "Critical briefings, advisory bulletins, and regulatory instructions"
-  },
-  {
-    "id": "CAT-ANN-CMP",
-    "name": "Competition Update",
-    "color": "#2563EB",
-    "description": "Competition calls, venue shifts, rubric revisions, and participant notices"
-  },
-  {
-    "id": "CAT-ANN-PRG",
-    "name": "Programme Update",
-    "color": "#8B5CF6",
-    "description": "Ceremony schedules, session agendas, and guest arrival notifications"
-  },
-  {
-    "id": "CAT-ANN-SCH",
-    "name": "Schedule Change",
-    "color": "#D97706",
-    "description": "Timeline calibrations, slot extensions, and stage adjustments"
-  },
-  {
-    "id": "CAT-ANN-REG",
-    "name": "Registration Notice",
-    "color": "#10B981",
-    "description": "Chest number confirmations, badge check-ins, and squad rosters"
-  },
-  {
-    "id": "CAT-ANN-RES",
-    "name": "Result Announcement",
-    "color": "#A91F35",
-    "description": "Podium honors declarations, verified score sheets, and point standings"
-  },
-  {
-    "id": "CAT-ANN-EMG",
-    "name": "Emergency Notice",
-    "color": "#DC2626",
-    "description": "Urgent security, weather, logistics, or medical secretariat broadcasts"
-  }
-],
+    {
+      "id": "CAT-ANN-GEN",
+      "name": "General Announcement",
+      "color": "#64748B",
+      "description": "General notices, campus directives, and routine festival information"
+    },
+    {
+      "id": "CAT-ANN-IMP",
+      "name": "Important Notice",
+      "color": "#E6A916",
+      "description": "Critical briefings, advisory bulletins, and regulatory instructions"
+    },
+    {
+      "id": "CAT-ANN-CMP",
+      "name": "Competition Update",
+      "color": "#2563EB",
+      "description": "Competition calls, venue shifts, rubric revisions, and participant notices"
+    },
+    {
+      "id": "CAT-ANN-PRG",
+      "name": "Programme Update",
+      "color": "#8B5CF6",
+      "description": "Ceremony schedules, session agendas, and guest arrival notifications"
+    },
+    {
+      "id": "CAT-ANN-SCH",
+      "name": "Schedule Change",
+      "color": "#D97706",
+      "description": "Timeline calibrations, slot extensions, and stage adjustments"
+    },
+    {
+      "id": "CAT-ANN-REG",
+      "name": "Registration Notice",
+      "color": "#10B981",
+      "description": "Chest number confirmations, badge check-ins, and squad rosters"
+    },
+    {
+      "id": "CAT-ANN-RES",
+      "name": "Result Announcement",
+      "color": "#A91F35",
+      "description": "Podium honors declarations, verified score sheets, and point standings"
+    },
+    {
+      "id": "CAT-ANN-EMG",
+      "name": "Emergency Notice",
+      "color": "#DC2626",
+      "description": "Urgent security, weather, logistics, or medical secretariat broadcasts"
+    }
+  ],
   announcements: [],
   auditLogs: [],
   operationalActivities: [],
@@ -907,7 +907,7 @@ class FestivalStore {
         if (this._listeners) this._listeners.delete(listener);
       };
     }
-    return () => {};
+    return () => { };
   }
 
   _notify() {
@@ -1675,8 +1675,8 @@ class FestivalStore {
     const hasStudents = team.students && team.students.length > 0;
     const hasResults = (this.data.resultPosters || []).some(
       p => (p.firstPrize && p.firstPrize.teamId === id) ||
-           (p.secondPrize && p.secondPrize.teamId === id) ||
-           (p.thirdPrize && p.thirdPrize.teamId === id)
+        (p.secondPrize && p.secondPrize.teamId === id) ||
+        (p.thirdPrize && p.thirdPrize.teamId === id)
     );
 
     if (!force && (hasStudents || hasResults)) {
@@ -1835,7 +1835,7 @@ class FestivalStore {
     return (this.data.teams || []).map(t => {
       // Dynamically link students belonging to this team from registeredStudents
       const teamStudents = (this.data.registeredStudents || []).filter(s => s.teamId === t.id);
-      
+
       const countsByCategory = {
         Senior: teamStudents.filter(s => s.classCategory === 'Senior').length,
         Junior: teamStudents.filter(s => s.classCategory === 'Junior').length,
@@ -1897,8 +1897,11 @@ class FestivalStore {
 
     return {
       totalStudents: allStudents.length,
+      totalRegistered: allStudents.length,
       assignedStudents: allStudents.length - unassigned.length,
+      totalAllocated: allStudents.length - unassigned.length,
       unassignedStudentsCount: unassigned.length,
+      totalUnassigned: unassigned.length,
       team1Count: team1.members || 0,
       team2Count: team2.members || 0,
       teams,
@@ -2018,7 +2021,7 @@ class FestivalStore {
 
   getTeamAllocationAuditLogs() {
     const logs = this.data.auditLogs || [];
-    return logs.filter(l => 
+    return logs.filter(l =>
       l.action && (
         l.action.startsWith('STUDENT_') ||
         l.action.startsWith('TEAM_') ||
@@ -4160,10 +4163,10 @@ class FestivalStore {
     const defaultCriteria = compData.evaluationCriteria && compData.evaluationCriteria.length > 0
       ? compData.evaluationCriteria
       : [
-          { id: 'c1', name: 'Mastery & Technique', maxMarks: 40 },
-          { id: 'c2', name: 'Presentation & Style', maxMarks: 35 },
-          { id: 'c3', name: 'Adherence to Festival Theme', maxMarks: 25 }
-        ];
+        { id: 'c1', name: 'Mastery & Technique', maxMarks: 40 },
+        { id: 'c2', name: 'Presentation & Style', maxMarks: 35 },
+        { id: 'c3', name: 'Adherence to Festival Theme', maxMarks: 25 }
+      ];
 
     const newComp = {
       id: autoId,
@@ -4493,7 +4496,7 @@ class FestivalStore {
     if (!this.data.scoringConfig) {
       this.data.scoringConfig = JSON.parse(JSON.stringify(OFFICIAL_SCORING_CONFIG));
     }
-    
+
     // Only allow activating grade points if authorized admin confirmation is explicitly provided
     if (newConfig.isGradePointsActive && !this.data.scoringConfig.isGradePointsActive) {
       if (!adminConfirmation) {
@@ -6118,7 +6121,7 @@ class FestivalStore {
     const archivedTemplates = templates.filter(t => t.status === 'Archived' || t.isArchived).length;
 
     const totalDownloads = posters.reduce((sum, p) => sum + (p.downloadsCount || 0), 0) +
-                           templates.reduce((sum, t) => sum + (t.downloadsCount || 0), 0);
+      templates.reduce((sum, t) => sum + (t.downloadsCount || 0), 0);
 
     const recentPosters = [...posters]
       .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
@@ -6502,7 +6505,7 @@ class FestivalStore {
             updateData.status = 'Scheduled';
           }
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     if (updateData.expiryDate) {
@@ -6513,7 +6516,7 @@ class FestivalStore {
         if (!isNaN(parsed.getTime())) {
           updateData.expiryTimestamp = parsed.toISOString();
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     Object.assign(ann, updateData);
@@ -6888,7 +6891,7 @@ class FestivalStore {
     let reports = teams.map(t => {
       // Find students belonging to this team
       const teamStudents = students.filter(s => s.teamId === t.id);
-      
+
       // Count competition registrations for this team
       let compRegs = 0;
       competitions.forEach(c => {
@@ -7142,7 +7145,7 @@ class FestivalStore {
     let reports = competitions.map(c => {
       const poster = posters.find(p => p.competitionId === (c.competitionId || c.id) || p.competitionCode === (c.code || c.competitionCode));
       const isPublished = !!(c.isPublished || (poster && poster.status === 'Published'));
-      
+
       const winners = [];
       const sourcePoster = poster || c.resultPoster;
       if (sourcePoster) {
@@ -7843,16 +7846,16 @@ class FestivalStore {
     assignments.forEach(a => {
       const judgeIds = a.assignedJudgeIds || [];
       judgeIds.forEach(jId => {
-        const hasEval = evals.some(e => 
-          (e.competitionId === a.competitionId || e.assignmentId === a.id) && 
-          e.judgeId === jId && 
+        const hasEval = evals.some(e =>
+          (e.competitionId === a.competitionId || e.assignmentId === a.id) &&
+          e.judgeId === jId &&
           (e.status === 'Submitted' || e.status === 'Verified' || e.status === 'Approved' || e.status === 'Under Verification')
         );
         if (!hasEval) pendingJudgeEvaluations++;
       });
     });
 
-    const submittedJudgeEvaluations = evals.filter(e => 
+    const submittedJudgeEvaluations = evals.filter(e =>
       e.status === 'Submitted' || e.status === 'Verified' || e.status === 'Approved' || e.status === 'Under Verification'
     ).length;
 
@@ -7863,12 +7866,12 @@ class FestivalStore {
       return hasEvals && !isApproved;
     }).length;
 
-    const resultsApprovedByConvener = assignments.filter(a => 
-      (a.convenerApproved || a.status === 'Approved by Convener' || a.status === 'Approved') && 
+    const resultsApprovedByConvener = assignments.filter(a =>
+      (a.convenerApproved || a.status === 'Approved by Convener' || a.status === 'Approved') &&
       !a.isPublished && !a.isOfficialPublished
     ).length;
 
-    const publishedOfficialResults = assignments.filter(a => 
+    const publishedOfficialResults = assignments.filter(a =>
       a.isOfficialPublished || a.isPublished || a.status === 'Officially Published' || a.status === 'Published'
     ).length || posters.length;
 
@@ -7900,8 +7903,8 @@ class FestivalStore {
 
       assignedJudgeIds.forEach(jId => {
         const judge = judges.find(j => j.id === jId) || { id: jId, name: `Judge ${jId}`, email: '' };
-        const evalObj = evals.find(e => 
-          (e.competitionId === a.competitionId || e.assignmentId === a.id) && 
+        const evalObj = evals.find(e =>
+          (e.competitionId === a.competitionId || e.assignmentId === a.id) &&
           e.judgeId === jId
         );
 
@@ -7981,13 +7984,13 @@ class FestivalStore {
   }
 
   getJudgeWiseEvaluations(competitionId) {
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) return null;
 
     const judges = this.data.judges || [];
-    const evals = (this.data.submittedEvaluations || []).filter(e => 
+    const evals = (this.data.submittedEvaluations || []).filter(e =>
       e.competitionId === assignment.competitionId || e.assignmentId === assignment.id
     );
 
@@ -8020,7 +8023,7 @@ class FestivalStore {
   }
 
   convenerAssignJudgesToCompetition({ competitionId, judgeIds, criteria, instructions, assignedBy = 'Usthad Hashir Ali (Convener)' }) {
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) throw new Error('Competition not found.');
@@ -8058,15 +8061,15 @@ class FestivalStore {
   }
 
   convenerRemoveJudgeAssignment(competitionId, judgeId, removedBy = 'Usthad Hashir Ali (Convener)') {
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) throw new Error('Competition not found.');
 
     // Check if evaluation already submitted
-    const ev = (this.data.submittedEvaluations || []).find(e => 
-      (e.competitionId === assignment.competitionId || e.assignmentId === assignment.id) && 
-      e.judgeId === judgeId && 
+    const ev = (this.data.submittedEvaluations || []).find(e =>
+      (e.competitionId === assignment.competitionId || e.assignmentId === assignment.id) &&
+      e.judgeId === judgeId &&
       (e.status === 'Submitted' || e.status === 'Verified' || e.status === 'Approved')
     );
     if (ev) {
@@ -8089,13 +8092,13 @@ class FestivalStore {
       throw new Error('A valid reason is required when returning an evaluation for correction.');
     }
 
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) throw new Error('Competition not found.');
 
-    const ev = (this.data.submittedEvaluations || []).find(e => 
-      (e.competitionId === assignment.competitionId || e.assignmentId === assignment.id) && 
+    const ev = (this.data.submittedEvaluations || []).find(e =>
+      (e.competitionId === assignment.competitionId || e.assignmentId === assignment.id) &&
       e.judgeId === judgeId
     );
     if (!ev) throw new Error('Evaluation submission not found for this judge and competition.');
@@ -8134,7 +8137,7 @@ class FestivalStore {
     tieBreakerRule = 'criteria_weight',
     allowIncompleteException = false
   } = {}) {
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) throw new Error('Competition not found.');
@@ -8198,7 +8201,7 @@ class FestivalStore {
     convenerName = 'Usthad Hashir Ali',
     templateStyle = 'editorial_crimson'
   } = {}) {
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) throw new Error('Competition not found.');
@@ -8260,7 +8263,7 @@ class FestivalStore {
     if (!reason || !reason.trim()) {
       throw new Error('A formal justification is strictly required for administrative score correction.');
     }
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) throw new Error('Competition not found.');
@@ -8320,10 +8323,10 @@ class FestivalStore {
     const cleanInput = (emailOrUsername || '').trim().toLowerCase();
     const cleanPass = (password || '').trim();
 
-    const leader = leaders.find(l => 
-      (l.email.toLowerCase() === cleanInput || 
-       (l.alternateEmail && l.alternateEmail.toLowerCase() === cleanInput) ||
-       l.username.toLowerCase() === cleanInput) &&
+    const leader = leaders.find(l =>
+      (l.email.toLowerCase() === cleanInput ||
+        (l.alternateEmail && l.alternateEmail.toLowerCase() === cleanInput) ||
+        l.username.toLowerCase() === cleanInput) &&
       l.password === cleanPass
     );
 
@@ -8417,7 +8420,7 @@ class FestivalStore {
 
     // Count competitions where team students are participants
     const assignments = this.data.programmeAssignments || [];
-    const registeredCompetitions = assignments.filter(a => 
+    const registeredCompetitions = assignments.filter(a =>
       (a.participants || []).some(p => p.teamId === teamId || studentIds.includes(p.studentId))
     );
 
@@ -8425,7 +8428,7 @@ class FestivalStore {
     const progRegistrations = (this.data.programmeTeamRegistrations || []).filter(r => r.teamId === teamId);
 
     // Filter published posters where team is on podium
-    const posters = (this.data.resultPosters || []).filter(p => 
+    const posters = (this.data.resultPosters || []).filter(p =>
       (p.status === 'Published' || p.isPublished) && (
         (p.firstPrize && p.firstPrize.teamId === teamId) ||
         (p.secondPrize && p.secondPrize.teamId === teamId) ||
@@ -8434,9 +8437,9 @@ class FestivalStore {
     );
 
     // Announcements targeted to all, teams, or this specific team
-    const announcements = (this.data.announcements || []).filter(a => 
-      a.targetAudience === 'all' || 
-      a.targetAudience === 'teams' || 
+    const announcements = (this.data.announcements || []).filter(a =>
+      a.targetAudience === 'all' ||
+      a.targetAudience === 'teams' ||
       a.targetAudience === 'team_leaders' ||
       a.teamId === teamId
     );
@@ -8473,7 +8476,7 @@ class FestivalStore {
     return (this.data.registeredStudents || []).map(s => {
       const isAlreadyInMyTeam = existingTeamStudentIds.has(s.id);
       const isAssignedToOtherTeam = Boolean(s.teamId && s.teamId !== teamId && s.teamId !== 'Unassigned');
-      
+
       return {
         ...s,
         isAlreadyInMyTeam,
@@ -8543,7 +8546,7 @@ class FestivalStore {
 
     // Check if student has participated in evaluated competitions
     const assignments = this.data.programmeAssignments || [];
-    const hasEvaluated = assignments.some(a => 
+    const hasEvaluated = assignments.some(a =>
       (a.status === 'Submitted' || a.status === 'Verified' || a.status === 'Approved' || a.status === 'Officially Published') &&
       (a.participants || []).some(p => p.studentId === studentId)
     );
@@ -8579,7 +8582,7 @@ class FestivalStore {
     return assignments.map(comp => {
       const compParticipants = comp.participants || [];
       const teamParticipants = compParticipants.filter(p => p.teamId === teamId || teamStudentIds.has(p.studentId));
-      
+
       const isRegistered = teamParticipants.length > 0;
       const isPublished = Boolean(comp.isOfficialPublished || comp.isPublished);
       const isEvaluated = comp.status === 'Submitted' || comp.status === 'Verified' || comp.status === 'Approved' || isPublished;
@@ -8600,7 +8603,7 @@ class FestivalStore {
     const team = (this.data.teams || []).find(t => t.id === teamId);
     if (!team) throw new Error('Team not found.');
 
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) throw new Error('Target competition not found.');
@@ -8659,7 +8662,7 @@ class FestivalStore {
     const team = (this.data.teams || []).find(t => t.id === teamId);
     if (!team) throw new Error('Team not found.');
 
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) throw new Error('Competition not found.');
@@ -8710,7 +8713,7 @@ class FestivalStore {
       this.data.programmeTeamRegistrations = [];
     }
 
-    const existingReg = this.data.programmeTeamRegistrations.find(r => 
+    const existingReg = this.data.programmeTeamRegistrations.find(r =>
       r.teamId === teamId && (r.programmeId === programme.id || r.programmeId === programme.code)
     );
 
@@ -8748,7 +8751,7 @@ class FestivalStore {
 
   cancelTeamProgrammeRegistration({ teamId, programmeId }) {
     if (!this.data.programmeTeamRegistrations) return { success: true };
-    this.data.programmeTeamRegistrations = this.data.programmeTeamRegistrations.filter(r => 
+    this.data.programmeTeamRegistrations = this.data.programmeTeamRegistrations.filter(r =>
       !(r.teamId === teamId && (r.programmeId === programmeId || r.programmeCode === programmeId))
     );
     this.saveData();
@@ -8794,9 +8797,9 @@ class FestivalStore {
   }
 
   getTeamAnnouncements(teamId) {
-    return (this.data.announcements || []).filter(a => 
-      a.targetAudience === 'all' || 
-      a.targetAudience === 'teams' || 
+    return (this.data.announcements || []).filter(a =>
+      a.targetAudience === 'all' ||
+      a.targetAudience === 'teams' ||
       a.targetAudience === 'team_leaders' ||
       a.teamId === teamId
     );
@@ -8835,7 +8838,7 @@ class FestivalStore {
     }
 
     // Match chestNo, email, studentId, or demo alias (e.g. student1@dalenziafest.in -> C-101)
-    let student = students.find(s => 
+    let student = students.find(s =>
       (s.chestNo && s.chestNo.toLowerCase() === cleanInput) ||
       (s.email && s.email.toLowerCase() === cleanInput) ||
       (s.id && s.id.toLowerCase() === cleanInput)
@@ -9028,7 +9031,7 @@ class FestivalStore {
     const myComps = [];
 
     assignments.forEach(a => {
-      const isParticipant = (a.participants || []).some(p => 
+      const isParticipant = (a.participants || []).some(p =>
         p.studentId === student.id || p.chestNo === student.chestNo || (p.name && p.name.toLowerCase() === student.name.toLowerCase())
       );
 
@@ -9067,7 +9070,7 @@ class FestivalStore {
     if (!student) return [];
 
     const registrations = this.data.programmeTeamRegistrations || [];
-    const myRegs = registrations.filter(r => 
+    const myRegs = registrations.filter(r =>
       (r.studentIds || []).includes(student.id) || (r.teamId && r.teamId === student.teamId)
     );
 
@@ -9237,7 +9240,7 @@ class FestivalStore {
     const student = (this.data.registeredStudents || []).find(s => s.id === studentId || s.chestNo === studentId);
     const teamId = student ? student.teamId : null;
 
-    return (this.data.announcements || []).filter(a => 
+    return (this.data.announcements || []).filter(a =>
       a.targetAudience === 'all' ||
       a.targetAudience === 'students' ||
       (teamId && a.teamId === teamId)
@@ -9248,7 +9251,7 @@ class FestivalStore {
     const student = (this.data.registeredStudents || []).find(s => s.id === studentId || s.chestNo === studentId);
     if (!student) return [];
 
-    let customNotifs = (this.data.notifications || []).filter(n => 
+    let customNotifs = (this.data.notifications || []).filter(n =>
       n.studentId === student.id || n.targetAudience === 'students' || n.targetAudience === 'all'
     );
 
@@ -9364,7 +9367,7 @@ class FestivalStore {
       throw new Error('Please enter Stage Controller username/email and password.');
     }
 
-    const controller = controllers.find(c => 
+    const controller = controllers.find(c =>
       (c.email && c.email.toLowerCase() === cleanInput) ||
       (c.username && c.username.toLowerCase() === cleanInput) ||
       (c.id && c.id.toLowerCase() === cleanInput) ||
@@ -9470,7 +9473,7 @@ class FestivalStore {
     const assignments = this.data.programmeAssignments || [];
 
     // Filter assignments that match stageId, venue, or name
-    const stageComps = assignments.filter(a => 
+    const stageComps = assignments.filter(a =>
       a.stageId === stageId ||
       (a.venue && stageShort && a.venue.toLowerCase().includes(stageShort.toLowerCase())) ||
       (a.venue && a.venue.includes(stageId))
@@ -9514,7 +9517,7 @@ class FestivalStore {
       throw new Error(`Invalid status. Must be one of: ${valid.join(', ')}`);
     }
 
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.id === competitionId || a.competitionId === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) throw new Error('Target competition not found.');
@@ -9540,12 +9543,12 @@ class FestivalStore {
   getCompetitionCodeAssignments(competitionId, stageId) {
     if (!this.data.competitionCodeAssignments) this.data.competitionCodeAssignments = [];
 
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.id === competitionId || a.competitionId === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) return [];
 
-    let codes = this.data.competitionCodeAssignments.filter(c => 
+    let codes = this.data.competitionCodeAssignments.filter(c =>
       c.competitionId === assignment.competitionId || c.competitionId === assignment.id
     );
 
@@ -9572,14 +9575,14 @@ class FestivalStore {
         };
         this.data.competitionCodeAssignments.push(newCodeRecord);
       });
-      codes = this.data.competitionCodeAssignments.filter(c => 
+      codes = this.data.competitionCodeAssignments.filter(c =>
         c.competitionId === assignment.competitionId || c.competitionId === assignment.id
       );
       this.saveData();
     }
 
     // Check if locked
-    const session = (this.data.stageDrawSessions || []).find(s => 
+    const session = (this.data.stageDrawSessions || []).find(s =>
       (s.competitionId === assignment.competitionId || s.competitionId === assignment.id) &&
       (s.sessionStatus === 'Active' || s.sessionStatus === 'Completed')
     );
@@ -9587,8 +9590,8 @@ class FestivalStore {
     const drawResults = this.data.stageDrawResults || [];
     return codes.map(c => {
       const codeStr = c.code || c.codeLetter;
-      const drawRes = drawResults.find(r => 
-        (r.competitionId === assignment.competitionId || r.competitionId === assignment.id) && 
+      const drawRes = drawResults.find(r =>
+        (r.competitionId === assignment.competitionId || r.competitionId === assignment.id) &&
         (r.code === codeStr || r.studentId === c.studentId)
       );
       return {
@@ -9605,13 +9608,13 @@ class FestivalStore {
   generateParticipantCodes(competitionId, stageId, prefix = 'A', operator = 'Stage Controller') {
     if (!this.data.competitionCodeAssignments) this.data.competitionCodeAssignments = [];
 
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.id === competitionId || a.competitionId === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) throw new Error('Target competition not found.');
 
     // Check if draw has already commenced
-    const session = (this.data.stageDrawSessions || []).find(s => 
+    const session = (this.data.stageDrawSessions || []).find(s =>
       (s.competitionId === assignment.competitionId || s.competitionId === assignment.id) &&
       (s.sessionStatus === 'Active' || s.sessionStatus === 'Completed')
     );
@@ -9620,7 +9623,7 @@ class FestivalStore {
     }
 
     // Remove existing codes for this competition
-    this.data.competitionCodeAssignments = this.data.competitionCodeAssignments.filter(c => 
+    this.data.competitionCodeAssignments = this.data.competitionCodeAssignments.filter(c =>
       !(c.competitionId === assignment.competitionId || c.competitionId === assignment.id)
     );
 
@@ -9664,7 +9667,7 @@ class FestivalStore {
   getOrCreateDrawSession(stageId, competitionId, operator = 'Stage Controller') {
     if (!this.data.stageDrawSessions) this.data.stageDrawSessions = [];
 
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.id === competitionId || a.competitionId === competitionId || a.competitionCode === competitionId
     );
     if (!assignment) throw new Error('Target competition not found.');
@@ -9675,7 +9678,7 @@ class FestivalStore {
       throw new Error('Cannot start draw: No participant code letters assigned.');
     }
 
-    let session = this.data.stageDrawSessions.find(s => 
+    let session = this.data.stageDrawSessions.find(s =>
       s.competitionId === assignment.competitionId || s.competitionId === assignment.id
     );
 
@@ -9867,13 +9870,13 @@ class FestivalStore {
   }
 
   getStageCallingRecords(competitionId, stageId) {
-    const assignment = (this.data.programmeAssignments || []).find(a => 
+    const assignment = (this.data.programmeAssignments || []).find(a =>
       a.id === competitionId || a.competitionId === competitionId || a.competitionCode === competitionId
     );
     const targetCompId = assignment ? (assignment.competitionId || assignment.id) : competitionId;
     const targetAsgId = assignment ? assignment.id : competitionId;
 
-    const records = (this.data.stageCallingRecords || []).filter(r => 
+    const records = (this.data.stageCallingRecords || []).filter(r =>
       (r.stageId === stageId || !stageId) &&
       (r.competitionId === targetCompId || r.competitionId === targetAsgId || r.sessionId === competitionId || r.competitionId === competitionId)
     );
@@ -9928,15 +9931,15 @@ class FestivalStore {
 
     this.saveData();
     this._notify();
-    return { 
-      success: true, 
+    return {
+      success: true,
       record: {
         ...record,
         codeLetter: record.code,
         callOrder: record.drawPosition,
         status: record.callingStatus,
         skipReason: record.correctionReason
-      } 
+      }
     };
   }
 
@@ -9965,13 +9968,13 @@ class FestivalStore {
       completedCount = records.filter(r => r.callingStatus === 'Completed').length;
 
       // Current active participant (In Progress, Present, or Called)
-      currentCalling = records.find(r => 
+      currentCalling = records.find(r =>
         r.callingStatus === 'In Progress' || r.callingStatus === 'Present' || r.callingStatus === 'Called'
       ) || records.find(r => r.callingStatus === 'Drawn') || records[records.length - 1] || null;
 
       if (currentCalling) {
         // Next up in sequence
-        nextCalling = records.find(r => 
+        nextCalling = records.find(r =>
           r.drawPosition > currentCalling.drawPosition &&
           (r.callingStatus === 'Waiting' || r.callingStatus === 'Drawn')
         ) || null;
@@ -10093,7 +10096,7 @@ class FestivalStore {
       const compJudges = allJudges.filter(j => judgeIds.includes(j.id));
 
       compJudges.forEach(judge => {
-        const evalRecord = evaluations.find(e => 
+        const evalRecord = evaluations.find(e =>
           (e.competitionId === comp.competitionId || e.competitionId === comp.id) &&
           e.judgeId === judge.id
         );
@@ -10408,9 +10411,9 @@ class FestivalStore {
     // Check duplicate external participant by phone + name
     const existing = (this.data.registrations || []).find(
       r => r.type === 'external_participant' &&
-           r.status !== 'Cancelled' &&
-           r.phone.replace(/\D/g, '') === cleanPhone.replace(/\D/g, '') &&
-           r.participantName.toLowerCase() === cleanName.toLowerCase()
+        r.status !== 'Cancelled' &&
+        r.phone.replace(/\D/g, '') === cleanPhone.replace(/\D/g, '') &&
+        r.participantName.toLowerCase() === cleanName.toLowerCase()
     );
     if (existing) {
       throw new Error(`External participant "${cleanName}" with contact "${cleanPhone}" is already registered under Ticket ID: ${existing.ticketId}.`);
@@ -10558,8 +10561,8 @@ class FestivalStore {
     const clean = query.trim().toUpperCase();
     const reg = (this.data.registrations || []).find(
       r => (r.ticketId && r.ticketId.toUpperCase() === clean) ||
-           (r.verificationCode && r.verificationCode.toUpperCase() === clean) ||
-           (r.previousTickets && r.previousTickets.some(p => p.ticketId.toUpperCase() === clean))
+        (r.verificationCode && r.verificationCode.toUpperCase() === clean) ||
+        (r.previousTickets && r.previousTickets.some(p => p.ticketId.toUpperCase() === clean))
     );
 
     if (!reg) {
@@ -10830,7 +10833,7 @@ class FestivalStore {
     return categories.map(cat => {
       const progs = (this.data.programmeAssignments || []).filter(p => p.category === cat);
       const published = progs.filter(p => p.isPublished).length;
-      
+
       let dazzlersPts = 0;
       let dynamosPts = 0;
 

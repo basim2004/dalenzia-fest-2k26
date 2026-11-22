@@ -1,0 +1,82 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isMainAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.role == 'admin' ||
+        request.auth.token.email == 'admin@dalenziafest.in'
+      );
+    }
+
+    function isConvener() {
+      return isAuthenticated() && (
+        isMainAdmin() ||
+        request.auth.token.role == 'convener' ||
+        request.auth.token.email == 'convener@dalenziafest.in'
+      );
+    }
+
+    function isTeamLeader(teamId) {
+      return isAuthenticated() && (
+        isConvener() ||
+        (request.auth.token.role == 'team_leader' && request.auth.token.teamId == teamId)
+      );
+    }
+
+    // Teams Collection
+    match /teams/{teamId} {
+      // Anyone can read team names and scores for public leaderboard
+      allow read: if true;
+      // Convener and Main Admin can create/update teams
+      allow create, delete: if isMainAdmin();
+      allow update: if isConvener() || (
+        isTeamLeader(teamId) &&
+        // Leaders can only update internal squad membership, not rank/points
+        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['rank', 'points', 'code'])
+      );
+    }
+
+    // Student Team Assignments
+    match /team_allocations/{allocationId} {
+      allow read: if true;
+      // Only authorized Team Leader (for their own team) or Convener/Admin can write
+      allow create, update: if isConvener() || (
+        request.resource.data.teamId != null &&
+        isTeamLeader(request.resource.data.teamId)
+      );
+      allow delete: if isConvener();
+    }
+
+    // Student Registry
+    match /students/{studentId} {
+      allow read: if true;
+      allow create, delete: if isMainAdmin() || isConvener();
+      // Team Leaders can only update teamId if student is currently unassigned
+      allow update: if isConvener() || (
+        isAuthenticated() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['teamId', 'teamName', 'updatedAt']) &&
+        (resource.data.teamId == null || resource.data.teamId == 'Unassigned') &&
+        isTeamLeader(request.resource.data.teamId)
+      );
+    }
+
+    // Team Allocation Audit Logs
+    match /audit_logs/{logId} {
+      allow read: if isConvener() || isMainAdmin();
+      allow create: if isAuthenticated();
+      allow update, delete: if false; // Immutable audit trail
+    }
+
+    // Public / Default collections
+    match /{document=**} {
+      allow read: if true;
+      allow write: if isMainAdmin();
+    }
+  }
+}

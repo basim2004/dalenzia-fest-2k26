@@ -42,7 +42,7 @@ export default function TeamLeaderLayout({
   const navigationItems = [
     { id: 'dashboard', name: 'Squad Dashboard', icon: LayoutDashboard },
     { id: 'myteam', name: 'My Team Squad', icon: Shield },
-    { id: 'students', name: 'Student Roster', icon: UserCheck, highlight: true },
+    { id: 'students', name: 'Team Allocation', icon: UserCheck, highlight: true },
     { id: 'competitions', name: 'Competition Registration', icon: Trophy },
     { id: 'programmes', name: 'Programme Registration', icon: Calendar },
     { id: 'results', name: 'Team Results & Awards', icon: Award },

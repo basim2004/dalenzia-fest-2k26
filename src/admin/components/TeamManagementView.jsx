@@ -42,11 +42,13 @@ import {
   ArrowUpDown
 } from 'lucide-react';
 import { festivalStore } from '../data/festivalStore';
+import TeamCharterPdfModal from '../../components/TeamCharterPdfModal';
 
 export default function TeamManagementView({ activeSection = 'teams' }) {
   // Store data state
   const [storeData, setStoreData] = useState(() => festivalStore.loadData());
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'list' | 'reports'
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'allocations' | 'list' | 'reports'
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
 
   // Search, Filter & Sort states for Team List
   const [searchQuery, setSearchQuery] = useState('');
@@ -317,6 +319,13 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
 
           <div className="flex items-center gap-2.5 flex-wrap">
             <button
+              onClick={() => setIsPdfModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-[#A91F35] text-white hover:bg-[#8B1A2C] transition-all shadow-md active:scale-95 cursor-pointer"
+            >
+              <Printer className="w-4 h-4 text-[#E6A916]" />
+              <span>Export Official Charter PDF</span>
+            </button>
+            <button
               onClick={() => {
                 const nextNum = (teams.length + 1).toString().padStart(2, '0');
                 setNewTeamForm({
@@ -330,18 +339,19 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
                 });
                 setIsAddTeamModalOpen(true);
               }}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-[#A91F35] text-white hover:bg-[#8B1A2C] transition-all shadow-md active:scale-95"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-stone-100 hover:bg-stone-200 text-stone-800 transition-all cursor-pointer"
             >
-              <Plus className="w-4 h-4 text-[#E6A916]" />
+              <Plus className="w-4 h-4 text-[#A91F35]" />
               <span>Add New Team</span>
             </button>
           </div>
         </div>
 
         {/* Sub-Navigation Tabs */}
-        <div className="flex items-center gap-2 pt-4 text-xs font-bold">
+        <div className="flex items-center gap-2 pt-4 text-xs font-bold overflow-x-auto">
           {[
             { id: 'dashboard', label: 'Dashboard & Metrics', count: teamStats.totalTeams, icon: TrendingUp },
+            { id: 'allocations', label: 'Team Allocation & Audit Trail', icon: ArrowUpDown },
             { id: 'list', label: 'Teams Directory', count: teams.length, icon: Users },
             { id: 'reports', label: 'Team Reports & Analytics', icon: Printer }
           ].map((tab) => {
@@ -849,6 +859,255 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 4. SUB-VIEW: TEAM ALLOCATION & AUDIT TRAIL                                */}
+      {/* ========================================================================= */}
+      {activeTab === 'allocations' && (
+        <div className="space-y-6">
+          {/* Header Action Card */}
+          <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <span className="text-[10px] font-black uppercase text-[#A91F35] bg-[#A91F35]/10 px-2.5 py-0.5 rounded-full">
+                Festival Charter Reference: Dalenzia_Teams.pdf
+              </span>
+              <h2 className="text-xl font-serif font-black text-stone-900 mt-1">
+                Centralized Team Allocation & Audit Trail
+              </h2>
+              <p className="text-xs text-stone-500">
+                Authoritative team squads, category distributions and immutable audit trail of all allocations.
+              </p>
+            </div>
+
+            <button
+              onClick={() => setIsPdfModalOpen(true)}
+              className="px-4 py-2.5 rounded-2xl bg-[#A91F35] text-white hover:bg-[#8B1A2C] text-xs font-bold shadow-md flex items-center gap-2 cursor-pointer transition-all active:scale-95"
+            >
+              <Printer className="w-4 h-4 text-[#E6A916]" />
+              <span>Export Official Charter PDF</span>
+            </button>
+          </div>
+
+          {/* Side-by-Side Team Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* TEAM 1 */}
+            {(() => {
+              const t1 = teams.find(t => t.id === 'team-1') || teams[0];
+              const t1Students = t1?.students || [];
+              return (
+                <div className="bg-white rounded-3xl border-2 border-[#A91F35]/30 overflow-hidden shadow-xs">
+                  <div className="bg-[#A91F35] text-white p-5 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-black uppercase text-[#E6A916] bg-black/20 px-2.5 py-0.5 rounded-full">
+                        Official House 1
+                      </span>
+                      <h3 className="text-2xl font-serif font-black mt-1">{t1?.name}</h3>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-serif font-black">{t1Students.length}</div>
+                      <div className="text-[10px] text-white/80 font-bold uppercase">Members</div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-rose-50/60 border-b border-rose-100 flex items-center justify-between text-xs">
+                    <div>
+                      <div className="font-bold text-[#A91F35] flex items-center gap-1.5">
+                        <Crown className="w-3.5 h-3.5" />
+                        <span>Leader: <strong>(L) {t1?.leader}</strong></span>
+                      </div>
+                      <div className="text-stone-600 flex items-center gap-1.5 mt-0.5">
+                        <ShieldCheck className="w-3.5 h-3.5 text-[#E6A916]" />
+                        <span>Asst Leader: <strong>(AL) {t1?.asstLeader}</strong></span>
+                      </div>
+                    </div>
+                    <span className="font-mono text-[11px] text-stone-500 font-bold">
+                      ID: {t1?.id}
+                    </span>
+                  </div>
+
+                  <div className="p-3 bg-stone-50 border-b border-stone-200 grid grid-cols-4 gap-2 text-center text-[10px]">
+                    <div className="p-1.5 rounded-lg bg-white border border-stone-200">
+                      <span className="text-stone-500 block font-medium">Senior</span>
+                      <strong className="text-stone-900 text-xs">{t1?.countsByCategory?.Senior || 0}</strong>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-white border border-stone-200">
+                      <span className="text-stone-500 block font-medium">Junior</span>
+                      <strong className="text-stone-900 text-xs">{t1?.countsByCategory?.Junior || 0}</strong>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-white border border-stone-200">
+                      <span className="text-stone-500 block font-medium">Sub-Jnr</span>
+                      <strong className="text-stone-900 text-xs">{t1?.countsByCategory?.['Sub Junior'] || 0}</strong>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-white border border-stone-200">
+                      <span className="text-stone-500 block font-medium">Minor</span>
+                      <strong className="text-stone-900 text-xs">{t1?.countsByCategory?.Minor || 0}</strong>
+                    </div>
+                  </div>
+
+                  <div className="p-4 max-h-72 overflow-y-auto divide-y divide-stone-100 text-xs">
+                    {t1Students.map((s, idx) => (
+                      <div key={s.id} className="py-2 flex items-center justify-between hover:bg-stone-50 px-2 rounded-lg">
+                        <div className="flex items-center gap-2.5">
+                          <span className="w-5 text-right font-mono font-bold text-stone-400">{idx + 1}</span>
+                          <div>
+                            <div className="font-bold text-stone-900">{s.name}</div>
+                            <div className="text-[10px] text-stone-500 font-mono">Chest: {s.chestNo}</div>
+                          </div>
+                        </div>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-stone-100 text-stone-700">
+                          {s.classCategory}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* TEAM 2 */}
+            {(() => {
+              const t2 = teams.find(t => t.id === 'team-2') || teams[1];
+              const t2Students = t2?.students || [];
+              return (
+                <div className="bg-white rounded-3xl border-2 border-[#E6A916]/40 overflow-hidden shadow-xs">
+                  <div className="bg-[#E6A916] text-white p-5 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-black uppercase text-stone-900 bg-white/30 px-2.5 py-0.5 rounded-full">
+                        Official House 2
+                      </span>
+                      <h3 className="text-2xl font-serif font-black mt-1 text-stone-900">{t2?.name}</h3>
+                    </div>
+                    <div className="text-right text-stone-900">
+                      <div className="text-2xl font-serif font-black">{t2Students.length}</div>
+                      <div className="text-[10px] text-stone-800 font-bold uppercase">Members</div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-amber-50/60 border-b border-amber-100 flex items-center justify-between text-xs">
+                    <div>
+                      <div className="font-bold text-[#D97706] flex items-center gap-1.5">
+                        <Crown className="w-3.5 h-3.5" />
+                        <span>Leader: <strong>(L) {t2?.leader}</strong></span>
+                      </div>
+                      <div className="text-stone-600 flex items-center gap-1.5 mt-0.5">
+                        <ShieldCheck className="w-3.5 h-3.5 text-[#A91F35]" />
+                        <span>Asst Leader: <strong>(AL) {t2?.asstLeader}</strong></span>
+                      </div>
+                    </div>
+                    <span className="font-mono text-[11px] text-stone-500 font-bold">
+                      ID: {t2?.id}
+                    </span>
+                  </div>
+
+                  <div className="p-3 bg-stone-50 border-b border-stone-200 grid grid-cols-4 gap-2 text-center text-[10px]">
+                    <div className="p-1.5 rounded-lg bg-white border border-stone-200">
+                      <span className="text-stone-500 block font-medium">Senior</span>
+                      <strong className="text-stone-900 text-xs">{t2?.countsByCategory?.Senior || 0}</strong>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-white border border-stone-200">
+                      <span className="text-stone-500 block font-medium">Junior</span>
+                      <strong className="text-stone-900 text-xs">{t2?.countsByCategory?.Junior || 0}</strong>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-white border border-stone-200">
+                      <span className="text-stone-500 block font-medium">Sub-Jnr</span>
+                      <strong className="text-stone-900 text-xs">{t2?.countsByCategory?.['Sub Junior'] || 0}</strong>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-white border border-stone-200">
+                      <span className="text-stone-500 block font-medium">Minor</span>
+                      <strong className="text-stone-900 text-xs">{t2?.countsByCategory?.Minor || 0}</strong>
+                    </div>
+                  </div>
+
+                  <div className="p-4 max-h-72 overflow-y-auto divide-y divide-stone-100 text-xs">
+                    {t2Students.map((s, idx) => (
+                      <div key={s.id} className="py-2 flex items-center justify-between hover:bg-stone-50 px-2 rounded-lg">
+                        <div className="flex items-center gap-2.5">
+                          <span className="w-5 text-right font-mono font-bold text-stone-400">{idx + 1}</span>
+                          <div>
+                            <div className="font-bold text-stone-900">{s.name}</div>
+                            <div className="text-[10px] text-stone-500 font-mono">Chest: {s.chestNo}</div>
+                          </div>
+                        </div>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-stone-100 text-stone-700">
+                          {s.classCategory}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* AUDIT HISTORY TRAIL TABLE */}
+          <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-xs space-y-4">
+            <div className="flex items-center justify-between border-b border-stone-100 pb-4">
+              <div>
+                <h3 className="text-base font-bold text-stone-900 font-serif">
+                  Official Team Allocation Audit History
+                </h3>
+                <p className="text-xs text-stone-500">
+                  Comprehensive audit trail of additions, removals, reassignments, and leadership updates
+                </p>
+              </div>
+              <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-stone-100 text-stone-700">
+                {festivalStore.getTeamAllocationAuditLogs().length} Events Recorded
+              </span>
+            </div>
+
+            <div className="overflow-x-auto rounded-2xl border border-stone-200">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-[#FAF7F2] text-stone-700 font-bold border-b border-stone-200 uppercase text-[10px] tracking-wider">
+                  <tr>
+                    <th className="py-3 px-4">Timestamp</th>
+                    <th className="py-3 px-4">Action</th>
+                    <th className="py-3 px-4">Actor</th>
+                    <th className="py-3 px-4">Details</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-100">
+                  {festivalStore.getTeamAllocationAuditLogs().length === 0 ? (
+                    <tr>
+                      <td colSpan="4" className="py-8 text-center text-stone-500">
+                        No team allocation audit events recorded yet.
+                      </td>
+                    </tr>
+                  ) : (
+                    festivalStore.getTeamAllocationAuditLogs().slice(0, 30).map((log, idx) => (
+                      <tr key={log.id || idx} className="hover:bg-stone-50/60">
+                        <td className="py-3 px-4 font-mono text-[11px] text-stone-500 whitespace-nowrap">
+                          {log.timestamp || new Date().toLocaleString()}
+                        </td>
+                        <td className="py-3 px-4">
+                          <span
+                            className={`px-2 py-0.5 rounded-full font-bold text-[10px] ${
+                              (log.action || '').includes('ALLOCATED')
+                                ? 'bg-emerald-100 text-emerald-800'
+                                : (log.action || '').includes('REMOVED')
+                                ? 'bg-red-100 text-red-800'
+                                : (log.action || '').includes('REASSIGNED')
+                                ? 'bg-amber-100 text-amber-800'
+                                : 'bg-purple-100 text-purple-800'
+                            }`}
+                          >
+                            {log.action}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 font-bold text-stone-800">
+                          {log.actor || 'System'}
+                        </td>
+                        <td className="py-3 px-4 text-stone-700">
+                          {log.details}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
@@ -1633,6 +1892,12 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Official Team Charter PDF Modal */}
+      <TeamCharterPdfModal
+        isOpen={isPdfModalOpen}
+        onClose={() => setIsPdfModalOpen(false)}
+      />
     </div>
   );
 }

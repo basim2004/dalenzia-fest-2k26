@@ -13,10 +13,13 @@ import {
   Sparkles,
   Users,
   Shield,
-  Layers,
-  ArrowRight
+  Printer,
+  ChevronRight,
+  Phone,
+  Crown
 } from 'lucide-react';
 import { festivalStore } from '../../admin/data/festivalStore';
+import TeamCharterPdfModal from '../../components/TeamCharterPdfModal';
 
 export default function TeamLeaderStudents({ teamId }) {
   const [team, setTeam] = useState(() => festivalStore.getTeamById(teamId));
@@ -29,11 +32,18 @@ export default function TeamLeaderStudents({ teamId }) {
   // Add Student Modal State
   const [showAddModal, setShowAddModal] = useState(false);
   const [addSearchQuery, setAddSearchQuery] = useState('');
+  const [addCategoryFilter, setAddCategoryFilter] = useState('all');
   const [selectedStudentToAdd, setSelectedStudentToAdd] = useState(null);
-  const [chosenCompCategory, setChosenCompCategory] = useState('Literary Arena');
+
+  // Remove confirmation modal
+  const [studentToRemove, setStudentToRemove] = useState(null);
+  const [removeReason, setRemoveReason] = useState('');
 
   // Student Profile Detail Modal
   const [inspectStudent, setInspectStudent] = useState(null);
+
+  // PDF Charter Modal
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
 
   // Toast
   const [toast, setToast] = useState(null);
@@ -55,58 +65,124 @@ export default function TeamLeaderStudents({ teamId }) {
     return team?.students || [];
   }, [team]);
 
+  // Category counts
+  const categoryCounts = useMemo(() => {
+    return {
+      Senior: squadStudents.filter(s => s.classCategory === 'Senior').length,
+      Junior: squadStudents.filter(s => s.classCategory === 'Junior').length,
+      'Sub Junior': squadStudents.filter(s => s.classCategory === 'Sub Junior').length,
+      Minor: squadStudents.filter(s => s.classCategory === 'Minor').length
+    };
+  }, [squadStudents]);
+
   // Filtered squad students
   const filteredSquadStudents = useMemo(() => {
     return squadStudents.filter(s => {
+      const q = searchQuery.toLowerCase().trim();
       const matchSearch =
-        s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.chestNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.id.toLowerCase().includes(searchQuery.toLowerCase());
+        q === '' ||
+        (s.name || '').toLowerCase().includes(q) ||
+        (s.chestNo || '').toLowerCase().includes(q) ||
+        (s.id || '').toLowerCase().includes(q);
+
       const matchCategory =
-        categoryFilter === 'all' || (s.category || '').toLowerCase() === categoryFilter.toLowerCase();
+        categoryFilter === 'all' ||
+        (s.classCategory || '').toLowerCase() === categoryFilter.toLowerCase();
+
       return matchSearch && matchCategory;
     });
   }, [squadStudents, searchQuery, categoryFilter]);
 
   // Available students in registry for adding
   const availableStudents = useMemo(() => {
-    return festivalStore.searchAvailableStudentsForTeam(teamId, addSearchQuery);
-  }, [teamId, addSearchQuery, storeData]);
+    const unassigned = festivalStore.getUnassignedStudents(
+      addCategoryFilter === 'all' ? null : addCategoryFilter,
+      addSearchQuery
+    );
+    return unassigned;
+  }, [addCategoryFilter, addSearchQuery, storeData]);
 
   const handleAddStudentToSquad = (e) => {
     e.preventDefault();
     if (!selectedStudentToAdd) {
-      showToast('Please select a student candidate from the list.', 'error');
+      showToast('Please select an eligible student from the list.', 'error');
       return;
     }
 
     try {
-      festivalStore.assignStudentToTeamLeaderTeam(teamId, selectedStudentToAdd.id, {
-        competitionCategory: chosenCompCategory
-      });
-      showToast(`Student ${selectedStudentToAdd.name} (${selectedStudentToAdd.chestNo}) enrolled into squad!`);
+      festivalStore.allocateStudentToTeam(
+        teamId,
+        selectedStudentToAdd.id,
+        team?.leader ? `Team Leader (${team.leader})` : 'Team Leader'
+      );
+      showToast(
+        `Student ${selectedStudentToAdd.name} (${selectedStudentToAdd.chestNo}) enrolled into ${team?.name}!`
+      );
       setShowAddModal(false);
       setSelectedStudentToAdd(null);
       setAddSearchQuery('');
+      setAddCategoryFilter('all');
     } catch (err) {
       showToast(err.message, 'error');
     }
   };
 
-  const handleRemoveStudent = (studentId, studentName) => {
-    if (!window.confirm(`Are you sure you want to remove candidate ${studentName} from your team squad?`)) return;
+  const confirmRemoveStudent = () => {
+    if (!studentToRemove) return;
+
+    // Check if trying to remove leader or asst leader
+    if (
+      studentToRemove.id === team?.leaderStudentId ||
+      studentToRemove.id === team?.asstLeaderStudentId
+    ) {
+      showToast('Team Leader and Assistant Leader cannot be removed from squad.', 'error');
+      setStudentToRemove(null);
+      return;
+    }
 
     try {
-      festivalStore.removeStudentFromTeamLeaderTeam(teamId, studentId, 'Leader roster update');
-      showToast(`Candidate ${studentName} removed from squad.`);
+      festivalStore.removeStudentFromTeam(
+        teamId,
+        studentToRemove.id,
+        team?.leader ? `Team Leader (${team.leader})` : 'Team Leader',
+        removeReason || 'Squad reorganization'
+      );
+      showToast(`Student ${studentToRemove.name} removed from squad.`);
+      setStudentToRemove(null);
+      setRemoveReason('');
     } catch (err) {
       showToast(err.message, 'error');
     }
   };
+
+  const getCategoryBadgeClass = (cat) => {
+    switch (cat) {
+      case 'Senior':
+        return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'Junior':
+        return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'Sub Junior':
+        return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      case 'Minor':
+      default:
+        return 'bg-amber-100 text-amber-800 border-amber-200';
+    }
+  };
+
+  if (!team) {
+    return (
+      <div className="p-8 text-center text-xs text-stone-500 bg-white rounded-3xl border border-stone-200">
+        Team record not found or unauthorized team scope.
+      </div>
+    );
+  }
+
+  const isTeam1 = teamId === 'team-1';
+  const themeBg = isTeam1 ? 'bg-[#A91F35]' : 'bg-[#E6A916]';
 
   return (
     <div className="space-y-6">
-      {/* Toast */}
+      {/* Toast Notification */}
       <AnimatePresence>
         {toast && (
           <motion.div
@@ -124,35 +200,87 @@ export default function TeamLeaderStudents({ teamId }) {
       </AnimatePresence>
 
       {/* Header Banner */}
-      <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-black uppercase text-[#A91F35] bg-[#A91F35]/10 px-2.5 py-0.5 rounded-full">
-              Team Roster Management
+      <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className={`text-[10px] font-black uppercase text-white px-2.5 py-0.5 rounded-full ${themeBg}`}
+            >
+              {team.name}
             </span>
             <span className="text-xs font-bold text-stone-500 font-mono">
-              Total Enrolled: {squadStudents.length} Students
+              Squad ID: {team.id} ({team.code})
+            </span>
+            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+              {squadStudents.length} Students Allocated
             </span>
           </div>
-          <h2 className="text-xl font-serif font-black text-stone-900">
-            {team?.name} • Student Candidates
-          </h2>
-          <p className="text-xs text-stone-500">
-            Enroll existing registered students into your squad. Changes synchronize immediately across Admin, Convener, and Leaderboard.
-          </p>
+
+          <h1 className="text-2xl font-serif font-black text-stone-900">
+            {team.name} • Team Allocation & Squad Management
+          </h1>
+
+          <div className="flex flex-wrap items-center gap-4 text-xs text-stone-600 pt-1">
+            <div className="flex items-center gap-1.5 font-bold">
+              <Crown className="w-3.5 h-3.5 text-[#A91F35]" />
+              <span>Leader: <strong>(L) {team.leader}</strong></span>
+            </div>
+            <div className="flex items-center gap-1.5 font-bold">
+              <Shield className="w-3.5 h-3.5 text-[#E6A916]" />
+              <span>Asst Leader: <strong>(AL) {team.asstLeader}</strong></span>
+            </div>
+          </div>
         </div>
 
-        <button
-          onClick={() => {
-            setAddSearchQuery('');
-            setSelectedStudentToAdd(null);
-            setShowAddModal(true);
-          }}
-          className="px-4 py-2.5 rounded-2xl bg-[#A91F35] text-white hover:bg-[#8e192c] text-xs font-bold shadow-md transition-all active:scale-95 flex items-center gap-2 shrink-0"
-        >
-          <Plus className="w-4 h-4 text-[#E6A916]" />
-          <span>Add Existing Student</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
+          <button
+            onClick={() => setIsPdfModalOpen(true)}
+            className="px-4 py-2.5 rounded-2xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
+          >
+            <Printer className="w-4 h-4 text-[#A91F35]" />
+            <span>Export Charter PDF</span>
+          </button>
+
+          <button
+            onClick={() => {
+              setAddSearchQuery('');
+              setAddCategoryFilter('all');
+              setSelectedStudentToAdd(null);
+              setShowAddModal(true);
+            }}
+            className="px-4 py-2.5 rounded-2xl bg-[#A91F35] text-white hover:bg-[#8e192c] text-xs font-bold shadow-md transition-all active:scale-95 flex items-center gap-2 shrink-0 cursor-pointer"
+          >
+            <Plus className="w-4 h-4 text-[#E6A916]" />
+            <span>Add Student to Squad</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Category Breakdown Cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="p-4 rounded-2xl bg-white border border-purple-200 shadow-2xs">
+          <div className="text-[10px] font-bold text-purple-700 uppercase tracking-wider">Senior</div>
+          <div className="text-2xl font-serif font-black text-stone-900 mt-1">{categoryCounts.Senior}</div>
+          <div className="text-[10px] text-stone-500 font-medium">Class Category</div>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-white border border-blue-200 shadow-2xs">
+          <div className="text-[10px] font-bold text-blue-700 uppercase tracking-wider">Junior</div>
+          <div className="text-2xl font-serif font-black text-stone-900 mt-1">{categoryCounts.Junior}</div>
+          <div className="text-[10px] text-stone-500 font-medium">Class Category</div>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-white border border-emerald-200 shadow-2xs">
+          <div className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Sub Junior</div>
+          <div className="text-2xl font-serif font-black text-stone-900 mt-1">{categoryCounts['Sub Junior']}</div>
+          <div className="text-[10px] text-stone-500 font-medium">Class Category</div>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-white border border-amber-200 shadow-2xs">
+          <div className="text-[10px] font-bold text-amber-700 uppercase tracking-wider">Minor</div>
+          <div className="text-2xl font-serif font-black text-stone-900 mt-1">{categoryCounts.Minor}</div>
+          <div className="text-[10px] text-stone-500 font-medium">Class Category</div>
+        </div>
       </div>
 
       {/* Search & Filter Controls */}
@@ -161,7 +289,7 @@ export default function TeamLeaderStudents({ teamId }) {
           <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search candidate by name, chest number or ID..."
+            placeholder="Search squad by name, chest number or ID..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-4 py-2 rounded-xl border border-stone-200 text-xs font-medium text-stone-800 placeholder:text-stone-400 focus:outline-none focus:border-[#A91F35]"
@@ -176,8 +304,10 @@ export default function TeamLeaderStudents({ teamId }) {
             className="px-3 py-1.5 rounded-xl border border-stone-200 text-xs font-semibold text-stone-700 focus:outline-none focus:border-[#A91F35]"
           >
             <option value="all">All Categories</option>
-            <option value="junior">Junior</option>
             <option value="senior">Senior</option>
+            <option value="junior">Junior</option>
+            <option value="sub junior">Sub Junior</option>
+            <option value="minor">Minor</option>
           </select>
         </div>
       </div>
@@ -188,60 +318,91 @@ export default function TeamLeaderStudents({ teamId }) {
           <table className="w-full text-left border-collapse text-xs">
             <thead>
               <tr className="bg-stone-50 border-b border-stone-200 text-[11px] font-bold text-stone-600 uppercase tracking-wider">
+                <th className="py-3 px-4 w-12 text-center">#</th>
                 <th className="py-3 px-4">Chest No</th>
                 <th className="py-3 px-4">Student Candidate</th>
-                <th className="py-3 px-4">Category</th>
-                <th className="py-3 px-4">Discipline</th>
+                <th className="py-3 px-4">Official Category</th>
+                <th className="py-3 px-4">Role</th>
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-100">
               {filteredSquadStudents.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="py-8 text-center text-stone-500">
+                  <td colSpan="6" className="py-8 text-center text-stone-500">
                     No candidates found in team squad matching filters.
                   </td>
                 </tr>
               ) : (
-                filteredSquadStudents.map(student => (
-                  <tr key={student.id} className="hover:bg-stone-50/60 transition-colors">
-                    <td className="py-3 px-4 font-mono font-bold text-[#A91F35] text-sm">
-                      {student.chestNo}
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="font-bold text-stone-900">{student.name}</div>
-                      <div className="text-[10px] text-stone-500 font-mono">ID: {student.id}</div>
-                    </td>
-                    <td className="py-3 px-4">
-                      <span className="px-2 py-0.5 rounded-md bg-stone-100 font-bold text-stone-800 text-[10px]">
-                        {student.category || 'Junior'}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 font-medium text-stone-700">
-                      {student.compCategory || 'Literary Arena'}
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <button
-                          onClick={() => setInspectStudent(student)}
-                          className="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold transition-colors flex items-center gap-1"
-                          title="View student profile"
+                filteredSquadStudents.map((student, idx) => {
+                  const isLeader = student.id === team.leaderStudentId || student.name === team.leader;
+                  const isAsstLeader = student.id === team.asstLeaderStudentId || student.name === team.asstLeader;
+
+                  return (
+                    <tr key={student.id} className="hover:bg-stone-50/60 transition-colors">
+                      <td className="py-3 px-4 text-center font-mono font-bold text-stone-400">
+                        {idx + 1}
+                      </td>
+                      <td className="py-3 px-4 font-mono font-bold text-[#A91F35] text-sm">
+                        {student.chestNo}
+                      </td>
+                      <td className="py-3 px-4">
+                        <div className="font-bold text-stone-900">{student.name}</div>
+                        <div className="text-[10px] text-stone-500 font-mono">ID: {student.id}</div>
+                      </td>
+                      <td className="py-3 px-4">
+                        <span
+                          className={`px-2.5 py-0.5 rounded-full font-bold text-[10px] border ${getCategoryBadgeClass(
+                            student.classCategory
+                          )}`}
                         >
-                          <Eye className="w-3 h-3" />
-                          <span>Profile</span>
-                        </button>
-                        <button
-                          onClick={() => handleRemoveStudent(student.id, student.name)}
-                          className="px-2.5 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-bold transition-colors flex items-center gap-1"
-                          title="Remove student from squad"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                          <span>Remove</span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                          {student.classCategory || 'Minor'}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4">
+                        {isLeader ? (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#A91F35] text-white font-bold text-[10px]">
+                            <Crown className="w-3 h-3 text-[#E6A916]" />
+                            <span>Team Leader</span>
+                          </span>
+                        ) : isAsstLeader ? (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#E6A916] text-stone-900 font-bold text-[10px]">
+                            <Shield className="w-3 h-3 text-[#A91F35]" />
+                            <span>Asst Leader</span>
+                          </span>
+                        ) : (
+                          <span className="text-stone-500 font-medium text-[11px]">Member</span>
+                        )}
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => setInspectStudent(student)}
+                            className="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                            title="View student profile"
+                          >
+                            <Eye className="w-3 h-3" />
+                            <span>Profile</span>
+                          </button>
+
+                          {!isLeader && !isAsstLeader && (
+                            <button
+                              onClick={() => {
+                                setStudentToRemove(student);
+                                setRemoveReason('');
+                              }}
+                              className="px-2.5 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                              title="Remove student from squad"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                              <span>Remove</span>
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
@@ -260,45 +421,67 @@ export default function TeamLeaderStudents({ teamId }) {
               exit={{ opacity: 0, scale: 0.95 }}
               className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden border border-stone-200"
             >
-              <div className="p-5 bg-linear-to-r from-[#A91F35] to-[#7f1525] text-white flex items-center justify-between">
+              <div className="p-5 bg-gradient-to-r from-[#A91F35] to-[#7f1525] text-white flex items-center justify-between">
                 <div>
                   <h3 className="font-serif font-black text-base">Enroll Student to {team?.name}</h3>
-                  <p className="text-[11px] text-white/80">Search central institutional student registry (Zero Duplicates)</p>
+                  <p className="text-[11px] text-white/80">
+                    Select existing student from central registry (Zero Duplicates)
+                  </p>
                 </div>
                 <button
                   onClick={() => setShowAddModal(false)}
-                  className="p-1 rounded-xl text-white/70 hover:text-white hover:bg-white/10"
+                  className="p-1 rounded-xl text-white/70 hover:text-white hover:bg-white/10 cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               <form onSubmit={handleAddStudentToSquad} className="p-6 space-y-4 text-xs">
-                <div>
-                  <label className="font-bold text-stone-700 block mb-1">
-                    Search Student Candidate
-                  </label>
-                  <div className="relative">
-                    <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                    <input
-                      type="text"
-                      placeholder="Type name, chest number or student ID..."
-                      value={addSearchQuery}
-                      onChange={(e) => setAddSearchQuery(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2 rounded-xl border border-stone-300 font-medium text-stone-900 focus:outline-none focus:border-[#A91F35]"
-                    />
+                {/* Search & Category Filter */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="font-bold text-stone-700 block mb-1">Search Student</label>
+                    <div className="relative">
+                      <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        placeholder="Name, chest, ID..."
+                        value={addSearchQuery}
+                        onChange={(e) => setAddSearchQuery(e.target.value)}
+                        className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 font-medium text-stone-900 focus:outline-none focus:border-[#A91F35]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="font-bold text-stone-700 block mb-1">Filter Category</label>
+                    <select
+                      value={addCategoryFilter}
+                      onChange={(e) => setAddCategoryFilter(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl border border-stone-300 font-semibold text-stone-800 focus:outline-none focus:border-[#A91F35]"
+                    >
+                      <option value="all">All Categories</option>
+                      <option value="Senior">Senior</option>
+                      <option value="Junior">Junior</option>
+                      <option value="Sub Junior">Sub Junior</option>
+                      <option value="Minor">Minor</option>
+                    </select>
                   </div>
                 </div>
 
                 {/* Candidate Selection List */}
                 <div>
-                  <label className="font-bold text-stone-700 block mb-1">
-                    Select Available Candidate
-                  </label>
-                  <div className="max-h-52 overflow-y-auto border border-stone-200 rounded-2xl p-1.5 space-y-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="font-bold text-stone-700">Available Unassigned Candidates</label>
+                    <span className="text-[11px] text-stone-500 font-mono">
+                      {availableStudents.length} available
+                    </span>
+                  </div>
+
+                  <div className="max-h-56 overflow-y-auto border border-stone-200 rounded-2xl p-1.5 space-y-1">
                     {availableStudents.length === 0 ? (
-                      <div className="p-4 text-center text-stone-500 text-xs">
-                        No students found matching search.
+                      <div className="p-6 text-center text-stone-500 text-xs">
+                        No unassigned candidates found matching criteria.
                       </div>
                     ) : (
                       availableStudents.map(student => {
@@ -306,45 +489,36 @@ export default function TeamLeaderStudents({ teamId }) {
                         return (
                           <div
                             key={student.id}
-                            onClick={() => {
-                              if (student.canAdd) setSelectedStudentToAdd(student);
-                            }}
-                            className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between ${
-                              !student.canAdd
-                                ? 'bg-stone-50 border-stone-200 opacity-60 cursor-not-allowed'
-                                : isSelected
-                                ? 'bg-[#A91F35]/10 border-[#A91F35] shadow-xs cursor-pointer'
-                                : 'hover:bg-[#F7F3E9] border-stone-200 cursor-pointer'
+                            onClick={() => setSelectedStudentToAdd(student)}
+                            className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer ${
+                              isSelected
+                                ? 'bg-[#A91F35]/10 border-[#A91F35] shadow-xs'
+                                : 'hover:bg-[#F7F3E9] border-stone-200'
                             }`}
                           >
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2.5">
                               <div className="w-7 h-7 rounded-lg bg-[#A91F35] text-white flex items-center justify-center font-bold text-xs">
                                 {student.name.charAt(0)}
                               </div>
                               <div>
                                 <div className="font-bold text-stone-900">{student.name}</div>
                                 <div className="text-[10px] text-stone-500 font-mono">
-                                  Chest: {student.chestNo} • {student.classCategory}
+                                  Chest: {student.chestNo} • ID: {student.id}
                                 </div>
                               </div>
                             </div>
 
-                            <div>
-                              {student.isAlreadyInMyTeam ? (
-                                <span className="text-[9px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-md">
-                                  Already In Squad
-                                </span>
-                              ) : student.isAssignedToOtherTeam ? (
-                                <span className="text-[9px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-md">
-                                  Assigned ({student.teamName || 'Other Team'})
-                                </span>
-                              ) : isSelected ? (
-                                <span className="text-[9px] font-bold text-white bg-[#A91F35] px-2 py-0.5 rounded-md">
+                            <div className="flex items-center gap-2">
+                              <span
+                                className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${getCategoryBadgeClass(
+                                  student.classCategory
+                                )}`}
+                              >
+                                {student.classCategory}
+                              </span>
+                              {isSelected && (
+                                <span className="text-[10px] font-bold text-white bg-[#A91F35] px-2 py-0.5 rounded-md">
                                   Selected ✓
-                                </span>
-                              ) : (
-                                <span className="text-[9px] font-bold text-stone-600 bg-stone-100 px-2 py-0.5 rounded-md">
-                                  Available
                                 </span>
                               )}
                             </div>
@@ -356,22 +530,10 @@ export default function TeamLeaderStudents({ teamId }) {
                 </div>
 
                 {selectedStudentToAdd && (
-                  <div>
-                    <label className="font-bold text-stone-700 block mb-1">
-                      Primary Discipline Focus for {selectedStudentToAdd.name}
-                    </label>
-                    <select
-                      value={chosenCompCategory}
-                      onChange={(e) => setChosenCompCategory(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl border border-stone-300 font-semibold text-stone-800 focus:outline-none focus:border-[#A91F35]"
-                    >
-                      <option value="Literary Arena">Literary Arena (Arabic/Malayalam/Urdu/English)</option>
-                      <option value="Islamic Heritage">Islamic Heritage & Qirath</option>
-                      <option value="Public Speaking">Public Speaking & Oratory</option>
-                      <option value="Visual Arts">Visual Arts & Calligraphy</option>
-                      <option value="Media & Cultural">Media, Documentaries & Cultural</option>
-                      <option value="General Championship">General Championship</option>
-                    </select>
+                  <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs">
+                    Ready to allocate <strong>{selectedStudentToAdd.name}</strong> ({selectedStudentToAdd.chestNo}) into{' '}
+                    <strong>{team?.name}</strong>. Their category <strong>{selectedStudentToAdd.classCategory}</strong>{' '}
+                    will remain strictly unchanged.
                   </div>
                 )}
 
@@ -379,14 +541,14 @@ export default function TeamLeaderStudents({ teamId }) {
                   <button
                     type="button"
                     onClick={() => setShowAddModal(false)}
-                    className="px-4 py-2 rounded-xl text-stone-600 hover:bg-stone-100 font-bold"
+                    className="px-4 py-2 rounded-xl text-stone-600 hover:bg-stone-100 font-bold cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={!selectedStudentToAdd}
-                    className="px-5 py-2 rounded-xl bg-[#A91F35] hover:bg-[#8e192c] disabled:opacity-50 text-white font-bold shadow-md transition-colors"
+                    className="px-5 py-2 rounded-xl bg-[#A91F35] hover:bg-[#8e192c] disabled:opacity-50 text-white font-bold shadow-md transition-colors cursor-pointer"
                   >
                     Confirm & Enroll Student
                   </button>
@@ -398,7 +560,74 @@ export default function TeamLeaderStudents({ teamId }) {
       </AnimatePresence>
 
       {/* ===================================================================== */}
-      {/* MODAL 2: VIEW STUDENT PROFILE DETAILS                                 */}
+      {/* MODAL 2: CONFIRM REMOVAL FROM SQUAD                                   */}
+      {/* ===================================================================== */}
+      <AnimatePresence>
+        {studentToRemove && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden border border-stone-200"
+            >
+              <div className="p-5 bg-red-600 text-white flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="w-5 h-5" />
+                  <h3 className="font-serif font-black text-base">Remove Student from Squad</h3>
+                </div>
+                <button
+                  onClick={() => setStudentToRemove(null)}
+                  className="p-1 rounded-xl text-white/70 hover:text-white hover:bg-white/10 cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="p-6 space-y-4 text-xs">
+                <p className="text-stone-700 leading-relaxed">
+                  Are you sure you want to remove <strong>{studentToRemove.name}</strong> ({studentToRemove.chestNo})
+                  from <strong>{team?.name}</strong>?
+                </p>
+                <p className="text-stone-500 text-[11px]">
+                  The student will become unassigned and available for reassignment by Convener or Team Leaders.
+                </p>
+
+                <div>
+                  <label className="font-bold text-stone-700 block mb-1">Reason for Removal (Optional)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Squad restructuring, mutual exchange..."
+                    value={removeReason}
+                    onChange={(e) => setRemoveReason(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-stone-300 font-medium text-stone-900 focus:outline-none focus:border-red-600"
+                  />
+                </div>
+
+                <div className="pt-3 border-t border-stone-100 flex items-center justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setStudentToRemove(null)}
+                    className="px-4 py-2 rounded-xl text-stone-600 hover:bg-stone-100 font-bold cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={confirmRemoveStudent}
+                    className="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-md transition-colors cursor-pointer"
+                  >
+                    Confirm Removal
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ===================================================================== */}
+      {/* MODAL 3: VIEW STUDENT PROFILE DETAILS                                 */}
       {/* ===================================================================== */}
       <AnimatePresence>
         {inspectStudent && (
@@ -412,11 +641,13 @@ export default function TeamLeaderStudents({ teamId }) {
               <div className="p-5 bg-stone-900 text-white flex items-center justify-between">
                 <div>
                   <h3 className="font-serif font-black text-base">{inspectStudent.name}</h3>
-                  <p className="text-[11px] text-white/80">Chest No: {inspectStudent.chestNo} • Squad: {team?.name}</p>
+                  <p className="text-[11px] text-white/80">
+                    Chest No: {inspectStudent.chestNo} • Squad: {team?.name}
+                  </p>
                 </div>
                 <button
                   onClick={() => setInspectStudent(null)}
-                  className="p-1 rounded-xl text-white/70 hover:text-white hover:bg-white/10"
+                  className="p-1 rounded-xl text-white/70 hover:text-white hover:bg-white/10 cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -430,11 +661,11 @@ export default function TeamLeaderStudents({ teamId }) {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-stone-500 font-semibold">Class Category:</span>
-                    <span className="font-bold text-[#A91F35]">{inspectStudent.category || 'Junior'}</span>
+                    <span className="font-bold text-[#A91F35]">{inspectStudent.classCategory || 'Minor'}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-stone-500 font-semibold">Discipline:</span>
-                    <span className="font-bold text-stone-800">{inspectStudent.compCategory || 'Literary Arena'}</span>
+                    <span className="text-stone-500 font-semibold">Assigned Team:</span>
+                    <span className="font-bold text-stone-800">{team?.name}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-stone-500 font-semibold">Institution:</span>
@@ -443,7 +674,7 @@ export default function TeamLeaderStudents({ teamId }) {
                 </div>
 
                 <div className="p-3 rounded-2xl bg-[#F7F3E9] text-[11px] text-stone-600">
-                  Candidate is registered for official events in DALENZIA FEST 2K26 under team squad <strong>{team?.name}</strong>.
+                  Student is verified and allocated to <strong>{team?.name}</strong> for official events in DALENZIA FEST 2K26.
                 </div>
               </div>
 
@@ -451,7 +682,7 @@ export default function TeamLeaderStudents({ teamId }) {
                 <button
                   type="button"
                   onClick={() => setInspectStudent(null)}
-                  className="px-4 py-2 rounded-xl bg-stone-900 text-white font-bold"
+                  className="px-4 py-2 rounded-xl bg-stone-900 text-white font-bold cursor-pointer"
                 >
                   Close
                 </button>
@@ -460,6 +691,13 @@ export default function TeamLeaderStudents({ teamId }) {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Official Team Charter PDF Modal */}
+      <TeamCharterPdfModal
+        isOpen={isPdfModalOpen}
+        onClose={() => setIsPdfModalOpen(false)}
+        highlightTeamId={teamId}
+      />
     </div>
   );
 }
