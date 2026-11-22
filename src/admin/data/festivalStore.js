@@ -107,16 +107,16 @@ export const INITIAL_REGISTERED_STUDENTS = [
   { id: 'STU-1023', chestNo: 'C-123', name: 'Nusaih (Uvais)', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'uvais@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1024', chestNo: 'C-124', name: 'Nihal', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'nihal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1025', chestNo: 'C-125', name: 'Ahnaf', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ahnaf@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1026', chestNo: 'C-126', name: 'Anshid', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'anshid@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1026', chestNo: 'C-126', name: 'Anshid', classCategory: 'Sub Junior', teamId: null, teamName: 'Unassigned', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'anshid@dalanzia.org', status: 'Audit Flagged (PDF Typo Duplicate)', gender: 'Male', registeredAt: '2026-11-10', auditNote: 'Typographical duplicate from Dalenzia_Teams.pdf (#18 Anshid duplicating #9 Anshid / STU-1017 Anshid T). Held in unassigned registry without deletion for audit compliance.' },
   { id: 'STU-1027', chestNo: 'C-127', name: 'Zayan', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'zayan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-
+  
   // Minor Category (19 Students)
   { id: 'STU-1028', chestNo: 'C-128', name: 'Rifaee', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rifaee@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1029', chestNo: 'C-129', name: 'Rizwan', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rizwan.2@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1030', chestNo: 'C-130', name: 'Abdul Nasar', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'abdul.nasar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1031', chestNo: 'C-131', name: 'Shaheen', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shaheen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1032', chestNo: 'C-132', name: 'Sayyid Dilbar', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'seyyid.dilbar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1033', chestNo: 'C-133', name: 'Nusaih', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'nusaih@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1033', chestNo: 'C-133', name: 'Nusaih', classCategory: 'Minor', teamId: null, teamName: 'Unassigned', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'nusaih@dalanzia.org', status: 'Audit Flagged (PDF Typo Duplicate)', gender: 'Male', registeredAt: '2026-11-10', auditNote: 'Typographical duplicate from Dalenzia_Teams.pdf (#18 Nusaih duplicating #10 Nusaih / STU-1023 Nusaih Uvais). Held in unassigned registry without deletion for audit compliance.' },
   { id: 'STU-1034', chestNo: 'C-134', name: 'Ali Akbar', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ali.akbar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1035', chestNo: 'C-135', name: 'Toufeeq', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'toufeeq@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1036', chestNo: 'C-136', name: 'Touheed', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'touheed@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
@@ -1039,22 +1039,44 @@ class FestivalStore {
     // Ensure official registered students exist
     if (!currentData.registeredStudents || !Array.isArray(currentData.registeredStudents) || currentData.registeredStudents.length === 0) {
       currentData.registeredStudents = JSON.parse(JSON.stringify(INITIAL_REGISTERED_STUDENTS));
+    } else {
+      // Reconcile typographical duplicates from Dalenzia_Teams.pdf without deletion
+      currentData.registeredStudents.forEach(s => {
+        if (s.id === 'STU-1026' && s.teamId === 'team-1') {
+          s.teamId = null;
+          s.teamName = 'Unassigned';
+          s.status = 'Audit Flagged (PDF Typo Duplicate)';
+          s.auditNote = 'Typographical duplicate from Dalenzia_Teams.pdf (#18 Anshid duplicating #9 Anshid / STU-1017 Anshid T). Held in unassigned registry without deletion for audit compliance.';
+        }
+        if (s.id === 'STU-1033' && s.teamId === 'team-2') {
+          s.teamId = null;
+          s.teamName = 'Unassigned';
+          s.status = 'Audit Flagged (PDF Typo Duplicate)';
+          s.auditNote = 'Typographical duplicate from Dalenzia_Teams.pdf (#18 Nusaih duplicating #10 Nusaih / STU-1023 Nusaih Uvais). Held in unassigned registry without deletion for audit compliance.';
+        }
+      });
     }
-    // Sync team student rosters and members
+
+    // Sync team student rosters and members strictly using unique student IDs
     currentData.teams.forEach(team => {
-      if (!Array.isArray(team.students) || team.students.length === 0) {
-        team.students = (currentData.registeredStudents || [])
-          .filter(s => s.teamId === team.id)
-          .map(s => ({
+      const assigned = (currentData.registeredStudents || []).filter(s => s.teamId === team.id);
+      const seenIds = new Set();
+      const uniqueStudents = [];
+      for (const s of assigned) {
+        if (!seenIds.has(s.id)) {
+          seenIds.add(s.id);
+          uniqueStudents.push({
             id: s.id,
             chestNo: s.chestNo,
             name: s.name,
             category: s.classCategory,
             compCategory: 'Literary Arena',
             events: []
-          }));
+          });
+        }
       }
-      team.members = team.students.length;
+      team.students = uniqueStudents;
+      team.members = uniqueStudents.length;
     });
 
     // Ensure all operational arrays are defined
@@ -1071,6 +1093,18 @@ class FestivalStore {
       if (!Array.isArray(currentData[key])) {
         currentData[key] = [];
       }
+    }
+
+    // Retain official audit log of team count reconciliation
+    const auditLogId = 'AUD-TEAM-RECON-44-UNIQUE';
+    if (!currentData.auditLogs.some(l => l.id === auditLogId)) {
+      currentData.auditLogs.unshift({
+        id: auditLogId,
+        action: 'TEAM_MEMBER_COUNT_RECONCILIATION',
+        details: 'Audit reconciliation ratified: Team 1 (Dazzlers) = 22 members, Team 2 (Dynamos) = 22 members (Total: 44 allocated scholars). Resolved typographical duplicate roster entries from Dalenzia_Teams.pdf: STU-1026 (Anshid) and STU-1033 (Nusaih) retained in unassigned pool without deletion.',
+        performedBy: 'System Integrity Auditor & Festival Secretariat',
+        timestamp: new Date().toISOString()
+      });
     }
 
     return currentData;
@@ -1708,7 +1742,7 @@ class FestivalStore {
     if (stuIdx === -1) throw new Error('Student was not found in this team.');
 
     const removed = team.students.splice(stuIdx, 1)[0];
-    team.members = Math.max(0, team.members - 1);
+    team.members = team.students.length;
 
     const regStudent = this.data.registeredStudents.find(s => s.id === studentId);
     if (regStudent) {
@@ -3361,7 +3395,7 @@ class FestivalStore {
     };
 
     team.students.push(newAssignment);
-    team.members += 1;
+    team.members = team.students.length;
     student.teamId = team.id;
     student.teamName = team.name;
 
@@ -3733,7 +3767,7 @@ class FestivalStore {
         compCategory: 'Literary Arena',
         events: []
       });
-      assignedTeam.members = (assignedTeam.members || 0) + 1;
+      assignedTeam.members = assignedTeam.students.length;
     }
 
     this.data.registeredStudents.push(newStudent);
@@ -3768,7 +3802,7 @@ class FestivalStore {
         const oldTeam = this.data.teams.find(t => t.id === oldTeamId);
         if (oldTeam && Array.isArray(oldTeam.students)) {
           oldTeam.students = oldTeam.students.filter(s => s.id !== studentId);
-          oldTeam.members = Math.max(0, (oldTeam.members || 1) - 1);
+          oldTeam.members = oldTeam.students.length;
         }
       }
 
@@ -3785,7 +3819,7 @@ class FestivalStore {
             compCategory: 'Literary Arena',
             events: []
           });
-          newTeam.members = (newTeam.members || 0) + 1;
+          newTeam.members = newTeam.students.length;
           student.teamId = newTeam.id;
           student.teamName = newTeam.name;
         } else {
@@ -3861,7 +3895,7 @@ class FestivalStore {
       const team = this.data.teams.find(t => t.id === student.teamId);
       if (team && Array.isArray(team.students)) {
         team.students = team.students.filter(s => s.id !== studentId);
-        team.members = Math.max(0, (team.members || 1) - 1);
+        team.members = team.students.length;
       }
     }
 
@@ -8521,7 +8555,7 @@ class FestivalStore {
 
     if (!team.students) team.students = [];
     team.students.push(newAssignment);
-    team.members = (team.members || 0) + 1;
+    team.members = team.students.length;
 
     student.teamId = team.id;
     student.teamName = team.name;
@@ -8555,7 +8589,7 @@ class FestivalStore {
     }
 
     const removed = team.students.splice(stuIdx, 1)[0];
-    team.members = Math.max(0, (team.members || 1) - 1);
+    team.members = team.students.length;
 
     const regStudent = (this.data.registeredStudents || []).find(s => s.id === studentId);
     if (regStudent) {

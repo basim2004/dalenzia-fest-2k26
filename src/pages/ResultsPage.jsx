@@ -416,7 +416,7 @@ export default function ResultsPage({
 
           {(() => {
             const dazzlers = teamsList.find(t => t.id === 'team-1' || t.name === 'Dazzlers') || teamsList[0] || { name: 'Dazzlers', points: 0, color: '#E6A916', leader: 'Noufal', members: 22 };
-            const dynamos = teamsList.find(t => t.id === 'team-2' || t.name === 'Dynamos') || teamsList[1] || { name: 'Dynamos', points: 0, color: '#A91F35', leader: 'Hashim', members: 24 };
+            const dynamos = teamsList.find(t => t.id === 'team-2' || t.name === 'Dynamos') || teamsList[1] || { name: 'Dynamos', points: 0, color: '#A91F35', leader: 'Hashim', members: 22 };
             
             const totalPoints = (dazzlers.points || 0) + (dynamos.points || 0);
             const dazzlersPct = totalPoints > 0 ? Math.round((dazzlers.points / totalPoints) * 100) : 50;
@@ -497,7 +497,7 @@ export default function ResultsPage({
                           {dynamos.name}
                         </h3>
                         <p className="text-xs text-stone-600 font-medium">
-                          Leader: <strong className="text-stone-900">{dynamos.leader || 'Hashim'}</strong> • {dynamos.members || 24} Registered Scholars
+                          Leader: <strong className="text-stone-900">{dynamos.leader || 'Hashim'}</strong> • {dynamos.members || 22} Registered Scholars
                         </p>
                       </div>
                       <div className="w-14 h-14 rounded-2xl bg-[#A91F35]/20 border-2 border-[#A91F35] flex items-center justify-center text-[#A91F35] shadow-sm">

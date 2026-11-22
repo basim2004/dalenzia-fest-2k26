@@ -547,8 +547,18 @@ export default function ConvenerTeams() {
                             {s.chestNo}
                           </td>
                           <td className="py-3 px-4">
-                            <div className="font-bold text-stone-900">{s.name}</div>
+                            <div className="font-bold text-stone-900 flex items-center gap-1.5 flex-wrap">
+                              <span>{s.name}</span>
+                              {s.auditNote && (
+                                <span className="px-1.5 py-0.5 rounded text-[9px] bg-amber-100 text-amber-800 border border-amber-300 font-semibold" title={s.auditNote}>
+                                  Typo Duplicate (Dalenzia_Teams.pdf)
+                                </span>
+                              )}
+                            </div>
                             <div className="text-[10px] text-stone-500 font-mono">ID: {s.id}</div>
+                            {s.auditNote && (
+                              <div className="text-[10px] text-amber-700 italic mt-0.5 max-w-sm">{s.auditNote}</div>
+                            )}
                           </td>
                           <td className="py-3 px-4">
                             <span

@@ -1768,7 +1768,7 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
                     <option value="">-- Choose unassigned student --</option>
                     {unassignedStudents.map((s) => (
                       <option key={s.id} value={s.id}>
-                        {s.name} ({s.chestNo}) — {s.classCategory}
+                        {s.name} ({s.chestNo}) — {s.classCategory}{s.auditNote ? ' [Audit Duplicate Flag]' : ''}
                       </option>
                     ))}
                   </select>

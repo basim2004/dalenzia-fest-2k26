@@ -501,7 +501,14 @@ export default function TeamLeaderStudents({ teamId }) {
                                 {student.name.charAt(0)}
                               </div>
                               <div>
-                                <div className="font-bold text-stone-900">{student.name}</div>
+                                <div className="font-bold text-stone-900 flex items-center gap-1.5 flex-wrap">
+                                  <span>{student.name}</span>
+                                  {student.auditNote && (
+                                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300 font-semibold" title={student.auditNote}>
+                                      Typo Duplicate (Dalenzia_Teams.pdf)
+                                    </span>
+                                  )}
+                                </div>
                                 <div className="text-[10px] text-stone-500 font-mono">
                                   Chest: {student.chestNo} • ID: {student.id}
                                 </div>

@@ -86,7 +86,7 @@ export const OFFICIAL_TEAMS = [
     asstLeader: 'Hafiz Hassan',
     asstLeaderStudentId: 'STU-1002',
     points: 0,
-    members: 21,
+    members: 22,
     status: 'Active',
     students: []
   },
@@ -107,7 +107,7 @@ export const OFFICIAL_TEAMS = [
     asstLeader: 'Irfan Edayyur',
     asstLeaderStudentId: 'STU-1008',
     points: 0,
-    members: 21,
+    members: 22,
     status: 'Active',
     students: []
   }
