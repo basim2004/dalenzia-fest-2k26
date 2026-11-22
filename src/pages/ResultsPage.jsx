@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Canvas, useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import AmbientGoldParticles from '../components/AmbientGoldParticles';
 import {
   Trophy,
   Award,
@@ -29,56 +28,6 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { festivalStore } from '../admin/data/festivalStore';
-
-// Three.js Ambient Golden Dust
-function AmbientGoldDust() {
-  const pointsRef = useRef();
-  const count = 100;
-
-  const [positions, speeds] = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    const spd = new Float32Array(count);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 6;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 6;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 4;
-      spd[i] = 0.008 + Math.random() * 0.015;
-    }
-    return [pos, spd];
-  }, []);
-
-  useFrame(() => {
-    if (!pointsRef.current) return;
-    const attr = pointsRef.current.geometry.attributes.position;
-    for (let i = 0; i < count; i++) {
-      let y = attr.getY(i);
-      y -= speeds[i] * 1.2;
-      if (y < -3) y = 3;
-      attr.setY(i, y);
-    }
-    attr.needsUpdate = true;
-  });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.05}
-        color="#E6A916"
-        transparent
-        opacity={0.7}
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
-  );
-}
 
 // Authentic Team Leaderboard Data (from official model: Dalenzia Fest Results Leaderboard.png)
 const STATIC_TEAMS_DATA = [];
@@ -208,12 +157,8 @@ export default function ResultsPage({
       {/* SECTION 01: RESULTS HERO & 3D CHAMPIONSHIP STAGE                          */}
       {/* ========================================================================= */}
       <section className="relative py-12 md:py-20 px-4 md:px-8 border-b border-[#A91F35]/15 overflow-hidden">
-        {/* Ambient Gold Particle Dust Canvas */}
-        <div className="absolute inset-0 pointer-events-none z-0">
-          <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-            <AmbientGoldDust />
-          </Canvas>
-        </div>
+        {/* Ambient Gold Particle Dust Atmosphere */}
+        <AmbientGoldParticles count={65} />
 
         {/* Subtle Watermark Theme Mark */}
         <div className="absolute right-[-8%] top-10 w-96 md:w-[500px] opacity-5 pointer-events-none z-0 select-none">

@@ -1,60 +1,12 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Canvas, useFrame } from '@react-three/fiber';
+import AmbientGoldParticles from '../components/AmbientGoldParticles';
 import {
   Camera, Film, Play, X, ChevronLeft, ChevronRight, Download,
   Maximize2, Sparkles, Filter, Calendar, Folder, ArrowRight,
   ExternalLink, Layers, Radio
 } from 'lucide-react';
 import { festivalStore } from '../admin/data/festivalStore';
-
-// Ambient Golden Dust Particles
-function AmbientGoldDust() {
-  const pointsRef = useRef();
-  const count = 100;
-
-  const [positions, speeds] = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    const spd = new Float32Array(count);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 15;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
-      spd[i] = 0.005 + Math.random() * 0.01;
-    }
-    return [pos, spd];
-  }, []);
-
-  useFrame(() => {
-    if (!pointsRef.current) return;
-    const array = pointsRef.current.geometry.attributes.position.array;
-    for (let i = 0; i < count; i++) {
-      array[i * 3 + 1] += speeds[i];
-      if (array[i * 3 + 1] > 8) array[i * 3 + 1] = -8;
-    }
-    pointsRef.current.geometry.attributes.position.needsUpdate = true;
-  });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.08}
-        color="#E6A916"
-        transparent
-        opacity={0.65}
-        sizeAttenuation
-      />
-    </points>
-  );
-}
 
 export default function GalleryPage({
   onNavigateHome,
@@ -139,12 +91,8 @@ export default function GalleryPage({
       {/* 1. CINEMATIC HERO HEADER WITH THREE.JS PARTICLES                          */}
       {/* ========================================================================= */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-[#A91F35] text-white overflow-hidden">
-        {/* Three.js ambient gold particles background */}
-        <div className="absolute inset-0 pointer-events-none z-0">
-          <Canvas camera={{ position: [0, 0, 7], fov: 60 }}>
-            <AmbientGoldDust />
-          </Canvas>
-        </div>
+        {/* Ambient gold particles background */}
+        <AmbientGoldParticles count={65} />
 
         {/* Ambient glow & geometry */}
         <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-white/5 blur-3xl pointer-events-none" />

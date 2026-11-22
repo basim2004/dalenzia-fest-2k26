@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Sparkles } from '@react-three/drei';
-import * as THREE from 'three';
+import AmbientGoldParticles from '../components/AmbientGoldParticles';
 import {
   Search,
   Filter,
@@ -31,56 +29,6 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 import { festivalStore } from '../admin/data/festivalStore';
-
-// Three.js Ambient Golden Dust for Events Hero
-function AmbientGoldDust() {
-  const pointsRef = useRef();
-  const count = 100;
-
-  const [positions, speeds] = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    const spd = new Float32Array(count);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 6;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 6;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 4;
-      spd[i] = 0.008 + Math.random() * 0.015;
-    }
-    return [pos, spd];
-  }, []);
-
-  useFrame(() => {
-    if (!pointsRef.current) return;
-    const attr = pointsRef.current.geometry.attributes.position;
-    for (let i = 0; i < count; i++) {
-      let y = attr.getY(i);
-      y -= speeds[i] * 1.2;
-      if (y < -3) y = 3;
-      attr.setY(i, y);
-    }
-    attr.needsUpdate = true;
-  });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.05}
-        color="#E6A916"
-        transparent
-        opacity={0.7}
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
-  );
-}
 
 // Event Categories from Official Dalenzia Charter (Dalenzia_2K26_Festival_Charter_BW.pdf)
 const CATEGORIES = [
@@ -190,13 +138,8 @@ export default function EventsPage({ onNavigateHome }) {
       {/* SECTION 01: EVENTS HERO */}
       <section className="relative bg-[#F7F3E9] overflow-hidden pt-6 pb-16 select-none border-b border-[#A91F35]/15 space-y-8">
         
-        {/* Three.js Golden Ambient Canvas */}
-        <div className="absolute inset-0 pointer-events-none z-0">
-          <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-            <AmbientGoldDust />
-            <Sparkles count={25} scale={6} size={2} speed={0.4} color="#E6A916" opacity={0.6} />
-          </Canvas>
-        </div>
+        {/* Ambient Golden Particle Atmosphere */}
+        <AmbientGoldParticles count={65} />
 
         {/* Top Breadcrumb & Dual Logo */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full flex flex-wrap items-center justify-between gap-4">

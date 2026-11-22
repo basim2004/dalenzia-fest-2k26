@@ -1,66 +1,7 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Sparkles } from '@react-three/drei';
-import * as THREE from 'three';
+import AmbientGoldParticles from './AmbientGoldParticles';
 import { Search, Trophy, Calendar, MapPin, ChevronDown, Sparkles as SparklesIcon } from 'lucide-react';
-
-// Three.js Gold Sand Falling & Pixel drifting particles
-function SandAndPixelParticles({ mouse }) {
-  const pointsRef = useRef();
-  const particleCount = 140;
-
-  const [positions, speeds] = useMemo(() => {
-    const pos = new Float32Array(particleCount * 3);
-    const spd = new Float32Array(particleCount);
-    for (let i = 0; i < particleCount; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 6;     // x
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 6; // y
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 4; // z
-      spd[i] = 0.01 + Math.random() * 0.02;
-    }
-    return [pos, spd];
-  }, []);
-
-  useFrame((state, delta) => {
-    if (!pointsRef.current) return;
-    const positionsAttr = pointsRef.current.geometry.attributes.position;
-    for (let i = 0; i < particleCount; i++) {
-      let y = positionsAttr.getY(i);
-      y -= speeds[i] * 1.5;
-      if (y < -3) {
-        y = 3;
-        positionsAttr.setX(i, (Math.random() - 0.5) * 6);
-      }
-      positionsAttr.setY(i, y);
-    }
-    positionsAttr.needsUpdate = true;
-
-    // Gentle camera sway
-    state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, mouse.current.x * 0.5, 0.05);
-    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, mouse.current.y * 0.5, 0.05);
-  });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={particleCount}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.06}
-        color="#E6A916"
-        transparent
-        opacity={0.85}
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
-  );
-}
 
 // Countdown hook to Dec 21, 2026
 function useCountdown(targetDate) {
@@ -134,13 +75,8 @@ export default function Hero3D({ lang }) {
       className="relative flex flex-col justify-between items-center bg-[#F7F3E9] overflow-hidden px-4 pt-4 pb-8 min-h-[640px]"
       style={{ perspective: '1200px' }}
     >
-      {/* 3D Canvas Background for falling particles */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-          <SandAndPixelParticles mouse={mouse} />
-          <Sparkles count={40} scale={6} size={2} speed={0.4} color="#E6A916" opacity={0.6} />
-        </Canvas>
-      </div>
+      {/* Ambient Particle Background */}
+      <AmbientGoldParticles count={65} />
 
       {/* Layer 1 (Back Depth: z = -40px): Slowly Rotating Cultural Mandala */}
       <motion.div

@@ -5,6 +5,9 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  resolve: {
+    dedupe: ['react', 'react-dom']
+  },
   server: {
     host: true,
     port: 5173
