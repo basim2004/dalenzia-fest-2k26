@@ -578,69 +578,8 @@ const INITIAL_DATA = {
   registeredStudents: INITIAL_REGISTERED_STUDENTS,
   programmeCategories: OFFICIAL_PROGRAMME_CATEGORIES,
   scoringConfig: OFFICIAL_SCORING_CONFIG,
-  programmes: createDefaultProgrammeAssignments(),
-  programmeStages: [
-    {
-      "id": "STG-01",
-      "code": "STG-01",
-      "name": "Cordova Grand Stage (Stage 01)",
-      "shortName": "Cordova Grand Stage",
-      "malayalamName": "കൊർദോവ വേദി",
-      "venue": "Cordova Grand Stage",
-      "type": "Ceremonial Grand Auditorium",
-      "capacity": 2500,
-      "color": "#A91F35",
-      "badgeBg": "bg-rose-50 text-rose-700 border-rose-200"
-    },
-    {
-      "id": "STG-02",
-      "code": "STG-02",
-      "name": "Al-Farabi Heritage Hall (Stage 02)",
-      "shortName": "Al-Farabi Heritage Hall",
-      "malayalamName": "അൽ ഫാറാബി ഹാൾ",
-      "venue": "Al-Farabi Heritage Hall",
-      "type": "Academic Conclave Arena",
-      "capacity": 800,
-      "color": "#E6A916",
-      "badgeBg": "bg-amber-50 text-amber-700 border-amber-200"
-    },
-    {
-      "id": "STG-03",
-      "code": "STG-03",
-      "name": "Ibn Khaldun Academic Hall (Stage 03)",
-      "shortName": "Ibn Khaldun Academic Hall",
-      "malayalamName": "ഇബ്നു ഖൽദൂൻ ഹാൾ",
-      "venue": "Ibn Khaldun Academic Hall",
-      "type": "Colloquium & Debate Chamber",
-      "capacity": 600,
-      "color": "#2563EB",
-      "badgeBg": "bg-blue-50 text-blue-700 border-blue-200"
-    },
-    {
-      "id": "STG-04",
-      "code": "STG-04",
-      "name": "Media Studio Preview Room",
-      "shortName": "Media Studio",
-      "malayalamName": "മീഡിയ സ്റ്റുഡിയോ റൂം",
-      "venue": "Media Studio Preview Room",
-      "type": "Screening & Curation Studio",
-      "capacity": 350,
-      "color": "#8B5CF6",
-      "badgeBg": "bg-purple-50 text-purple-700 border-purple-200"
-    },
-    {
-      "id": "STG-05",
-      "code": "STG-05",
-      "name": "Open Amphitheatre",
-      "shortName": "Open Amphitheatre",
-      "malayalamName": "ഓപ്പൺ ആംഫി തിയേറ്റർ",
-      "venue": "Open Amphitheatre",
-      "type": "Open Cultural Arena",
-      "capacity": 1200,
-      "color": "#10B981",
-      "badgeBg": "bg-emerald-50 text-emerald-700 border-emerald-200"
-    }
-  ],
+  programmes: [],
+  programmeStages: [],
   programmeSchedules: [],
   guestCategories: [
     {
@@ -704,7 +643,7 @@ const INITIAL_DATA = {
       assignedProgrammesCount: 0
     }
   ],
-  programmeAssignments: createDefaultProgrammeAssignments(),
+  programmeAssignments: [],
   submittedEvaluations: [],
   resultPosters: [],
   notifications: [],
@@ -950,9 +889,8 @@ class FestivalStore {
     if (!currentData.guestCategories || !Array.isArray(currentData.guestCategories) || currentData.guestCategories.length === 0) {
       currentData.guestCategories = INITIAL_DATA.guestCategories;
     }
-    if (!currentData.programmeStages || !Array.isArray(currentData.programmeStages) || currentData.programmeStages.length === 0) {
-      currentData.programmeStages = INITIAL_DATA.programmeStages;
-    }
+    // Stages are not yet finalized in current project status
+    currentData.programmeStages = [];
     if (!currentData.galleryCategories || !Array.isArray(currentData.galleryCategories) || currentData.galleryCategories.length === 0) {
       currentData.galleryCategories = INITIAL_DATA.galleryCategories;
     }
@@ -1002,25 +940,23 @@ class FestivalStore {
       currentData.scoringConfig = JSON.parse(JSON.stringify(OFFICIAL_SCORING_CONFIG));
     }
 
-    // Ensure all 83 official programmes are seeded
-    const hasCharterProgrammes = Array.isArray(currentData.programmeAssignments) &&
-      currentData.programmeAssignments.some(p => p.id && (p.id.startsWith('PRG-MIN') || p.id.startsWith('PRG-GEN')));
-
-    if (!hasCharterProgrammes || currentData.programmeAssignments.length === 0) {
-      const charterAssignments = createDefaultProgrammeAssignments();
-      currentData.programmeAssignments = charterAssignments;
-      currentData.programmes = charterAssignments;
+    // Clean out unconfirmed demo charter programmes that do not have submitted evaluations
+    if (Array.isArray(currentData.programmeAssignments)) {
+      currentData.programmeAssignments = currentData.programmeAssignments.filter(p => {
+        const isLegacyDemo = p.id && (p.id.startsWith('PRG-MIN') || p.id.startsWith('PRG-GEN') || p.id.startsWith('PRG-SUB') || p.id.startsWith('PRG-JUN') || p.id.startsWith('PRG-SEN'));
+        const hasEvaluations = (currentData.submittedEvaluations || []).some(e => e.assignmentId === p.id || e.competitionId === p.competitionId);
+        return !isLegacyDemo || hasEvaluations;
+      });
+      currentData.programmes = [...currentData.programmeAssignments];
     } else {
-      // Ensure sync between programmes and programmeAssignments
-      if (!Array.isArray(currentData.programmes) || currentData.programmes.length === 0) {
-        currentData.programmes = [...currentData.programmeAssignments];
-      }
+      currentData.programmeAssignments = [];
+      currentData.programmes = [];
     }
 
     // Defensive safeguard: ensure every assignment has assignedJudgeIds, criteria, and evaluationCriteria
     (currentData.programmeAssignments || []).forEach(a => {
       if (!Array.isArray(a.assignedJudgeIds) || a.assignedJudgeIds.length === 0) {
-        a.assignedJudgeIds = ['JDG-1001', 'JDG-001'];
+        a.assignedJudgeIds = ['JDG-1001'];
       }
       if (!Array.isArray(a.evaluationCriteria) || a.evaluationCriteria.length === 0) {
         a.evaluationCriteria = a.criteria || [
@@ -1371,54 +1307,242 @@ class FestivalStore {
     return this.data.submittedEvaluations.filter(e => e.competitionId === competitionId);
   }
 
-  submitJudgeEvaluation({ assignmentId, competitionId, judgeId, judgeName, scores }) {
-    // Check if an existing evaluation sheet exists for this judge & competition
-    let existing = this.data.submittedEvaluations.find(
-      e => e.competitionId === competitionId && e.judgeId === judgeId
+  // DYNAMIC JUDGE COMPETITION CREATION
+  // =========================================================================
+  createJudgeCompetition({
+    name,
+    type = 'Individual',
+    category = 'General',
+    judgeId = 'JDG-1001',
+    judgeName = 'Chief Adjudicator (Festival Jury)',
+    criteria,
+    maxMarks = 100
+  }) {
+    if (!name || !name.trim()) {
+      throw new Error('Competition name is required.');
+    }
+
+    const compId = `COMP-${Date.now().toString().slice(-5)}${Math.floor(100 + Math.random() * 900)}`;
+    const compCode = `CMP-${Date.now().toString().slice(-4)}${Math.floor(10 + Math.random() * 90)}`;
+    const now = new Date().toISOString();
+
+    const evalCriteria = Array.isArray(criteria) && criteria.length > 0 ? criteria : [
+      { id: 'c1', name: 'Content & Theme / ഉള്ളടക്കം & പ്രമേയം', maxMarks: 40 },
+      { id: 'c2', name: 'Presentation & Delivery / അവതരണ ശൈലി', maxMarks: 30 },
+      { id: 'c3', name: 'Accuracy & Language / കൃത്യത & ഭാഷാശുദ്ധി', maxMarks: 20 },
+      { id: 'c4', name: 'Overall Impression / സവിശേഷ പ്രകടനം', maxMarks: 10 }
+    ];
+
+    const newComp = {
+      id: compId,
+      competitionId: compId,
+      code: compCode,
+      competitionCode: compCode,
+      title: name.trim(),
+      competitionTitle: name.trim(),
+      type: type === 'General' ? 'General' : 'Individual',
+      category: type === 'General' ? 'General' : (category || 'General'),
+      assignedJudgeIds: [judgeId],
+      assignedJudgeName: judgeName,
+      status: 'Pending Evaluation',
+      evaluationCriteria: evalCriteria,
+      criteria: evalCriteria,
+      totalMaxMarks: maxMarks || 100,
+      maxMarks: maxMarks || 100,
+      participants: [],
+      createdAt: now,
+      isDynamicallyCreated: true
+    };
+
+    if (!Array.isArray(this.data.programmeAssignments)) {
+      this.data.programmeAssignments = [];
+    }
+    if (!Array.isArray(this.data.programmes)) {
+      this.data.programmes = [];
+    }
+
+    this.data.programmeAssignments.unshift(newComp);
+    this.data.programmes.unshift(newComp);
+
+    // Update judge record
+    const judge = (this.data.judges || []).find(j => j.id === judgeId);
+    if (judge) {
+      judge.assignedProgrammesCount = (judge.assignedProgrammesCount || 0) + 1;
+    }
+
+    this.addAuditLog(
+      'COMPETITION_CREATED_BY_JUDGE',
+      `Judge ${judgeName} created competition "${name.trim()}" (${type}, ${category})`,
+      judgeName
     );
 
-    const now = new Date().toISOString().replace('T', ' ').substring(0, 16);
+    this.saveData();
+    this._notify();
+    return newComp;
+  }
+
+  // =========================================================================
+  // DYNAMIC MARKS ENTRY & SUBMISSION ENGINE (INDIVIDUAL & GENERAL)
+  // =========================================================================
+  submitJudgeEvaluation({
+    assignmentId,
+    competitionId,
+    judgeId,
+    judgeName,
+    type = 'Individual',
+    category = 'General',
+    scores = [],
+    remarks = ''
+  }) {
+    const compId = competitionId || assignmentId;
+    const assignment = (this.data.programmeAssignments || []).find(a =>
+      a.competitionId === compId || a.id === compId || a.competitionCode === compId
+    );
+    if (!assignment) throw new Error('Target competition not found.');
+
+    const now = new Date().toISOString();
+    const isGeneral = (type || assignment.type || '').toLowerCase() === 'general';
+
+    // Validate scores payload
+    if (!Array.isArray(scores) || scores.length === 0) {
+      throw new Error('Please enter marks for at least one candidate/team before submitting.');
+    }
+
+    const validatedScores = [];
+    const seenIds = new Set();
+
+    if (isGeneral) {
+      // General Team validation: must be existing teams
+      scores.forEach(sc => {
+        if (!sc.teamId) throw new Error('Invalid score entry: teamId is required.');
+        if (seenIds.has(sc.teamId)) {
+          throw new Error(`Duplicate evaluation detected for team ${sc.teamName || sc.teamId}.`);
+        }
+        seenIds.add(sc.teamId);
+
+        const team = (this.data.teams || []).find(t => t.id === sc.teamId);
+        if (!team) {
+          throw new Error(`Team ID "${sc.teamId}" does not exist in official team records.`);
+        }
+
+        const total = typeof sc.total === 'number' ? sc.total : 0;
+        validatedScores.push({
+          teamId: team.id,
+          teamName: team.displayName || team.name,
+          name: team.displayName || team.name,
+          criteriaMarks: sc.criteriaMarks || {},
+          total,
+          remarks: sc.remarks || 'Team Evaluation'
+        });
+      });
+    } else {
+      // Individual Student validation: must be existing registered students
+      scores.forEach(sc => {
+        if (!sc.studentId) throw new Error('Invalid score entry: studentId is required.');
+        if (seenIds.has(sc.studentId)) {
+          throw new Error(`Duplicate evaluation detected for student ID ${sc.studentId}.`);
+        }
+        seenIds.add(sc.studentId);
+
+        const student = (this.data.registeredStudents || []).find(s => s.id === sc.studentId);
+        if (!student) {
+          throw new Error(`Student ID "${sc.studentId}" not found in registered students.`);
+        }
+
+        const team = (this.data.teams || []).find(t => t.id === student.teamId);
+        const teamName = team ? (team.displayName || team.name) : (student.teamName || 'Unassigned');
+
+        const total = typeof sc.total === 'number' ? sc.total : 0;
+        validatedScores.push({
+          studentId: student.id,
+          chestNo: student.chestNo || '',
+          name: student.name,
+          category: student.category || 'General',
+          teamId: student.teamId,
+          teamName,
+          criteriaMarks: sc.criteriaMarks || {},
+          total,
+          remarks: sc.remarks || 'Individual Evaluation'
+        });
+      });
+    }
+
+    // Sort validated scores descending by total
+    validatedScores.sort((a, b) => b.total - a.total);
+
+    // Update assignment participants so UI tables can render candidates
+    assignment.participants = validatedScores;
+
+    // Check if an existing evaluation sheet exists for this judge & competition
+    let existing = (this.data.submittedEvaluations || []).find(
+      e => (e.competitionId === assignment.competitionId || e.assignmentId === assignment.id) && e.judgeId === judgeId
+    );
 
     if (existing) {
-      existing.scores = scores;
+      existing.revisionHistory = existing.revisionHistory || [];
+      if (existing.scores && existing.scores.length > 0) {
+        existing.revisionHistory.push({
+          scores: JSON.parse(JSON.stringify(existing.scores)),
+          submittedAt: existing.submittedAt,
+          previousStatus: existing.status,
+          resubmittedAt: now
+        });
+      }
+      existing.scores = validatedScores;
       existing.submittedAt = now;
-      existing.status = 'Submitted';
-      existing.statusNote = 'Resubmitted by Judge';
+      existing.status = 'SUBMITTED';
+      existing.statusNote = 'Submitted via Judge Portal';
+      existing.remarks = remarks;
+      existing.type = isGeneral ? 'General' : 'Individual';
+      existing.category = assignment.category;
+      existing.returnedAt = null;
+      existing.returnReason = null;
+      existing.returnedByRole = null;
+      existing.returnedByName = null;
     } else {
       existing = {
         id: `EVAL-${Date.now().toString().slice(-6)}`,
-        assignmentId,
-        competitionId,
+        assignmentId: assignment.id,
+        competitionId: assignment.competitionId,
+        competitionCode: assignment.competitionCode,
+        competitionTitle: assignment.competitionTitle,
+        type: isGeneral ? 'General' : 'Individual',
+        category: assignment.category,
         judgeId,
         judgeName,
         submittedAt: now,
-        status: 'Submitted',
+        status: 'SUBMITTED',
         statusNote: 'Submitted via Judge Portal',
-        scores
+        scores: validatedScores,
+        remarks,
+        revisionHistory: []
       };
+      if (!Array.isArray(this.data.submittedEvaluations)) {
+        this.data.submittedEvaluations = [];
+      }
       this.data.submittedEvaluations.push(existing);
     }
 
+    // Update assignment status
+    assignment.status = 'Pending Approval';
+    assignment.convenerApproved = false;
+    assignment.adminApproved = false;
+    assignment.approvedByRole = null;
+    assignment.approvedByName = null;
+    assignment.approvedAt = null;
+
     // Update Judge record
-    const judge = this.data.judges.find(j => j.id === judgeId);
+    const judge = (this.data.judges || []).find(j => j.id === judgeId);
     if (judge) {
-      if (!judge.submittedCompIds.includes(competitionId)) {
-        judge.submittedCompIds.push(competitionId);
+      if (!Array.isArray(judge.submittedCompIds)) judge.submittedCompIds = [];
+      if (!judge.submittedCompIds.includes(assignment.competitionId)) {
+        judge.submittedCompIds.push(assignment.competitionId);
       }
       judge.evaluationStatus = 'Submitted';
     }
 
-    // Update assignment status
-    const assignment = this.data.programmeAssignments.find(a => a.id === assignmentId);
-    if (assignment) {
-      const assignedCount = assignment.assignedJudgeIds.length;
-      const submittedCount = this.data.submittedEvaluations.filter(e => e.competitionId === competitionId).length;
-      if (submittedCount >= assignedCount) {
-        assignment.status = 'Under Verification';
-      } else {
-        assignment.status = 'In Progress';
-      }
-    }
+    // Recalculate points (unapproved results yield 0 points)
+    this.recalculateApprovedTeamPoints();
 
     // Add confirmation notification
     this.addNotification({
@@ -1426,12 +1550,252 @@ class FestivalStore {
       recipientName: judgeName,
       type: 'Submission',
       title: 'Marks Submitted Successfully',
-      message: `Your evaluation sheet for competition ${competitionId} has been securely submitted and logged.`
+      message: `Your evaluation sheet for ${assignment.competitionTitle} has been securely submitted and logged.`
     });
 
-    this.addAuditLog('MARKS_SUBMITTED', `${judgeName} (${judgeId}) submitted marks for competition ${competitionId}`);
+    this.addAuditLog(
+      'MARKS_SUBMITTED',
+      `${judgeName} (${judgeId}) submitted marks for competition ${assignment.competitionTitle} (${validatedScores.length} entries)`
+    );
+
     this.saveData();
-    return { success: true, evaluation: existing };
+    this._notify();
+    return { success: true, evaluation: existing, assignment };
+  }
+
+  // =========================================================================
+  // ALTERNATIVE APPROVAL WORKFLOW (CONVENER OR ADMIN)
+  // Approval by EITHER Convener OR Admin is sufficient.
+  // =========================================================================
+  approveEvaluation(competitionId, { approvedByRole = 'CONVENER', approvedByName = '', notes = '' } = {}) {
+    const assignment = (this.data.programmeAssignments || []).find(a =>
+      a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
+    );
+    if (!assignment) throw new Error('Target competition not found.');
+
+    const now = new Date().toISOString();
+    const roleUpper = approvedByRole.toUpperCase(); // 'CONVENER' or 'ADMIN'
+    const roleDisplay = roleUpper === 'ADMIN' ? 'Admin' : 'Convener';
+    const finalApproverName = approvedByName || (roleUpper === 'ADMIN' ? 'Main Admin' : 'Usthad Hashir Ali (Convener)');
+
+    // Update assignment
+    assignment.status = 'APPROVED';
+    assignment.approvedByRole = roleUpper;
+    assignment.approvedByName = finalApproverName;
+    assignment.approvedAt = now;
+    assignment.approvalNotes = notes || '';
+    if (roleUpper === 'CONVENER') {
+      assignment.convenerApproved = true;
+      assignment.convenerApproval = {
+        approvedBy: finalApproverName,
+        approvedAt: now,
+        notes: notes || ''
+      };
+    } else {
+      assignment.adminApproved = true;
+      assignment.adminApproval = {
+        approvedBy: finalApproverName,
+        approvedAt: now,
+        notes: notes || ''
+      };
+    }
+
+    // Update all submitted evaluations for this competition
+    (this.data.submittedEvaluations || []).forEach(e => {
+      if (e.competitionId === assignment.competitionId || e.assignmentId === assignment.id) {
+        e.status = 'APPROVED';
+        e.approvedByRole = roleUpper;
+        e.approvedByName = finalApproverName;
+        e.approvedAt = now;
+        e.approvalNotes = notes || '';
+      }
+    });
+
+    this.recalculateApprovedTeamPoints();
+
+    this.addAuditLog(
+      'RESULT_APPROVED',
+      `Approved evaluation for ${assignment.competitionTitle || assignment.title} by ${roleDisplay} (${finalApproverName})`,
+      finalApproverName
+    );
+
+    this.addNotification({
+      title: `Result Approved by ${roleDisplay}`,
+      message: `${assignment.competitionTitle || assignment.title} results approved by ${finalApproverName}. Points credited to leaderboard.`,
+      type: 'success',
+      targetRole: 'all'
+    });
+
+    this.saveData();
+    this._notify();
+    return { success: true, assignment };
+  }
+
+  // =========================================================================
+  // CORRECTIONS & AUDIT HISTORY WORKFLOW
+  // Return evaluation with mandatory reason and preserve history.
+  // =========================================================================
+  returnEvaluationForCorrection(competitionId, { returnedByRole = 'CONVENER', returnedByName = '', reason = '' } = {}) {
+    if (!reason || !reason.trim()) {
+      throw new Error('A formal correction reason is strictly required.');
+    }
+
+    const assignment = (this.data.programmeAssignments || []).find(a =>
+      a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
+    );
+    if (!assignment) throw new Error('Target competition not found.');
+
+    const now = new Date().toISOString();
+    const roleUpper = returnedByRole.toUpperCase();
+    const roleDisplay = roleUpper === 'ADMIN' ? 'Admin' : 'Convener';
+    const finalReturnerName = returnedByName || (roleUpper === 'ADMIN' ? 'Main Admin' : 'Usthad Hashir Ali (Convener)');
+
+    // Preserve previous evaluation state in revision history
+    (this.data.submittedEvaluations || []).forEach(e => {
+      if (e.competitionId === assignment.competitionId || e.assignmentId === assignment.id) {
+        e.revisionHistory = e.revisionHistory || [];
+        e.revisionHistory.push({
+          scores: JSON.parse(JSON.stringify(e.scores || [])),
+          returnedByRole: roleUpper,
+          returnedByName: finalReturnerName,
+          reason: reason.trim(),
+          returnedAt: now,
+          previousStatus: e.status
+        });
+        e.status = 'RETURNED';
+        e.returnedByRole = roleUpper;
+        e.returnedByName = finalReturnerName;
+        e.returnReason = reason.trim();
+        e.returnedAt = now;
+        e.approvedByRole = null;
+        e.approvedByName = null;
+        e.approvedAt = null;
+      }
+    });
+
+    assignment.status = 'RETURNED';
+    assignment.returnReason = reason.trim();
+    assignment.returnedByRole = roleUpper;
+    assignment.returnedByName = finalReturnerName;
+    assignment.returnedAt = now;
+    assignment.convenerApproved = false;
+    assignment.adminApproved = false;
+    assignment.approvedByRole = null;
+    assignment.approvedByName = null;
+    assignment.approvedAt = null;
+
+    this.recalculateApprovedTeamPoints();
+
+    this.addAuditLog(
+      'RESULT_RETURNED_FOR_CORRECTION',
+      `Returned evaluation for ${assignment.competitionTitle || assignment.title} by ${roleDisplay} (${finalReturnerName}). Reason: ${reason.trim()}`,
+      finalReturnerName
+    );
+
+    this.addNotification({
+      title: `Evaluation Returned by ${roleDisplay}`,
+      message: `Evaluation for ${assignment.competitionTitle || assignment.title} returned for correction: "${reason.trim()}"`,
+      type: 'warning',
+      targetRole: 'judge'
+    });
+
+    this.saveData();
+    this._notify();
+    return { success: true, assignment };
+  }
+
+  // =========================================================================
+  // CENTRALIZED AUTOMATIC SCORING ENGINE
+  // Individual: 1st=3, 2nd=2, 3rd=1 (to student's team)
+  // General: 1st=10, 2nd=8, 3rd=6 (directly to team; NEVER multiplied by member count)
+  // ONLY APPROVED results contribute to team points!
+  // =========================================================================
+  recalculateApprovedTeamPoints() {
+    // Reset points on teams
+    (this.data.teams || []).forEach(team => {
+      team.individualPoints = 0;
+      team.generalPoints = 0;
+      team.points = 0;
+      team.firstPlaces = 0;
+      team.secondPlaces = 0;
+      team.thirdPlaces = 0;
+    });
+
+    const teamMap = {};
+    (this.data.teams || []).forEach(t => {
+      teamMap[t.id] = t;
+    });
+
+    // ONLY APPROVED results contribute to Team Total Points and Leaderboard
+    const approvedEvaluations = (this.data.submittedEvaluations || []).filter(e => {
+      const s = (e.status || '').toUpperCase();
+      return s === 'APPROVED';
+    });
+
+    approvedEvaluations.forEach(ev => {
+      const isGeneral = (ev.type || '').toLowerCase() === 'general';
+      const scores = Array.isArray(ev.scores) ? [...ev.scores] : [];
+
+      // Sort scores descending by total
+      scores.sort((a, b) => (b.total || 0) - (a.total || 0));
+
+      if (isGeneral) {
+        // General competition: 1st: 10, 2nd: 8, 3rd: 6 directly to the team
+        // Do NOT multiply team points by the number of team members
+        const pointsTable = [10, 8, 6];
+        scores.forEach((sc, idx) => {
+          if (idx < 3) {
+            const pts = pointsTable[idx];
+            const team = teamMap[sc.teamId];
+            if (team) {
+              team.generalPoints = (team.generalPoints || 0) + pts;
+              team.points = (team.points || 0) + pts;
+              if (idx === 0) team.firstPlaces = (team.firstPlaces || 0) + 1;
+              if (idx === 1) team.secondPlaces = (team.secondPlaces || 0) + 1;
+              if (idx === 2) team.thirdPlaces = (team.thirdPlaces || 0) + 1;
+            }
+          }
+        });
+      } else {
+        // Individual competition: 1st: 3, 2nd: 2, 3rd: 1 credited to student's assigned team
+        const pointsTable = [3, 2, 1];
+        scores.forEach((sc, idx) => {
+          if (idx < 3) {
+            const pts = pointsTable[idx];
+            let targetTeamId = sc.teamId;
+            if (!targetTeamId && sc.studentId) {
+              const stu = (this.data.registeredStudents || []).find(s => s.id === sc.studentId);
+              if (stu) targetTeamId = stu.teamId;
+            }
+            const team = teamMap[targetTeamId];
+            if (team) {
+              team.individualPoints = (team.individualPoints || 0) + pts;
+              team.points = (team.points || 0) + pts;
+              if (idx === 0) team.firstPlaces = (team.firstPlaces || 0) + 1;
+              if (idx === 1) team.secondPlaces = (team.secondPlaces || 0) + 1;
+              if (idx === 2) team.thirdPlaces = (team.thirdPlaces || 0) + 1;
+            }
+          }
+        });
+      }
+    });
+
+    this.saveData();
+    this._notify();
+  }
+
+  // AUTOMATIC TEAM LEADERBOARD
+  // =========================================================================
+  getTeamLeaderboard() {
+    this.recalculateApprovedTeamPoints();
+    const sorted = [...(this.data.teams || [])].sort((a, b) => (b.points || 0) - (a.points || 0));
+    return sorted.map((team, idx) => ({
+      ...team,
+      rank: idx + 1,
+      totalPoints: team.points || 0,
+      individualPoints: team.individualPoints || 0,
+      generalPoints: team.generalPoints || 0
+    }));
   }
 
   requestCorrection(evalId, reason) {
@@ -4631,19 +4995,23 @@ class FestivalStore {
       e.competitionId === assignment.competitionId || e.assignmentId === assignment.id
     );
 
-    const isGroup = (assignment.type || '').toLowerCase() === 'group';
-    const rules = this.getScoringRules();
-    const pointsConfig = isGroup ? rules.group : rules.individual;
+    const isGeneral = (assignment.type || '').toLowerCase() === 'general';
+    const positionPointsConfig = isGeneral
+      ? { first: 10, second: 8, third: 6 }
+      : { first: 3, second: 2, third: 1 };
 
     const participantMap = {};
 
+    // 1. Seed from assignment.participants if any
     (assignment.participants || []).forEach(p => {
-      participantMap[p.studentId] = {
-        studentId: p.studentId,
-        chestNo: p.chestNo,
-        name: p.name,
+      const key = p.studentId || p.teamId || p.id;
+      if (!key) return;
+      participantMap[key] = {
+        studentId: p.studentId || null,
+        chestNo: p.chestNo || '',
+        name: p.name || p.teamName,
         teamId: p.teamId,
-        teamName: p.teamName,
+        teamName: p.teamName || p.name,
         judgeScores: [],
         criteriaTotals: {},
         totalSum: 0,
@@ -4657,26 +5025,46 @@ class FestivalStore {
       };
     });
 
+    // 2. Also incorporate all evaluation scores dynamically
     evals.forEach(ev => {
       if (Array.isArray(ev.scores)) {
         ev.scores.forEach(sc => {
-          if (participantMap[sc.studentId]) {
-            const p = participantMap[sc.studentId];
-            p.judgeScores.push({
-              judgeId: ev.judgeId,
-              judgeName: ev.judgeName,
-              criteriaMarks: sc.criteriaMarks || {},
-              total: sc.total || 0,
-              remarks: sc.remarks || ''
-            });
-            p.totalSum += (sc.total || 0);
+          const key = sc.studentId || sc.teamId;
+          if (!key) return;
+          if (!participantMap[key]) {
+            participantMap[key] = {
+              studentId: sc.studentId || null,
+              chestNo: sc.chestNo || '',
+              name: sc.name || sc.teamName,
+              teamId: sc.teamId,
+              teamName: sc.teamName || sc.name,
+              judgeScores: [],
+              criteriaTotals: {},
+              totalSum: 0,
+              averageScore: 0,
+              computedScore: 0,
+              grade: 'B',
+              rank: 0,
+              isTie: false,
+              pointsAwarded: 0,
+              disqualified: false
+            };
+          }
+          const p = participantMap[key];
+          p.judgeScores.push({
+            judgeId: ev.judgeId,
+            judgeName: ev.judgeName,
+            criteriaMarks: sc.criteriaMarks || {},
+            total: sc.total || 0,
+            remarks: sc.remarks || ''
+          });
+          p.totalSum += (sc.total || 0);
 
-            // Accumulate criteria-wise totals
-            if (sc.criteriaMarks) {
-              Object.entries(sc.criteriaMarks).forEach(([critId, mark]) => {
-                p.criteriaTotals[critId] = (p.criteriaTotals[critId] || 0) + (mark || 0);
-              });
-            }
+          // Accumulate criteria-wise totals
+          if (sc.criteriaMarks) {
+            Object.entries(sc.criteriaMarks).forEach(([critId, mark]) => {
+              p.criteriaTotals[critId] = (p.criteriaTotals[critId] || 0) + (mark || 0);
+            });
           }
         });
       }
@@ -4735,33 +5123,21 @@ class FestivalStore {
         });
       }
 
-      // 1. Official Position Points (Charter Page 4: Indiv 3-2-1, Group 10-8-6)
+      // Official Position Points (Individual 3-2-1, General 10-8-6)
       let posPoints = 0;
-      if (idx === 0) posPoints = pointsConfig.first;
-      else if (idx === 1) posPoints = pointsConfig.second;
-      else if (idx === 2) posPoints = pointsConfig.third;
+      if (idx === 0) posPoints = positionPointsConfig.first;
+      else if (idx === 1) posPoints = positionPointsConfig.second;
+      else if (idx === 2) posPoints = positionPointsConfig.third;
 
       p.positionPoints = posPoints;
-
-      // 2. Grade points (Only applied if isGradePointsActive is confirmed and active)
-      let gradePts = 0;
-      if (rules.isGradePointsActive) {
-        const gradeDef = (rules.grades || []).find(g => g.grade === p.grade);
-        if (gradeDef) {
-          gradePts = isGroup ? (gradeDef.groupPoints || 0) : (gradeDef.individualPoints || 0);
-        }
-      }
-      p.gradePoints = gradePts;
-
-      // Total points awarded
-      p.pointsAwarded = posPoints + gradePts;
+      p.pointsAwarded = posPoints;
     });
 
-    const isComplete = evals.length >= (assignment.assignedJudgeIds ? assignment.assignedJudgeIds.length : 1);
+    const isComplete = evals.length > 0;
 
     return {
       assignment,
-      totalJudgesAssigned: assignment.assignedJudgeIds ? assignment.assignedJudgeIds.length : 0,
+      totalJudgesAssigned: assignment.assignedJudgeIds ? assignment.assignedJudgeIds.length : 1,
       judgesSubmitted: evals.length,
       rankedParticipants,
       hasTie,
@@ -8121,46 +8497,12 @@ class FestivalStore {
     return { success: true, assignment };
   }
 
-  convenerReturnEvaluationForCorrection(competitionId, judgeId, { reason, returnedBy = 'Usthad Hashir Ali (Convener)' }) {
-    if (!reason || !reason.trim()) {
-      throw new Error('A valid reason is required when returning an evaluation for correction.');
-    }
-
-    const assignment = (this.data.programmeAssignments || []).find(a =>
-      a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
-    );
-    if (!assignment) throw new Error('Competition not found.');
-
-    const ev = (this.data.submittedEvaluations || []).find(e =>
-      (e.competitionId === assignment.competitionId || e.assignmentId === assignment.id) &&
-      e.judgeId === judgeId
-    );
-    if (!ev) throw new Error('Evaluation submission not found for this judge and competition.');
-
-    const now = new Date().toISOString();
-    ev.status = 'Correction Requested';
-    ev.correctionReason = reason.trim();
-    ev.returnedBy = returnedBy;
-    ev.returnedAt = now;
-
-    assignment.status = 'Correction Requested';
-
-    this.addNotification({
-      title: 'Evaluation Returned for Correction',
-      message: `Your evaluation for ${assignment.competitionTitle} was returned by Convener. Reason: "${reason.trim()}"`,
-      type: 'warning',
-      targetRole: 'judge',
-      targetUserId: judgeId
+  convenerReturnEvaluationForCorrection(competitionId, judgeId, { reason, returnedBy = 'Usthad Hashir Ali (Convener)' } = {}) {
+    return this.returnEvaluationForCorrection(competitionId, {
+      returnedByRole: 'CONVENER',
+      returnedByName: returnedBy,
+      reason
     });
-
-    this.addAuditLog(
-      'RESULT_RETURNED_FOR_CORRECTION',
-      `Returned evaluation of ${ev.judgeName} for ${assignment.competitionTitle}. Reason: ${reason.trim()}`,
-      returnedBy
-    );
-    this.saveData();
-    this._notify();
-    return { success: true, evaluation: ev, assignment };
   }
 
   convenerApproveResult(competitionId, {
@@ -8171,63 +8513,13 @@ class FestivalStore {
     tieBreakerRule = 'criteria_weight',
     allowIncompleteException = false
   } = {}) {
-    const assignment = (this.data.programmeAssignments || []).find(a =>
-      a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
-    );
-    if (!assignment) throw new Error('Competition not found.');
-
-    const agg = this.calculateAggregatedResults(assignment.competitionId, { aggregationMode, tieBreakerRule });
-    if (!agg) throw new Error('Unable to compute competition results: No marks submitted.');
-
-    if (!allowIncompleteException && !agg.isComplete) {
-      throw new Error(`Cannot approve final result: Missing judge evaluations (${agg.judgesSubmitted}/${agg.totalJudgesAssigned} submitted). All assigned judges must submit evaluations, or an authorized exception must be granted.`);
-    }
-
-    const now = new Date().toISOString();
-    const newVersion = (assignment.resultVersion || 0) + 1;
-
-    assignment.status = 'Approved by Convener';
-    assignment.convenerApproved = true;
-    assignment.resultVersion = newVersion;
-    assignment.convenerApproval = {
-      approvedBy: convenerName,
-      approvedById: convenerId,
-      approvedAt: now,
-      notes: notes.trim(),
-      version: newVersion,
-      aggregationMode,
-      tieBreakerRule,
-      podiumSnapshot: {
-        first: agg.rankedParticipants[0] || null,
-        second: agg.rankedParticipants[1] || null,
-        third: agg.rankedParticipants[2] || null
-      }
-    };
-
-    // Lock evaluations as Approved
-    (this.data.submittedEvaluations || []).forEach(e => {
-      if (e.competitionId === assignment.competitionId || e.assignmentId === assignment.id) {
-        e.status = 'Approved';
-        e.approvedAt = now;
-        e.approvedBy = convenerName;
-      }
+    const res = this.approveEvaluation(competitionId, {
+      approvedByRole: 'CONVENER',
+      approvedByName: convenerName,
+      notes
     });
-
-    this.addNotification({
-      title: 'Final Result Approved by Convener',
-      message: `Convener approved final result for ${assignment.competitionTitle} (Version ${newVersion}). Ready for publishing.`,
-      type: 'success',
-      targetRole: 'admin'
-    });
-
-    this.addAuditLog(
-      'CONVENER_RESULT_APPROVED',
-      `Approved final result for ${assignment.competitionTitle} (v${newVersion}) by ${convenerName}`,
-      convenerName
-    );
-    this.saveData();
-    this._notify();
-    return { success: true, assignment, agg };
+    const agg = this.calculateAggregatedResults(competitionId, { aggregationMode, tieBreakerRule });
+    return { ...res, agg };
   }
 
   convenerPublishOfficialResult(competitionId, {

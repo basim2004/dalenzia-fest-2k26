@@ -809,80 +809,89 @@ export default function ConvenerResults() {
       {/* --------------------------------------------------------------------- */}
       {activeTab === 'submitted' && (
         <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {competitions
-              .filter(c => (storeData.submittedEvaluations || []).some(e => e.competitionId === c.competitionId || e.assignmentId === c.id))
-              .map(comp => {
-                const evals = (storeData.submittedEvaluations || []).filter(e => e.competitionId === comp.competitionId || e.assignmentId === comp.id);
-                const assignedCount = comp.assignedJudgeIds?.length || 0;
-                const isComplete = evals.length >= assignedCount;
+          {competitions.filter(c => (storeData.submittedEvaluations || []).some(e => e.competitionId === c.competitionId || e.assignmentId === c.id)).length === 0 ? (
+            <div className="p-12 text-center text-xs text-stone-500 bg-white rounded-3xl border border-stone-200 shadow-xs space-y-2">
+              <CheckCheck className="w-8 h-8 text-stone-400 mx-auto" />
+              <p className="font-bold text-stone-700">No competition entries have been submitted yet.</p>
+              <p className="text-stone-500">Submitted judge evaluation sheets will appear here for review.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {competitions
+                .filter(c => (storeData.submittedEvaluations || []).some(e => e.competitionId === c.competitionId || e.assignmentId === c.id))
+                .map(comp => {
+                  const evals = (storeData.submittedEvaluations || []).filter(e => e.competitionId === comp.competitionId || e.assignmentId === comp.id);
+                  const isApproved = comp.status === 'APPROVED' || comp.convenerApproved || comp.adminApproved;
 
-                return (
-                  <div
-                    key={comp.id}
-                    className="p-5 rounded-3xl bg-white border border-stone-200 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
-                  >
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-[#A91F35] bg-[#A91F35]/10 px-2 py-0.5 rounded-full">
-                          {comp.category}
-                        </span>
-                        <span
-                          className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
-                            isComplete ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
-                          }`}
-                        >
-                          {evals.length} / {assignedCount} Judges Submitted
-                        </span>
-                      </div>
-
-                      <h3 className="font-bold text-stone-900 text-sm leading-tight">
-                        {comp.competitionTitle}
-                      </h3>
-                      <div className="text-xs text-stone-500">
-                        {comp.venue} | {comp.date}
-                      </div>
-
-                      {/* Submitted judges list */}
-                      <div className="pt-2 border-t border-stone-100 space-y-1">
-                        <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
-                          Judge Submissions:
+                  return (
+                    <div
+                      key={comp.id}
+                      className="p-5 rounded-3xl bg-white border border-stone-200 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-black uppercase tracking-wider text-[#A91F35] bg-[#A91F35]/10 px-2 py-0.5 rounded-full">
+                            {comp.category} • {comp.type || 'Individual'}
+                          </span>
+                          <span
+                            className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                              isApproved ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                            }`}
+                          >
+                            {isApproved
+                              ? (comp.approvedByRole === 'ADMIN' ? 'Approved by Admin' : 'Approved by Convener')
+                              : `${evals.length} Evaluation Sheet(s)`}
+                          </span>
                         </div>
-                        {evals.map(e => (
-                          <div key={e.id} className="flex items-center justify-between text-xs py-0.5">
-                            <span className="text-stone-800 font-semibold">{e.judgeName}</span>
-                            <span className="text-[10px] text-stone-500 font-mono">{e.submittedAt || 'Submitted'}</span>
+
+                        <h3 className="font-bold text-stone-900 text-sm leading-tight">
+                          {comp.competitionTitle}
+                        </h3>
+                        <div className="text-xs text-stone-500">
+                          Code: <strong className="font-mono text-[#A91F35]">{comp.competitionCode}</strong>
+                        </div>
+
+                        {/* Submitted judges list */}
+                        <div className="pt-2 border-t border-stone-100 space-y-1">
+                          <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+                            Judge Submissions:
                           </div>
-                        ))}
+                          {evals.map(e => (
+                            <div key={e.id} className="flex items-center justify-between text-xs py-0.5">
+                              <span className="text-stone-800 font-semibold">{e.judgeName}</span>
+                              <span className="text-[10px] text-stone-500 font-mono">{e.submittedAt ? new Date(e.submittedAt).toLocaleTimeString() : 'Submitted'}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
+                        <button
+                          onClick={() => {
+                            setSelectedCompId(comp.competitionId);
+                            setActiveTab('judgewise');
+                          }}
+                          className="text-xs font-bold text-[#A91F35] hover:underline flex items-center gap-1 cursor-pointer"
+                        >
+                          <span>Inspect Judge Sheets</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setSelectedCompId(comp.competitionId);
+                            setActiveTab('review');
+                          }}
+                          className="px-3 py-1.5 rounded-xl bg-[#A91F35] text-white hover:bg-[#8e192c] text-xs font-bold transition-colors cursor-pointer"
+                        >
+                          Consolidated Review
+                        </button>
                       </div>
                     </div>
-
-                    <div className="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
-                      <button
-                        onClick={() => {
-                          setSelectedCompId(comp.competitionId);
-                          setActiveTab('judgewise');
-                        }}
-                        className="text-xs font-bold text-[#A91F35] hover:underline flex items-center gap-1"
-                      >
-                        <span>Inspect Judge Sheets</span>
-                        <ChevronRight className="w-3.5 h-3.5" />
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          setSelectedCompId(comp.competitionId);
-                          setActiveTab('review');
-                        }}
-                        className="px-3 py-1.5 rounded-xl bg-[#A91F35] text-white hover:bg-[#8e192c] text-xs font-bold transition-colors"
-                      >
-                        Consolidated Review
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
+                  );
+                })}
+            </div>
+          )}
         </div>
       )}
 
@@ -1204,81 +1213,118 @@ export default function ConvenerResults() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {competitions
-              .filter(c => (storeData.submittedEvaluations || []).some(e => e.competitionId === c.competitionId || e.assignmentId === c.id))
-              .map(comp => {
-                const isApproved = comp.convenerApproved || comp.status === 'Approved by Convener';
-                const isPublished = comp.isOfficialPublished || comp.isPublished;
+          <div className="space-y-4">
+            {competitions.filter(c => (storeData.submittedEvaluations || []).some(e => e.competitionId === c.competitionId || e.assignmentId === c.id)).length === 0 ? (
+              <div className="p-12 text-center text-xs text-stone-500 bg-white rounded-3xl border border-stone-200 shadow-xs space-y-2">
+                <CheckCircle2 className="w-8 h-8 text-stone-400 mx-auto" />
+                <p className="font-bold text-stone-700">No judge evaluations are awaiting approval.</p>
+                <p className="text-stone-500">Submitted evaluations will appear here for review and certification.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {competitions
+                  .filter(c => (storeData.submittedEvaluations || []).some(e => e.competitionId === c.competitionId || e.assignmentId === c.id))
+                  .map(comp => {
+                    const isApproved = comp.status === 'APPROVED' || comp.convenerApproved || comp.adminApproved || comp.status === 'Approved by Convener' || comp.status === 'Approved by Admin';
+                    const isApprovedByAdmin = comp.approvedByRole === 'ADMIN' || comp.adminApproved;
+                    const isApprovedByConvener = comp.approvedByRole === 'CONVENER' || comp.convenerApproved;
+                    const isPublished = comp.isOfficialPublished || comp.isPublished;
 
-                return (
-                  <div
-                    key={comp.id}
-                    className="p-5 rounded-3xl bg-white border border-stone-200 shadow-xs flex flex-col justify-between"
-                  >
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-black uppercase text-[#A91F35] bg-[#A91F35]/10 px-2.5 py-0.5 rounded-full">
-                          {comp.category}
-                        </span>
-                        <span
-                          className={`text-[10px] font-black px-2.5 py-0.5 rounded-full ${
-                            isPublished
-                              ? 'bg-purple-100 text-purple-900'
-                              : isApproved
-                              ? 'bg-emerald-100 text-emerald-900'
-                              : 'bg-amber-100 text-amber-900'
-                          }`}
-                        >
-                          {isPublished ? 'Published' : isApproved ? 'Convener Approved' : 'Awaiting Approval'}
-                        </span>
-                      </div>
-
-                      <h4 className="font-bold text-stone-900 text-sm">{comp.competitionTitle}</h4>
-                      <div className="text-xs text-stone-500">{comp.venue} | {comp.date}</div>
-
-                      {comp.convenerApproval && (
-                        <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-100 text-emerald-900 text-[11px] space-y-0.5">
-                          <div><strong>Approved by:</strong> {comp.convenerApproval.approvedBy}</div>
-                          <div><strong>Timestamp:</strong> {new Date(comp.convenerApproval.approvedAt).toLocaleString()}</div>
-                          <div><strong>Version:</strong> v{comp.convenerApproval.version}</div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
-                      <button
-                        onClick={() => {
-                          setSelectedCompId(comp.competitionId);
-                          setActiveTab('review');
-                        }}
-                        className="text-xs font-bold text-stone-600 hover:text-stone-900"
+                    return (
+                      <div
+                        key={comp.id}
+                        className="p-5 rounded-3xl bg-white border border-stone-200 shadow-xs flex flex-col justify-between"
                       >
-                        Inspect Tabulation
-                      </button>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] font-black uppercase text-[#A91F35] bg-[#A91F35]/10 px-2.5 py-0.5 rounded-full">
+                              {comp.category} • {comp.type || 'Individual'}
+                            </span>
+                            <span
+                              className={`text-[10px] font-black px-2.5 py-0.5 rounded-full ${
+                                isPublished
+                                  ? 'bg-purple-100 text-purple-900'
+                                  : isApproved
+                                  ? 'bg-emerald-100 text-emerald-900'
+                                  : 'bg-amber-100 text-amber-900'
+                              }`}
+                            >
+                              {isPublished
+                                ? 'Published'
+                                : isApprovedByAdmin
+                                ? 'Approved by Admin'
+                                : isApprovedByConvener
+                                ? 'Approved by Convener'
+                                : 'Awaiting Approval'}
+                            </span>
+                          </div>
 
-                      <div className="flex items-center gap-2">
-                        {!isApproved && (
+                          <h4 className="font-bold text-stone-900 text-sm">{comp.competitionTitle}</h4>
+                          <div className="text-xs text-stone-500">
+                            Code: <strong className="font-mono text-[#A91F35]">{comp.competitionCode}</strong>
+                          </div>
+
+                          {isApproved && (
+                            <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-100 text-emerald-900 text-[11px] space-y-0.5">
+                              <div><strong>Approved by:</strong> {comp.approvedByName || (isApprovedByAdmin ? 'Main Admin' : 'Usthad Hashir Ali')}</div>
+                              <div><strong>Timestamp:</strong> {comp.approvedAt ? new Date(comp.approvedAt).toLocaleString() : 'Recent'}</div>
+                              <div><strong>Role:</strong> {isApprovedByAdmin ? 'Admin Approval' : 'Convener Approval'}</div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
                           <button
-                            onClick={() => handleOpenApproveModal(comp.competitionId)}
-                            className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition-colors"
+                            onClick={() => {
+                              setSelectedCompId(comp.competitionId);
+                              setActiveTab('review');
+                            }}
+                            className="text-xs font-bold text-stone-600 hover:text-stone-900 cursor-pointer"
                           >
-                            Approve Result
+                            Inspect Tabulation
                           </button>
-                        )}
-                        {isApproved && !isPublished && (
-                          <button
-                            onClick={() => handleOpenPublishModal(comp.competitionId)}
-                            className="px-3 py-1.5 rounded-xl bg-[#A91F35] hover:bg-[#8e192c] text-white text-xs font-bold shadow-xs transition-colors"
-                          >
-                            Publish Now
-                          </button>
-                        )}
+
+                          <div className="flex items-center gap-2">
+                            {!isApproved && (
+                              <>
+                                <button
+                                  onClick={() => handleOpenApproveModal(comp.competitionId)}
+                                  className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
+                                >
+                                  Approve Result
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setReturnTarget({
+                                      competitionId: comp.competitionId,
+                                      judgeId: comp.assignedJudgeIds?.[0] || 'JDG-1001',
+                                      judgeName: 'Assigned Judge',
+                                      competitionTitle: comp.competitionTitle,
+                                      reason: ''
+                                    });
+                                    setShowReturnModal(true);
+                                  }}
+                                  className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold border border-rose-200 transition-colors cursor-pointer"
+                                >
+                                  Return
+                                </button>
+                              </>
+                            )}
+                            {isApproved && !isPublished && (
+                              <button
+                                onClick={() => handleOpenPublishModal(comp.competitionId)}
+                                className="px-3 py-1.5 rounded-xl bg-[#A91F35] hover:bg-[#8e192c] text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
+                              >
+                                Publish Now
+                              </button>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                );
-              })}
+                    );
+                  })}
+              </div>
+            )}
           </div>
         </div>
       )}

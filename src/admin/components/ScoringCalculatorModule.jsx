@@ -261,11 +261,10 @@ export default function ScoringCalculatorModule({ activeSection }) {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                  active
-                    ? 'bg-white text-[#A91F35] shadow-md'
-                    : 'bg-white/5 hover:bg-white/10 text-stone-200 hover:text-white'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${active
+                  ? 'bg-white text-[#A91F35] shadow-md'
+                  : 'bg-white/5 hover:bg-white/10 text-stone-200 hover:text-white'
+                  }`}
               >
                 <Icon className={`w-3.5 h-3.5 ${active ? 'text-[#A91F35]' : 'text-stone-300'}`} />
                 {tab.label}
@@ -325,34 +324,46 @@ export default function ScoringCalculatorModule({ activeSection }) {
               </div>
 
               <div className="space-y-3">
-                {competitions.filter(c => !c.isPublished && c.status !== 'Draft').slice(0, 4).map(c => {
-                  const evalsForComp = evaluations.filter(e => e.competitionId === c.competitionId || e.assignmentId === c.id);
-                  return (
-                    <div key={c.id} className="p-4 rounded-2xl border border-stone-200 bg-stone-50/60 flex items-center justify-between">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono font-bold text-xs text-[#A91F35] bg-red-100/60 px-2 py-0.5 rounded">
-                            {c.code || c.competitionCode}
-                          </span>
-                          <span className="font-bold text-stone-900 text-xs">{c.title || c.competitionTitle}</span>
+                {competitions.filter(c => !c.isPublished && (evaluations.some(e => e.competitionId === c.competitionId || e.assignmentId === c.id) || c.status === 'Pending Approval')).length === 0 ? (
+                  <div className="p-8 text-center text-xs text-stone-500 bg-stone-50 rounded-2xl border border-stone-200">
+                    No judge evaluations are awaiting approval. Competition setup is pending.
+                  </div>
+                ) : (
+                  competitions.filter(c => !c.isPublished && (evaluations.some(e => e.competitionId === c.competitionId || e.assignmentId === c.id) || c.status === 'Pending Approval')).slice(0, 4).map(c => {
+                    const evalsForComp = evaluations.filter(e => e.competitionId === c.competitionId || e.assignmentId === c.id);
+                    const isApproved = c.status === 'APPROVED' || c.convenerApproved || c.adminApproved;
+                    return (
+                      <div key={c.id} className="p-4 rounded-2xl border border-stone-200 bg-stone-50/60 flex items-center justify-between">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono font-bold text-xs text-[#A91F35] bg-red-100/60 px-2 py-0.5 rounded">
+                              {c.code || c.competitionCode}
+                            </span>
+                            <span className="font-bold text-stone-900 text-xs">{c.title || c.competitionTitle}</span>
+                            {isApproved && (
+                              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                                {c.approvedByRole === 'CONVENER' ? 'Approved by Convener' : 'Approved by Admin'}
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-[11px] text-stone-500 mt-1">
+                            Type: {c.type || 'Individual'} • Category: {c.category} • {evalsForComp.length} Evaluation Sheet(s) Logged
+                          </div>
                         </div>
-                        <div className="text-[11px] text-stone-500 mt-1">
-                          {c.venue} • {evalsForComp.length} Judge Sheet(s) Logged
-                        </div>
-                      </div>
 
-                      <button
-                        onClick={() => {
-                          setSelectedCompId(c.id);
-                          setActiveTab('calculator');
-                        }}
-                        className="px-3.5 py-1.5 rounded-xl bg-[#A91F35] hover:bg-[#851627] text-white text-xs font-bold shadow-sm transition-all"
-                      >
-                        Calculate &rarr;
-                      </button>
-                    </div>
-                  );
-                })}
+                        <button
+                          onClick={() => {
+                            setSelectedCompId(c.id);
+                            setActiveTab('calculator');
+                          }}
+                          className="px-3.5 py-1.5 rounded-xl bg-[#A91F35] hover:bg-[#851627] text-white text-xs font-bold shadow-sm transition-all"
+                        >
+                          Calculate &rarr;
+                        </button>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
 
@@ -446,22 +457,20 @@ export default function ScoringCalculatorModule({ activeSection }) {
                 <button
                   type="button"
                   onClick={() => setAggregationMode('average')}
-                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${
-                    aggregationMode === 'average'
-                      ? 'bg-[#A91F35] text-white shadow-sm'
-                      : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-100'
-                  }`}
+                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${aggregationMode === 'average'
+                    ? 'bg-[#A91F35] text-white shadow-sm'
+                    : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-100'
+                    }`}
                 >
                   Mean Average (0–100)
                 </button>
                 <button
                   type="button"
                   onClick={() => setAggregationMode('sum')}
-                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${
-                    aggregationMode === 'sum'
-                      ? 'bg-[#A91F35] text-white shadow-sm'
-                      : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-100'
-                  }`}
+                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${aggregationMode === 'sum'
+                    ? 'bg-[#A91F35] text-white shadow-sm'
+                    : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-100'
+                    }`}
                 >
                   Sum Total
                 </button>
@@ -567,15 +576,14 @@ export default function ScoringCalculatorModule({ activeSection }) {
                         <tr key={p.studentId} className={`hover:bg-stone-50/70 transition-colors ${isPodium ? 'bg-amber-50/20' : ''}`}>
                           <td className="p-3.5 font-bold font-mono">
                             <div className="flex flex-col items-center">
-                              <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${
-                                idx === 0
-                                  ? 'bg-amber-400 text-stone-900 shadow-sm'
-                                  : idx === 1
+                              <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${idx === 0
+                                ? 'bg-amber-400 text-stone-900 shadow-sm'
+                                : idx === 1
                                   ? 'bg-stone-200 text-stone-800'
                                   : idx === 2
-                                  ? 'bg-amber-200 text-amber-900'
-                                  : 'bg-stone-100 text-stone-600'
-                              }`}>
+                                    ? 'bg-amber-200 text-amber-900'
+                                    : 'bg-stone-100 text-stone-600'
+                                }`}>
                                 {p.rank}
                               </span>
                               {p.isTie && (
@@ -611,13 +619,12 @@ export default function ScoringCalculatorModule({ activeSection }) {
                             {p.computedScore}
                           </td>
                           <td className="p-3.5">
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-black ${
-                              p.grade === 'A+'
-                                ? 'bg-emerald-100 text-emerald-800'
-                                : p.grade === 'A'
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-black ${p.grade === 'A+'
+                              ? 'bg-emerald-100 text-emerald-800'
+                              : p.grade === 'A'
                                 ? 'bg-blue-100 text-blue-800'
                                 : 'bg-stone-100 text-stone-700'
-                            }`}>
+                              }`}>
                               {p.grade}
                             </span>
                           </td>
@@ -650,87 +657,6 @@ export default function ScoringCalculatorModule({ activeSection }) {
       {/* ========================================================================= */}
       {activeTab === 'verification' && (
         <div className="bg-white rounded-3xl border border-stone-200/80 shadow-sm p-6 space-y-6">
-          <div className="flex items-center justify-between pb-4 border-b border-stone-100">
-            <div>
-              <h2 className="text-lg font-bold text-stone-900">Result Verification & Sign-Off Desk</h2>
-              <p className="text-xs text-stone-600 mt-0.5">
-                Review submitted marksheets, cross-tabulate judge scores, and certify official winners before public broadcast.
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            {competitions.map((comp) => {
-              const compEvals = evaluations.filter(e => e.competitionId === comp.competitionId || e.assignmentId === comp.id);
-              const isReady = compEvals.length > 0;
-              const isPublished = comp.isPublished || comp.status === 'Approved' || comp.status === 'Published';
-
-              return (
-                <div key={comp.id} className="p-5 rounded-2xl border border-stone-200 bg-stone-50/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-xs text-[#A91F35] bg-red-100/60 px-2 py-0.5 rounded">
-                        {comp.code || comp.competitionCode}
-                      </span>
-                      <h3 className="font-bold text-stone-900 text-sm">{comp.title || comp.competitionTitle}</h3>
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                        isPublished
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : comp.status === 'Under Verification'
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-stone-200 text-stone-700'
-                      }`}>
-                        {comp.status}
-                      </span>
-                    </div>
-                    <div className="text-xs text-stone-600 flex items-center gap-3">
-                      <span>Venue: {comp.venue}</span>
-                      <span>• {compEvals.length} Evaluation Sheets Submitted</span>
-                      <span>• {comp.participants?.length || 0} Registered Candidates</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 self-end md:self-auto">
-                    <button
-                      onClick={() => {
-                        setSelectedCompId(comp.id);
-                        setActiveTab('calculator');
-                      }}
-                      className="px-3.5 py-2 rounded-xl bg-white border border-stone-300 hover:border-[#A91F35] text-stone-800 text-xs font-bold transition-all"
-                    >
-                      Inspect Scores
-                    </button>
-                    {!isPublished && (
-                      <button
-                        onClick={() => handleVerifyResult(comp.id)}
-                        className="px-4 py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
-                      >
-                        <ShieldCheck className="w-4 h-4" />
-                        Verify
-                      </button>
-                    )}
-                    {!isPublished && isReady && (
-                      <button
-                        onClick={() => handlePublishResult(comp.id)}
-                        className="px-4 py-2 rounded-xl bg-[#A91F35] hover:bg-[#851627] text-white text-xs font-bold transition-all shadow-sm"
-                      >
-                        Publish Official
-                      </button>
-                    )}
-                    {isPublished && (
-                      <button
-                        onClick={() => handleOpenCorrection(comp)}
-                        className="px-3 py-2 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold transition-all flex items-center gap-1"
-                      >
-                        <RotateCcw className="w-3.5 h-3.5" />
-                        Correct
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
         </div>
       )}
 
@@ -854,37 +780,38 @@ export default function ScoringCalculatorModule({ activeSection }) {
           </div>
 
           <div className="space-y-3">
-            {teams.map((t, idx) => (
+            {festivalStore.getTeamLeaderboard().map((t, idx) => (
               <div
                 key={t.id}
                 className="p-4 rounded-2xl border border-stone-200 bg-white hover:border-[#A91F35]/30 hover:shadow-md transition-all flex items-center justify-between"
               >
                 <div className="flex items-center gap-4">
-                  <span className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${
-                    idx === 0
-                      ? 'bg-amber-400 text-stone-900 shadow-sm'
-                      : idx === 1
+                  <span className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${idx === 0
+                    ? 'bg-amber-400 text-stone-900 shadow-sm'
+                    : idx === 1
                       ? 'bg-stone-200 text-stone-800'
                       : idx === 2
-                      ? 'bg-amber-200 text-amber-900'
-                      : 'bg-stone-100 text-stone-600'
-                  }`}>
+                        ? 'bg-amber-200 text-amber-900'
+                        : 'bg-stone-100 text-stone-600'
+                    }`}>
                     {idx + 1}
                   </span>
                   <div>
                     <div className="font-bold text-stone-900 text-sm flex items-center gap-2">
-                      <span>{t.name}</span>
+                      <span>{t.displayName || t.name}</span>
                       <span className="font-mono text-xs text-stone-400">({t.code})</span>
                     </div>
                     <div className="text-xs text-stone-500">
-                      Leader: {t.leader || 'Not Assigned'} • {t.members || (t.students ? t.students.length : 0)} Scholars
+                      Leader: {t.leader || 'Not Assigned'} • {t.members || 22} Scholars
                     </div>
                   </div>
                 </div>
 
                 <div className="text-right">
                   <div className="text-xl font-black font-mono text-[#A91F35]">{t.points || 0} pts</div>
-                  <div className="text-[10px] text-stone-500 uppercase tracking-wider font-bold">Championship Score</div>
+                  <div className="text-[10px] text-stone-500 font-medium">
+                    Individual: <strong className="text-stone-700">{t.individualPoints || 0} pts</strong> • General: <strong className="text-stone-700">{t.generalPoints || 0} pts</strong>
+                  </div>
                 </div>
               </div>
             ))}
