@@ -20,6 +20,7 @@ import {
   ArrowRight,
   Home,
   CheckCircle2,
+  Sparkles,
   Sparkles as SparklesIcon,
   X,
   Share2,
