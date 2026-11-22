@@ -27,9 +27,86 @@ export const COLLECTIONS = {
   STUDENTS: "students",
   PROGRAMMES: "programmes",
   EVALUATIONS: "evaluations",
+  TEAMS: "teams",
+  TEAM_ALLOCATIONS: "team_allocations",
   CONFIG: "system_config",
   LOGS: "audit_logs"
 };
+
+/**
+ * Save / Update a Team record to Firebase Firestore
+ */
+export async function syncTeamToFirebase(teamRecord) {
+  try {
+    if (!teamRecord || !teamRecord.id) return { success: false, error: "Missing team ID" };
+    const docRef = doc(db, COLLECTIONS.TEAMS, String(teamRecord.id));
+    await setDoc(docRef, {
+      ...teamRecord,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+    return { success: true, id: teamRecord.id };
+  } catch (err) {
+    console.warn("Failed to sync team to Firebase:", err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Save / Update a student team assignment in Firebase Firestore
+ */
+export async function syncStudentTeamAssignmentToFirebase(assignment) {
+  try {
+    if (!assignment || !assignment.studentId) return { success: false, error: "Missing student ID" };
+    const docRef = doc(db, COLLECTIONS.TEAM_ALLOCATIONS, String(assignment.studentId));
+    await setDoc(docRef, {
+      ...assignment,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+    return { success: true };
+  } catch (err) {
+    console.warn("Failed to sync student team assignment to Firebase:", err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Record a team allocation audit log entry to Firebase Firestore
+ */
+export async function syncTeamAuditLogToFirebase(logEntry) {
+  try {
+    const docRef = doc(db, COLLECTIONS.LOGS, logEntry.id || `LOG-${Date.now()}`);
+    await setDoc(docRef, {
+      ...logEntry,
+      syncedAt: serverTimestamp()
+    }, { merge: true });
+    return { success: true };
+  } catch (err) {
+    console.warn("Failed to sync team audit log to Firebase:", err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Subscribe to real-time teams updates (Shared across Team Leader, Convener & Main Admin)
+ */
+export function subscribeToTeams(onUpdate, onError) {
+  try {
+    const colRef = collection(db, COLLECTIONS.TEAMS);
+    return onSnapshot(colRef, (snapshot) => {
+      const records = [];
+      snapshot.forEach((doc) => {
+        records.push({ ...doc.data(), id: doc.id });
+      });
+      if (onUpdate) onUpdate(records);
+    }, (err) => {
+      console.warn("Real-time teams listener fallback:", err);
+      if (onError) onError(err);
+    });
+  } catch (err) {
+    console.warn("Failed to initialize teams snapshot listener:", err);
+    return () => {};
+  }
+}
 
 /**
  * Test connectivity with Firebase Firestore
