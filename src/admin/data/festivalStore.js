@@ -1488,6 +1488,51 @@ class FestivalStore {
   }
 
   // =========================================================================
+  // FESTIVAL HIGHLIGHTS METRICS (PUBLIC PORTAL - VERIFIED DATA ONLY)
+  // =========================================================================
+  getFestivalHighlights() {
+    // 1. Competitions: actual configured competitions from database (not the 83 charter definitions)
+    const configuredCompetitions = Array.isArray(this.data.programmeAssignments)
+      ? this.data.programmeAssignments
+      : [];
+    const competitionsCount = configuredCompetitions.length;
+
+    // 2. Guests of Honour: officially confirmed guests (exclude unconfirmed/archived)
+    const confirmedGuests = (this.data.programmeGuests || []).filter(g =>
+      !g.isArchived && (g.status === 'Confirmed' || g.isConfirmed)
+    );
+    const guestsCount = confirmedGuests.length;
+
+    // 3. Sessions: actual confirmed sessions from official schedule
+    const confirmedSessions = (this.data.programmeSchedules || []).filter(s =>
+      s.status !== 'Cancelled' && (s.status === 'Confirmed' || s.isConfirmed)
+    );
+    const sessionsCount = confirmedSessions.length;
+
+    // 4. Vibrant Days: strictly 3 days (Dec 21, 22, 23, 2026)
+    const vibrantDays = 3;
+    const officialDates = 'December 21, 22, 23, 2026';
+
+    return {
+      competitionsCount,
+      competitionsDisplay: competitionsCount > 0 ? String(competitionsCount) : '0',
+      isCompetitionsConfigured: competitionsCount > 0,
+
+      guestsCount,
+      guestsDisplay: guestsCount > 0 ? String(guestsCount) : 'To Be Announced',
+      isGuestsConfirmed: guestsCount > 0,
+
+      sessionsCount,
+      sessionsDisplay: sessionsCount > 0 ? String(sessionsCount) : 'Coming Soon',
+      isSessionsConfigured: sessionsCount > 0,
+
+      vibrantDays,
+      vibrantDaysDisplay: '3',
+      officialDates
+    };
+  }
+
+  // =========================================================================
   // CHARTER PROGRAMMES MASTER DEFINITION METHODS (Charter Pages 5-9: 83 items)
   // =========================================================================
   getCharterProgrammes({ query = '', classification = 'all', category = 'all', type = 'all' } = {}) {

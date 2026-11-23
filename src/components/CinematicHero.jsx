@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, ArrowRight, Play, ChevronDown, Trophy, Users, Layers, Clock, Sparkles } from 'lucide-react';
+import festivalStore from '../admin/data/festivalStore';
 
 // Lightweight Golden Sand Particles Canvas
 function GoldenSandCanvas({ mouse }) {
@@ -96,6 +97,13 @@ export default function CinematicHero({ onOpenTeaser }) {
   const containerRef = useRef(null);
   const mouse = useRef({ x: 0, y: 0 });
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [highlights, setHighlights] = useState(() => festivalStore.getFestivalHighlights());
+
+  useEffect(() => {
+    const update = () => setHighlights(festivalStore.getFestivalHighlights());
+    const unsub = festivalStore.subscribe(update);
+    return () => unsub();
+  }, []);
 
   const countdown = useFestivalCountdown('2026-12-21T09:00:00+05:30');
 
@@ -307,7 +315,7 @@ export default function CinematicHero({ onOpenTeaser }) {
             </div>
             <div>
               <span className="font-mono text-base md:text-lg font-black text-[#A91F35] block leading-none">
-                12+
+                {highlights.competitionsDisplay}
               </span>
               <span className="text-[11px] font-bold text-stone-600">Competitions</span>
             </div>
@@ -318,8 +326,8 @@ export default function CinematicHero({ onOpenTeaser }) {
               <Users className="w-5 h-5" />
             </div>
             <div>
-              <span className="font-mono text-base md:text-lg font-black text-[#A91F35] block leading-none">
-                50+
+              <span className="font-mono text-xs md:text-sm font-black text-[#A91F35] block leading-tight">
+                {highlights.isGuestsConfirmed ? highlights.guestsDisplay : 'TBA'}
               </span>
               <span className="text-[11px] font-bold text-stone-600">Guests of Honour</span>
             </div>
@@ -330,8 +338,8 @@ export default function CinematicHero({ onOpenTeaser }) {
               <Layers className="w-5 h-5" />
             </div>
             <div>
-              <span className="font-mono text-base md:text-lg font-black text-[#A91F35] block leading-none">
-                20+
+              <span className="font-mono text-xs md:text-sm font-black text-[#A91F35] block leading-tight">
+                {highlights.isSessionsConfigured ? highlights.sessionsDisplay : 'Coming Soon'}
               </span>
               <span className="text-[11px] font-bold text-stone-600">Academic Sessions</span>
             </div>
@@ -343,7 +351,7 @@ export default function CinematicHero({ onOpenTeaser }) {
             </div>
             <div>
               <span className="font-mono text-base md:text-lg font-black text-[#A91F35] block leading-none">
-                03
+                {highlights.vibrantDaysDisplay}
               </span>
               <span className="text-[11px] font-bold text-stone-600">Vibrant Days</span>
             </div>

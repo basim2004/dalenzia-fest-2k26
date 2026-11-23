@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Sparkles, Eye, Trophy, Users, Layers, Clock, ArrowRight } from 'lucide-react';
+import festivalStore from '../admin/data/festivalStore';
 
 export default function AboutSection() {
+  const [highlights, setHighlights] = useState(() => festivalStore.getFestivalHighlights());
+
+  useEffect(() => {
+    const updateHighlights = () => {
+      setHighlights(festivalStore.getFestivalHighlights());
+    };
+    const unsubscribe = festivalStore.subscribe(updateHighlights);
+    return () => unsubscribe();
+  }, []);
   return (
     <section id="about" className="relative bg-[#F7F3E9] py-14 md:py-20 border-t border-[#A91F35]/15 select-none overflow-hidden">
       {/* Background Mandala Watermark */}
@@ -145,7 +155,7 @@ export default function AboutSection() {
                     <Trophy className="w-4 h-4 text-[#E6A916]" />
                     Competitions
                   </span>
-                  <span className="font-mono text-sm font-bold text-[#A91F35]">12+</span>
+                  <span className="font-mono text-sm font-bold text-[#A91F35]">{highlights.competitionsDisplay}</span>
                 </div>
 
                 <div className="flex items-center justify-between border-b border-stone-100 pb-2">
@@ -153,7 +163,7 @@ export default function AboutSection() {
                     <Users className="w-4 h-4 text-[#E6A916]" />
                     Guests of Honour
                   </span>
-                  <span className="font-mono text-sm font-bold text-[#A91F35]">50+</span>
+                  <span className="font-mono text-xs sm:text-sm font-bold text-[#A91F35] text-right">{highlights.guestsDisplay}</span>
                 </div>
 
                 <div className="flex items-center justify-between border-b border-stone-100 pb-2">
@@ -161,7 +171,7 @@ export default function AboutSection() {
                     <Layers className="w-4 h-4 text-[#E6A916]" />
                     Sessions
                   </span>
-                  <span className="font-mono text-sm font-bold text-[#A91F35]">20+</span>
+                  <span className="font-mono text-xs sm:text-sm font-bold text-[#A91F35] text-right">{highlights.sessionsDisplay}</span>
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -169,15 +179,18 @@ export default function AboutSection() {
                     <Clock className="w-4 h-4 text-[#E6A916]" />
                     Vibrant Days
                   </span>
-                  <span className="font-mono text-sm font-bold text-[#A91F35]">2</span>
+                  <span className="font-mono text-sm font-bold text-[#A91F35]">{highlights.vibrantDaysDisplay}</span>
                 </div>
               </div>
             </div>
 
-            <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-[11px] text-[#A91F35] font-bold">
+            <a
+              href="#schedule"
+              className="pt-2 border-t border-stone-100 flex items-center justify-between text-[11px] text-[#A91F35] font-bold hover:underline transition-all cursor-pointer group"
+            >
               <span>View Full Schedule</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </div>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </a>
           </motion.div>
 
         </div>
