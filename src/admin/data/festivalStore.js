@@ -3,12 +3,15 @@ import {
   OFFICIAL_TEAMS,
   OFFICIAL_SCORING_CONFIG,
   OFFICIAL_CHARTER_PROGRAMMES,
+  OFFICIAL_CHARTER_STUDENT_TARGETS,
   createDefaultProgrammeAssignments
 } from './officialCharterData.js';
 import {
   syncTeamToFirebase,
   syncStudentTeamAssignmentToFirebase,
-  syncTeamAuditLogToFirebase
+  syncTeamAuditLogToFirebase,
+  syncStudentToFirebase,
+  fetchStudentsFromFirebase
 } from '../../firebase/firebaseService.js';
 
 // DALENZIA FEST 2K26 - CENTRAL FESTIVAL DATA ENGINE & STORE
@@ -1353,8 +1356,135 @@ class FestivalStore {
       recentActivities: (this.data.auditLogs || []).slice(0, 6),
       upcomingProgrammes: programmes.slice(0, 5),
       topTeams: teams.slice(0, 5),
-      recentPublishedPosters: posters.slice(0, 3)
+      recentPublishedPosters: posters.slice(0, 3),
+      studentOverview: this.getStudentRegistrationOverview()
     };
+  }
+
+  // =========================================================================
+  // OFFICIAL STUDENT REGISTRATION OVERVIEW & CHARTER TARGETS
+  // =========================================================================
+  getStudentRegistrationOverview() {
+    const students = this.getRegisteredStudents();
+
+    // Official Charter Reference Targets (Charter Pages 1-3)
+    const targets = OFFICIAL_CHARTER_STUDENT_TARGETS || {
+      Minor: 19,
+      SubJunior: 12,
+      Junior: 7,
+      Senior: 8,
+      total: 46
+    };
+
+    // Actual registrations grouped strictly by the 4 official categories
+    const actualCounts = {
+      Minor: students.filter(s => (s.classCategory || '').toLowerCase() === 'minor').length,
+      SubJunior: students.filter(s => {
+        const cat = (s.classCategory || '').toLowerCase().replace(/[\s-_]/g, '');
+        return cat === 'subjunior';
+      }).length,
+      Junior: students.filter(s => (s.classCategory || '').toLowerCase() === 'junior').length,
+      Senior: students.filter(s => (s.classCategory || '').toLowerCase() === 'senior').length
+    };
+
+    const categories = [
+      {
+        id: 'CAT-MIN',
+        key: 'Minor',
+        label: 'Minor Category',
+        actual: actualCounts.Minor,
+        target: targets.Minor,
+        pct: Math.min(100, Math.round((actualCounts.Minor / targets.Minor) * 100)),
+        color: '#10B981',
+        textColor: 'text-emerald-700',
+        badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200'
+      },
+      {
+        id: 'CAT-SUB',
+        key: 'SubJunior',
+        label: 'Sub Junior Category',
+        actual: actualCounts.SubJunior,
+        target: targets.SubJunior,
+        pct: Math.min(100, Math.round((actualCounts.SubJunior / targets.SubJunior) * 100)),
+        color: '#2563EB',
+        textColor: 'text-blue-700',
+        badgeBg: 'bg-blue-50 text-blue-800 border-blue-200'
+      },
+      {
+        id: 'CAT-JUN',
+        key: 'Junior',
+        label: 'Junior Category',
+        actual: actualCounts.Junior,
+        target: targets.Junior,
+        pct: Math.min(100, Math.round((actualCounts.Junior / targets.Junior) * 100)),
+        color: '#8B5CF6',
+        textColor: 'text-purple-700',
+        badgeBg: 'bg-purple-50 text-purple-800 border-purple-200'
+      },
+      {
+        id: 'CAT-SEN',
+        key: 'Senior',
+        label: 'Senior Category',
+        actual: actualCounts.Senior,
+        target: targets.Senior,
+        pct: Math.min(100, Math.round((actualCounts.Senior / targets.Senior) * 100)),
+        color: '#A91F35',
+        textColor: 'text-[#A91F35]',
+        badgeBg: 'bg-rose-50 text-rose-800 border-rose-200'
+      }
+    ];
+
+    // Real ID verification and Chest Number Allocation records
+    const totalActual = students.length;
+    const allocatedChestNos = students.filter(s => s.chestNo && s.chestNo.trim() !== '').length;
+    const assignedToTeams = students.filter(s => s.teamId && s.teamId !== 'Unassigned').length;
+    const auditHeld = students.filter(s => s.status && s.status.includes('Audit')).length;
+    const verifiedRecords = students.filter(s => s.isVerified === true || s.idVerified === true || (s.status === 'Active' && s.teamId)).length;
+
+    return {
+      categories,
+      totalActual,
+      totalTarget: targets.total,
+      allocatedChestNos,
+      assignedToTeams,
+      auditHeld,
+      verifiedRecords
+    };
+  }
+
+  mergeStudentsFromCloud(cloudStudents) {
+    if (!Array.isArray(cloudStudents) || cloudStudents.length === 0) return;
+    const existingMap = new Map();
+    (this.data.registeredStudents || []).forEach(s => {
+      if (s && s.id) existingMap.set(s.id, s);
+    });
+
+    let hasChanges = false;
+    cloudStudents.forEach(cs => {
+      if (cs && cs.id) {
+        if (!existingMap.has(cs.id)) {
+          existingMap.set(cs.id, cs);
+          hasChanges = true;
+        } else {
+          const current = existingMap.get(cs.id);
+          if (cs.teamId !== undefined && cs.teamId !== current.teamId) {
+            current.teamId = cs.teamId;
+            current.teamName = cs.teamName;
+            hasChanges = true;
+          }
+          if (cs.status !== undefined && cs.status !== current.status) {
+            current.status = cs.status;
+            hasChanges = true;
+          }
+        }
+      }
+    });
+
+    if (hasChanges) {
+      this.data.registeredStudents = Array.from(existingMap.values());
+      this.saveData();
+      this._notify();
+    }
   }
 
   // =========================================================================
@@ -3786,7 +3916,7 @@ class FestivalStore {
         ...s,
         programmeTitle: s.programmeTitle || (prog ? prog.title : 'Festival Session'),
         malayalamTitle: prog ? prog.malayalamTitle : '',
-        category: prog ? prog.category : 'General Conclave',
+        category: prog ? prog.category : 'General',
         categoryCode: prog ? prog.categoryCode : 'GEN',
         desc: prog ? prog.desc : '',
         icon: prog ? prog.icon : 'calendar',

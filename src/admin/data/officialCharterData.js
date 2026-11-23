@@ -68,6 +68,15 @@ export const OFFICIAL_PROGRAMME_CATEGORIES = [
   }
 ];
 
+// Official Charter Student Strength Targets per Category (Pages 1-3)
+export const OFFICIAL_CHARTER_STUDENT_TARGETS = {
+  Minor: 19,
+  SubJunior: 12,
+  Junior: 7,
+  Senior: 8,
+  total: 46
+};
+
 export const OFFICIAL_TEAMS = [
   {
     id: 'team-1',

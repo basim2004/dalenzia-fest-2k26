@@ -109,6 +109,64 @@ export function subscribeToTeams(onUpdate, onError) {
 }
 
 /**
+ * Subscribe to real-time student registry updates from Firebase Firestore
+ */
+export function subscribeToStudents(onUpdate, onError) {
+  try {
+    const colRef = collection(db, COLLECTIONS.STUDENTS);
+    return onSnapshot(colRef, (snapshot) => {
+      const records = [];
+      snapshot.forEach((doc) => {
+        records.push({ ...doc.data(), id: doc.id });
+      });
+      if (onUpdate) onUpdate(records);
+    }, (err) => {
+      console.warn("Real-time students listener fallback:", err);
+      if (onError) onError(err);
+    });
+  } catch (err) {
+    console.warn("Failed to initialize students snapshot listener:", err);
+    return () => {};
+  }
+}
+
+/**
+ * Fetch all students from Firebase Firestore
+ */
+export async function fetchStudentsFromFirebase() {
+  try {
+    const colRef = collection(db, COLLECTIONS.STUDENTS);
+    const snapshot = await getDocs(colRef);
+    const records = [];
+    snapshot.forEach((doc) => {
+      records.push({ ...doc.data(), id: doc.id });
+    });
+    return { success: true, students: records };
+  } catch (err) {
+    console.warn("Failed to fetch students from Firebase Firestore:", err);
+    return { success: false, error: err.message, students: [] };
+  }
+}
+
+/**
+ * Save / Update a single student record in Firebase Firestore
+ */
+export async function syncStudentToFirebase(student) {
+  try {
+    if (!student || !student.id) return { success: false, error: "Missing student ID" };
+    const docRef = doc(db, COLLECTIONS.STUDENTS, String(student.id));
+    await setDoc(docRef, {
+      ...student,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+    return { success: true, id: student.id };
+  } catch (err) {
+    console.warn("Failed to sync student to Firebase:", err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
  * Test connectivity with Firebase Firestore
  */
 export async function testFirebaseConnection() {
