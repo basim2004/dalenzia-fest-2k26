@@ -9,7 +9,7 @@ import {
 // DALENZIA FEST 2K26 - CENTRAL FESTIVAL DATA ENGINE & STORE
 // Single source of truth for Admin Portal, Judge Management, Judge Portal & Public Website Data Synchronization.
 
-const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v1';
+const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v2';
 
 export const FESTIVAL_DATE_CONFIG = {
   officialDate: '21, 22, 23 DECEMBER 2026',
@@ -861,7 +861,10 @@ class FestivalStore {
     let currentData = INITIAL_DATA;
     if (typeof window !== 'undefined') {
       try {
-        const stored = localStorage.getItem(STORAGE_KEY);
+        let stored = localStorage.getItem(STORAGE_KEY);
+        if (!stored) {
+          stored = localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v1');
+        }
         if (stored) {
           const parsed = JSON.parse(stored);
           currentData = { ...INITIAL_DATA, ...parsed };
@@ -972,23 +975,37 @@ class FestivalStore {
       if (!a.totalMaxMarks) a.totalMaxMarks = a.maxMarks || 100;
       if (!Array.isArray(a.participants)) a.participants = [];
     });
-    // Ensure official registered students exist
+    // Canonical team mapping strictly enforcing Dalenzia 2K26 approved rosters (22 Dazzlers + 22 Dynamos)
+    const CANONICAL_TEAM_MAP = {};
+    INITIAL_REGISTERED_STUDENTS.forEach(s => {
+      CANONICAL_TEAM_MAP[s.id] = {
+        teamId: s.teamId,
+        teamName: s.teamName,
+        isLeader: s.isLeader || false,
+        isAsstLeader: s.isAsstLeader || false,
+        role: s.role || null
+      };
+    });
+
+    // Ensure official registered students exist and strictly reconcile to approved team assignments
     if (!currentData.registeredStudents || !Array.isArray(currentData.registeredStudents) || currentData.registeredStudents.length === 0) {
       currentData.registeredStudents = JSON.parse(JSON.stringify(INITIAL_REGISTERED_STUDENTS));
     } else {
-      // Reconcile typographical duplicates from Dalenzia_Teams.pdf without deletion
+      // Reconcile all student records to canonical official team assignments
       currentData.registeredStudents.forEach(s => {
-        if (s.id === 'STU-1026' && s.teamId === 'team-1') {
-          s.teamId = null;
-          s.teamName = 'Unassigned';
-          s.status = 'Audit Flagged (PDF Typo Duplicate)';
-          s.auditNote = 'Typographical duplicate from Dalenzia_Teams.pdf (#18 Anshid duplicating #9 Anshid / STU-1017 Anshid T). Held in unassigned registry without deletion for audit compliance.';
+        const canonical = CANONICAL_TEAM_MAP[s.id];
+        if (canonical) {
+          s.teamId = canonical.teamId;
+          s.teamName = canonical.teamName;
+          if (canonical.isLeader !== undefined) s.isLeader = canonical.isLeader;
+          if (canonical.isAsstLeader !== undefined) s.isAsstLeader = canonical.isAsstLeader;
+          if (canonical.role !== undefined) s.role = canonical.role;
         }
-        if (s.id === 'STU-1033' && s.teamId === 'team-2') {
+        if (s.id === 'STU-1026' || s.id === 'STU-1033') {
           s.teamId = null;
           s.teamName = 'Unassigned';
           s.status = 'Audit Flagged (PDF Typo Duplicate)';
-          s.auditNote = 'Typographical duplicate from Dalenzia_Teams.pdf (#18 Nusaih duplicating #10 Nusaih / STU-1023 Nusaih Uvais). Held in unassigned registry without deletion for audit compliance.';
+          s.auditNote = 'Typographical duplicate from Dalenzia_Teams.pdf held in unassigned registry without deletion.';
         }
       });
     }
@@ -1007,13 +1024,23 @@ class FestivalStore {
             name: s.name,
             category: s.classCategory,
             compCategory: 'General',
-            events: []
+            events: s.events || []
           });
         }
       }
       team.students = uniqueStudents;
       team.members = uniqueStudents.length;
     });
+
+    // Immediately persist reconciled store to localStorage to eliminate stale client state
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+        localStorage.removeItem('dalenzia_fest_2k26_master_store_clean_v1');
+      } catch (e) {
+        // storage quota fallback
+      }
+    }
 
     // Ensure all operational arrays are defined
     const arrayKeys = [
