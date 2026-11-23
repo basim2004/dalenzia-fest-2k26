@@ -28,6 +28,13 @@ export default function CompetitionsModule({ activeSection }) {
   const [judges, setJudges] = useState(() => festivalStore.getJudges());
   const [teams, setTeams] = useState(() => festivalStore.getTeams());
 
+  // Charter Master State (83 Official Definitions)
+  const [charterProgrammes, setCharterProgrammes] = useState(() => festivalStore.getCharterProgrammes());
+  const [charterStats, setCharterStats] = useState(() => festivalStore.getCharterStats());
+  const [charterSearch, setCharterSearch] = useState('');
+  const [charterClassFilter, setCharterClassFilter] = useState('all');
+  const [charterCatFilter, setCharterCatFilter] = useState('all');
+
   // Search, Filter & Sort State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedClassificationFilter, setSelectedClassificationFilter] = useState('all');
@@ -128,6 +135,27 @@ export default function CompetitionsModule({ activeSection }) {
     setStudents(festivalStore.getStudents());
     setJudges(festivalStore.getJudges());
     setTeams(festivalStore.getTeams());
+    setCharterProgrammes(festivalStore.getCharterProgrammes());
+    setCharterStats(festivalStore.getCharterStats());
+  };
+
+  const filteredCharterProgrammes = useMemo(() => {
+    return festivalStore.getCharterProgrammes({
+      query: charterSearch,
+      classification: charterClassFilter,
+      category: charterCatFilter
+    });
+  }, [charterSearch, charterClassFilter, charterCatFilter, charterProgrammes]);
+
+  const handleActivateFromCharter = (progId) => {
+    const res = festivalStore.activateCharterProgramme(progId);
+    if (res.success) {
+      showToast(`Activated "${res.competition.title}" (${res.competition.code}) as competition!`);
+      refreshData();
+      setActiveTab('directory');
+    } else {
+      showToast(res.error || 'Could not activate competition');
+    }
   };
 
   useEffect(() => {
@@ -427,6 +455,7 @@ export default function CompetitionsModule({ activeSection }) {
         <div className="flex items-center gap-2 mt-8 pt-6 border-t border-white/10 overflow-x-auto no-scrollbar">
           {[
             { id: 'overview', label: 'Dashboard & Classification Metrics', icon: Trophy },
+            { id: 'charter', label: 'Charter Master List (83)', icon: BookOpen },
             { id: 'directory', label: `Competition Directory (${competitions.length})`, icon: Layers },
             { id: 'registration', label: 'Registration Monitoring', icon: UserCheck },
             { id: 'judges', label: 'Adjudicator & Rubric Sync', icon: Shield },
@@ -559,6 +588,222 @@ export default function CompetitionsModule({ activeSection }) {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* TAB: CHARTER MASTER PROGRAMMES (83 DEFINITIONS) */}
+      {/* ========================================================================= */}
+      {activeTab === 'charter' && (
+        <div className="space-y-6">
+          {/* Charter Header & KPI Pills */}
+          <div className="bg-white rounded-3xl border border-stone-200/80 shadow-sm p-6 space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#A91F35] text-white uppercase tracking-wider">
+                    Official Festival Charter
+                  </span>
+                  <span className="text-xs text-stone-500 font-medium">Pages 5–9</span>
+                </div>
+                <h2 className="text-lg font-bold text-stone-900 mt-1 font-serif">
+                  Programme Master Definitions (83 Items)
+                </h2>
+                <p className="text-xs text-stone-600 mt-0.5">
+                  Standardized festival programmes available to be activated into live competitions by authorized conveners and judges.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleOpenAddModal}
+                  className="px-4 py-2 rounded-xl bg-[#A91F35] text-white text-xs font-bold hover:bg-[#851627] flex items-center gap-1.5 transition-all shadow-sm"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Custom Competition
+                </button>
+              </div>
+            </div>
+
+            {/* Quick Metrics */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div
+                onClick={() => setCharterClassFilter('all')}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
+                  charterClassFilter === 'all'
+                    ? 'border-[#A91F35] bg-[#A91F35]/5 ring-2 ring-[#A91F35]/20'
+                    : 'border-stone-200 bg-stone-50/50 hover:bg-stone-50'
+                }`}
+              >
+                <div className="text-[10px] uppercase font-bold text-stone-500 tracking-wider">All Definitions</div>
+                <div className="text-xl font-black text-stone-900 font-mono mt-1">83</div>
+                <div className="text-[10px] text-stone-500 mt-0.5">Complete Charter Master</div>
+              </div>
+
+              <div
+                onClick={() => setCharterClassFilter('Stage')}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
+                  charterClassFilter === 'Stage'
+                    ? 'border-red-500 bg-red-50 ring-2 ring-red-400/20'
+                    : 'border-stone-200 bg-stone-50/50 hover:bg-stone-50'
+                }`}
+              >
+                <div className="text-[10px] uppercase font-bold text-red-700 tracking-wider flex items-center gap-1">
+                  <Mic className="w-3 h-3" /> Stage
+                </div>
+                <div className="text-xl font-black text-stone-900 font-mono mt-1">40</div>
+                <div className="text-[10px] text-stone-500 mt-0.5">Pages 5–8 (Minor: 9, Sub: 11, Jr: 10, Sr: 10)</div>
+              </div>
+
+              <div
+                onClick={() => setCharterClassFilter('Off Stage')}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
+                  charterClassFilter === 'Off Stage'
+                    ? 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-400/20'
+                    : 'border-stone-200 bg-stone-50/50 hover:bg-stone-50'
+                }`}
+              >
+                <div className="text-[10px] uppercase font-bold text-emerald-700 tracking-wider flex items-center gap-1">
+                  <BookOpen className="w-3 h-3" /> Off Stage
+                </div>
+                <div className="text-xl font-black text-stone-900 font-mono mt-1">32</div>
+                <div className="text-[10px] text-stone-500 mt-0.5">Pages 5–8 (Minor: 9, Sub: 8, Jr: 8, Sr: 7)</div>
+              </div>
+
+              <div
+                onClick={() => setCharterClassFilter('General')}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
+                  charterClassFilter === 'General'
+                    ? 'border-amber-500 bg-amber-50 ring-2 ring-amber-400/20'
+                    : 'border-stone-200 bg-stone-50/50 hover:bg-stone-50'
+                }`}
+              >
+                <div className="text-[10px] uppercase font-bold text-amber-800 tracking-wider flex items-center gap-1">
+                  <Users className="w-3 h-3" /> General (Team)
+                </div>
+                <div className="text-xl font-black text-stone-900 font-mono mt-1">11</div>
+                <div className="text-[10px] text-stone-500 mt-0.5">Page 9 Team-Based Contests</div>
+              </div>
+            </div>
+
+            {/* Filter & Search Toolbar */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
+              <div className="relative flex-1">
+                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
+                <input
+                  type="text"
+                  placeholder="Search 83 Charter programmes by name, category, or code..."
+                  value={charterSearch}
+                  onChange={(e) => setCharterSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs font-medium text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
+                />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <select
+                  value={charterCatFilter}
+                  onChange={(e) => setCharterCatFilter(e.target.value)}
+                  className="px-3 py-2 rounded-xl border border-stone-200 bg-stone-50 text-xs font-bold text-stone-700"
+                >
+                  <option value="all">All Categories (5)</option>
+                  <option value="Minor">Minor (18)</option>
+                  <option value="Sub Junior">Sub Junior (19)</option>
+                  <option value="Junior">Junior (18)</option>
+                  <option value="Senior">Senior (17)</option>
+                  <option value="General">General (11)</option>
+                </select>
+                {(charterSearch || charterClassFilter !== 'all' || charterCatFilter !== 'all') && (
+                  <button
+                    onClick={() => {
+                      setCharterSearch('');
+                      setCharterClassFilter('all');
+                      setCharterCatFilter('all');
+                    }}
+                    className="px-2.5 py-2 rounded-xl text-stone-500 hover:text-stone-800 text-xs font-semibold"
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Programmes Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredCharterProgrammes.map((prog) => {
+              const isConfigured = competitions.some(c => c.id === prog.id || c.code === prog.code);
+              const classBadge = prog.classification === 'Stage'
+                ? 'bg-rose-50 text-rose-800 border-rose-200'
+                : prog.classification === 'Off Stage'
+                ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                : 'bg-amber-50 text-amber-900 border-amber-200';
+
+              return (
+                <div
+                  key={prog.id}
+                  className="bg-white rounded-2xl p-4 border border-stone-200/90 hover:border-[#A91F35]/40 hover:shadow-md transition-all flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-mono text-[11px] font-bold text-stone-500">
+                        #{prog.order} • {prog.code}
+                      </span>
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${classBadge}`}>
+                        {prog.classification}
+                      </span>
+                    </div>
+
+                    <h3 className="font-bold text-stone-900 text-sm font-serif">
+                      {prog.name}
+                    </h3>
+
+                    <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
+                      <span className="px-2 py-0.5 rounded-md bg-stone-100 text-stone-700 text-[10px] font-semibold">
+                        {prog.category}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-stone-100 text-stone-600 text-[10px]">
+                        {prog.type} {prog.requiredMembers ? `(${prog.requiredMembers} Members)` : ''}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between">
+                    <span className="text-[10px] text-stone-400">
+                      Charter Master
+                    </span>
+                    {isConfigured ? (
+                      <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Configured
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => handleActivateFromCharter(prog.id)}
+                        className="flex items-center gap-1 text-[11px] font-bold text-[#A91F35] bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-xl border border-red-200 transition-all"
+                      >
+                        <Plus className="w-3 h-3" /> Configure Event
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {filteredCharterProgrammes.length === 0 && (
+            <div className="bg-white rounded-3xl p-12 text-center border border-dashed border-stone-300">
+              <p className="text-sm font-semibold text-stone-600">No charter programmes match your search or filter.</p>
+              <button
+                onClick={() => {
+                  setCharterSearch('');
+                  setCharterClassFilter('all');
+                  setCharterCatFilter('all');
+                }}
+                className="mt-2 text-xs font-bold text-[#A91F35] underline"
+              >
+                Clear Filters
+              </button>
+            </div>
+          )}
         </div>
       )}
 
@@ -1089,6 +1334,52 @@ export default function CompetitionsModule({ activeSection }) {
             )}
 
             <form onSubmit={handleAddSubmit} className="mt-6 space-y-4 text-xs font-semibold">
+              <div className="p-3 bg-amber-50/70 rounded-2xl border border-amber-200">
+                <label className="block text-amber-900 mb-1 flex items-center justify-between">
+                  <span className="font-bold flex items-center gap-1.5">
+                    <BookOpen className="w-3.5 h-3.5 text-amber-800" />
+                    Load from Official Festival Charter (83 Master Items)
+                  </span>
+                  <span className="text-[10px] text-amber-700 font-normal">Optional Preset</span>
+                </label>
+                <select
+                  onChange={(e) => {
+                    const selId = e.target.value;
+                    if (!selId) return;
+                    const cp = charterProgrammes.find(p => p.id === selId);
+                    if (cp) {
+                      setFormData(prev => ({
+                        ...prev,
+                        title: cp.name,
+                        code: cp.code,
+                        classification: cp.classification,
+                        category: cp.category,
+                        type: cp.type,
+                        description: `Official Festival Charter ${cp.category} ${cp.classification} programme: ${cp.name}.`
+                      }));
+                    }
+                  }}
+                  className="w-full px-3 py-2 rounded-xl border border-amber-300 bg-white text-xs font-medium focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
+                >
+                  <option value="">-- Choose Official Programme Preset --</option>
+                  <optgroup label="Stage Programmes (40)">
+                    {charterProgrammes.filter(p => p.classification === 'Stage').map(p => (
+                      <option key={p.id} value={p.id}>[{p.category}] {p.name} ({p.code})</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="Off Stage Programmes (32)">
+                    {charterProgrammes.filter(p => p.classification === 'Off Stage').map(p => (
+                      <option key={p.id} value={p.id}>[{p.category}] {p.name} ({p.code})</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="General Programmes (11)">
+                    {charterProgrammes.filter(p => p.classification === 'General').map(p => (
+                      <option key={p.id} value={p.id}>[General] {p.name} ({p.code})</option>
+                    ))}
+                  </optgroup>
+                </select>
+              </div>
+
               <div>
                 <label className="block text-stone-700 mb-1">Competition Title *</label>
                 <input

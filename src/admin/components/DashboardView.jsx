@@ -172,10 +172,10 @@ export default function DashboardView({ onNavigateModule }) {
           },
           {
             label: 'Total Competitions',
-            value: stats.totalCompetitions,
+            value: stats.totalCompetitions || 0,
             sub: stats.totalCompetitions > 0
               ? `${stats.stageCompetitionsCount || 0} Stage • ${stats.offStageCompetitionsCount || 0} Off Stage • ${stats.generalCompetitionsCount || 0} General`
-              : '0 Active Competitions',
+              : '0 Active Configured',
             icon: Trophy,
             color: '#d97706',
             actionMod: 'competitions'
@@ -189,12 +189,12 @@ export default function DashboardView({ onNavigateModule }) {
             actionMod: 'judges'
           },
           {
-            label: 'Total Programmes',
-            value: stats.totalProgrammes,
-            sub: 'Across 4 Stages',
+            label: 'Charter Programmes',
+            value: stats.totalCharterProgrammes || 83,
+            sub: `${stats.stageProgrammesCount || 40} Stage • ${stats.offStageProgrammesCount || 32} Off • ${stats.generalProgrammesCount || 11} Gen`,
             icon: Calendar,
             color: '#4338ca',
-            actionMod: 'schedule'
+            actionMod: 'competitions'
           },
           {
             label: 'Programme Guests',
@@ -548,75 +548,71 @@ export default function DashboardView({ onNavigateModule }) {
             </div>
           </div>
 
-          {/* E. OFFICIAL COMPETITIONS BREAKDOWN */}
-          <div className="bg-white rounded-3xl p-5 sm:p-6 shadow-xs border border-stone-200 space-y-3.5">
+          {/* E. OFFICIAL CHARTER PROGRAMMES MASTER DEFINITIONS & ACTIVE COMPETITIONS */}
+          <div className="bg-white rounded-3xl p-5 sm:p-6 shadow-xs border border-stone-200 space-y-4">
             <div className="flex items-center justify-between border-b border-stone-100 pb-2.5">
-              <h2 className="text-base font-bold text-[#A91F35] font-serif">
-                Official Competitions ({stats.totalCompetitions} Total)
-              </h2>
+              <div>
+                <h2 className="text-base font-bold text-[#A91F35] font-serif">
+                  Charter Programmes ({stats.totalCharterProgrammes || 83} Total)
+                </h2>
+                <p className="text-[11px] text-stone-500">Official Festival Charter Master List</p>
+              </div>
               <button
                 onClick={() => onNavigate('competitions')}
                 className="text-xs font-bold text-[#A91F35] hover:underline"
               >
-                Manage &rarr;
+                Browse Master &rarr;
               </button>
             </div>
 
-            <div className="space-y-2 text-xs">
-              {[
-                {
-                  name: 'Stage Competitions',
-                  classification: 'Stage',
-                  count: stats.stageCompetitionsCount || 0,
-                  icon: Mic,
-                  color: 'text-[#A91F35] bg-red-50 border-red-200',
-                  charterRef: 'Pages 5–8 (On Stage)'
-                },
-                {
-                  name: 'Off Stage Competitions',
-                  classification: 'Off Stage',
-                  count: stats.offStageCompetitionsCount || 0,
-                  icon: BookOpen,
-                  color: 'text-emerald-800 bg-emerald-50 border-emerald-200',
-                  charterRef: 'Pages 5–8 (Off Stage)'
-                },
-                {
-                  name: 'General Competitions',
-                  classification: 'General',
-                  count: stats.generalCompetitionsCount || 0,
-                  icon: Users,
-                  color: 'text-amber-900 bg-amber-50 border-amber-200',
-                  charterRef: 'Page 9 (Group & Team)'
-                }
-              ].map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={idx}
-                    className="p-3 rounded-2xl bg-[#F7F3E9]/60 border border-stone-200/80 flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center border ${item.color}`}>
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-stone-900 text-xs">{item.name}</div>
-                        <div className="text-[10px] text-stone-500">{item.charterRef}</div>
-                      </div>
-                    </div>
-                    <span className="text-xs font-mono font-bold text-stone-900 bg-white px-2.5 py-1 rounded-lg border border-stone-200 shadow-2xs">
-                      {item.count}
-                    </span>
-                  </div>
-                );
-              })}
+            <div className="grid grid-cols-3 gap-2 text-xs">
+              <div className="p-3 rounded-2xl bg-red-50/70 border border-red-200/80 flex flex-col justify-between">
+                <div className="flex items-center gap-1.5 text-[#A91F35]">
+                  <Mic className="w-3.5 h-3.5" />
+                  <span className="font-bold text-[11px]">Stage</span>
+                </div>
+                <div className="mt-2 flex items-baseline justify-between">
+                  <span className="text-lg font-mono font-bold text-stone-900">{stats.stageProgrammesCount || 40}</span>
+                  <span className="text-[9px] text-stone-500">Pages 5–8</span>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 flex flex-col justify-between">
+                <div className="flex items-center gap-1.5 text-emerald-800">
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span className="font-bold text-[11px]">Off Stage</span>
+                </div>
+                <div className="mt-2 flex items-baseline justify-between">
+                  <span className="text-lg font-mono font-bold text-stone-900">{stats.offStageProgrammesCount || 32}</span>
+                  <span className="text-[9px] text-stone-500">Pages 5–8</span>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex flex-col justify-between">
+                <div className="flex items-center gap-1.5 text-amber-900">
+                  <Users className="w-3.5 h-3.5" />
+                  <span className="font-bold text-[11px]">General</span>
+                </div>
+                <div className="mt-2 flex items-baseline justify-between">
+                  <span className="text-lg font-mono font-bold text-stone-900">{stats.generalProgrammesCount || 11}</span>
+                  <span className="text-[9px] text-stone-500">Page 9 Team</span>
+                </div>
+              </div>
             </div>
 
-            {stats.totalCompetitions === 0 && (
-              <div className="p-3 bg-stone-50 rounded-xl border border-dashed border-stone-300 text-center text-xs text-stone-500">
-                No competitions created yet. Authorized judges and administrators can create actual competitions according to the Official Festival Charter.
+            <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span className="text-stone-600 font-medium">Active Competitions:</span>
+                <span className="font-bold text-stone-900 font-mono">{stats.totalCompetitions || 0}</span>
               </div>
-            )}
+              <button
+                onClick={() => onNavigate('competitions')}
+                className="text-[11px] font-bold text-[#A91F35] bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-lg border border-red-200 transition-all"
+              >
+                + Configure Competition
+              </button>
+            </div>
           </div>
 
           {/* F. UPCOMING PROGRAMMES SCHEDULE */}

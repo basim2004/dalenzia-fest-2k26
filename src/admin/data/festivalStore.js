@@ -9,7 +9,7 @@ import {
 // DALENZIA FEST 2K26 - CENTRAL FESTIVAL DATA ENGINE & STORE
 // Single source of truth for Admin Portal, Judge Management, Judge Portal & Public Website Data Synchronization.
 
-const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v2';
+const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v3';
 
 export const FESTIVAL_DATE_CONFIG = {
   officialDate: '21, 22, 23 DECEMBER 2026',
@@ -578,6 +578,7 @@ const INITIAL_DATA = {
   registeredStudents: INITIAL_REGISTERED_STUDENTS,
   programmeCategories: OFFICIAL_PROGRAMME_CATEGORIES,
   scoringConfig: OFFICIAL_SCORING_CONFIG,
+  charterProgrammes: OFFICIAL_CHARTER_PROGRAMMES,
   programmes: [],
   programmeStages: [],
   programmeSchedules: [],
@@ -863,7 +864,7 @@ class FestivalStore {
       try {
         let stored = localStorage.getItem(STORAGE_KEY);
         if (!stored) {
-          stored = localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v1');
+          stored = localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v2') || localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v1');
         }
         if (stored) {
           const parsed = JSON.parse(stored);
@@ -937,6 +938,9 @@ class FestivalStore {
 
     // Always enforce the 5 official charter categories
     currentData.programmeCategories = OFFICIAL_PROGRAMME_CATEGORIES;
+
+    // Always enforce the 83 official charter programme definitions
+    currentData.charterProgrammes = OFFICIAL_CHARTER_PROGRAMMES;
 
     // Ensure official scoring configuration exists
     if (!currentData.scoringConfig || !currentData.scoringConfig.positionPoints) {
@@ -1037,6 +1041,7 @@ class FestivalStore {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
         localStorage.removeItem('dalenzia_fest_2k26_master_store_clean_v1');
+        localStorage.removeItem('dalenzia_fest_2k26_master_store_clean_v2');
       } catch (e) {
         // storage quota fallback
       }
@@ -1113,6 +1118,14 @@ class FestivalStore {
     const publishedResults = assignments.filter(a => a.isPublished).length;
     const overallTeamPoints = teams.reduce((acc, t) => acc + (t.points || 0), 0);
 
+    // Official Charter Master Programme Stats (83 Definitions: 40 Stage, 32 Off Stage, 11 General)
+    const charterList = this.getCharterProgrammes();
+    const totalCharterProgrammes = charterList.length;
+    const stageProgrammesCount = charterList.filter(p => p.classification === 'Stage').length;
+    const offStageProgrammesCount = charterList.filter(p => p.classification === 'Off Stage').length;
+    const generalProgrammesCount = charterList.filter(p => p.classification === 'General').length;
+
+    // Active Competitions Breakdown
     const stageCompetitionsCount = assignments.filter(a => {
       const cls = a.classification || (a.format === 'On Stage' ? 'Stage' : (a.type === 'General' || a.category === 'General' ? 'General' : 'Stage'));
       return cls === 'Stage';
@@ -1135,6 +1148,11 @@ class FestivalStore {
       stageCompetitionsCount,
       offStageCompetitionsCount,
       generalCompetitionsCount,
+      totalCharterProgrammes,
+      stageProgrammesCount,
+      offStageProgrammesCount,
+      generalProgrammesCount,
+      charterStats: this.getCharterStats(),
       totalJudges,
       totalProgrammes,
       totalProgrammeGuests,
@@ -1148,6 +1166,132 @@ class FestivalStore {
       topTeams: teams.slice(0, 5),
       recentPublishedPosters: posters.slice(0, 3)
     };
+  }
+
+  // =========================================================================
+  // CHARTER PROGRAMMES MASTER DEFINITION METHODS (Charter Pages 5-9: 83 items)
+  // =========================================================================
+  getCharterProgrammes({ query = '', classification = 'all', category = 'all', type = 'all' } = {}) {
+    let list = Array.isArray(this.data.charterProgrammes) && this.data.charterProgrammes.length > 0
+      ? this.data.charterProgrammes
+      : OFFICIAL_CHARTER_PROGRAMMES;
+
+    if (query && query.trim() !== '') {
+      const q = query.trim().toLowerCase();
+      list = list.filter(p =>
+        (p.name && p.name.toLowerCase().includes(q)) ||
+        (p.code && p.code.toLowerCase().includes(q)) ||
+        (p.category && p.category.toLowerCase().includes(q)) ||
+        (p.classification && p.classification.toLowerCase().includes(q))
+      );
+    }
+
+    if (classification && classification !== 'all') {
+      list = list.filter(p => (p.classification || '').toLowerCase() === classification.toLowerCase());
+    }
+
+    if (category && category !== 'all') {
+      list = list.filter(p => {
+        const cat = (p.category || '').toLowerCase().replace(/[\s-_]/g, '');
+        const target = category.toLowerCase().replace(/[\s-_]/g, '');
+        return cat === target;
+      });
+    }
+
+    if (type && type !== 'all') {
+      list = list.filter(p => (p.type || '').toLowerCase() === type.toLowerCase());
+    }
+
+    return list;
+  }
+
+  getCharterStats() {
+    const list = this.getCharterProgrammes();
+    const stage = list.filter(p => p.classification === 'Stage');
+    const offStage = list.filter(p => p.classification === 'Off Stage');
+    const general = list.filter(p => p.classification === 'General');
+
+    return {
+      total: list.length,
+      stage: stage.length,
+      offStage: offStage.length,
+      general: general.length,
+      byCategory: {
+        Minor: list.filter(p => p.category === 'Minor').length,
+        'Sub Junior': list.filter(p => p.category === 'Sub Junior').length,
+        Junior: list.filter(p => p.category === 'Junior').length,
+        Senior: list.filter(p => p.category === 'Senior').length,
+        General: list.filter(p => p.category === 'General').length,
+      }
+    };
+  }
+
+  activateCharterProgramme(charterProgId, options = {}) {
+    const prog = (this.data.charterProgrammes || OFFICIAL_CHARTER_PROGRAMMES).find(p => p.id === charterProgId || p.code === charterProgId);
+    if (!prog) {
+      return { success: false, error: 'Charter programme definition not found' };
+    }
+
+    if (!Array.isArray(this.data.programmeAssignments)) {
+      this.data.programmeAssignments = [];
+    }
+
+    const existing = this.data.programmeAssignments.find(a => a.id === prog.id || a.competitionCode === prog.code);
+    if (existing) {
+      return { success: false, error: 'Competition already configured for this programme', competition: existing };
+    }
+
+    const defaultCriteria = [
+      { id: 'c1', name: 'Content & Expression / തനിമ & പ്രമേയം', maxMarks: 40 },
+      { id: 'c2', name: 'Presentation & Pronunciation / ശൈലി & ഉച്ചാരണം', maxMarks: 30 },
+      { id: 'c3', name: 'Accuracy & Grammar / കൃത്യത & വ്യാകരണം', maxMarks: 20 },
+      { id: 'c4', name: 'Overall Impression / സവിശേഷ പ്രകടനം', maxMarks: 10 }
+    ];
+
+    const newComp = {
+      id: prog.id,
+      competitionId: prog.id,
+      competitionCode: prog.code,
+      code: prog.code,
+      title: prog.name,
+      competitionTitle: prog.name,
+      name: prog.name,
+      category: prog.category,
+      categoryCode: prog.category.toUpperCase().slice(0, 3),
+      classification: prog.classification,
+      format: prog.classification,
+      type: prog.type,
+      requiredMembers: prog.requiredMembers,
+      source: prog.source,
+      order: prog.order,
+      stageId: options.stageId || (prog.classification === 'Stage' ? 'STG-01' : 'OFF-STAGE'),
+      stage: options.stage || (prog.classification === 'Stage' ? 'Cordova Grand Stage (Stage 01)' : 'Academic Halls / Off Stage'),
+      venue: options.venue || (prog.classification === 'Stage' ? 'Cordova Grand Stage (Stage 01)' : 'Academic Halls / Off Stage'),
+      date: options.date || '2026-12-21',
+      time: options.time || '10:00 AM',
+      startTime: options.startTime || '10:00 AM',
+      endTime: options.endTime || '12:00 PM',
+      duration: options.duration || '45 mins',
+      status: options.status || 'Scheduled',
+      isOfficialCharter: true,
+      maxParticipants: prog.type === 'Team' || prog.type === 'Group' ? 16 : 24,
+      maxEntriesPerTeam: prog.type === 'Team' || prog.type === 'Group' ? 2 : 3,
+      groupSize: prog.requiredMembers ? `${prog.requiredMembers} Members` : (prog.type === 'Individual' ? '1 Student' : 'Team'),
+      assignedJudgeIds: options.assignedJudgeIds || ['JDG-1001', 'JDG-001'],
+      participants: [],
+      maxMarks: prog.maxMarks || 100,
+      totalMaxMarks: prog.maxMarks || 100,
+      criteria: defaultCriteria,
+      evaluationCriteria: defaultCriteria,
+      desc: `Official DALENZIA FEST 2K26 ${prog.category} ${prog.classification} event: ${prog.name}.`,
+      isPublished: false,
+      publishedAt: null
+    };
+
+    this.data.programmeAssignments.push(newComp);
+    this.addAuditLog('COMPETITION_ACTIVATED', `Activated competition ${newComp.title} (${newComp.code}) from official Charter master list`);
+    this.saveData();
+    return { success: true, competition: newComp };
   }
 
   // =========================================================================
@@ -4450,7 +4594,8 @@ class FestivalStore {
       pendingRegistrations,
       categoryBreakdown,
       venueBreakdown,
-      statusBreakdown
+      statusBreakdown,
+      charterStats: this.getCharterStats()
     };
   }
 
