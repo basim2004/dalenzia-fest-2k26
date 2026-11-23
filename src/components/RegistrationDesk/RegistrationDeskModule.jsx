@@ -581,10 +581,45 @@ export default function RegistrationDeskModule({ userSession, portalRole = 'admi
             <tbody className="divide-y divide-stone-100 text-stone-700">
               {filteredRegistrations.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="text-center py-12 text-stone-400">
-                    <ClipboardCheck className="w-10 h-10 mx-auto text-stone-300 mb-2" />
-                    <p className="font-semibold text-sm text-stone-600">No registration records found</p>
-                    <p className="text-xs text-stone-400 mt-0.5">Try refining your search terms or filter selection.</p>
+                  <td colSpan={7} className="text-center py-16 px-4">
+                    <div className="max-w-md mx-auto flex flex-col items-center">
+                      <div className="w-14 h-14 rounded-2xl bg-[#A91F35]/10 text-[#A91F35] flex items-center justify-center mb-3">
+                        <ClipboardCheck className="w-7 h-7" />
+                      </div>
+                      {registrations.length === 0 ? (
+                        <>
+                          <h4 className="font-serif font-black text-stone-800 text-base mb-1">
+                            Registration Desk Active & Verified
+                          </h4>
+                          <p className="text-stone-500 text-xs leading-relaxed mb-4 text-center">
+                            All development demo records have been cleaned. The registration desk is clear and ready to issue authentic admission passes for Dalailussunna Dars students and external delegates.
+                          </p>
+                          <div className="flex flex-wrap items-center justify-center gap-2">
+                            <button
+                              onClick={() => setIsRegisterStudentModalOpen(true)}
+                              className="px-3.5 py-1.5 rounded-xl bg-[#A91F35] text-white text-xs font-bold hover:bg-[#8B1A2C] transition-all cursor-pointer shadow-sm"
+                            >
+                              + Register Dars Student
+                            </button>
+                            <button
+                              onClick={() => setIsRegisterExternalModalOpen(true)}
+                              className="px-3.5 py-1.5 rounded-xl border border-stone-300 bg-white text-stone-700 text-xs font-bold hover:bg-stone-50 transition-all cursor-pointer"
+                            >
+                              + Register External
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <h4 className="font-serif font-black text-stone-800 text-base mb-1">
+                            No matching registration records
+                          </h4>
+                          <p className="text-stone-500 text-xs text-center">
+                            No issued passes match your search query or filter selection.
+                          </p>
+                        </>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ) : (

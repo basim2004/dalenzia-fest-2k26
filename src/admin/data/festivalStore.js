@@ -20,7 +20,7 @@ import {
 // DALENZIA FEST 2K26 - CENTRAL FESTIVAL DATA ENGINE & STORE
 // Single source of truth for Admin Portal, Judge Management, Judge Portal & Public Website Data Synchronization.
 
-const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v5';
+const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v6';
 
 export const FESTIVAL_DATE_CONFIG = {
   officialDate: '21, 22, 23 DECEMBER 2026',
@@ -278,370 +278,24 @@ export const INITIAL_STAGE_CONTROLLERS = [
 const INITIAL_OPERATIONAL_ACTIVITIES = [];
 
 
-export const INITIAL_EXTERNAL_PARTICIPANTS = [
-  {
-    id: 'EXT-P-501',
-    fullName: 'Muhammad Adil K.',
-    institution: 'Farook College, Kozhikode',
-    classCategory: 'Senior',
-    phone: '+91 98471 23456',
-    email: 'adil.farook@gmail.com',
-    district: 'Kozhikode',
-    gender: 'Male',
-    createdAt: '2026-11-18T10:00:00.000Z'
-  },
-  {
-    id: 'EXT-P-502',
-    fullName: 'Abdul Basith V.',
-    institution: 'Darul Huda Islamic University, Malappuram',
-    classCategory: 'Senior',
-    phone: '+91 97452 89123',
-    email: 'basith.dhiu@gmail.com',
-    district: 'Malappuram',
-    gender: 'Male',
-    createdAt: '2026-11-18T14:30:00.000Z'
-  },
-  {
-    id: 'EXT-P-503',
-    fullName: 'Salman Faris',
-    institution: 'Markaz Garden, Poonoor',
-    classCategory: 'Junior',
-    phone: '+91 94951 67890',
-    email: 'salman.markaz@gmail.com',
-    district: 'Kozhikode',
-    gender: 'Male',
-    createdAt: '2026-11-19T09:15:00.000Z'
-  },
-  {
-    id: 'EXT-P-504',
-    fullName: 'Anas Ahammed',
-    institution: "Ma'din Academy, Malappuram",
-    classCategory: 'General',
-    phone: '+91 96332 45678',
-    email: 'anas.madin@gmail.com',
-    district: 'Malappuram',
-    gender: 'Male',
-    createdAt: '2026-11-19T11:45:00.000Z'
-  }
-];
+export const INITIAL_EXTERNAL_PARTICIPANTS = [];
+export const INITIAL_REGISTRATIONS = [];
+export const INITIAL_REGISTRATION_AUDIT_LOGS = [];
 
-export const INITIAL_REGISTRATIONS = [
-  {
-    id: 'REG-1001',
-    ticketId: 'DLZ-2026-1001',
-    type: 'existing_student',
-    studentId: 'STU-1001',
-    chestNo: 'C-101',
-    participantName: 'Noufal',
-    institution: 'Dalailussunna Dars, Ayiroor',
-    classCategory: 'Senior',
-    teamId: 'team-1',
-    teamName: 'Dazzlers',
-    phone: '+91 85899 51951',
-    email: 'noufal@dalanzia.org',
-    gender: 'Male',
-    place: 'Ayiroor',
-    registrationDate: '2026-11-15T09:00:00.000Z',
-    status: 'Completed',
-    verificationCode: 'VER-DLZ-1001-A9F2',
-    notes: 'Official delegation leader. Dars resident candidate verified.',
-    registeredBy: 'Admin (Developer)',
-    registeredByRole: 'admin',
-    createdAt: '2026-11-15T09:00:00.000Z',
-    updatedAt: '2026-11-15T09:00:00.000Z'
-  },
-  {
-    id: 'REG-1002',
-    ticketId: 'DLZ-2026-1002',
-    type: 'existing_student',
-    studentId: 'STU-1002',
-    chestNo: 'C-102',
-    participantName: 'Hafiz Hassan',
-    institution: 'Dalailussunna Dars, Ayiroor',
-    classCategory: 'Senior',
-    teamId: 'team-1',
-    teamName: 'Dazzlers',
-    phone: '+91 85899 51952',
-    email: 'hafiz.hassan@dalanzia.org',
-    gender: 'Male',
-    place: 'Ayiroor',
-    registrationDate: '2026-11-15T09:15:00.000Z',
-    status: 'Completed',
-    verificationCode: 'VER-DLZ-1002-B8K3',
-    notes: 'Senior assistant leader. Verified & Ratified.',
-    registeredBy: 'Admin (Developer)',
-    registeredByRole: 'admin',
-    createdAt: '2026-11-15T09:15:00.000Z',
-    updatedAt: '2026-11-15T09:15:00.000Z'
-  },
-  {
-    id: 'REG-1003',
-    ticketId: 'DLZ-2026-1003',
-    type: 'existing_student',
-    studentId: 'STU-1005',
-    chestNo: 'C-105',
-    participantName: 'Hashim',
-    institution: 'Dalailussunna Dars, Ayiroor',
-    classCategory: 'Senior',
-    teamId: 'team-2',
-    teamName: 'Dynamos',
-    phone: '+91 85899 51955',
-    email: 'hashim@dalanzia.org',
-    gender: 'Male',
-    place: 'Ayiroor',
-    registrationDate: '2026-11-16T10:30:00.000Z',
-    status: 'Completed',
-    verificationCode: 'VER-DLZ-1003-C7M4',
-    notes: 'Team 2 leader credentials validated.',
-    registeredBy: 'Convener (Irfan Eramangalam)',
-    registeredByRole: 'convener',
-    createdAt: '2026-11-16T10:30:00.000Z',
-    updatedAt: '2026-11-16T10:30:00.000Z'
-  },
-  {
-    id: 'REG-1004',
-    ticketId: 'DLZ-2026-1004',
-    type: 'existing_student',
-    studentId: 'STU-1006',
-    chestNo: 'C-106',
-    participantName: 'Aslam Sha',
-    institution: 'Dalailussunna Dars, Ayiroor',
-    classCategory: 'Senior',
-    teamId: 'team-2',
-    teamName: 'Dynamos',
-    phone: '+91 85899 51956',
-    email: 'aslam.sha@dalanzia.org',
-    gender: 'Male',
-    place: 'Ayiroor',
-    registrationDate: '2026-11-16T11:00:00.000Z',
-    status: 'Completed',
-    verificationCode: 'VER-DLZ-1004-D6N5',
-    notes: 'Senior participant desk confirmation.',
-    registeredBy: 'Convener (Irfan Eramangalam)',
-    registeredByRole: 'convener',
-    createdAt: '2026-11-16T11:00:00.000Z',
-    updatedAt: '2026-11-16T11:00:00.000Z'
-  },
-  {
-    id: 'REG-1005',
-    ticketId: 'DLZ-2026-1005',
-    type: 'existing_student',
-    studentId: 'STU-1009',
-    chestNo: 'C-109',
-    participantName: 'Midlaj P',
-    institution: 'Dalailussunna Dars, Ayiroor',
-    classCategory: 'Junior',
-    teamId: 'team-1',
-    teamName: 'Dazzlers',
-    phone: '+91 85899 51959',
-    email: 'midlaj.p@dalanzia.org',
-    gender: 'Male',
-    place: 'Ayiroor',
-    registrationDate: '2026-11-17T14:00:00.000Z',
-    status: 'Completed',
-    verificationCode: 'VER-DLZ-1005-E5P6',
-    notes: 'Junior section candidate.',
-    registeredBy: 'Admin (Developer)',
-    registeredByRole: 'admin',
-    createdAt: '2026-11-17T14:00:00.000Z',
-    updatedAt: '2026-11-17T14:00:00.000Z'
-  },
-  {
-    id: 'REG-1006',
-    ticketId: 'DLZ-2026-1006',
-    type: 'existing_student',
-    studentId: 'STU-1012',
-    chestNo: 'C-112',
-    participantName: 'Razeen',
-    institution: 'Dalailussunna Dars, Ayiroor',
-    classCategory: 'Junior',
-    teamId: 'team-2',
-    teamName: 'Dynamos',
-    phone: '+91 85899 51962',
-    email: 'razeen@dalanzia.org',
-    gender: 'Male',
-    place: 'Ayiroor',
-    registrationDate: '2026-11-17T15:20:00.000Z',
-    status: 'Completed',
-    verificationCode: 'VER-DLZ-1006-F4Q7',
-    notes: 'Confirmed by convener secretariat.',
-    registeredBy: 'Convener (Irfan Eramangalam)',
-    registeredByRole: 'convener',
-    createdAt: '2026-11-17T15:20:00.000Z',
-    updatedAt: '2026-11-17T15:20:00.000Z'
-  },
-  {
-    id: 'REG-1007',
-    ticketId: 'DLZ-2026-1007',
-    type: 'existing_student',
-    studentId: 'STU-1016',
-    chestNo: 'C-116',
-    participantName: 'Rayyan Razi',
-    institution: 'Dalailussunna Dars, Ayiroor',
-    classCategory: 'Sub Junior',
-    teamId: 'team-1',
-    teamName: 'Dazzlers',
-    phone: '+91 85899 51966',
-    email: 'rayyan.razi@dalanzia.org',
-    gender: 'Male',
-    place: 'Ayiroor',
-    registrationDate: '2026-11-18T09:40:00.000Z',
-    status: 'Completed',
-    verificationCode: 'VER-DLZ-1007-G3R8',
-    notes: 'Sub Junior candidate pass generated.',
-    registeredBy: 'Convener (Irfan Eramangalam)',
-    registeredByRole: 'convener',
-    createdAt: '2026-11-18T09:40:00.000Z',
-    updatedAt: '2026-11-18T09:40:00.000Z'
-  },
-  {
-    id: 'REG-1008',
-    ticketId: 'DLZ-2026-1008',
-    type: 'existing_student',
-    studentId: 'STU-1028',
-    chestNo: 'C-128',
-    participantName: 'Rifaee',
-    institution: 'Dalailussunna Dars, Ayiroor',
-    classCategory: 'Minor',
-    teamId: 'team-1',
-    teamName: 'Dazzlers',
-    phone: '+91 85899 51978',
-    email: 'rifaee@dalanzia.org',
-    gender: 'Male',
-    place: 'Ayiroor',
-    registrationDate: '2026-11-19T16:00:00.000Z',
-    status: 'Pending',
-    verificationCode: 'VER-DLZ-1008-H2S9',
-    notes: 'Awaiting parent guardian verification slip.',
-    registeredBy: 'Convener (Irfan Eramangalam)',
-    registeredByRole: 'convener',
-    createdAt: '2026-11-19T16:00:00.000Z',
-    updatedAt: '2026-11-19T16:00:00.000Z'
-  },
-  {
-    id: 'REG-5001',
-    ticketId: 'EXT-2026-5001',
-    type: 'external_participant',
-    externalParticipantId: 'EXT-P-501',
-    participantName: 'Muhammad Adil K.',
-    institution: 'Farook College, Kozhikode',
-    classCategory: 'Senior',
-    phone: '+91 98471 23456',
-    email: 'adil.farook@gmail.com',
-    district: 'Kozhikode',
-    gender: 'Male',
-    registrationDate: '2026-11-18T10:00:00.000Z',
-    status: 'Completed',
-    verificationCode: 'VER-EXT-5001-K9A1',
-    notes: 'External college delegate pass issued.',
-    registeredBy: 'Convener (Irfan Eramangalam)',
-    registeredByRole: 'convener',
-    createdAt: '2026-11-18T10:00:00.000Z',
-    updatedAt: '2026-11-18T10:00:00.000Z'
-  },
-  {
-    id: 'REG-5002',
-    ticketId: 'EXT-2026-5002',
-    type: 'external_participant',
-    externalParticipantId: 'EXT-P-502',
-    participantName: 'Abdul Basith V.',
-    institution: 'Darul Huda Islamic University, Malappuram',
-    classCategory: 'Senior',
-    phone: '+91 97452 89123',
-    email: 'basith.dhiu@gmail.com',
-    district: 'Malappuram',
-    gender: 'Male',
-    registrationDate: '2026-11-18T14:30:00.000Z',
-    status: 'Completed',
-    verificationCode: 'VER-EXT-5002-L8B2',
-    notes: 'Inter-university scholar delegate.',
-    registeredBy: 'Admin (Developer)',
-    registeredByRole: 'admin',
-    createdAt: '2026-11-18T14:30:00.000Z',
-    updatedAt: '2026-11-18T14:30:00.000Z'
-  },
-  {
-    id: 'REG-5003',
-    ticketId: 'EXT-2026-5003',
-    type: 'external_participant',
-    externalParticipantId: 'EXT-P-503',
-    participantName: 'Salman Faris',
-    institution: 'Markaz Garden, Poonoor',
-    classCategory: 'Junior',
-    phone: '+91 94951 67890',
-    email: 'salman.markaz@gmail.com',
-    district: 'Kozhikode',
-    gender: 'Male',
-    registrationDate: '2026-11-19T09:15:00.000Z',
-    status: 'Completed',
-    verificationCode: 'VER-EXT-5003-M7C3',
-    notes: 'Junior outside candidate confirmed.',
-    registeredBy: 'Convener (Irfan Eramangalam)',
-    registeredByRole: 'convener',
-    createdAt: '2026-11-19T09:15:00.000Z',
-    updatedAt: '2026-11-19T09:15:00.000Z'
-  },
-  {
-    id: 'REG-5004',
-    ticketId: 'EXT-2026-5004',
-    type: 'external_participant',
-    externalParticipantId: 'EXT-P-504',
-    participantName: 'Anas Ahammed',
-    institution: "Ma'din Academy, Malappuram",
-    classCategory: 'General',
-    phone: '+91 96332 45678',
-    email: 'anas.madin@gmail.com',
-    district: 'Malappuram',
-    gender: 'Male',
-    registrationDate: '2026-11-19T11:45:00.000Z',
-    status: 'Cancelled',
-    verificationCode: 'VER-EXT-5004-N6D4',
-    notes: 'Withdrawn upon delegate request prior to festival.',
-    registeredBy: 'Admin (Developer)',
-    registeredByRole: 'admin',
-    createdAt: '2026-11-19T11:45:00.000Z',
-    updatedAt: '2026-11-19T17:00:00.000Z'
-  }
-];
-
-export const INITIAL_REGISTRATION_AUDIT_LOGS = [
-  {
-    id: 'RAUD-101',
-    registrationId: 'REG-1001',
-    ticketId: 'DLZ-2026-1001',
-    action: 'REGISTRATION_CREATED',
-    details: 'Registered existing student Noufal (STU-1001). Ticket DLZ-2026-1001 issued.',
-    performedBy: 'Admin (Developer)',
-    timestamp: '2026-11-15T09:00:00.000Z'
-  },
-  {
-    id: 'RAUD-102',
-    registrationId: 'REG-1003',
-    ticketId: 'DLZ-2026-1003',
-    action: 'REGISTRATION_CREATED',
-    details: 'Registered existing student Hashim (STU-1005). Ticket DLZ-2026-1003 issued.',
-    performedBy: 'Convener (Irfan Eramangalam)',
-    timestamp: '2026-11-16T10:30:00.000Z'
-  },
-  {
-    id: 'RAUD-103',
-    registrationId: 'REG-5001',
-    ticketId: 'EXT-2026-5001',
-    action: 'REGISTRATION_CREATED',
-    details: 'Registered external participant Muhammad Adil K. (Farook College). Ticket EXT-2026-5001 issued.',
-    performedBy: 'Convener (Irfan Eramangalam)',
-    timestamp: '2026-11-18T10:00:00.000Z'
-  },
-  {
-    id: 'RAUD-104',
-    registrationId: 'REG-5004',
-    ticketId: 'EXT-2026-5004',
-    action: 'STATUS_CHANGED',
-    details: 'Registration status changed from Completed to Cancelled. Reason: Withdrawn upon delegate request.',
-    performedBy: 'Admin (Developer)',
-    timestamp: '2026-11-19T17:00:00.000Z'
-  }
-];
+// List of decommissioned test ticket, pass and registration identifiers from development/demo phase.
+// Explicitly blocked by security verification to prevent unauthorized admission.
+export const DECOMMISSIONED_TEST_TICKETS = new Set([
+  'DLZ-2026-1001', 'DLZ-2026-1002', 'DLZ-2026-1003', 'DLZ-2026-1004',
+  'DLZ-2026-1005', 'DLZ-2026-1006', 'DLZ-2026-1007', 'DLZ-2026-1008',
+  'EXT-2026-5001', 'EXT-2026-5002', 'EXT-2026-5003', 'EXT-2026-5004',
+  'VER-DLZ-1001-A9F2', 'VER-DLZ-1002-B8K3', 'VER-DLZ-1003-C7M4', 'VER-DLZ-1004-D6N5',
+  'VER-DLZ-1005-E5P6', 'VER-DLZ-1006-F4Q7', 'VER-DLZ-1007-G3R8', 'VER-DLZ-1008-H2S9',
+  'VER-EXT-5001-K9A1', 'VER-EXT-5002-L8B2', 'VER-EXT-5003-M7C3', 'VER-EXT-5004-N6D4',
+  'REG-1001', 'REG-1002', 'REG-1003', 'REG-1004',
+  'REG-1005', 'REG-1006', 'REG-1007', 'REG-1008',
+  'REG-5001', 'REG-5002', 'REG-5003', 'REG-5004',
+  'EXT-P-501', 'EXT-P-502', 'EXT-P-503', 'EXT-P-504'
+]);
 
 const INITIAL_DATA = {
   teams: INITIAL_TEAMS,
@@ -950,15 +604,34 @@ class FestivalStore {
     }
 
     // Ensure master categories and system configs exist
-    // Ensure registration collections exist
-    if (!currentData.registrations || !Array.isArray(currentData.registrations) || currentData.registrations.length === 0) {
-      currentData.registrations = INITIAL_REGISTRATIONS;
+    // Ensure registration collections exist (Do NOT fall back to fake test records)
+    if (!currentData.registrations || !Array.isArray(currentData.registrations)) {
+      currentData.registrations = [];
+    } else {
+      // Purge any residual decommissioned test records if migrating from older local storage caches
+      currentData.registrations = currentData.registrations.filter(r =>
+        !DECOMMISSIONED_TEST_TICKETS.has(r.ticketId) &&
+        !DECOMMISSIONED_TEST_TICKETS.has(r.id) &&
+        !DECOMMISSIONED_TEST_TICKETS.has(r.verificationCode)
+      );
     }
-    if (!currentData.externalParticipants || !Array.isArray(currentData.externalParticipants) || currentData.externalParticipants.length === 0) {
-      currentData.externalParticipants = INITIAL_EXTERNAL_PARTICIPANTS;
+
+    if (!currentData.externalParticipants || !Array.isArray(currentData.externalParticipants)) {
+      currentData.externalParticipants = [];
+    } else {
+      currentData.externalParticipants = currentData.externalParticipants.filter(p =>
+        !DECOMMISSIONED_TEST_TICKETS.has(p.id)
+      );
     }
+
     if (!currentData.registrationAuditLogs || !Array.isArray(currentData.registrationAuditLogs)) {
-      currentData.registrationAuditLogs = INITIAL_REGISTRATION_AUDIT_LOGS;
+      currentData.registrationAuditLogs = [];
+    } else {
+      currentData.registrationAuditLogs = currentData.registrationAuditLogs.filter(a =>
+        !DECOMMISSIONED_TEST_TICKETS.has(a.registrationId) &&
+        !DECOMMISSIONED_TEST_TICKETS.has(a.ticketId) &&
+        !['RAUD-101', 'RAUD-102', 'RAUD-103', 'RAUD-104'].includes(a.id)
+      );
     }
 
     if (!currentData.programmeCategories || !Array.isArray(currentData.programmeCategories) || currentData.programmeCategories.length === 0) {
@@ -12396,6 +12069,16 @@ class FestivalStore {
       return { isValid: false, message: 'Please provide a Ticket ID or Verification Reference.' };
     }
     const clean = query.trim().toUpperCase();
+
+    // Check if ticket is a decommissioned demo/test pass
+    if (DECOMMISSIONED_TEST_TICKETS.has(clean) || DECOMMISSIONED_TEST_TICKETS.has(query.trim())) {
+      return {
+        isValid: false,
+        isDecommissioned: true,
+        message: `Ticket reference "${query}" was a decommissioned demo pass and is NOT valid for festival admission.`
+      };
+    }
+
     const reg = (this.data.registrations || []).find(
       r => (r.ticketId && r.ticketId.toUpperCase() === clean) ||
         (r.verificationCode && r.verificationCode.toUpperCase() === clean) ||
