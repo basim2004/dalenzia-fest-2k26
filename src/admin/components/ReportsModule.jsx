@@ -435,12 +435,10 @@ export default function ReportsModule({ activeSection }) {
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="px-3 py-2 bg-[#F7F3E9]/50 border border-stone-300 rounded-xl text-xs font-bold text-stone-700 focus:outline-none focus:border-[#A91F35]"
               >
-                <option value="all">All Categories</option>
-                <option value="Literary Arena">Literary Arena</option>
-                <option value="Islamic Heritage">Islamic Heritage</option>
-                <option value="Public Speaking">Public Speaking</option>
-                <option value="Visual Arts">Visual Arts</option>
-                <option value="Media & Cultural">Media & Cultural</option>
+                <option value="all">All Classifications</option>
+                <option value="Stage">Stage Programmes</option>
+                <option value="Off Stage">Off Stage Programmes</option>
+                <option value="General">General (Team Based)</option>
                 {activeTab === 'students' && (
                   <>
                     <option value="Senior">Senior Division</option>
@@ -621,7 +619,7 @@ export default function ReportsModule({ activeSection }) {
               <div className="flex items-center justify-between border-b border-stone-100 pb-3">
                 <div className="flex items-center gap-2">
                   <Medal className="w-5 h-5 text-[#A91F35]" />
-                  <h2 className="text-base font-bold text-stone-900 font-serif">Competition Arenas (12 Events)</h2>
+                  <h2 className="text-base font-bold text-stone-900 font-serif">Official Competitions Overview</h2>
                 </div>
                 <button
                   onClick={() => setActiveTab('competitions')}
@@ -982,7 +980,7 @@ export default function ReportsModule({ activeSection }) {
                   <tr className="bg-[#FAF7F0] border-b border-stone-200 text-stone-600 font-bold uppercase text-[10px] tracking-wider">
                     <th className="py-3 px-4">Event Code</th>
                     <th className="py-3 px-4">Competition Title</th>
-                    <th className="py-3 px-4">Category & Arena</th>
+                    <th className="py-3 px-4">Classification & Category</th>
                     <th className="py-3 px-4 text-center">Participants</th>
                     <th className="py-3 px-4 text-center">Judges</th>
                     <th className="py-3 px-4">Adjudication Status</th>

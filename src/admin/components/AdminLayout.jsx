@@ -69,7 +69,6 @@ export default function AdminLayout({
       ]
     },
     { id: 'results', name: 'Results & Scoring', icon: Award },
-    { id: 'programme', name: 'Programme', icon: Calendar },
     { id: 'programme_guests', name: 'Programme Guests', icon: Users },
     { id: 'schedule', name: 'Programme Schedule', icon: Calendar },
     { id: 'posters', name: 'Posters & Templates', icon: Image },
@@ -358,7 +357,7 @@ export default function AdminLayout({
                   : activeModule === 'students'
                   ? 'Student Registry, ID Cards, Team Squads & Competition Enrolment'
                   : activeModule === 'competitions'
-                  ? 'Event Configurations, Syllabi, Arenas & Adjudication Sync'
+                  ? 'Official Competitions, Classifications & Adjudication Sync'
                   : activeModule === 'results'
                   ? 'Multi-Judge Marksheet Aggregation, Verification, Team Points & Official Publishing'
                   : activeModule === 'programme_guests' || activeModule.startsWith('programme_guests')

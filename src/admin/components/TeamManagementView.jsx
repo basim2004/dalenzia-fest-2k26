@@ -81,7 +81,7 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
 
   const [enrollStudentForm, setEnrollStudentForm] = useState({
     studentId: '',
-    compCategory: 'Literary Arena'
+    compCategory: 'General'
   });
 
   const [leaderForm, setLeaderForm] = useState({
@@ -1560,7 +1560,7 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
                           <th className="py-2.5 px-3">Chest No</th>
                           <th className="py-2.5 px-3">Student Name</th>
                           <th className="py-2.5 px-3">Category</th>
-                          <th className="py-2.5 px-3">Arena</th>
+                          <th className="py-2.5 px-3">Classification</th>
                           <th className="py-2.5 px-3 text-right">Actions</th>
                         </tr>
                       </thead>
@@ -1786,11 +1786,9 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
                     onChange={(e) => setEnrollStudentForm({ ...enrollStudentForm, compCategory: e.target.value })}
                     className="w-full px-3.5 py-2 rounded-xl border border-stone-200 focus:outline-none focus:border-[#A91F35]"
                   >
-                    <option value="Literary Arena">Literary Arena</option>
-                    <option value="Islamic Heritage">Islamic Heritage</option>
-                    <option value="Public Speaking">Public Speaking</option>
-                    <option value="Visual Arts">Visual Arts</option>
-                    <option value="Media & Cultural">Media & Cultural</option>
+                    <option value="General">General (Team Event)</option>
+                    <option value="Stage">Stage Programme</option>
+                    <option value="Off Stage">Off Stage Programme</option>
                   </select>
                 </div>
 

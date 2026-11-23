@@ -30,6 +30,7 @@ export default function CompetitionsModule({ activeSection }) {
 
   // Search, Filter & Sort State
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedClassificationFilter, setSelectedClassificationFilter] = useState('all');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('all');
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState('all');
   const [selectedStatusFilter, setSelectedStatusFilter] = useState('all');
@@ -58,7 +59,8 @@ export default function CompetitionsModule({ activeSection }) {
   const [formData, setFormData] = useState({
     title: '',
     code: '',
-    category: 'Literary Arena',
+    classification: 'Stage',
+    category: 'Senior',
     type: 'Individual',
     venue: 'Cordova Grand Stage (Stage 01)',
     date: 'Dec 21, 2026',
@@ -85,11 +87,18 @@ export default function CompetitionsModule({ activeSection }) {
   const [successToast, setSuccessToast] = useState('');
   const [forceDelete, setForceDelete] = useState(false);
 
-  // Official Category List strictly from Dalenzia 2K26 Festival Charter
+  // Official Classification and Category lists strictly from Dalenzia 2K26 Festival Charter
+  const classifications = [
+    'All Classifications',
+    'Stage',
+    'Off Stage',
+    'General'
+  ];
+
   const categories = [
     'All Categories',
     'Minor',
-    'Sub-Junior',
+    'Sub Junior',
     'Junior',
     'Senior',
     'General'
@@ -109,6 +118,7 @@ export default function CompetitionsModule({ activeSection }) {
     setStats(festivalStore.getCompetitionStats());
     setCompetitions(festivalStore.getCompetitions({
       query: searchQuery,
+      classification: selectedClassificationFilter,
       type: selectedTypeFilter,
       category: selectedCategoryFilter,
       status: selectedStatusFilter,
@@ -122,7 +132,7 @@ export default function CompetitionsModule({ activeSection }) {
 
   useEffect(() => {
     refreshData();
-  }, [searchQuery, selectedTypeFilter, selectedCategoryFilter, selectedStatusFilter, sortBy, sortOrder]);
+  }, [searchQuery, selectedClassificationFilter, selectedTypeFilter, selectedCategoryFilter, selectedStatusFilter, sortBy, sortOrder]);
 
   const showToast = (msg) => {
     setSuccessToast(msg);
@@ -141,7 +151,8 @@ export default function CompetitionsModule({ activeSection }) {
     setFormData({
       title: '',
       code: '',
-      category: 'Literary Arena',
+      classification: 'Stage',
+      category: 'Senior',
       type: 'Individual',
       venue: 'Cordova Grand Stage (Stage 01)',
       date: 'Dec 21, 2026',
@@ -179,8 +190,9 @@ export default function CompetitionsModule({ activeSection }) {
     setFormData({
       title: comp.title || comp.competitionTitle,
       code: comp.code || comp.competitionCode,
-      category: comp.category,
-      type: comp.type,
+      classification: comp.classification || (comp.category === 'General' ? 'General' : 'Stage'),
+      category: comp.category || 'Senior',
+      type: comp.type || 'Individual',
       venue: comp.venue,
       date: comp.date,
       time: comp.time,
@@ -383,13 +395,13 @@ export default function CompetitionsModule({ activeSection }) {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-bold tracking-wider uppercase mb-3 text-amber-200">
               <Trophy className="w-3.5 h-3.5" />
-              Official Competition & Arena Control Centre
+              Official Competition Management System
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight font-serif">
               Competition Management
             </h1>
             <p className="text-xs sm:text-sm text-stone-200 mt-1 max-w-2xl font-sans">
-              Central administration for all festival competitive arenas across 5 stages, participant allocations, judge panels, evaluation rubrics, and published laureates.
+              Official competition directory, classifications (Stage, Off Stage, General), student categories, adjudicators, and real-time festival marks sync.
             </p>
           </div>
 
@@ -414,7 +426,7 @@ export default function CompetitionsModule({ activeSection }) {
         {/* Tab Navigation Navigation Bar */}
         <div className="flex items-center gap-2 mt-8 pt-6 border-t border-white/10 overflow-x-auto no-scrollbar">
           {[
-            { id: 'overview', label: 'Dashboard & Arena Metrics', icon: Trophy },
+            { id: 'overview', label: 'Dashboard & Classification Metrics', icon: Trophy },
             { id: 'directory', label: `Competition Directory (${competitions.length})`, icon: Layers },
             { id: 'registration', label: 'Registration Monitoring', icon: UserCheck },
             { id: 'judges', label: 'Adjudicator & Rubric Sync', icon: Shield },
@@ -441,7 +453,7 @@ export default function CompetitionsModule({ activeSection }) {
       </div>
 
       {/* ========================================================================= */}
-      {/* TAB 1: OVERVIEW & ARENA METRICS */}
+      {/* TAB 1: OVERVIEW & CLASSIFICATION METRICS */}
       {/* ========================================================================= */}
       {activeTab === 'overview' && (
         <div className="space-y-6">
@@ -449,13 +461,13 @@ export default function CompetitionsModule({ activeSection }) {
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-4">
             {[
               { label: 'Total Events', value: stats.totalCompetitions, sub: 'Active in Engine', icon: Trophy, color: '#A91F35', bg: 'bg-red-50 text-red-700' },
-              { label: 'Individual', value: stats.individualCount, sub: 'Solo Arenas', icon: Users, color: '#047857', bg: 'bg-emerald-50 text-emerald-700' },
-              { label: 'Group Arenas', value: stats.groupCount, sub: 'Team Ensembles', icon: Layers, color: '#2563EB', bg: 'bg-blue-50 text-blue-700' },
-              { label: 'Active / Ongoing', value: stats.activeCount, sub: 'Live on Stage', icon: Clock, color: '#D97706', bg: 'bg-amber-50 text-amber-700' },
-              { label: 'Upcoming', value: stats.upcomingCount, sub: 'Ready for Call', icon: Calendar, color: '#7C3AED', bg: 'bg-purple-50 text-purple-700' },
-              { label: 'Published / Done', value: stats.completedCount, sub: 'Results Verified', icon: CheckCircle2, color: '#059669', bg: 'bg-teal-50 text-teal-700' },
-              { label: 'Enrolled Scholars', value: stats.totalParticipants, sub: 'Stage Entries', icon: UserCheck, color: '#E11D48', bg: 'bg-rose-50 text-rose-700' },
-              { label: 'Cohort Target', value: '48', sub: 'Official Scale', icon: Sparkles, color: '#E6A916', bg: 'bg-yellow-50 text-yellow-800' }
+              { label: 'Stage', value: stats.stageCount || 0, sub: 'Stage Programmes', icon: Mic, color: '#A91F35', bg: 'bg-rose-50 text-rose-700' },
+              { label: 'Off Stage', value: stats.offStageCount || 0, sub: 'Off Stage Events', icon: BookOpen, color: '#047857', bg: 'bg-emerald-50 text-emerald-700' },
+              { label: 'General', value: stats.generalCount || 0, sub: 'Team Competitions', icon: Sparkles, color: '#D97706', bg: 'bg-amber-50 text-amber-700' },
+              { label: 'Individual', value: stats.individualCount || 0, sub: 'Solo Events (3-2-1 pts)', icon: Users, color: '#2563EB', bg: 'bg-blue-50 text-blue-700' },
+              { label: 'Active / Live', value: stats.activeCount || 0, sub: 'Ongoing Now', icon: Clock, color: '#EA580C', bg: 'bg-orange-50 text-orange-700' },
+              { label: 'Published', value: stats.completedCount || 0, sub: 'Results Verified', icon: CheckCircle2, color: '#059669', bg: 'bg-teal-50 text-teal-700' },
+              { label: 'Candidates', value: stats.totalParticipants || 0, sub: 'Enrolled Entries', icon: UserCheck, color: '#7C3AED', bg: 'bg-purple-50 text-purple-700' }
             ].map((card, idx) => {
               const Icon = card.icon;
               return (
@@ -473,14 +485,14 @@ export default function CompetitionsModule({ activeSection }) {
             })}
           </div>
 
-          {/* Visual Breakdowns: Categories & Venues */}
+          {/* Visual Breakdowns: Classifications & Student Categories */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Category Breakdown Card */}
+            {/* Classification & Category Breakdown Card */}
             <div className="bg-white rounded-3xl p-6 border border-stone-200/80 shadow-sm space-y-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-sm font-bold text-stone-900 uppercase tracking-wide">Category Distribution</h3>
-                  <p className="text-xs text-stone-600 mt-0.5">Competitions organized across festival arenas</p>
+                  <h3 className="text-sm font-bold text-stone-900 uppercase tracking-wide">Official Classifications</h3>
+                  <p className="text-xs text-stone-600 mt-0.5">Charter structure: Stage, Off Stage, and General</p>
                 </div>
                 <button
                   onClick={() => setActiveTab('directory')}
@@ -491,17 +503,21 @@ export default function CompetitionsModule({ activeSection }) {
               </div>
 
               <div className="space-y-3">
-                {Object.entries(stats.categoryBreakdown).map(([cat, count], idx) => {
-                  const pct = stats.totalCompetitions > 0 ? Math.round((count / stats.totalCompetitions) * 100) : 0;
+                {[
+                  { name: 'Stage Programmes (Charter pp. 5–8)', count: stats.stageCount || 0, color: 'from-[#A91F35] to-rose-500' },
+                  { name: 'Off Stage Programmes (Charter pp. 5–8)', count: stats.offStageCount || 0, color: 'from-emerald-600 to-teal-500' },
+                  { name: 'General Programmes (Charter p. 9 - Team Based)', count: stats.generalCount || 0, color: 'from-amber-500 to-yellow-500' }
+                ].map((item, idx) => {
+                  const pct = stats.totalCompetitions > 0 ? Math.round((item.count / stats.totalCompetitions) * 100) : 0;
                   return (
                     <div key={idx} className="p-3 rounded-2xl bg-stone-50 border border-stone-100 space-y-1.5">
                       <div className="flex items-center justify-between text-xs font-bold">
-                        <span className="text-stone-800">{cat}</span>
-                        <span className="text-stone-900">{count} Events ({pct}%)</span>
+                        <span className="text-stone-800">{item.name}</span>
+                        <span className="text-stone-900">{item.count} Events ({pct}%)</span>
                       </div>
                       <div className="w-full h-2 rounded-full bg-stone-200 overflow-hidden">
                         <div
-                          className="h-full rounded-full bg-gradient-to-r from-[#A91F35] to-[#E6A916]"
+                          className={`h-full rounded-full bg-gradient-to-r ${item.color}`}
                           style={{ width: `${pct}%` }}
                         />
                       </div>
@@ -558,7 +574,7 @@ export default function CompetitionsModule({ activeSection }) {
               <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
               <input
                 type="text"
-                placeholder="Search by competition title, code (LIT-JR-102), arena category, or venue..."
+                placeholder="Search by competition title, code (LIT-JR-102), classification, category, or venue..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-stone-50 border border-stone-200 text-xs font-medium text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
@@ -575,6 +591,17 @@ export default function CompetitionsModule({ activeSection }) {
 
             {/* Filter Dropdowns */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              {/* Classification Filter */}
+              <select
+                value={selectedClassificationFilter}
+                onChange={(e) => setSelectedClassificationFilter(e.target.value)}
+                className="px-3 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs font-bold text-stone-700 focus:outline-none focus:border-[#A91F35]"
+              >
+                {classifications.map((c, i) => (
+                  <option key={i} value={c === 'All Classifications' ? 'all' : c}>{c}</option>
+                ))}
+              </select>
+
               {/* Type Filter */}
               <select
                 value={selectedTypeFilter}
@@ -641,7 +668,7 @@ export default function CompetitionsModule({ activeSection }) {
                 <tr className="bg-stone-50 border-b border-stone-200 text-stone-700 font-bold uppercase text-[10px] tracking-wider">
                   <th className="p-3.5">Code</th>
                   <th className="p-3.5">Competition Title</th>
-                  <th className="p-3.5">Arena & Type</th>
+                  <th className="p-3.5">Classification & Category</th>
                   <th className="p-3.5">Schedule & Stage</th>
                   <th className="p-3.5">Enrolled / Cap</th>
                   <th className="p-3.5">Adjudicators</th>
@@ -659,6 +686,7 @@ export default function CompetitionsModule({ activeSection }) {
                         <button
                           onClick={() => {
                             setSearchQuery('');
+                            setSelectedClassificationFilter('all');
                             setSelectedTypeFilter('all');
                             setSelectedCategoryFilter('all');
                             setSelectedStatusFilter('all');
@@ -687,11 +715,21 @@ export default function CompetitionsModule({ activeSection }) {
                           </div>
                         </td>
                         <td className="p-3.5">
-                          <div className="flex flex-col gap-1">
-                            <span className="font-semibold text-stone-800">{comp.category}</span>
-                            <span className="text-[10px] font-bold text-stone-500">
-                              {comp.type} Competition
+                          <div className="flex flex-col gap-1 items-start">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ${
+                              comp.classification === 'Stage'
+                                ? 'bg-red-50 text-[#A91F35] border border-red-200'
+                                : comp.classification === 'Off Stage'
+                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                : 'bg-amber-50 text-amber-800 border border-amber-200'
+                            }`}>
+                              {comp.classification || 'Stage'}
                             </span>
+                            <div className="flex items-center gap-1.5 text-[11px]">
+                              <span className="font-bold text-stone-900">{comp.category}</span>
+                              <span className="text-stone-400">•</span>
+                              <span className="text-stone-500 font-medium">{comp.type}</span>
+                            </div>
                           </div>
                         </td>
                         <td className="p-3.5">
@@ -827,7 +865,7 @@ export default function CompetitionsModule({ activeSection }) {
             <div>
               <h2 className="text-lg font-bold text-stone-900">Competition Registration Monitoring</h2>
               <p className="text-xs text-stone-600 mt-0.5">
-                Monitor enrolled participants, squad allocations, and arena capacity across all 48 competitions.
+                Monitor enrolled participants, squad allocations, and capacity across all official competitions.
               </p>
             </div>
           </div>
@@ -977,7 +1015,7 @@ export default function CompetitionsModule({ activeSection }) {
           <div>
             <h2 className="text-lg font-bold text-stone-900">Official Competition Reports & Schedules</h2>
             <p className="text-xs text-stone-600 mt-0.5">
-              Printable schedules, arena participant allocations, and administrative records.
+              Printable schedules, participant allocations, and administrative records.
             </p>
           </div>
 
@@ -990,14 +1028,14 @@ export default function CompetitionsModule({ activeSection }) {
                 btnLabel: 'Download Full CSV'
               },
               {
-                title: 'Printable Arena Call Sheet',
+                title: 'Printable Competition Call Sheet',
                 desc: 'Official printable running order of all stages, venues, and registered participants.',
                 action: () => window.print(),
                 btnLabel: 'Print Stage Call Sheet'
               },
               {
                 title: 'Adjudicator Assignment Matrix',
-                desc: 'Complete overview of assigned judges across all literary, artistic and cultural arenas.',
+                desc: 'Complete overview of assigned judges across all official festival competitions.',
                 action: () => setActiveTab('judges'),
                 btnLabel: 'View Judge Matrix'
               }
@@ -1068,51 +1106,76 @@ export default function CompetitionsModule({ activeSection }) {
                   <label className="block text-stone-700 mb-1">Code (Auto if blank)</label>
                   <input
                     type="text"
-                    placeholder="e.g. LIT-SR-201"
+                    placeholder="e.g. STG-SR-101"
                     value={formData.code}
                     onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-mono font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
                   />
                 </div>
                 <div>
-                  <label className="block text-stone-700 mb-1">Competition Type *</label>
+                  <label className="block text-stone-700 mb-1">Official Classification *</label>
                   <select
-                    value={formData.type}
-                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                    value={formData.classification}
+                    onChange={(e) => {
+                      const nextClass = e.target.value;
+                      setFormData(prev => ({
+                        ...prev,
+                        classification: nextClass,
+                        category: nextClass === 'General' ? 'General' : (prev.category === 'General' ? 'Senior' : prev.category),
+                        type: nextClass === 'General' ? 'Group' : prev.type
+                      }));
+                    }}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
                   >
-                    <option value="Individual">Individual Event</option>
-                    <option value="Group">Group / Team Event</option>
+                    <option value="Stage">Stage Programme</option>
+                    <option value="Off Stage">Off Stage Programme</option>
+                    <option value="General">General Programme (Team)</option>
                   </select>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-stone-700 mb-1">Arena Category *</label>
-                  <select
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
-                  >
-                    {categories.filter(c => c !== 'All Categories').map((c, i) => (
-                      <option key={i} value={c}>{c}</option>
-                    ))}
-                  </select>
+                  <label className="block text-stone-700 mb-1">Student Category *</label>
+                  {formData.classification === 'General' ? (
+                    <input
+                      type="text"
+                      disabled
+                      value="General (Team Based)"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-100 text-stone-600 text-xs font-bold"
+                    />
+                  ) : (
+                    <select
+                      value={formData.category}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
+                    >
+                      <option value="Senior">Senior</option>
+                      <option value="Junior">Junior</option>
+                      <option value="Sub Junior">Sub Junior</option>
+                      <option value="Minor">Minor</option>
+                    </select>
+                  )}
                 </div>
                 <div>
-                  <label className="block text-stone-700 mb-1">Eligibility Division</label>
-                  <select
-                    value={formData.eligibility}
-                    onChange={(e) => setFormData({ ...formData, eligibility: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
-                  >
-                    <option value="Open">Open to All</option>
-                    <option value="Senior">Senior Only</option>
-                    <option value="Junior">Junior Only</option>
-                    <option value="Sub Junior">Sub Junior Only</option>
-                    <option value="Minor">Minor Only</option>
-                  </select>
+                  <label className="block text-stone-700 mb-1">Competition Type *</label>
+                  {formData.classification === 'General' ? (
+                    <input
+                      type="text"
+                      disabled
+                      value="General Team (10-8-6 Pts)"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-100 text-stone-600 text-xs font-bold"
+                    />
+                  ) : (
+                    <select
+                      value={formData.type}
+                      onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
+                    >
+                      <option value="Individual">Individual (3-2-1 Pts)</option>
+                      <option value="Group">Group / Team (10-8-6 Pts)</option>
+                    </select>
+                  )}
                 </div>
               </div>
 
@@ -1238,46 +1301,86 @@ export default function CompetitionsModule({ activeSection }) {
                   />
                 </div>
                 <div>
-                  <label className="block text-stone-700 mb-1">Type *</label>
+                  <label className="block text-stone-700 mb-1">Official Classification *</label>
                   <select
-                    value={formData.type}
-                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                    value={formData.classification}
+                    onChange={(e) => {
+                      const nextClass = e.target.value;
+                      setFormData(prev => ({
+                        ...prev,
+                        classification: nextClass,
+                        category: nextClass === 'General' ? 'General' : (prev.category === 'General' ? 'Senior' : prev.category),
+                        type: nextClass === 'General' ? 'Group' : prev.type
+                      }));
+                    }}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
                   >
-                    <option value="Individual">Individual Event</option>
-                    <option value="Group">Group / Team Event</option>
+                    <option value="Stage">Stage Programme</option>
+                    <option value="Off Stage">Off Stage Programme</option>
+                    <option value="General">General Programme (Team)</option>
                   </select>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-stone-700 mb-1">Category</label>
-                  <select
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
-                  >
-                    {categories.filter(c => c !== 'All Categories').map((c, i) => (
-                      <option key={i} value={c}>{c}</option>
-                    ))}
-                  </select>
+                  <label className="block text-stone-700 mb-1">Student Category *</label>
+                  {formData.classification === 'General' ? (
+                    <input
+                      type="text"
+                      disabled
+                      value="General (Team Based)"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-100 text-stone-600 text-xs font-bold"
+                    />
+                  ) : (
+                    <select
+                      value={formData.category}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
+                    >
+                      <option value="Senior">Senior</option>
+                      <option value="Junior">Junior</option>
+                      <option value="Sub Junior">Sub Junior</option>
+                      <option value="Minor">Minor</option>
+                    </select>
+                  )}
                 </div>
                 <div>
-                  <label className="block text-stone-700 mb-1">Status</label>
-                  <select
-                    value={formData.status}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
-                  >
-                    <option value="Upcoming">Upcoming</option>
-                    <option value="Registration Open">Registration Open</option>
-                    <option value="Ongoing">Ongoing</option>
-                    <option value="Under Verification">Under Verification</option>
-                    <option value="Published">Published</option>
-                    <option value="Draft">Draft</option>
-                  </select>
+                  <label className="block text-stone-700 mb-1">Competition Type *</label>
+                  {formData.classification === 'General' ? (
+                    <input
+                      type="text"
+                      disabled
+                      value="General Team (10-8-6 Pts)"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-100 text-stone-600 text-xs font-bold"
+                    />
+                  ) : (
+                    <select
+                      value={formData.type}
+                      onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
+                    >
+                      <option value="Individual">Individual (3-2-1 Pts)</option>
+                      <option value="Group">Group / Team (10-8-6 Pts)</option>
+                    </select>
+                  )}
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-stone-700 mb-1">Adjudication Status</label>
+                <select
+                  value={formData.status}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
+                >
+                  <option value="Upcoming">Upcoming</option>
+                  <option value="Registration Open">Registration Open</option>
+                  <option value="Ongoing">Ongoing</option>
+                  <option value="Under Verification">Under Verification</option>
+                  <option value="Published">Published</option>
+                  <option value="Draft">Draft</option>
+                </select>
               </div>
 
               <div>
@@ -1486,7 +1589,7 @@ export default function CompetitionsModule({ activeSection }) {
 
                 {activeCompDetails.assignedJudges?.length === 0 ? (
                   <div className="p-6 text-center text-xs text-amber-700 bg-amber-50 rounded-2xl border border-amber-200">
-                    No judges currently assigned to this arena. Please configure in Judge Management.
+                    No judges currently assigned to this competition. Please configure in Judge Management.
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

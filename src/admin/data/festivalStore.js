@@ -1006,7 +1006,7 @@ class FestivalStore {
             chestNo: s.chestNo,
             name: s.name,
             category: s.classCategory,
-            compCategory: 'Literary Arena',
+            compCategory: 'General',
             events: []
           });
         }
@@ -1086,10 +1086,28 @@ class FestivalStore {
     const publishedResults = assignments.filter(a => a.isPublished).length;
     const overallTeamPoints = teams.reduce((acc, t) => acc + (t.points || 0), 0);
 
+    const stageCompetitionsCount = assignments.filter(a => {
+      const cls = a.classification || (a.format === 'On Stage' ? 'Stage' : (a.type === 'General' || a.category === 'General' ? 'General' : 'Stage'));
+      return cls === 'Stage';
+    }).length;
+
+    const offStageCompetitionsCount = assignments.filter(a => {
+      const cls = a.classification || (a.format === 'Off Stage' ? 'Off Stage' : '');
+      return cls === 'Off Stage';
+    }).length;
+
+    const generalCompetitionsCount = assignments.filter(a => {
+      const cls = a.classification || (a.type === 'General' || a.category === 'General' ? 'General' : '');
+      return cls === 'General';
+    }).length;
+
     return {
       totalStudents,
       totalTeams,
       totalCompetitions,
+      stageCompetitionsCount,
+      offStageCompetitionsCount,
+      generalCompetitionsCount,
       totalJudges,
       totalProgrammes,
       totalProgrammeGuests,
@@ -1311,8 +1329,9 @@ class FestivalStore {
   // =========================================================================
   createJudgeCompetition({
     name,
-    type = 'Individual',
-    category = 'General',
+    classification = 'Stage', // 'Stage' | 'Off Stage' | 'General'
+    type = 'Individual', // 'Individual' | 'Group' | 'General'
+    category = 'Senior', // 'Minor' | 'Sub Junior' | 'Junior' | 'Senior' | 'General'
     judgeId = 'JDG-1001',
     judgeName = 'Chief Adjudicator (Festival Jury)',
     criteria,
@@ -1322,8 +1341,14 @@ class FestivalStore {
       throw new Error('Competition name is required.');
     }
 
+    const isGeneral = classification === 'General' || type === 'General' || category === 'General';
+    const compClassification = isGeneral ? 'General' : (classification === 'Off Stage' ? 'Off Stage' : 'Stage');
+    const compCategory = isGeneral ? 'General' : (category || 'Senior');
+    const compType = isGeneral ? 'General' : (type === 'Group' ? 'Group' : 'Individual');
+    const compFormat = compClassification === 'Stage' ? 'On Stage' : (compClassification === 'Off Stage' ? 'Off Stage' : 'General');
+
     const compId = `COMP-${Date.now().toString().slice(-5)}${Math.floor(100 + Math.random() * 900)}`;
-    const compCode = `CMP-${Date.now().toString().slice(-4)}${Math.floor(10 + Math.random() * 90)}`;
+    const compCode = `${compClassification === 'Stage' ? 'STG' : (compClassification === 'Off Stage' ? 'OFF' : 'GEN')}-${Date.now().toString().slice(-4)}${Math.floor(10 + Math.random() * 90)}`;
     const now = new Date().toISOString();
 
     const evalCriteria = Array.isArray(criteria) && criteria.length > 0 ? criteria : [
@@ -1340,8 +1365,10 @@ class FestivalStore {
       competitionCode: compCode,
       title: name.trim(),
       competitionTitle: name.trim(),
-      type: type === 'General' ? 'General' : 'Individual',
-      category: type === 'General' ? 'General' : (category || 'General'),
+      classification: compClassification,
+      format: compFormat,
+      type: compType,
+      category: compCategory,
       assignedJudgeIds: [judgeId],
       assignedJudgeName: judgeName,
       status: 'Pending Evaluation',
@@ -4128,7 +4155,7 @@ class FestivalStore {
         chestNo: newStudent.chestNo,
         name: newStudent.name,
         category: newStudent.classCategory,
-        compCategory: 'Literary Arena',
+        compCategory: 'General',
         events: []
       });
       assignedTeam.members = assignedTeam.students.length;
@@ -4180,7 +4207,7 @@ class FestivalStore {
             chestNo: student.chestNo,
             name: updateFields.name ? updateFields.name.trim() : student.name,
             category: updateFields.classCategory || student.classCategory,
-            compCategory: 'Literary Arena',
+            compCategory: 'General',
             events: []
           });
           newTeam.members = newTeam.students.length;
@@ -4313,12 +4340,28 @@ class FestivalStore {
   getCompetitionStats() {
     const competitions = this.data.programmeAssignments || [];
     const totalCompetitions = competitions.length;
+
+    const stageCount = competitions.filter(c => {
+      const cls = c.classification || (c.format === 'On Stage' ? 'Stage' : (c.type === 'General' || c.category === 'General' ? 'General' : 'Stage'));
+      return cls === 'Stage';
+    }).length;
+
+    const offStageCount = competitions.filter(c => {
+      const cls = c.classification || (c.format === 'Off Stage' ? 'Off Stage' : '');
+      return cls === 'Off Stage';
+    }).length;
+
+    const generalCount = competitions.filter(c => {
+      const cls = c.classification || (c.type === 'General' || c.category === 'General' ? 'General' : '');
+      return cls === 'General';
+    }).length;
+
     const individualCount = competitions.filter(c => (c.type || 'Individual').toLowerCase() === 'individual').length;
-    const groupCount = competitions.filter(c => (c.type || '').toLowerCase() === 'group').length;
+    const groupCount = competitions.filter(c => (c.type || '').toLowerCase() === 'group' || (c.type || '').toLowerCase() === 'general').length;
 
     const activeCount = competitions.filter(c => c.status === 'Ongoing' || c.status === 'In Progress').length;
     const upcomingCount = competitions.filter(c =>
-      c.status === 'Upcoming' || c.status === 'Registration Open' || c.status === 'Draft' || c.status === 'Assigned'
+      c.status === 'Upcoming' || c.status === 'Registration Open' || c.status === 'Draft' || c.status === 'Assigned' || c.status === 'Pending Evaluation'
     ).length;
     const completedCount = competitions.filter(c =>
       c.isPublished || c.status === 'Approved' || c.status === 'Verified' || c.status === 'Published'
@@ -4335,11 +4378,21 @@ class FestivalStore {
       !c.assignedJudgeIds || c.assignedJudgeIds.length === 0 || !c.participants || c.participants.length < 2
     ).length;
 
-    // Category breakdown
-    const categoryBreakdown = {};
+    // Student Category breakdown
+    const categoryBreakdown = {
+      Minor: 0,
+      SubJunior: 0,
+      Junior: 0,
+      Senior: 0,
+      General: 0
+    };
     competitions.forEach(c => {
-      const cat = c.category || 'General';
-      categoryBreakdown[cat] = (categoryBreakdown[cat] || 0) + 1;
+      const cat = (c.category || '').toLowerCase().replace(/[\s-_]/g, '');
+      if (cat === 'minor') categoryBreakdown.Minor++;
+      else if (cat === 'subjunior') categoryBreakdown.SubJunior++;
+      else if (cat === 'junior') categoryBreakdown.Junior++;
+      else if (cat === 'senior') categoryBreakdown.Senior++;
+      else if (cat === 'general') categoryBreakdown.General++;
     });
 
     // Venue breakdown
@@ -4358,7 +4411,9 @@ class FestivalStore {
 
     return {
       totalCompetitions,
-      officialCohortScale: 48,
+      stageCount,
+      offStageCount,
+      generalCount,
       individualCount,
       groupCount,
       activeCount,
@@ -4374,6 +4429,7 @@ class FestivalStore {
 
   getCompetitions({
     query = '',
+    classification = 'all',
     type = 'all',
     category = 'all',
     status = 'all',
@@ -4386,7 +4442,7 @@ class FestivalStore {
       ).filter(Boolean);
 
       const registeredCount = Array.isArray(c.participants) ? c.participants.length : (c.totalParticipants || 0);
-      const maxParticipants = c.maxParticipants || (c.type === 'Group' ? 16 : 24);
+      const maxParticipants = c.maxParticipants || (c.type === 'Group' || c.type === 'General' ? 16 : 24);
 
       const submittedEvaluationsCount = (this.data.submittedEvaluations || []).filter(se =>
         se.assignmentId === c.id || se.competitionId === c.competitionId
@@ -4396,6 +4452,10 @@ class FestivalStore {
         rp.competitionId === c.competitionId || rp.competitionCode === c.competitionCode
       ) || null;
 
+      const compClassification = c.classification || (c.type === 'General' || c.category === 'General' ? 'General' : (c.format === 'Off Stage' ? 'Off Stage' : 'Stage'));
+      const compCategory = compClassification === 'General' ? 'General' : (c.category || 'Senior');
+      const compType = compClassification === 'General' ? 'General' : (c.type || 'Individual');
+
       return {
         id: c.id,
         competitionId: c.competitionId,
@@ -4403,9 +4463,11 @@ class FestivalStore {
         competitionCode: c.competitionCode,
         title: c.competitionTitle,
         competitionTitle: c.competitionTitle,
-        category: c.category || 'General',
-        type: c.type || 'Individual',
-        venue: c.venue || 'Cordova Grand Stage (Stage 01)',
+        classification: compClassification,
+        format: c.format || (compClassification === 'Stage' ? 'On Stage' : (compClassification === 'Off Stage' ? 'Off Stage' : 'General')),
+        category: compCategory,
+        type: compType,
+        venue: c.venue || (compClassification === 'Stage' ? 'Cordova Grand Stage (Stage 01)' : 'Academic Halls'),
         date: c.date || 'Dec 21, 2026',
         time: c.time || '10:00 AM',
         totalParticipants: registeredCount,
@@ -4440,9 +4502,15 @@ class FestivalStore {
       list = list.filter(c =>
         c.title.toLowerCase().includes(q) ||
         c.code.toLowerCase().includes(q) ||
+        c.classification.toLowerCase().includes(q) ||
         c.category.toLowerCase().includes(q) ||
         c.venue.toLowerCase().includes(q)
       );
+    }
+
+    // Apply Classification Filter
+    if (classification && classification !== 'all') {
+      list = list.filter(c => (c.classification || '').toLowerCase() === classification.toLowerCase());
     }
 
     // Apply Type Filter
@@ -4537,16 +4605,22 @@ class FestivalStore {
     const title = (compData.title || compData.competitionTitle || '').trim();
     if (!title) throw new Error('Competition title is required.');
 
-    const category = compData.category || 'Literary Arena';
-    const type = compData.type === 'group' || compData.type === 'Group' ? 'Group' : 'Individual';
+    const classification = compData.classification === 'General'
+      ? 'General'
+      : (compData.classification === 'Off Stage' ? 'Off Stage' : 'Stage');
+    const isGeneral = classification === 'General' || compData.type === 'General' || compData.category === 'General';
+    const finalClassification = isGeneral ? 'General' : classification;
+    const category = isGeneral ? 'General' : (compData.category || 'Senior');
+    const type = isGeneral ? 'General' : (compData.type === 'group' || compData.type === 'Group' ? 'Group' : 'Individual');
+    const format = finalClassification === 'Stage' ? 'On Stage' : (finalClassification === 'Off Stage' ? 'Off Stage' : 'General');
 
     // Auto-generate code if missing
     let code = (compData.code || compData.competitionCode || '').trim().toUpperCase();
     if (!code) {
+      const clsPrefix = finalClassification === 'Stage' ? 'STG' : (finalClassification === 'Off Stage' ? 'OFF' : 'GEN');
       const catPrefix = category.slice(0, 3).toUpperCase();
-      const typePrefix = type === 'Group' ? 'GRP' : 'IND';
       const randNum = Math.floor(100 + Math.random() * 900);
-      code = `${catPrefix}-${typePrefix}-${randNum}`;
+      code = `${clsPrefix}-${catPrefix}-${randNum}`;
     }
 
     // Check code uniqueness
@@ -4571,9 +4645,11 @@ class FestivalStore {
       competitionId: autoCompId,
       competitionCode: code,
       competitionTitle: title,
+      classification: finalClassification,
+      format,
       category,
       type,
-      venue: compData.venue || 'Cordova Grand Stage (Stage 01)',
+      venue: compData.venue || (finalClassification === 'Stage' ? 'Cordova Grand Stage (Stage 01)' : 'Academic Halls'),
       date: compData.date || 'Dec 21, 2026',
       time: compData.time || '10:00 AM',
       totalParticipants: 0,
@@ -4619,6 +4695,10 @@ class FestivalStore {
 
     if (updateFields.title || updateFields.competitionTitle) {
       comp.competitionTitle = (updateFields.title || updateFields.competitionTitle).trim();
+    }
+    if (updateFields.classification) {
+      comp.classification = updateFields.classification;
+      comp.format = updateFields.classification === 'Stage' ? 'On Stage' : (updateFields.classification === 'Off Stage' ? 'Off Stage' : 'General');
     }
     if (updateFields.category) comp.category = updateFields.category;
     if (updateFields.type) comp.type = updateFields.type === 'group' || updateFields.type === 'Group' ? 'Group' : 'Individual';

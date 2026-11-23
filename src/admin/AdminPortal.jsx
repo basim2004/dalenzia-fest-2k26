@@ -191,7 +191,7 @@ export default function AdminPortal({ onNavigatePublic }) {
       ) : activeModule === 'reports' || activeModule.startsWith('reports') ? (
         <ReportsModule activeSection={activeModule} />
       ) : activeModule === 'programme' || activeModule.startsWith('programme') ? (
-        <ProgrammesModule activeSection={activeModule} />
+        <CompetitionsModule activeSection={activeModule} />
       ) : activeModule === 'settings' || activeModule.startsWith('settings') ? (
         <SystemSettingsModule activeSection={activeModule} />
       ) : (

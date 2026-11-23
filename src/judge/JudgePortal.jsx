@@ -58,6 +58,7 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
   const [showCreateCompModal, setShowCreateCompModal] = useState(false);
   const [createCompForm, setCreateCompForm] = useState({
     name: '',
+    classification: 'Stage', // 'Stage' | 'Off Stage' | 'General'
     type: 'Individual',
     category: 'Senior',
     maxMarks: 100
@@ -176,10 +177,12 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
       return;
     }
     try {
+      const isGeneral = createCompForm.classification === 'General';
       const newComp = festivalStore.createJudgeCompetition({
         name: createCompForm.name.trim(),
-        type: createCompForm.type,
-        category: createCompForm.type === 'General' ? 'General' : createCompForm.category,
+        classification: createCompForm.classification,
+        type: isGeneral ? 'General' : createCompForm.type,
+        category: isGeneral ? 'General' : createCompForm.category,
         judgeId: currentJudge.id,
         judgeName: currentJudge.name,
         maxMarks: Number(createCompForm.maxMarks) || 100
@@ -188,7 +191,7 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
       setSelectedCompForMarkEntry(newComp.competitionId);
       setActiveTab('mark_entry');
       setShowCreateCompModal(false);
-      setCreateCompForm({ name: '', type: 'Individual', category: 'Senior', maxMarks: 100 });
+      setCreateCompForm({ name: '', classification: 'Stage', type: 'Individual', category: 'Senior', maxMarks: 100 });
       showToast(`Competition "${newComp.title}" created successfully!`);
     } catch (err) {
       alert(err.message);
@@ -1515,38 +1518,77 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
                 />
               </div>
 
+              <div>
+                <label className="block font-bold text-stone-700 mb-1">Official Classification *</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { id: 'Stage', label: 'Stage', sub: 'Pages 5–8 On Stage' },
+                    { id: 'Off Stage', label: 'Off Stage', sub: 'Pages 5–8 Off Stage' },
+                    { id: 'General', label: 'General', sub: 'Page 9 Team Items' }
+                  ].map(cls => (
+                    <button
+                      key={cls.id}
+                      type="button"
+                      onClick={() => setCreateCompForm(prev => ({
+                        ...prev,
+                        classification: cls.id,
+                        category: cls.id === 'General' ? 'General' : (prev.category === 'General' ? 'Senior' : prev.category),
+                        type: cls.id === 'General' ? 'General' : (prev.type === 'General' ? 'Individual' : prev.type)
+                      }))}
+                      className={`p-2.5 rounded-xl border text-left transition-all ${
+                        createCompForm.classification === cls.id
+                          ? 'border-[#A91F35] bg-red-50/60 text-[#A91F35] font-black shadow-xs ring-1 ring-[#A91F35]'
+                          : 'border-stone-200 bg-stone-50 text-stone-700 hover:bg-stone-100 font-bold'
+                      }`}
+                    >
+                      <div className="text-xs">{cls.label}</div>
+                      <div className="text-[10px] text-stone-600 font-normal">{cls.sub}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block font-bold text-stone-700 mb-1">Competition Type</label>
-                  <select
-                    value={createCompForm.type}
-                    onChange={(e) => setCreateCompForm(prev => ({ ...prev, type: e.target.value }))}
-                    className="w-full px-3 py-2 rounded-xl border border-stone-300 focus:outline-none focus:border-[#A91F35]"
-                  >
-                    <option value="Individual">Individual (3-2-1 Pts)</option>
-                    <option value="General">General Team (10-8-6 Pts)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block font-bold text-stone-700 mb-1">Target Category</label>
-                  {createCompForm.type === 'General' ? (
+                  {createCompForm.classification === 'General' ? (
                     <input
                       type="text"
                       disabled
-                      value="General"
-                      className="w-full px-3 py-2 rounded-xl border border-stone-200 bg-stone-100 text-stone-600 font-bold"
+                      value="General Team (10-8-6 Pts)"
+                      className="w-full px-3 py-2 rounded-xl border border-stone-200 bg-stone-100 text-stone-700 font-bold"
+                    />
+                  ) : (
+                    <select
+                      value={createCompForm.type}
+                      onChange={(e) => setCreateCompForm(prev => ({ ...prev, type: e.target.value }))}
+                      className="w-full px-3 py-2 rounded-xl border border-stone-300 focus:outline-none focus:border-[#A91F35] font-bold"
+                    >
+                      <option value="Individual">Individual (3-2-1 Pts)</option>
+                      <option value="Group">Group (10-8-6 Pts)</option>
+                    </select>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block font-bold text-stone-700 mb-1">Student Category</label>
+                  {createCompForm.classification === 'General' ? (
+                    <input
+                      type="text"
+                      disabled
+                      value="General (Dazzlers & Dynamos)"
+                      className="w-full px-3 py-2 rounded-xl border border-stone-200 bg-stone-100 text-stone-700 font-bold"
                     />
                   ) : (
                     <select
                       value={createCompForm.category}
                       onChange={(e) => setCreateCompForm(prev => ({ ...prev, category: e.target.value }))}
-                      className="w-full px-3 py-2 rounded-xl border border-stone-300 focus:outline-none focus:border-[#A91F35]"
+                      className="w-full px-3 py-2 rounded-xl border border-stone-300 focus:outline-none focus:border-[#A91F35] font-bold"
                     >
-                      <option value="Senior">Senior</option>
-                      <option value="Junior">Junior</option>
-                      <option value="Sub Junior">Sub Junior</option>
-                      <option value="Minor">Minor</option>
+                      <option value="Minor">Minor (Class 5 to 9)</option>
+                      <option value="Sub Junior">Sub Junior (Class 10)</option>
+                      <option value="Junior">Junior (+1, +2)</option>
+                      <option value="Senior">Senior (Degree)</option>
                     </select>
                   )}
                 </div>
