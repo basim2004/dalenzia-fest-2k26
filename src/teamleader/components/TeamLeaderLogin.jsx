@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users,
   Shield,
@@ -10,28 +10,24 @@ import {
   Globe,
   AlertCircle,
   CheckCircle2,
-  Trophy
+  Trophy,
+  Phone,
+  UserCheck
 } from 'lucide-react';
 import { festivalStore } from '../../admin/data/festivalStore';
 
 export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedTeamId, setSelectedTeamId] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const teams = festivalStore.getTeams() || [];
-
-  const handleTeamQuickSelect = (tId) => {
-    setSelectedTeamId(tId);
-    const leaderProfile = festivalStore.getTeamLeaderProfile(tId);
-    if (leaderProfile) {
-      setEmailOrUsername(leaderProfile.email || `leader${tId.replace('team-', '')}@dalenziafest.in`);
-      setPassword('leader2k26');
-      setError('');
-    }
-  };
+  // First-time password change modal state
+  const [pendingSession, setPendingSession] = useState(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [changePassError, setChangePassError] = useState('');
+  const [changePassLoading, setChangePassLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,15 +37,64 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
     try {
       const res = festivalStore.verifyTeamLeaderLogin(emailOrUsername, password);
       if (res && res.success) {
+        // If first login and must change password
+        if (res.session.mustChangePassword) {
+          setPendingSession({ ...res.session, currentPasswordUsed: password });
+          setLoading(false);
+          return;
+        }
+
         if (typeof window !== 'undefined') {
           sessionStorage.setItem('dalenzia_teamleader_session', JSON.stringify(res.session));
         }
         onLoginSuccess(res.session);
       }
     } catch (err) {
-      setError(err.message || 'Invalid credentials. Please verify your team leader credentials.');
+      setError(err.message || 'Invalid Team Leader credentials. Please check your username and phone number.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleFirstTimePasswordSubmit = (e) => {
+    e.preventDefault();
+    setChangePassError('');
+
+    if (!newPassword || newPassword.length < 6) {
+      setChangePassError('New password must be at least 6 characters.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setChangePassError('New password and confirmation do not match.');
+      return;
+    }
+    if (newPassword === pendingSession.phone || newPassword === pendingSession.currentPasswordUsed) {
+      setChangePassError('New password cannot be your initial phone number.');
+      return;
+    }
+
+    setChangePassLoading(true);
+    try {
+      festivalStore.updateTeamLeaderPassword(
+        pendingSession.teamId,
+        pendingSession.currentPasswordUsed,
+        newPassword
+      );
+
+      const finalSession = {
+        ...pendingSession,
+        mustChangePassword: false
+      };
+      delete finalSession.currentPasswordUsed;
+
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('dalenzia_teamleader_session', JSON.stringify(finalSession));
+      }
+      onLoginSuccess(finalSession);
+    } catch (err) {
+      setChangePassError(err.message || 'Failed to update password.');
+    } finally {
+      setChangePassLoading(false);
     }
   };
 
@@ -99,36 +144,6 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
             </p>
           </div>
 
-          {/* Squad Quick Selector when squads exist */}
-          {teams.length > 0 ? (
-            <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-stone-600 block">
-                Select Registered Squad:
-              </label>
-              <div className="grid grid-cols-4 gap-1.5">
-                {teams.slice(0, 8).map(t => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => handleTeamQuickSelect(t.id)}
-                    className={`p-1.5 rounded-xl border text-[10px] font-bold transition-all truncate ${
-                      selectedTeamId === t.id
-                        ? 'bg-[#A91F35] text-white border-[#A91F35] shadow-xs'
-                        : 'bg-[#F7F3E9] text-stone-700 border-stone-200 hover:border-[#A91F35]/40'
-                    }`}
-                    title={`${t.name} (${t.leader})`}
-                  >
-                    {t.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/70 text-amber-800 text-[11px]">
-              <span className="font-bold">No teams registered yet.</span> Squads can be created in the Main Admin or Convener Portal.
-            </div>
-          )}
-
           {error && (
             <div className="p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
@@ -136,10 +151,10 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+          <form onSubmit={handleSubmit} className="space-y-4 text-xs font-semibold">
             <div>
               <label className="font-bold text-stone-700 block mb-1">
-                Leader Email or Username
+                Leader Username *
               </label>
               <div className="relative">
                 <input
@@ -147,15 +162,18 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
                   required
                   value={emailOrUsername}
                   onChange={(e) => setEmailOrUsername(e.target.value)}
-                  placeholder="e.g. leader1@dalenziafest.in"
+                  placeholder="e.g. noufal@teamleader or hashim@teamleader"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-300 font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35]"
                 />
               </div>
+              <p className="text-[10px] text-stone-500 mt-1">
+                Format: <code className="text-stone-800 bg-stone-100 px-1 py-0.5 rounded">username@teamleader</code>
+              </p>
             </div>
 
             <div>
               <label className="font-bold text-stone-700 block mb-1">
-                Secret Password
+                Password *
               </label>
               <div className="relative">
                 <input
@@ -163,17 +181,20 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Registered Phone Number"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-300 font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35]"
                 />
               </div>
+              <p className="text-[10px] text-stone-500 mt-1">
+                Initial password is your registered phone number.
+              </p>
             </div>
 
             <div className="pt-2">
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 rounded-2xl bg-[#A91F35] hover:bg-[#8e192c] text-white font-extrabold tracking-wide shadow-lg shadow-[#A91F35]/20 flex items-center justify-center gap-2 transition-all active:scale-95"
+                className="w-full py-3 rounded-2xl bg-[#A91F35] hover:bg-[#8e192c] text-white font-extrabold tracking-wide shadow-lg shadow-[#A91F35]/20 flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-60"
               >
                 <span>{loading ? 'Authenticating Squad...' : 'Sign In to Squad Portal'}</span>
                 <ArrowRight className="w-4 h-4 text-[#E6A916]" />
@@ -181,16 +202,100 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
             </div>
           </form>
 
-          {/* Official Instructions */}
-          <div className="p-3.5 rounded-2xl bg-[#F7F3E9] border border-stone-200/80 text-[11px] text-stone-600 space-y-1">
+          {/* Official Format Reference */}
+          <div className="p-3.5 rounded-2xl bg-[#F7F3E9] border border-stone-200/80 text-[11px] text-stone-600 space-y-2">
             <div className="font-bold text-stone-900 flex items-center gap-1.5">
               <Shield className="w-3.5 h-3.5 text-[#A91F35]" />
-              <span>Official Squad Portal Access</span>
+              <span>Official Team Leader Credentials Reference</span>
             </div>
-            <div>Sign in with your assigned Team Leader credentials. For credential queries, contact the Festival General Convener.</div>
+            <div className="grid grid-cols-2 gap-2 pt-1 text-[10px]">
+              <div className="p-2 rounded-xl bg-white border border-stone-200">
+                <div className="font-bold text-[#A91F35]">TEAM 1 • Dazzlers</div>
+                <div className="text-stone-700 mt-0.5 font-mono">noufal@teamleader</div>
+                <div className="text-stone-400 text-[9px] mt-0.5">Initial Pass: Phone</div>
+              </div>
+              <div className="p-2 rounded-xl bg-white border border-stone-200">
+                <div className="font-bold text-amber-800">TEAM 2 • Dynamos</div>
+                <div className="text-stone-700 mt-0.5 font-mono">hashim@teamleader</div>
+                <div className="text-stone-400 text-[9px] mt-0.5">Initial Pass: Phone</div>
+              </div>
+            </div>
+            <div className="text-[10px] text-stone-500">
+              * Your authorized team is automatically identified upon login. No cross-team access is permitted.
+            </div>
           </div>
         </motion.div>
       </main>
+
+      {/* Mandatory First-Time Password Change Modal */}
+      <AnimatePresence>
+        {pendingSession && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-stone-100 space-y-5"
+            >
+              <div className="text-center space-y-2">
+                <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mx-auto">
+                  <KeyRound className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-stone-900 font-serif">
+                  First-Time Login Security Setup
+                </h3>
+                <p className="text-xs text-stone-600">
+                  Welcome <strong>{pendingSession.user}</strong> ({pendingSession.teamName}). To secure your squad portal, please set your new secret password now.
+                </p>
+              </div>
+
+              {changePassError && (
+                <div className="p-3 rounded-2xl bg-red-50 border border-red-200 text-xs font-semibold text-red-700 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
+                  <span>{changePassError}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleFirstTimePasswordSubmit} className="space-y-4 text-xs font-semibold">
+                <div>
+                  <label className="font-bold text-stone-700 block mb-1">New Password (Min 6 chars) *</label>
+                  <input
+                    type="password"
+                    required
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
+                  />
+                </div>
+
+                <div>
+                  <label className="font-bold text-stone-700 block mb-1">Confirm New Password *</label>
+                  <input
+                    type="password"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
+                  />
+                </div>
+
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={changePassLoading}
+                    className="w-full py-3 rounded-xl bg-[#A91F35] hover:bg-[#851627] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2"
+                  >
+                    <span>{changePassLoading ? 'Setting New Password...' : 'Save Password & Enter Dashboard'}</span>
+                    <ArrowRight className="w-4 h-4 text-[#E6A916]" />
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Footer */}
       <footer className="p-4 text-center text-xs text-stone-400">

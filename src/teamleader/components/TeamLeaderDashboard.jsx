@@ -92,17 +92,16 @@ export default function TeamLeaderDashboard({ teamId, onNavigateModule }) {
         </div>
       </div>
 
-      {/* 2. EIGHT SQUAD KPI CARDS */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+      {/* 2. INSTITUTIONAL SQUAD ATTRIBUTES & ALLOCATION METRICS */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
         {[
-          { label: 'Students', value: stats.totalTeamStudents, sub: 'Roster Members', icon: UserCheck, color: '#A91F35', mod: 'students' },
-          { label: 'Competitions', value: stats.registeredCompetitionsCount, sub: 'Registered', icon: Trophy, color: '#d97706', mod: 'competitions' },
-          { label: 'Programmes', value: stats.registeredProgrammesCount, sub: 'Participations', icon: Calendar, color: '#4338ca', mod: 'programmes' },
-          { label: 'Podiums', value: stats.publishedTeamResultsCount, sub: 'Official Medals', icon: Award, color: '#047857', mod: 'results' },
-          { label: 'Points', value: stats.currentTeamPoints, sub: 'Current Tally', icon: Sparkles, color: '#b45309', mod: 'results' },
-          { label: 'Rank', value: `#${stats.currentTeamRank}`, sub: 'Championship', icon: Crown, color: '#A91F35', mod: 'leaderboard' },
-          { label: 'Announcements', value: stats.announcements.length, sub: 'Circulars', icon: Megaphone, color: '#7c3aed', mod: 'announcements' },
-          { label: 'Reports', value: 'Export', sub: 'PDF & CSV', icon: FileSpreadsheet, color: '#0284c7', mod: 'reports' }
+          { label: 'Team', value: stats.teamName, sub: `Code: ${stats.teamCode}`, icon: Shield, color: '#A91F35', mod: 'myteam' },
+          { label: 'Leader', value: stats.teamLeaderName, sub: 'Squad Leader', icon: Crown, color: '#b45309', mod: 'profile' },
+          { label: 'Asst Leader', value: stats.asstLeaderName, sub: 'Assistant Leader', icon: Crown, color: '#d97706', mod: 'profile' },
+          { label: 'Total Members', value: `${stats.totalTeamMembers} / 22`, sub: 'Official Roster', icon: Users, color: '#A91F35', mod: 'students' },
+          { label: 'Allocated', value: stats.allocatedStudents, sub: 'Active Squad', icon: UserCheck, color: '#047857', mod: 'students' },
+          { label: 'Unallocated', value: stats.unallocatedStudents || 0, sub: 'In Registry', icon: AlertCircle, color: '#4338ca', mod: 'students' },
+          { label: 'Profile', value: `${stats.profileCompletion}%`, sub: 'Setup Complete', icon: Sparkles, color: '#059669', mod: 'profile' }
         ].map((kpi, idx) => {
           const Icon = kpi.icon;
           return (
@@ -116,7 +115,7 @@ export default function TeamLeaderDashboard({ teamId, onNavigateModule }) {
                 <Icon className="w-3.5 h-3.5 transition-transform group-hover:scale-110" style={{ color: kpi.color }} />
               </div>
               <div className="my-1.5">
-                <div className="text-xl font-serif font-black text-stone-900 group-hover:text-[#A91F35] transition-colors">
+                <div className="text-base sm:text-lg font-serif font-black text-stone-900 group-hover:text-[#A91F35] transition-colors truncate">
                   {kpi.value}
                 </div>
                 <div className="text-[10px] text-stone-400 font-medium truncate">{kpi.sub}</div>
@@ -124,6 +123,60 @@ export default function TeamLeaderDashboard({ teamId, onNavigateModule }) {
             </button>
           );
         })}
+      </div>
+
+      {/* 2B. CATEGORY-WISE STUDENT BREAKDOWN CARD */}
+      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-stone-200 shadow-xs space-y-4">
+        <div className="flex items-center justify-between border-b border-stone-100 pb-3">
+          <div>
+            <h2 className="text-base font-bold text-stone-900 font-serif flex items-center gap-2">
+              <Users className="w-4 h-4 text-[#A91F35]" />
+              <span>Category-Wise Student Distribution ({stats.allocatedStudents} Allocated)</span>
+            </h2>
+            <p className="text-[11px] text-stone-500">Official Dalenzia 2K26 scholar category division</p>
+          </div>
+          <button
+            onClick={() => onNavigateModule && onNavigateModule('students')}
+            className="text-xs font-bold text-[#A91F35] hover:underline flex items-center gap-1"
+          >
+            <span>Full Directory</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="p-3.5 rounded-2xl bg-amber-50/60 border border-amber-200/80 flex flex-col justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900">Minor Category</span>
+            <div className="mt-2 flex items-baseline justify-between">
+              <span className="text-2xl font-black text-stone-900 font-serif">{stats.categoryCounts?.Minor || 0}</span>
+              <span className="text-[10px] text-stone-500">Students</span>
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-blue-50/60 border border-blue-200/80 flex flex-col justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-blue-900">Sub Junior Category</span>
+            <div className="mt-2 flex items-baseline justify-between">
+              <span className="text-2xl font-black text-stone-900 font-serif">{stats.categoryCounts?.SubJunior || 0}</span>
+              <span className="text-[10px] text-stone-500">Students</span>
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-purple-50/60 border border-purple-200/80 flex flex-col justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-purple-900">Junior Category</span>
+            <div className="mt-2 flex items-baseline justify-between">
+              <span className="text-2xl font-black text-stone-900 font-serif">{stats.categoryCounts?.Junior || 0}</span>
+              <span className="text-[10px] text-stone-500">Students</span>
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-rose-50/60 border border-rose-200/80 flex flex-col justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-rose-900">Senior Category</span>
+            <div className="mt-2 flex items-baseline justify-between">
+              <span className="text-2xl font-black text-stone-900 font-serif">{stats.categoryCounts?.Senior || 0}</span>
+              <span className="text-[10px] text-stone-500">Students</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* 3. QUICK ACTION SHORTCUTS */}

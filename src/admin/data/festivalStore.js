@@ -5,11 +5,16 @@ import {
   OFFICIAL_CHARTER_PROGRAMMES,
   createDefaultProgrammeAssignments
 } from './officialCharterData.js';
+import {
+  syncTeamToFirebase,
+  syncStudentTeamAssignmentToFirebase,
+  syncTeamAuditLogToFirebase
+} from '../../firebase/firebaseService.js';
 
 // DALENZIA FEST 2K26 - CENTRAL FESTIVAL DATA ENGINE & STORE
 // Single source of truth for Admin Portal, Judge Management, Judge Portal & Public Website Data Synchronization.
 
-const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v3';
+const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v4';
 
 export const FESTIVAL_DATE_CONFIG = {
   officialDate: '21, 22, 23 DECEMBER 2026',
@@ -43,15 +48,18 @@ export const INITIAL_TEAM_LEADERS = [
   {
     id: 'TL-1',
     teamId: 'team-1',
-    teamName: 'TEAM 1',
+    teamName: 'Dazzlers',
     name: 'Noufal',
     studentId: 'STU-1001',
     asstLeader: 'Hafiz Hassan',
     asstLeaderStudentId: 'STU-1002',
-    username: 'leader1',
+    username: 'noufal',
+    loginUsername: 'noufal@teamleader',
     email: 'leader1@dalenziafest.in',
     alternateEmail: 'noufal@dalanzia.org',
-    password: 'leader2k26',
+    password: '+91 98471 20001',
+    initialPassword: '+91 98471 20001',
+    passwordChanged: false,
     phone: '+91 98471 20001',
     role: 'team_leader',
     status: 'Active'
@@ -59,15 +67,18 @@ export const INITIAL_TEAM_LEADERS = [
   {
     id: 'TL-2',
     teamId: 'team-2',
-    teamName: 'TEAM 2',
+    teamName: 'Dynamos',
     name: 'Hashim',
     studentId: 'STU-1005',
     asstLeader: 'Irfan Edayyur',
     asstLeaderStudentId: 'STU-1008',
-    username: 'leader2',
+    username: 'hashim',
+    loginUsername: 'hashim@teamleader',
     email: 'leader2@dalenziafest.in',
     alternateEmail: 'hashim@dalanzia.org',
-    password: 'leader2k26',
+    password: '+91 98471 20002',
+    initialPassword: '+91 98471 20002',
+    passwordChanged: false,
     phone: '+91 98471 20002',
     role: 'team_leader',
     status: 'Active'
@@ -78,58 +89,58 @@ export const INITIAL_TEAMS = OFFICIAL_TEAMS;
 
 export const INITIAL_REGISTERED_STUDENTS = [
   // Senior Category (8 Students)
-  { id: 'STU-1001', chestNo: 'C-101', name: 'Noufal', classCategory: 'Senior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '+91 98471 20001', email: 'noufal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isLeader: true, role: 'Leader' },
-  { id: 'STU-1002', chestNo: 'C-102', name: 'Hafiz Hassan', classCategory: 'Senior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'hafiz.hassan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isAsstLeader: true, role: 'Asst Leader' },
-  { id: 'STU-1003', chestNo: 'C-103', name: 'Binyamin', classCategory: 'Senior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'binyamin@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1004', chestNo: 'C-104', name: 'Hafiz Sinan', classCategory: 'Senior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'hafiz.sinan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1005', chestNo: 'C-105', name: 'Hashim', classCategory: 'Senior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '+91 98471 20002', email: 'hashim@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isLeader: true, role: 'Leader' },
-  { id: 'STU-1006', chestNo: 'C-106', name: 'Aslam Sha', classCategory: 'Senior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aslam.sha@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1007', chestNo: 'C-107', name: 'Hafiz Hussan', classCategory: 'Senior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'hafiz.hussan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1008', chestNo: 'C-108', name: 'Irfan Edayyur', classCategory: 'Senior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'irfan.edayur@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isAsstLeader: true, role: 'Asst Leader' },
+  { id: 'STU-1001', chestNo: 'C-101', name: 'Noufal', classCategory: 'Senior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '+91 98471 20001', email: 'noufal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isLeader: true, role: 'Leader' },
+  { id: 'STU-1002', chestNo: 'C-102', name: 'Hafiz Hassan', classCategory: 'Senior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'hafiz.hassan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isAsstLeader: true, role: 'Asst Leader' },
+  { id: 'STU-1003', chestNo: 'C-103', name: 'Binyamin', classCategory: 'Senior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'binyamin@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1004', chestNo: 'C-104', name: 'Hafiz Sinan', classCategory: 'Senior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'hafiz.sinan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1005', chestNo: 'C-105', name: 'Hashim', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '+91 98471 20002', email: 'hashim@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isLeader: true, role: 'Leader' },
+  { id: 'STU-1006', chestNo: 'C-106', name: 'Aslam Sha', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aslam.sha@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1007', chestNo: 'C-107', name: 'Hafiz Hussan', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'hafiz.hussan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1008', chestNo: 'C-108', name: 'Irfan Edayyur', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'irfan.edayur@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isAsstLeader: true, role: 'Asst Leader' },
 
   // Junior Category (7 Students)
-  { id: 'STU-1009', chestNo: 'C-109', name: 'Midlaj P (Midlaj kadampuzha)', classCategory: 'Junior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'midlaj.p@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1010', chestNo: 'C-110', name: 'Sahal (Sahl)', classCategory: 'Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sahal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1011', chestNo: 'C-111', name: 'Shammas', classCategory: 'Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shammas@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1012', chestNo: 'C-112', name: 'Razeen', classCategory: 'Junior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'razeen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1013', chestNo: 'C-113', name: 'Sulthan', classCategory: 'Junior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sulthan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1014', chestNo: 'C-114', name: 'Rizwan', classCategory: 'Junior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rizwan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1015', chestNo: 'C-115', name: 'Husain Shinaf', classCategory: 'Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'husain.shinaf@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1009', chestNo: 'C-109', name: 'Midlaj P (Midlaj kadampuzha)', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'midlaj.p@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1010', chestNo: 'C-110', name: 'Sahal (Sahl)', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sahal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1011', chestNo: 'C-111', name: 'Shammas', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shammas@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1012', chestNo: 'C-112', name: 'Razeen', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'razeen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1013', chestNo: 'C-113', name: 'Sulthan', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sulthan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1014', chestNo: 'C-114', name: 'Rizwan', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rizwan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1015', chestNo: 'C-115', name: 'Husain Shinaf', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'husain.shinaf@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
 
   // Sub Junior Category (12 Students)
-  { id: 'STU-1016', chestNo: 'C-116', name: 'Rayyan Razi', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rayyan.razi@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1017', chestNo: 'C-117', name: 'Anshid T', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'anshid.t@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1018', chestNo: 'C-118', name: 'Aflah P (Aflah Tirur)', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aflah.p@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1019', chestNo: 'C-119', name: 'Aflah AK', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aflah.ak@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1020', chestNo: 'C-120', name: 'Athif', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'athif@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1021', chestNo: 'C-121', name: 'Midlaj M (Midlaj manoor)', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'midlaj.m@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1022', chestNo: 'C-122', name: 'Fakih', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'fakih@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1023', chestNo: 'C-123', name: 'Nusaih (Uvais)', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'uvais@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1024', chestNo: 'C-124', name: 'Nihal', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'nihal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1025', chestNo: 'C-125', name: 'Ahnaf', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ahnaf@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1016', chestNo: 'C-116', name: 'Rayyan Razi', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rayyan.razi@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1017', chestNo: 'C-117', name: 'Anshid T', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'anshid.t@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1018', chestNo: 'C-118', name: 'Aflah P (Aflah Tirur)', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aflah.p@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1019', chestNo: 'C-119', name: 'Aflah AK', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aflah.ak@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1020', chestNo: 'C-120', name: 'Athif', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'athif@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1021', chestNo: 'C-121', name: 'Midlaj M (Midlaj manoor)', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'midlaj.m@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1022', chestNo: 'C-122', name: 'Fakih', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'fakih@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1023', chestNo: 'C-123', name: 'Nusaih (Uvais)', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'uvais@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1024', chestNo: 'C-124', name: 'Nihal', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'nihal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1025', chestNo: 'C-125', name: 'Ahnaf', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ahnaf@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1026', chestNo: 'C-126', name: 'Anshid', classCategory: 'Sub Junior', teamId: null, teamName: 'Unassigned', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'anshid@dalanzia.org', status: 'Audit Flagged (PDF Typo Duplicate)', gender: 'Male', registeredAt: '2026-11-10', auditNote: 'Typographical duplicate from Dalenzia_Teams.pdf (#18 Anshid duplicating #9 Anshid / STU-1017 Anshid T). Held in unassigned registry without deletion for audit compliance.' },
-  { id: 'STU-1027', chestNo: 'C-127', name: 'Zayan', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'zayan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1027', chestNo: 'C-127', name: 'Zayan', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'zayan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   
   // Minor Category (19 Students)
-  { id: 'STU-1028', chestNo: 'C-128', name: 'Rifaee', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rifaee@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1029', chestNo: 'C-129', name: 'Rizwan', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rizwan.2@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1030', chestNo: 'C-130', name: 'Abdul Nasar', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'abdul.nasar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1031', chestNo: 'C-131', name: 'Shaheen', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shaheen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1032', chestNo: 'C-132', name: 'Sayyid Dilbar', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'seyyid.dilbar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1028', chestNo: 'C-128', name: 'Rifaee', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rifaee@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1029', chestNo: 'C-129', name: 'Rizwan', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rizwan.2@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1030', chestNo: 'C-130', name: 'Abdul Nasar', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'abdul.nasar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1031', chestNo: 'C-131', name: 'Shaheen', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shaheen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1032', chestNo: 'C-132', name: 'Sayyid Dilbar', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'seyyid.dilbar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1033', chestNo: 'C-133', name: 'Nusaih', classCategory: 'Minor', teamId: null, teamName: 'Unassigned', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'nusaih@dalanzia.org', status: 'Audit Flagged (PDF Typo Duplicate)', gender: 'Male', registeredAt: '2026-11-10', auditNote: 'Typographical duplicate from Dalenzia_Teams.pdf (#18 Nusaih duplicating #10 Nusaih / STU-1023 Nusaih Uvais). Held in unassigned registry without deletion for audit compliance.' },
-  { id: 'STU-1034', chestNo: 'C-134', name: 'Ali Akbar', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ali.akbar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1035', chestNo: 'C-135', name: 'Toufeeq', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'toufeeq@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1036', chestNo: 'C-136', name: 'Touheed', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'touheed@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1037', chestNo: 'C-137', name: 'Subhan', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'subhan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1038', chestNo: 'C-138', name: 'Farhan', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'farhan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1039', chestNo: 'C-139', name: 'Thahir', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'thahir@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1040', chestNo: 'C-140', name: 'Farhah (Faizan)', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'faizan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1041', chestNo: 'C-141', name: 'Shidan', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shidan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1042', chestNo: 'C-142', name: 'Yaseen', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'yaseen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1043', chestNo: 'C-143', name: 'Sinan', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sinan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1044', chestNo: 'C-144', name: 'Fasil', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'fasil@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1045', chestNo: 'C-145', name: 'Abdul Haq', classCategory: 'Minor', teamId: 'team-2', teamName: 'TEAM 2', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'abdul.haq@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1046', chestNo: 'C-146', name: 'Ziyad', classCategory: 'Minor', teamId: 'team-1', teamName: 'TEAM 1', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ziyad@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' }
+  { id: 'STU-1034', chestNo: 'C-134', name: 'Ali Akbar', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ali.akbar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1035', chestNo: 'C-135', name: 'Toufeeq', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'toufeeq@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1036', chestNo: 'C-136', name: 'Touheed', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'touheed@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1037', chestNo: 'C-137', name: 'Subhan', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'subhan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1038', chestNo: 'C-138', name: 'Farhan', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'farhan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1039', chestNo: 'C-139', name: 'Thahir', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'thahir@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1040', chestNo: 'C-140', name: 'Farhah (Faizan)', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'faizan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1041', chestNo: 'C-141', name: 'Shidan', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shidan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1042', chestNo: 'C-142', name: 'Yaseen', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'yaseen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1043', chestNo: 'C-143', name: 'Sinan', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sinan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1044', chestNo: 'C-144', name: 'Fasil', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'fasil@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1045', chestNo: 'C-145', name: 'Abdul Haq', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'abdul.haq@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1046', chestNo: 'C-146', name: 'Ziyad', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ziyad@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' }
 ];
 
 export const INITIAL_STAGE_CONTROLLERS = [
@@ -810,7 +821,7 @@ const INITIAL_DATA = {
   stageDrawSessions: [],
   stageDrawResults: [],
   stageCallingRecords: [],
-  teamLeaders: [],
+  teamLeaders: INITIAL_TEAM_LEADERS,
   stageControllers: INITIAL_STAGE_CONTROLLERS,
   convenerUser: INITIAL_CONVENER_USER,
   helpdeskTickets: [],
@@ -864,7 +875,7 @@ class FestivalStore {
       try {
         let stored = localStorage.getItem(STORAGE_KEY);
         if (!stored) {
-          stored = localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v2') || localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v1');
+          stored = localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v3') || localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v2') || localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v1');
         }
         if (stored) {
           const parsed = JSON.parse(stored);
@@ -1004,6 +1015,9 @@ class FestivalStore {
           if (canonical.isLeader !== undefined) s.isLeader = canonical.isLeader;
           if (canonical.isAsstLeader !== undefined) s.isAsstLeader = canonical.isAsstLeader;
           if (canonical.role !== undefined) s.role = canonical.role;
+        } else {
+          s.teamId = null;
+          s.teamName = 'Unassigned';
         }
         if (s.id === 'STU-1026' || s.id === 'STU-1033') {
           s.teamId = null;
@@ -1027,6 +1041,10 @@ class FestivalStore {
             chestNo: s.chestNo,
             name: s.name,
             category: s.classCategory,
+            classCategory: s.classCategory,
+            isLeader: s.isLeader || false,
+            isAsstLeader: s.isAsstLeader || false,
+            role: s.role || null,
             compCategory: 'General',
             events: s.events || []
           });
@@ -1036,12 +1054,34 @@ class FestivalStore {
       team.members = uniqueStudents.length;
     });
 
+    // Ensure official Team Leaders are reconciled and synced
+    if (!currentData.teamLeaders || !Array.isArray(currentData.teamLeaders) || currentData.teamLeaders.length === 0) {
+      currentData.teamLeaders = JSON.parse(JSON.stringify(INITIAL_TEAM_LEADERS));
+    } else {
+      currentData.teamLeaders.forEach(l => {
+        if (l.teamId === 'team-1') {
+          l.teamName = 'Dazzlers';
+          l.asstLeader = 'Hafiz Hassan';
+          l.asstLeaderStudentId = 'STU-1002';
+          l.loginUsername = 'noufal@teamleader';
+          if (!l.phone) l.phone = '+91 98471 20001';
+        } else if (l.teamId === 'team-2') {
+          l.teamName = 'Dynamos';
+          l.asstLeader = 'Irfan Edayyur';
+          l.asstLeaderStudentId = 'STU-1008';
+          l.loginUsername = 'hashim@teamleader';
+          if (!l.phone) l.phone = '+91 98471 20002';
+        }
+      });
+    }
+
     // Immediately persist reconciled store to localStorage to eliminate stale client state
     if (typeof window !== 'undefined') {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
         localStorage.removeItem('dalenzia_fest_2k26_master_store_clean_v1');
         localStorage.removeItem('dalenzia_fest_2k26_master_store_clean_v2');
+        localStorage.removeItem('dalenzia_fest_2k26_master_store_clean_v3');
       } catch (e) {
         // storage quota fallback
       }
@@ -4002,7 +4042,9 @@ class FestivalStore {
     // Team-wise distribution
     const teams = this.getTeams();
     const teamDistribution = teams.map(t => {
-      const teamStudentCount = students.filter(s => s.teamId === t.id).length;
+      const teamStudentCount = (Array.isArray(t.students) && t.students.length > 0)
+        ? t.students.length
+        : students.filter(s => s.teamId === t.id).length;
       return {
         teamId: t.id,
         teamName: t.name,
@@ -8900,19 +8942,54 @@ class FestivalStore {
     const leaders = this.data.teamLeaders || INITIAL_TEAM_LEADERS;
     const cleanInput = (emailOrUsername || '').trim().toLowerCase();
     const cleanPass = (password || '').trim();
+    const normalizedDigitsPass = cleanPass.replace(/[^0-9]/g, '');
 
-    const leader = leaders.find(l =>
-      (l.email.toLowerCase() === cleanInput ||
-        (l.alternateEmail && l.alternateEmail.toLowerCase() === cleanInput) ||
-        l.username.toLowerCase() === cleanInput) &&
-      l.password === cleanPass
-    );
+    const leader = leaders.find(l => {
+      const leaderName = (l.name || '').toLowerCase();
+      const leaderUsername = (l.username || '').toLowerCase();
+      const leaderEmail = (l.email || '').toLowerCase();
+      const altEmail = (l.alternateEmail || '').toLowerCase();
+      const loginUser = (l.loginUsername || '').toLowerCase();
+
+      const matchesUser = (
+        cleanInput === `${leaderName}@teamleader` ||
+        cleanInput === `${leaderUsername}@teamleader` ||
+        cleanInput === loginUser ||
+        cleanInput === leaderUsername ||
+        cleanInput === leaderName ||
+        cleanInput === leaderEmail ||
+        cleanInput === altEmail
+      );
+
+      if (!matchesUser) return false;
+
+      // Password checks: custom password, registered phone number, phone digits, or legacy fallback
+      const leaderPhone = (l.phone || '').trim();
+      const leaderPhoneDigits = leaderPhone.replace(/[^0-9]/g, '');
+      const matchesPass = (
+        cleanPass === l.password ||
+        cleanPass === leaderPhone ||
+        (normalizedDigitsPass.length >= 10 && normalizedDigitsPass === leaderPhoneDigits) ||
+        cleanPass === 'leader2k26'
+      );
+
+      return matchesPass;
+    });
 
     if (!leader) {
-      throw new Error('Invalid Team Leader credentials. Check your email/username and password.');
+      throw new Error('Invalid Team Leader credentials. Enter your username (e.g. noufal@teamleader or hashim@teamleader) and registered phone number.');
     }
 
     const team = (this.data.teams || []).find(t => t.id === leader.teamId) || { id: leader.teamId, name: leader.teamName, points: 0, rank: 1 };
+
+    // Detect if user is on initial default password and must change it
+    const leaderPhoneDigits = (leader.phone || '').replace(/[^0-9]/g, '');
+    const isUsingInitialPassword = (
+      !leader.passwordChanged ||
+      cleanPass === leader.phone ||
+      (normalizedDigitsPass.length >= 10 && normalizedDigitsPass === leaderPhoneDigits) ||
+      cleanPass === 'leader2k26'
+    );
 
     const session = {
       id: leader.id,
@@ -8920,11 +8997,15 @@ class FestivalStore {
       teamName: team.name,
       teamCode: team.code,
       user: leader.name,
+      username: `${(leader.name || '').toLowerCase()}@teamleader`,
       email: leader.email,
       phone: leader.phone,
+      asstLeader: leader.asstLeader,
+      asstLeaderStudentId: leader.asstLeaderStudentId,
       role: 'team_leader',
       roleLabel: 'Official Team Leader',
       status: leader.status,
+      mustChangePassword: Boolean(isUsingInitialPassword),
       token: `jwt_dalenzia_teamleader_${leader.teamId}_${Date.now()}`
     };
 
@@ -8935,19 +9016,26 @@ class FestivalStore {
   getTeamLeaderProfile(teamId) {
     const leaders = this.data.teamLeaders || INITIAL_TEAM_LEADERS;
     const leader = leaders.find(l => l.teamId === teamId);
+    const team = (this.data.teams || []).find(t => t.id === teamId);
+
     if (!leader) {
-      const team = (this.data.teams || []).find(t => t.id === teamId);
       return {
         id: `TL-${teamId}`,
         teamId,
-        teamName: team ? team.name : 'Unknown Team',
-        name: team ? team.leader : 'Team Leader',
-        email: `leader@dalenziafest.in`,
-        phone: team ? team.leaderContact : '+91 98471 20000',
-        role: 'team_leader'
+        teamName: team ? team.name : (teamId === 'team-1' ? 'Dazzlers' : 'Dynamos'),
+        name: team ? team.leader : (teamId === 'team-1' ? 'Noufal' : 'Hashim'),
+        asstLeader: team ? team.asstLeader : (teamId === 'team-1' ? 'Hafiz Hassan' : 'Irfan Edayyur'),
+        email: `leader${teamId === 'team-1' ? '1' : '2'}@dalenziafest.in`,
+        phone: team ? team.leaderContact : (teamId === 'team-1' ? '+91 98471 20001' : '+91 98471 20002'),
+        role: 'team_leader',
+        passwordChanged: false
       };
     }
-    return leader;
+    return {
+      ...leader,
+      teamName: team ? team.name : leader.teamName,
+      asstLeader: team?.asstLeader || leader.asstLeader || (teamId === 'team-1' ? 'Hafiz Hassan' : 'Irfan Edayyur')
+    };
   }
 
   updateTeamLeaderProfile(teamId, { phone, email, bio }) {
@@ -8965,6 +9053,18 @@ class FestivalStore {
     }
 
     this.addAuditLog('TEAM_LEADER_PROFILE_UPDATED', `Updated contact profile for Team Leader of ${leader.teamName}`, leader.name);
+
+    try {
+      syncTeamToFirebase(team);
+      syncTeamAuditLogToFirebase({
+        action: 'LEADER_PROFILE_UPDATED',
+        teamId,
+        actor: leader.name
+      });
+    } catch (e) {
+      // offline fallback
+    }
+
     this.saveData();
     this._notify();
     return { success: true, leader };
@@ -8975,15 +9075,41 @@ class FestivalStore {
     const leader = this.data.teamLeaders.find(l => l.teamId === teamId);
     if (!leader) throw new Error('Team Leader profile not found.');
 
-    if (leader.password !== oldPassword) {
-      throw new Error('Current password is incorrect.');
+    const cleanOld = (oldPassword || '').trim();
+    const cleanNew = (newPassword || '').trim();
+    const leaderPhoneDigits = (leader.phone || '').replace(/[^0-9]/g, '');
+    const cleanOldDigits = cleanOld.replace(/[^0-9]/g, '');
+
+    const isOldCorrect = (
+      leader.password === cleanOld ||
+      leader.phone === cleanOld ||
+      (cleanOldDigits.length >= 10 && cleanOldDigits === leaderPhoneDigits) ||
+      cleanOld === 'leader2k26'
+    );
+
+    if (!isOldCorrect) {
+      throw new Error('Current password or registered phone number is incorrect.');
     }
-    if (!newPassword || newPassword.length < 6) {
+    if (!cleanNew || cleanNew.length < 6) {
       throw new Error('New password must be at least 6 characters.');
     }
 
-    leader.password = newPassword;
+    leader.password = cleanNew;
+    leader.passwordChanged = true;
+
     this.addAuditLog('TEAM_LEADER_PASSWORD_CHANGED', `Changed portal password for Team Leader of ${leader.teamName}`, leader.name);
+
+    try {
+      syncTeamAuditLogToFirebase({
+        action: 'PASSWORD_CHANGED',
+        teamId,
+        actor: leader.name,
+        timestamp: new Date().toISOString()
+      });
+    } catch (e) {
+      // offline fallback
+    }
+
     this.saveData();
     this._notify();
     return { success: true };
@@ -8996,16 +9122,34 @@ class FestivalStore {
     const students = team.students || [];
     const studentIds = students.map(s => s.id);
 
+    // Official 4 categories breakdown strictly for this team
+    const categoryCounts = {
+      Minor: students.filter(s => (s.category || s.classCategory || '').toLowerCase() === 'minor').length,
+      SubJunior: students.filter(s => {
+        const cat = (s.category || s.classCategory || '').toLowerCase().replace(/[\s-_]/g, '');
+        return cat === 'subjunior';
+      }).length,
+      Junior: students.filter(s => (s.category || s.classCategory || '').toLowerCase() === 'junior').length,
+      Senior: students.filter(s => (s.category || s.classCategory || '').toLowerCase() === 'senior').length
+    };
+
+    // Central registry unallocated students
+    const allStudents = this.data.registeredStudents || [];
+    const unallocatedStudents = allStudents.filter(s => !s.teamId || s.teamId === 'Unassigned' || s.teamId === null).length;
+
+    // Leader and Assistant Leader resolution
+    const leaderProfile = this.getTeamLeaderProfile(teamId);
+    const asstLeaderName = team.asstLeader || leaderProfile.asstLeader || (teamId === 'team-1' ? 'Hafiz Hassan' : 'Irfan Edayyur');
+    const leaderName = team.leader || leaderProfile.name || (teamId === 'team-1' ? 'Noufal' : 'Hashim');
+
     // Count competitions where team students are participants
     const assignments = this.data.programmeAssignments || [];
     const registeredCompetitions = assignments.filter(a =>
       (a.participants || []).some(p => p.teamId === teamId || studentIds.includes(p.studentId))
     );
 
-    // Count programmes where team has registrations
     const progRegistrations = (this.data.programmeTeamRegistrations || []).filter(r => r.teamId === teamId);
 
-    // Filter published posters where team is on podium
     const posters = (this.data.resultPosters || []).filter(p =>
       (p.status === 'Published' || p.isPublished) && (
         (p.firstPrize && p.firstPrize.teamId === teamId) ||
@@ -9014,7 +9158,6 @@ class FestivalStore {
       )
     );
 
-    // Announcements targeted to all, teams, or this specific team
     const announcements = (this.data.announcements || []).filter(a =>
       a.targetAudience === 'all' ||
       a.targetAudience === 'teams' ||
@@ -9022,22 +9165,34 @@ class FestivalStore {
       a.teamId === teamId
     );
 
-    // Schedule items relevant to this team
     const schedules = (this.data.programmeSchedules || []).filter(s => s.status !== 'Cancelled');
+
+    // Dynamic profile completion %
+    let completionScore = 0;
+    if (team.name) completionScore += 20;
+    if (leaderName) completionScore += 20;
+    if (asstLeaderName) completionScore += 20;
+    if (team.leaderContact || leaderProfile.phone) completionScore += 20;
+    if (students.length === 22) completionScore += 20;
 
     return {
       teamName: team.name,
       teamCode: team.code,
       teamId: team.id,
-      teamLeaderName: team.leader,
-      leaderContact: team.leaderContact,
-      totalTeamStudents: students.length,
+      teamLeaderName: leaderName,
+      asstLeaderName: asstLeaderName,
+      leaderContact: team.leaderContact || leaderProfile.phone,
+      totalTeamMembers: students.length,
+      allocatedStudents: students.length,
+      unallocatedStudents: unallocatedStudents,
+      categoryCounts,
+      profileCompletion: completionScore,
       registeredCompetitionsCount: registeredCompetitions.length,
       registeredProgrammesCount: progRegistrations.length,
       publishedTeamResultsCount: posters.length,
       currentTeamPoints: team.points || 0,
       currentTeamRank: team.rank || 1,
-      badge: team.badge || '⭐',
+      badge: team.badge || (teamId === 'team-1' ? '👑' : '⚡'),
       recentStudents: students.slice(-4),
       recentRegistrations: registeredCompetitions.slice(0, 4),
       recentResults: posters.slice(0, 4),
@@ -9046,7 +9201,7 @@ class FestivalStore {
     };
   }
 
-  searchAvailableStudentsForTeam(teamId, query = '') {
+  searchAvailableStudentsForTeam(teamId, query = '', category = 'all') {
     const q = (query || '').toLowerCase().trim();
     const team = (this.data.teams || []).find(t => t.id === teamId);
     const existingTeamStudentIds = new Set((team?.students || []).map(s => s.id));
@@ -9057,19 +9212,20 @@ class FestivalStore {
 
       return {
         ...s,
+        category: s.classCategory,
         isAlreadyInMyTeam,
         isAssignedToOtherTeam,
         canAdd: !isAlreadyInMyTeam && !isAssignedToOtherTeam
       };
     }).filter(s => {
-      if (!q) return true;
-      return (
+      const matchesSearch = !q || (
         s.name.toLowerCase().includes(q) ||
         s.chestNo.toLowerCase().includes(q) ||
         s.id.toLowerCase().includes(q) ||
-        (s.classCategory || '').toLowerCase().includes(q) ||
-        (s.institution || '').toLowerCase().includes(q)
+        (s.classCategory || '').toLowerCase().includes(q)
       );
+      const matchesCat = category === 'all' || (s.classCategory || '').toLowerCase() === category.toLowerCase();
+      return matchesSearch && matchesCat;
     });
   }
 
@@ -9093,7 +9249,8 @@ class FestivalStore {
       chestNo: student.chestNo,
       name: student.name,
       category: student.classCategory,
-      compCategory: options.competitionCategory || 'Literary Arena',
+      classCategory: student.classCategory,
+      compCategory: options.competitionCategory || 'General',
       events: []
     };
 
@@ -9109,6 +9266,27 @@ class FestivalStore {
       `Team Leader added ${student.name} (${student.chestNo}) to ${team.name}`,
       team.leader
     );
+
+    // Sync to Firebase Firestore
+    try {
+      syncStudentTeamAssignmentToFirebase({
+        studentId: student.id,
+        teamId: team.id,
+        teamName: team.name,
+        assignedBy: team.leader,
+        action: 'ALLOCATED'
+      });
+      syncTeamToFirebase(team);
+      syncTeamAuditLogToFirebase({
+        action: 'STUDENT_ALLOCATED',
+        studentId: student.id,
+        studentName: student.name,
+        teamId: team.id,
+        actor: team.leader
+      });
+    } catch (e) {
+      // offline fallback
+    }
 
     this.saveData();
     this._notify();
@@ -9147,9 +9325,32 @@ class FestivalStore {
       team.leader
     );
 
+    // Sync to Firebase Firestore
+    try {
+      syncStudentTeamAssignmentToFirebase({
+        studentId: removed.id,
+        teamId: null,
+        teamName: 'Unassigned',
+        removedBy: team.leader,
+        action: 'UNALLOCATED',
+        reason
+      });
+      syncTeamToFirebase(team);
+      syncTeamAuditLogToFirebase({
+        action: 'STUDENT_UNALLOCATED',
+        studentId: removed.id,
+        studentName: removed.name,
+        teamId: team.id,
+        actor: team.leader,
+        reason
+      });
+    } catch (e) {
+      // offline fallback
+    }
+
     this.saveData();
     this._notify();
-    return { success: true, removedStudent: removed };
+    return { success: true, team, removedStudent: removed };
   }
 
   getTeamCompetitionsForRegistration(teamId) {

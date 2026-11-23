@@ -65,19 +65,28 @@ export default function TeamLeaderStudents({ teamId }) {
     return team?.students || [];
   }, [team]);
 
+  // View SubTab: 'directory' | 'allocation'
+  const [activeSubTab, setActiveSubTab] = useState('directory');
+  const [sortBy, setSortBy] = useState('chestNo'); // 'chestNo' | 'name' | 'category' | 'id'
+
+  // Central Registry All Students
+  const allRegistryStudents = useMemo(() => {
+    return festivalStore.getRegisteredStudents() || [];
+  }, [storeData]);
+
   // Category counts
   const categoryCounts = useMemo(() => {
     return {
-      Senior: squadStudents.filter(s => s.classCategory === 'Senior').length,
-      Junior: squadStudents.filter(s => s.classCategory === 'Junior').length,
-      'Sub Junior': squadStudents.filter(s => s.classCategory === 'Sub Junior').length,
-      Minor: squadStudents.filter(s => s.classCategory === 'Minor').length
+      Senior: squadStudents.filter(s => (s.classCategory || s.category) === 'Senior').length,
+      Junior: squadStudents.filter(s => (s.classCategory || s.category) === 'Junior').length,
+      'Sub Junior': squadStudents.filter(s => (s.classCategory || s.category) === 'Sub Junior').length,
+      Minor: squadStudents.filter(s => (s.classCategory || s.category) === 'Minor').length
     };
   }, [squadStudents]);
 
-  // Filtered squad students
+  // Filtered squad students with sorting
   const filteredSquadStudents = useMemo(() => {
-    return squadStudents.filter(s => {
+    let list = squadStudents.filter(s => {
       const q = searchQuery.toLowerCase().trim();
       const matchSearch =
         q === '' ||
@@ -85,13 +94,70 @@ export default function TeamLeaderStudents({ teamId }) {
         (s.chestNo || '').toLowerCase().includes(q) ||
         (s.id || '').toLowerCase().includes(q);
 
+      const sCat = (s.classCategory || s.category || '').toLowerCase();
       const matchCategory =
         categoryFilter === 'all' ||
-        (s.classCategory || '').toLowerCase() === categoryFilter.toLowerCase();
+        sCat === categoryFilter.toLowerCase();
 
       return matchSearch && matchCategory;
     });
-  }, [squadStudents, searchQuery, categoryFilter]);
+
+    return list.sort((a, b) => {
+      if (sortBy === 'name') return (a.name || '').localeCompare(b.name || '');
+      if (sortBy === 'category') return (a.classCategory || a.category || '').localeCompare(b.classCategory || b.category || '');
+      if (sortBy === 'id') return (a.id || '').localeCompare(b.id || '');
+      // default chestNo
+      return (a.chestNo || '').localeCompare(b.chestNo || '', undefined, { numeric: true });
+    });
+  }, [squadStudents, searchQuery, categoryFilter, sortBy]);
+
+  // Central registry allocation view list
+  const filteredCentralStudents = useMemo(() => {
+    return allRegistryStudents.filter(s => {
+      const q = searchQuery.toLowerCase().trim();
+      const matchSearch =
+        q === '' ||
+        (s.name || '').toLowerCase().includes(q) ||
+        (s.chestNo || '').toLowerCase().includes(q) ||
+        (s.id || '').toLowerCase().includes(q);
+
+      const sCat = (s.classCategory || s.category || '').toLowerCase();
+      const matchCategory =
+        categoryFilter === 'all' ||
+        sCat === categoryFilter.toLowerCase();
+
+      return matchSearch && matchCategory;
+    });
+  }, [allRegistryStudents, searchQuery, categoryFilter]);
+
+  // Export CSV
+  const handleExportCSV = () => {
+    const headers = ['Sl No', 'Student ID', 'Chest No', 'Name', 'Official Category', 'Role', 'Team', 'Allocation Status'];
+    const rows = squadStudents.map((s, idx) => [
+      idx + 1,
+      s.id,
+      s.chestNo || 'N/A',
+      `"${s.name}"`,
+      s.classCategory || s.category || 'N/A',
+      s.role || (s.isLeader ? 'Leader' : s.isAsstLeader ? 'Asst Leader' : 'Member'),
+      team?.name || 'N/A',
+      'Allocated'
+    ]);
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `${(team?.name || 'team').replace(/\s+/g, '_')}_roster_dalenzia_2k26.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast(`Exported ${team?.name} official roster (CSV)`);
+  };
+
+  // Direct Print
+  const handlePrintRoster = () => {
+    window.print();
+  };
 
   // Available students in registry for adding
   const availableStudents = useMemo(() => {
@@ -283,131 +349,321 @@ export default function TeamLeaderStudents({ teamId }) {
         </div>
       </div>
 
-      {/* Search & Filter Controls */}
+      {/* Sub-Navigation Tabs */}
+      <div className="flex items-center justify-between border-b border-stone-200 pb-2">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setActiveSubTab('directory')}
+            className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 ${
+              activeSubTab === 'directory'
+                ? 'bg-[#A91F35] text-white shadow-md'
+                : 'bg-white hover:bg-stone-100 text-stone-700 border border-stone-200'
+            }`}
+          >
+            <UserCheck className="w-3.5 h-3.5" />
+            <span>Team Member Directory ({squadStudents.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveSubTab('allocation')}
+            className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 ${
+              activeSubTab === 'allocation'
+                ? 'bg-[#A91F35] text-white shadow-md'
+                : 'bg-white hover:bg-stone-100 text-stone-700 border border-stone-200'
+            }`}
+          >
+            <Users className="w-3.5 h-3.5" />
+            <span>Central Student Allocation Pool ({allRegistryStudents.length})</span>
+          </button>
+        </div>
+
+        <div className="hidden sm:flex items-center gap-2">
+          <button
+            onClick={handleExportCSV}
+            className="px-3 py-1.5 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs"
+          >
+            <span>Export CSV</span>
+          </button>
+          <button
+            onClick={handlePrintRoster}
+            className="px-3 py-1.5 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs"
+          >
+            <Printer className="w-3.5 h-3.5 text-[#A91F35]" />
+            <span>Print Roster</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Search, Filter & Sort Controls */}
       <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="relative w-full sm:w-80">
           <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search squad by name, chest number or ID..."
+            placeholder={activeSubTab === 'directory' ? "Search squad members by name, chest number or ID..." : "Search registry students by name, chest or ID..."}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-4 py-2 rounded-xl border border-stone-200 text-xs font-medium text-stone-800 placeholder:text-stone-400 focus:outline-none focus:border-[#A91F35]"
           />
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <span className="text-xs text-stone-500 font-medium">Category:</span>
-          <select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-3 py-1.5 rounded-xl border border-stone-200 text-xs font-semibold text-stone-700 focus:outline-none focus:border-[#A91F35]"
-          >
-            <option value="all">All Categories</option>
-            <option value="senior">Senior</option>
-            <option value="junior">Junior</option>
-            <option value="sub junior">Sub Junior</option>
-            <option value="minor">Minor</option>
-          </select>
+        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          <div className="flex items-center gap-1.5 text-xs text-stone-500 font-medium">
+            <span>Category:</span>
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              className="px-3 py-1.5 rounded-xl border border-stone-200 text-xs font-semibold text-stone-700 focus:outline-none focus:border-[#A91F35]"
+            >
+              <option value="all">All Categories</option>
+              <option value="senior">Senior</option>
+              <option value="junior">Junior</option>
+              <option value="sub junior">Sub Junior</option>
+              <option value="minor">Minor</option>
+            </select>
+          </div>
+
+          {activeSubTab === 'directory' && (
+            <div className="flex items-center gap-1.5 text-xs text-stone-500 font-medium">
+              <span>Sort By:</span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-3 py-1.5 rounded-xl border border-stone-200 text-xs font-semibold text-stone-700 focus:outline-none focus:border-[#A91F35]"
+              >
+                <option value="chestNo">Chest Number</option>
+                <option value="name">Candidate Name</option>
+                <option value="category">Category</option>
+                <option value="id">Student ID</option>
+              </select>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Squad Roster Table */}
-      <div className="bg-white rounded-3xl border border-stone-200 shadow-xs overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
-            <thead>
-              <tr className="bg-stone-50 border-b border-stone-200 text-[11px] font-bold text-stone-600 uppercase tracking-wider">
-                <th className="py-3 px-4 w-12 text-center">#</th>
-                <th className="py-3 px-4">Chest No</th>
-                <th className="py-3 px-4">Student Candidate</th>
-                <th className="py-3 px-4">Official Category</th>
-                <th className="py-3 px-4">Role</th>
-                <th className="py-3 px-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100">
-              {filteredSquadStudents.length === 0 ? (
-                <tr>
-                  <td colSpan="6" className="py-8 text-center text-stone-500">
-                    No candidates found in team squad matching filters.
-                  </td>
+      {/* VIEW 1: SQUAD DIRECTORY TABLE */}
+      {activeSubTab === 'directory' && (
+        <div className="bg-white rounded-3xl border border-stone-200 shadow-xs overflow-hidden print:border-none print:shadow-none">
+          {/* Printable Header - hidden on screen, visible on print */}
+          <div className="hidden print:block p-6 text-center border-b border-stone-300">
+            <h1 className="text-xl font-bold font-serif">DALENZIA FEST 2K26 – OFFICIAL SQUAD ROSTER</h1>
+            <h2 className="text-sm font-bold text-stone-800 mt-1">{team.name} • 22 Official Members</h2>
+            <p className="text-xs text-stone-500">Leader: {team.leader} | Asst Leader: {team.asstLeader}</p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="bg-stone-50 border-b border-stone-200 text-[11px] font-bold text-stone-600 uppercase tracking-wider">
+                  <th className="py-3 px-4 w-12 text-center">#</th>
+                  <th className="py-3 px-4">Student ID</th>
+                  <th className="py-3 px-4">Chest No</th>
+                  <th className="py-3 px-4">Student Candidate</th>
+                  <th className="py-3 px-4">Official Category</th>
+                  <th className="py-3 px-4">Role</th>
+                  <th className="py-3 px-4">Status</th>
+                  <th className="py-3 px-4 text-right print:hidden">Actions</th>
                 </tr>
-              ) : (
-                filteredSquadStudents.map((student, idx) => {
-                  const isLeader = student.id === team.leaderStudentId || student.name === team.leader;
-                  const isAsstLeader = student.id === team.asstLeaderStudentId || student.name === team.asstLeader;
+              </thead>
+              <tbody className="divide-y divide-stone-100">
+                {filteredSquadStudents.length === 0 ? (
+                  <tr>
+                    <td colSpan="8" className="py-8 text-center text-stone-500">
+                      No candidates found in team squad matching filters.
+                    </td>
+                  </tr>
+                ) : (
+                  filteredSquadStudents.map((student, idx) => {
+                    const isLeader = student.id === team.leaderStudentId || student.name === team.leader;
+                    const isAsstLeader = student.id === team.asstLeaderStudentId || student.name === team.asstLeader;
+                    const cat = student.classCategory || student.category || 'Minor';
 
-                  return (
-                    <tr key={student.id} className="hover:bg-stone-50/60 transition-colors">
-                      <td className="py-3 px-4 text-center font-mono font-bold text-stone-400">
-                        {idx + 1}
-                      </td>
-                      <td className="py-3 px-4 font-mono font-bold text-[#A91F35] text-sm">
-                        {student.chestNo}
-                      </td>
-                      <td className="py-3 px-4">
-                        <div className="font-bold text-stone-900">{student.name}</div>
-                        <div className="text-[10px] text-stone-500 font-mono">ID: {student.id}</div>
-                      </td>
-                      <td className="py-3 px-4">
-                        <span
-                          className={`px-2.5 py-0.5 rounded-full font-bold text-[10px] border ${getCategoryBadgeClass(
-                            student.classCategory
-                          )}`}
-                        >
-                          {student.classCategory || 'Minor'}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4">
-                        {isLeader ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#A91F35] text-white font-bold text-[10px]">
-                            <Crown className="w-3 h-3 text-[#E6A916]" />
-                            <span>Team Leader</span>
-                          </span>
-                        ) : isAsstLeader ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#E6A916] text-stone-900 font-bold text-[10px]">
-                            <Shield className="w-3 h-3 text-[#A91F35]" />
-                            <span>Asst Leader</span>
-                          </span>
-                        ) : (
-                          <span className="text-stone-500 font-medium text-[11px]">Member</span>
-                        )}
-                      </td>
-                      <td className="py-3 px-4 text-right">
-                        <div className="flex items-center justify-end gap-1.5">
-                          <button
-                            onClick={() => setInspectStudent(student)}
-                            className="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold transition-colors flex items-center gap-1 cursor-pointer"
-                            title="View student profile"
+                    return (
+                      <tr key={student.id} className="hover:bg-stone-50/60 transition-colors">
+                        <td className="py-3 px-4 text-center font-mono font-bold text-stone-400">
+                          {idx + 1}
+                        </td>
+                        <td className="py-3 px-4 font-mono font-bold text-stone-600">
+                          {student.id}
+                        </td>
+                        <td className="py-3 px-4 font-mono font-bold text-[#A91F35] text-sm">
+                          {student.chestNo}
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="font-bold text-stone-900">{student.name}</div>
+                          <div className="text-[10px] text-stone-400">Dalailussunna Dars, Ayiroor</div>
+                        </td>
+                        <td className="py-3 px-4">
+                          <span
+                            className={`px-2.5 py-0.5 rounded-full font-bold text-[10px] border ${getCategoryBadgeClass(cat)}`}
                           >
-                            <Eye className="w-3 h-3" />
-                            <span>Profile</span>
-                          </button>
+                            {cat}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">
+                          {isLeader ? (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#A91F35] text-white font-bold text-[10px]">
+                              <Crown className="w-3 h-3 text-[#E6A916]" />
+                              <span>Team Leader</span>
+                            </span>
+                          ) : isAsstLeader ? (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#E6A916] text-stone-900 font-bold text-[10px]">
+                              <Shield className="w-3 h-3 text-[#A91F35]" />
+                              <span>Asst Leader</span>
+                            </span>
+                          ) : (
+                            <span className="text-stone-500 font-medium text-[11px]">Member</span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4">
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                            <CheckCircle2 className="w-3 h-3" /> Allocated
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-right print:hidden">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              onClick={() => setInspectStudent(student)}
+                              className="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                              title="View student profile"
+                            >
+                              <Eye className="w-3 h-3" />
+                              <span>Profile</span>
+                            </button>
 
-                          {!isLeader && !isAsstLeader && (
+                            {!isLeader && !isAsstLeader && (
+                              <button
+                                onClick={() => {
+                                  setStudentToRemove(student);
+                                  setRemoveReason('');
+                                }}
+                                className="px-2.5 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                                title="Remove student from squad"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                                <span>Remove</span>
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* VIEW 2: CENTRAL STUDENT ALLOCATION & REGISTRY POOL */}
+      {activeSubTab === 'allocation' && (
+        <div className="bg-white rounded-3xl border border-stone-200 shadow-xs overflow-hidden">
+          <div className="p-4 bg-stone-50/70 border-b border-stone-200 flex items-center justify-between">
+            <div>
+              <h3 className="font-bold text-stone-900 text-sm font-serif">Central Student Registry Allocation Status</h3>
+              <p className="text-[11px] text-stone-500">Every student must belong to exactly one official squad. Inter-team transfers require Convener authorization.</p>
+            </div>
+            <span className="text-xs font-mono font-bold text-stone-600 bg-white px-2.5 py-1 rounded-lg border border-stone-200">
+              {filteredCentralStudents.length} Students Total
+            </span>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="bg-stone-50 border-b border-stone-200 text-[11px] font-bold text-stone-600 uppercase tracking-wider">
+                  <th className="py-3 px-4 w-12 text-center">#</th>
+                  <th className="py-3 px-4">Student ID</th>
+                  <th className="py-3 px-4">Chest No</th>
+                  <th className="py-3 px-4">Student Name</th>
+                  <th className="py-3 px-4">Official Category</th>
+                  <th className="py-3 px-4">Team Assignment</th>
+                  <th className="py-3 px-4 text-right">Allocation Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-stone-100">
+                {filteredCentralStudents.length === 0 ? (
+                  <tr>
+                    <td colSpan="7" className="py-8 text-center text-stone-500">
+                      No central registry students matching filter criteria.
+                    </td>
+                  </tr>
+                ) : (
+                  filteredCentralStudents.map((student, idx) => {
+                    const isInMyTeam = student.teamId === team.id;
+                    const isOtherTeam = Boolean(student.teamId && student.teamId !== team.id && student.teamId !== 'Unassigned');
+                    const isUnassigned = !student.teamId || student.teamId === 'Unassigned';
+                    const cat = student.classCategory || student.category || 'Minor';
+
+                    return (
+                      <tr key={student.id} className="hover:bg-stone-50/60 transition-colors">
+                        <td className="py-3 px-4 text-center font-mono font-bold text-stone-400">
+                          {idx + 1}
+                        </td>
+                        <td className="py-3 px-4 font-mono font-bold text-stone-600">
+                          {student.id}
+                        </td>
+                        <td className="py-3 px-4 font-mono font-bold text-[#A91F35] text-sm">
+                          {student.chestNo}
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="font-bold text-stone-900">{student.name}</div>
+                          {student.auditNote && (
+                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-semibold" title={student.auditNote}>
+                              Audit Flagged
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4">
+                          <span
+                            className={`px-2.5 py-0.5 rounded-full font-bold text-[10px] border ${getCategoryBadgeClass(cat)}`}
+                          >
+                            {cat}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">
+                          {isInMyTeam ? (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                              <CheckCircle2 className="w-3 h-3" /> {team.name}
+                            </span>
+                          ) : isOtherTeam ? (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-900 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200" title="Inter-team reassignment requires Convener authorization">
+                              <Shield className="w-3 h-3 text-amber-700" /> {student.teamName || student.teamId}
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-bold text-stone-500 bg-stone-100 px-2 py-0.5 rounded-md">
+                              Unallocated
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-right">
+                          {isInMyTeam ? (
+                            <span className="text-[10px] text-stone-400 italic">Member of Your Squad</span>
+                          ) : isOtherTeam ? (
+                            <span className="text-[10px] text-stone-400 italic">Protected (Other Squad)</span>
+                          ) : (
                             <button
                               onClick={() => {
-                                setStudentToRemove(student);
-                                setRemoveReason('');
+                                setSelectedStudentToAdd(student);
+                                setShowAddModal(true);
                               }}
-                              className="px-2.5 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-bold transition-colors flex items-center gap-1 cursor-pointer"
-                              title="Remove student from squad"
+                              className="px-3 py-1 rounded-xl bg-[#A91F35] hover:bg-[#851627] text-white font-bold text-[11px] transition-all flex items-center gap-1 ml-auto shadow-2xs"
                             >
-                              <Trash2 className="w-3 h-3" />
-                              <span>Remove</span>
+                              <Plus className="w-3 h-3 text-[#E6A916]" />
+                              <span>Allocate to {team.name}</span>
                             </button>
                           )}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ===================================================================== */}
       {/* MODAL 1: ADD EXISTING STUDENT TO TEAM                                 */}

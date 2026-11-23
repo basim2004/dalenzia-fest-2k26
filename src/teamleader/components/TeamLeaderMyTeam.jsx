@@ -36,10 +36,10 @@ export default function TeamLeaderMyTeam({ teamId, onNavigateModule }) {
   }
 
   const students = team.students || [];
-  const seniorCount = students.filter(s => s.classCategory === 'Senior').length;
-  const juniorCount = students.filter(s => s.classCategory === 'Junior').length;
-  const subJuniorCount = students.filter(s => s.classCategory === 'Sub Junior').length;
-  const minorCount = students.filter(s => s.classCategory === 'Minor').length;
+  const seniorCount = students.filter(s => (s.classCategory || s.category) === 'Senior').length;
+  const juniorCount = students.filter(s => (s.classCategory || s.category) === 'Junior').length;
+  const subJuniorCount = students.filter(s => (s.classCategory || s.category) === 'Sub Junior').length;
+  const minorCount = students.filter(s => (s.classCategory || s.category) === 'Minor').length;
 
   const isTeam1 = teamId === 'team-1';
   const themeBg = isTeam1 ? 'bg-[#A91F35]' : 'bg-[#E6A916]';
@@ -140,7 +140,7 @@ export default function TeamLeaderMyTeam({ teamId, onNavigateModule }) {
         <div className="p-5 rounded-3xl bg-white border border-stone-200 shadow-xs flex items-center justify-between">
           <div>
             <div className="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Assistant Leader</div>
-            <div className="text-base font-bold text-stone-900 mt-1">(AL) {team.asstLeader}</div>
+            <div className="text-base font-bold text-stone-900 mt-1">(AL) {team.asstLeader || leaderProfile?.asstLeader || (teamId === 'team-1' ? 'Hafiz Hassan' : 'Irfan Edayyur')}</div>
             <div className="text-xs text-stone-500 mt-0.5">
               <span>Official Co-Adjudicator</span>
             </div>

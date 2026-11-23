@@ -130,11 +130,31 @@ export default function TeamLeaderProfile({ teamId, leaderSession, onLogout }) {
             </div>
 
             <div>
+              <label className="font-bold text-stone-600 block mb-1">Official Portal Username (Protected)</label>
+              <input
+                type="text"
+                disabled
+                value={profile.loginUsername || (profile.teamId === 'team-1' ? 'noufal@teamleader' : 'hashim@teamleader')}
+                className="w-full px-3 py-2 rounded-xl border border-stone-200 bg-stone-100 text-stone-700 font-mono font-bold cursor-not-allowed"
+              />
+            </div>
+
+            <div>
               <label className="font-bold text-stone-600 block mb-1">Authorized Team (Protected)</label>
               <input
                 type="text"
                 disabled
                 value={`${profile.teamName} (${profile.teamId})`}
+                className="w-full px-3 py-2 rounded-xl border border-stone-200 bg-stone-100 text-stone-600 font-semibold cursor-not-allowed"
+              />
+            </div>
+
+            <div>
+              <label className="font-bold text-stone-600 block mb-1">Assistant Leader Details (Protected)</label>
+              <input
+                type="text"
+                disabled
+                value={`${profile.asstLeader || (profile.teamId === 'team-1' ? 'Hafiz Hassan' : 'Irfan Edayyur')} • ${profile.asstLeaderStudentId || (profile.teamId === 'team-1' ? 'STU-1002' : 'STU-1008')}`}
                 className="w-full px-3 py-2 rounded-xl border border-stone-200 bg-stone-100 text-stone-600 font-semibold cursor-not-allowed"
               />
             </div>
