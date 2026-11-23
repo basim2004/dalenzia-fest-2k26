@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, MapPin, CheckCircle, Radio } from 'lucide-react';
+import { Calendar, Clock, MapPin } from 'lucide-react';
 import scheduleData from '../data/schedule.json';
 
 export default function ScheduleTimeline({ lang }) {
   const [activeDayIdx, setActiveDayIdx] = useState(0);
-  const currentDay = scheduleData.days[activeDayIdx];
+  const currentDay = scheduleData.days[activeDayIdx] || scheduleData.days[0];
 
   return (
     <section id="schedule" className="max-w-md mx-auto px-4 py-8">
@@ -13,20 +13,20 @@ export default function ScheduleTimeline({ lang }) {
       <div className="text-center mb-6">
         <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#A91F35]/10 text-[#A91F35] text-[10px] font-bold uppercase tracking-wider mb-1">
           <Calendar className="w-3 h-3 text-[#E6A916]" />
-          <span>{lang === 'en' ? 'Two-Day Program Flow' : 'ടൈംടേബിൾ'}</span>
+          <span>{lang === 'en' ? 'Three-Day Program Flow' : 'ടൈംടേബിൾ'}</span>
         </div>
         <h2 className="text-2xl font-serif font-bold text-[#A91F35]">
           {lang === 'en' ? 'Festival Schedule' : 'പരിപാടി വിവരണം'}
         </h2>
         <p className="text-xs text-[#1c1917]/70 font-medium mt-1">
           {lang === 'en'
-            ? 'Complete timeline for 21, 22, 23 DECEMBER 2026'
-            : 'രണ്ട് ദിവസങ്ങളിലായി നടക്കുന്ന പരിപാടികളുടെ സമയക്രമം'}
+            ? 'Official timeline for 21, 22, 23 DECEMBER 2026'
+            : 'മൂന്ന് ദിവസങ്ങളിലായി നടക്കുന്ന ഔദ്യോഗിക പരിപാടികൾ'}
         </p>
       </div>
 
       {/* Day Selector Tabs */}
-      <div className="flex bg-white rounded-2xl p-1 border border-[#A91F35]/15 shadow-sm mb-6">
+      <div className="flex bg-white rounded-2xl p-1 border border-[#A91F35]/15 shadow-xs mb-6">
         {scheduleData.days.map((day, idx) => (
           <button
             key={day.day}
@@ -37,14 +37,14 @@ export default function ScheduleTimeline({ lang }) {
                 : 'text-[#1c1917]/70 hover:text-[#A91F35]'
             }`}
           >
-            {day.day} · {day.date.split(',')[0]}
+            {day.day} • {day.date.split(',')[0]}
           </button>
         ))}
       </div>
 
       {/* Timeline Nodes */}
       <div className="relative pl-6 space-y-4 border-l-2 border-[#A91F35]/20 ml-3">
-        {currentDay.events.map((ev, idx) => {
+        {currentDay && currentDay.events && currentDay.events.map((ev, idx) => {
           const isCompleted = ev.status === 'completed';
           const isLive = ev.status === 'live';
 
@@ -54,11 +54,11 @@ export default function ScheduleTimeline({ lang }) {
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="relative bg-white rounded-2xl p-3.5 border border-[#A91F35]/10 shadow-sm"
+              className="relative bg-white rounded-2xl p-3.5 border border-[#A91F35]/10 shadow-xs"
             >
               {/* Timeline dot */}
               <div
-                className={`absolute -left-[31px] top-4 w-4 h-4 rounded-full border-2 border-white shadow-sm flex items-center justify-center ${
+                className={`absolute -left-[31px] top-4 w-4 h-4 rounded-full border-2 border-white shadow-xs flex items-center justify-center ${
                   isLive
                     ? 'bg-[#E6A916] ring-4 ring-[#E6A916]/30'
                     : isCompleted
@@ -87,7 +87,7 @@ export default function ScheduleTimeline({ lang }) {
               </div>
 
               <h4 className="text-xs font-bold text-[#1c1917] leading-snug">
-                {lang === 'en' ? ev.title : ev.malayalam}
+                {lang === 'en' ? ev.title : (ev.malayalam || ev.title)}
               </h4>
 
               <div className="flex items-center gap-1 text-[10px] text-stone-500 mt-1">

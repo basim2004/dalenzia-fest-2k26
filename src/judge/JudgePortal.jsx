@@ -4,6 +4,8 @@ import {
   Shield,
   Award,
   Calendar,
+  CalendarDays,
+  MapPin,
   Users,
   FileText,
   Bell,
@@ -531,6 +533,7 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
         <nav className="flex-1 py-4 px-3 space-y-1.5 overflow-y-auto">
           {[
             { id: 'dashboard', label: 'Dashboard', icon: Shield },
+            { id: 'schedule', label: 'My Schedule', count: myAssignedProgrammes.length, icon: CalendarDays },
             { id: 'programmes', label: 'My Assigned Programmes', count: myAssignedProgrammes.length, icon: Calendar },
             { id: 'mark_entry', label: 'Mark Entry Console', icon: Edit2 },
             { id: 'submitted', label: 'Submitted Results', count: mySubmittedEvaluations.length, icon: FileText },
@@ -768,6 +771,118 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
                   </div>
                 )}
               </div>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* MY SCHEDULE TAB                                                           */}
+          {/* ========================================================================= */}
+          {activeTab === 'schedule' && (
+            <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-sm border border-stone-200 space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-stone-100 gap-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <CalendarDays className="w-5 h-5 text-[#E6A916]" />
+                    <h3 className="text-lg font-bold text-[#A91F35] font-serif">My Adjudication Schedule</h3>
+                  </div>
+                  <p className="text-xs text-stone-500 mt-0.5">
+                    Synchronized timetable of your officially assigned evaluation sessions.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#A91F35]/10 text-[#A91F35]">
+                    {myAssignedProgrammes.length} Assigned Session{myAssignedProgrammes.length !== 1 ? 's' : ''}
+                  </span>
+                </div>
+              </div>
+
+              {myAssignedProgrammes.length === 0 ? (
+                <div className="p-12 text-center border-2 border-dashed border-stone-200 rounded-3xl bg-stone-50/50">
+                  <Clock className="w-12 h-12 text-stone-300 mx-auto mb-3" />
+                  <h4 className="text-sm font-bold text-stone-700">Schedule Not Yet Available</h4>
+                  <p className="text-xs text-stone-500 max-w-md mx-auto mt-1">
+                    No active adjudication sessions have been scheduled for your profile yet. Once the Convener assigns and publishes your official evaluation slots, they will appear here.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {myAssignedProgrammes.map(prog => {
+                    const isCompleted = mySubmittedEvaluations.some(e => e.assignmentId === prog.id);
+                    const status = isCompleted ? 'Completed' : (prog.status || 'Upcoming');
+                    const hasVenue = prog.venue && prog.venue !== 'TBA' && prog.venue !== 'To Be Announced';
+
+                    return (
+                      <div
+                        key={prog.id}
+                        className="p-5 rounded-2xl border border-stone-200 bg-stone-50/40 hover:bg-white hover:border-[#E6A916] transition-all shadow-2xs space-y-3"
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#A91F35]/10 text-[#A91F35]">
+                              {prog.code || prog.competitionCode}
+                            </span>
+                            <span className="ml-2 text-[10px] font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-600">
+                              {prog.category}
+                            </span>
+                          </div>
+                          <span
+                            className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full ${
+                              status === 'Completed'
+                                ? 'bg-stone-200 text-stone-700'
+                                : status === 'Ongoing'
+                                ? 'bg-emerald-100 text-emerald-800 animate-pulse'
+                                : 'bg-blue-50 text-blue-700 border border-blue-200'
+                            }`}
+                          >
+                            {status}
+                          </span>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-bold text-stone-900 leading-snug">
+                            {prog.title || prog.competitionTitle || prog.name}
+                          </h4>
+                          <div className="text-[11px] text-stone-500 mt-1">
+                            Classification: <span className="font-semibold text-stone-700">{prog.classification || 'Stage'}</span>
+                          </div>
+                        </div>
+
+                        <div className="pt-2 border-t border-stone-200/60 grid grid-cols-2 gap-2 text-xs">
+                          <div className="flex items-center gap-1.5 text-stone-600">
+                            <Calendar className="w-3.5 h-3.5 text-[#E6A916]" />
+                            <span className="truncate">{prog.date || 'Dec 21, 2026'}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-stone-600">
+                            <Clock className="w-3.5 h-3.5 text-[#A91F35]" />
+                            <span className="truncate">{prog.startTime || prog.time || '10:00 AM'}</span>
+                          </div>
+                        </div>
+
+                        <div className="text-xs text-stone-600 flex items-center gap-1.5">
+                          <MapPin className="w-3.5 h-3.5 text-[#A91F35]" />
+                          <span>Venue: </span>
+                          <span className="font-semibold text-stone-800">
+                            {hasVenue ? prog.venue : 'To Be Announced'}
+                          </span>
+                        </div>
+
+                        <div className="pt-2 flex justify-end">
+                          <button
+                            onClick={() => {
+                              setSelectedProgId(prog.id);
+                              setActiveTab('mark_entry');
+                            }}
+                            className="px-3.5 py-1.5 rounded-xl bg-[#A91F35] text-white font-bold text-xs hover:bg-[#8B1A2C] transition-all flex items-center gap-1.5 shadow-2xs"
+                          >
+                            <Edit2 className="w-3 h-3" />
+                            <span>{isCompleted ? 'View / Update Marks' : 'Enter Marks'}</span>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import StageControllerLogin from './components/StageControllerLogin';
 import StageControllerLayout from './components/StageControllerLayout';
 import StageControllerDashboard from './components/StageControllerDashboard';
+import StageScheduleView from './components/StageScheduleView';
 import StageCompetitions from './components/StageCompetitions';
 import CodeLetterManagement from './components/CodeLetterManagement';
 import LiveRandomDraw from './components/LiveRandomDraw';
@@ -98,6 +99,15 @@ export default function StageControllerPortal({ onNavigatePublic }) {
           onNavigateTab={setActiveTab}
           onLaunchDraw={handleLaunchDraw}
           onLaunchCalling={handleLaunchCalling}
+        />
+      )}
+
+      {activeTab === 'schedule' && (
+        <StageScheduleView
+          stageId={session.stageId}
+          stageInfo={stageProfile}
+          stageSession={stageProfile}
+          onNavigate={setActiveTab}
         />
       )}
 

@@ -29,105 +29,27 @@ import {
 } from 'lucide-react';
 import { festivalStore } from '../admin/data/festivalStore';
 
-// Authentic Dalenzia Programme Schedule Data
+// Official 7 Confirmed Festival Events from Dalenzia Charter
 const SCHEDULE_DATA = {
   day1: {
     dayId: 'day1',
     dayLabel: 'Day 01',
     dateLabel: 'Monday · December 21, 2026',
     dateShort: 'Dec 21, 2026',
-    themeHighlight: 'Inauguration, Intellectual Conclaves & Preliminary Contests',
+    themeHighlight: 'Grand Inauguration Ceremony',
     programmes: [
       {
-        id: 'p1-01',
-        time: '08:30 AM – 09:30 AM',
-        title: 'Delegate Reception & Registration Check-in',
-        malayalam: 'പ്രതിനിധി രജിസ്ട്രേഷൻ',
-        category: 'administrative',
-        categoryLabel: 'Administrative',
-        venue: 'Entrance Foyer & Welcome Desk',
-        status: 'Scheduled',
-        desc: 'Verification of candidate credentials, distribution of official stage badges, syllabus kits, and delegation escorting to respective holding pavilions.',
-        guest: 'Festival Reception Committee',
-        icon: Users
-      },
-      {
-        id: 'p1-02',
-        time: '09:30 AM – 11:00 AM',
-        title: 'Inaugural Grand Conclave',
+        id: 'EVT-D1-01',
+        time: '07:00 PM – 09:30 PM',
+        title: 'Inauguration',
         malayalam: 'ഉദ്ഘാടന സമ്മേളനം',
         category: 'ceremony',
         categoryLabel: 'Inauguration',
-        venue: 'Cordova Grand Stage',
-        status: 'Scheduled',
-        desc: 'Official ceremonial opening of Dalenzia Fest 2K26. Lighting of the sacred knowledge lamp, inaugural address by Dr. Ahmed Faris, and blessing ceremony by elder Hadith scholars.',
-        guest: 'Dr. Ahmed Faris & Senior Mudarris Council',
-        icon: Scissors
-      },
-      {
-        id: 'p1-03',
-        time: '11:00 AM – 01:00 PM',
-        title: 'Literary Competitions: Junior Arabic Essay & Short Story',
-        malayalam: 'സാഹിത്യ മത്സരങ്ങൾ (ഫേസ് 1)',
-        category: 'competitions',
-        categoryLabel: 'Competitions',
-        venue: 'Cordova Stage & Baghdad Conclave Hall',
-        status: 'Scheduled',
-        desc: 'Scholarly penmanship contests covering classical Arabic rhetoric, Malayalam short fiction writing, and analytical essay presentations.',
-        guest: 'Literary Judging Panel',
-        icon: BookOpen
-      },
-      {
-        id: 'p1-04',
-        time: '01:00 PM – 02:00 PM',
-        title: 'Mid-day Repast & Congregation Prayer',
-        malayalam: 'ഉച്ചഭക്ഷണം & പ്രാർത്ഥന',
-        category: 'recess',
-        categoryLabel: 'Recess',
-        venue: 'Campus Mosque & Courtyard',
-        status: 'Scheduled',
-        desc: 'Dhuhr congregational prayer followed by communal festive dining for delegates, parents, teachers, and guests.',
-        guest: 'Hospitality Board',
-        icon: Clock
-      },
-      {
-        id: 'p1-05',
-        time: '02:00 PM – 04:30 PM',
-        title: 'Cultural Presentations & Oratory Arenas',
-        malayalam: 'സാംസ്കാരിക മത്സരങ്ങൾ & പ്രഭാഷണം',
-        category: 'cultural',
-        categoryLabel: 'Cultural Programmes',
-        venue: 'Al-Azhar Grand Hall',
-        status: 'Scheduled',
-        desc: 'Story telling contests, extempore Arabic speech rounds, and classical Mappila musical narratives celebrating regional poetic heritage.',
-        guest: 'Cultural Evaluators & Guest Observers',
-        icon: Music
-      },
-      {
-        id: 'p1-06',
-        time: '04:30 PM – 06:30 PM',
-        title: 'Thematic Conclave: "Nueva Era – A New Era of Ideas"',
-        malayalam: 'പ്രമേയ സമ്മേളനം (നുയേവ എറ)',
-        category: 'sessions',
-        categoryLabel: 'Guest Sessions',
-        venue: 'Al-Azhar Grand Hall',
-        status: 'Scheduled',
-        desc: 'A flagship philosophical keynote on the festival theme "Nueva Era" by Usthad Muhammed Rashid, addressing ethical leadership in the digital era.',
-        guest: 'Usthad Muhammed Rashid (Guest of Honour)',
-        icon: Mic
-      },
-      {
-        id: 'p1-07',
-        time: '07:30 PM – 10:00 PM',
-        title: 'Evening Cultural Presentation & Daily Announcements',
-        malayalam: 'രാത്രി സാംസ്കാരിക സന്ധ്യ',
-        category: 'cultural',
-        categoryLabel: 'Cultural Programmes',
-        venue: 'Cordova Grand Stage',
-        status: 'Scheduled',
-        desc: 'Choral anthems, Sufi devotional tributes, recitation performances, and publication of Day 01 qualifying results.',
-        guest: 'Choral Ensembles & Festival Directorate',
-        icon: Radio
+        venue: 'Main Stage',
+        status: 'Confirmed',
+        desc: 'Official Grand Inauguration Ceremony of Dalenzia Fest 2K26.',
+        guest: 'Dignitary Council',
+        icon: Award
       }
     ]
   },
@@ -136,85 +58,46 @@ const SCHEDULE_DATA = {
     dayLabel: 'Day 02',
     dateLabel: 'Tuesday · December 22, 2026',
     dateShort: 'Dec 22, 2026',
-    themeHighlight: 'Championship Finals, Media Showcase & Grand Valedictory',
+    themeHighlight: 'Cultural Programmes, Alumni Gathering & Burda Majlis',
     programmes: [
       {
-        id: 'p2-01',
-        time: '08:30 AM – 11:00 AM',
-        title: 'Grand Parliamentary Debate & Conclave Quiz Finals',
-        malayalam: 'സംവാദ മത്സരം & മെഗാ ക്വിസ്സ്',
-        category: 'competitions',
-        categoryLabel: 'Competitions',
-        venue: 'Al-Azhar Hall & Granada Arena',
-        status: 'Scheduled',
-        desc: 'Final showdown of parliamentary debate teams and rapid-fire buzzer finals of the Islamic History & World Thought Quiz.',
-        guest: 'Debate Adjudication Board',
-        icon: Trophy
+        id: 'EVT-D2-01',
+        time: '09:00 AM – 01:00 PM',
+        title: 'Cultural Programmes',
+        malayalam: 'സാംസ്കാരിക പരിപാടികൾ',
+        category: 'cultural',
+        categoryLabel: 'Cultural Programmes',
+        venue: 'Main Stage',
+        status: 'Confirmed',
+        desc: 'Day 02 Morning Cultural Programmes & Presentations.',
+        guest: 'Cultural Secretariat',
+        icon: Music
       },
       {
-        id: 'p2-02',
-        time: '11:00 AM – 01:00 PM',
-        title: 'Media & Fine Arts Exhibition: Short Film & Poster Design',
-        malayalam: 'ഷോർട്ട് ഫിലിം & പോസ്റ്റർ പ്രദർശനം',
-        category: 'competitions',
-        categoryLabel: 'Competitions',
-        venue: 'Digital Studio Lab & Granada Screen',
-        status: 'Scheduled',
-        desc: 'Public screening of shortlisted short films, documentary entries, and live display of calligraphy and poster design artworks.',
-        guest: 'Visual Arts Jury',
-        icon: BookOpen
-      },
-      {
-        id: 'p2-03',
-        time: '01:00 PM – 02:00 PM',
-        title: 'Mid-day Repast & Congregation Prayer',
-        malayalam: 'ഉച്ചഭക്ഷണം & പ്രാർത്ഥന',
-        category: 'recess',
-        categoryLabel: 'Recess',
-        venue: 'Campus Mosque & Courtyard',
-        status: 'Scheduled',
-        desc: 'Dhuhr congregational prayer followed by communal luncheon.',
-        guest: 'Hospitality Board',
-        icon: Clock
-      },
-      {
-        id: 'p2-04',
-        time: '02:00 PM – 04:30 PM',
-        title: 'Special Colloquium: Literature, Eloquence & Ethical Consciousness',
-        malayalam: 'സാഹിത്യ സിമ്പോസിയം',
+        id: 'EVT-D2-02',
+        time: '04:00 PM – 06:30 PM',
+        title: 'Alumni Gathering',
+        malayalam: 'പൂർവ്വ വിദ്യാർത്ഥി സംഗമം',
         category: 'sessions',
-        categoryLabel: 'Guest Sessions',
-        venue: 'Baghdad Conclave Hall',
-        status: 'Scheduled',
-        desc: 'Distinguished lecture by Usthad Salman Saqafi on literary preservation, modern ethics, and youth scholarship.',
-        guest: 'Usthad Salman Saqafi (Guest Speaker)',
+        categoryLabel: 'Alumni Gathering',
+        venue: 'Main Stage',
+        status: 'Confirmed',
+        desc: 'Grand Dalenzia Alumni Gathering & Reunion.',
+        guest: 'Alumni Association',
+        icon: Users
+      },
+      {
+        id: 'EVT-D2-03',
+        time: '07:00 PM – 10:00 PM',
+        title: 'Burda Majlis',
+        malayalam: 'ബുർദ മജ്‌ലിസ്',
+        category: 'cultural',
+        categoryLabel: 'Burda Majlis',
+        venue: 'Main Stage',
+        status: 'Confirmed',
+        desc: 'Spiritual Burda Majlis & Devotional Gathering.',
+        guest: 'Sadath & Ulama Council',
         icon: Mic
-      },
-      {
-        id: 'p2-05',
-        time: '04:30 PM – 06:30 PM',
-        title: 'Championship Grand Finals: Vocal Harmony & Classical Anthems',
-        malayalam: 'ഗ്രാൻഡ് ഫൈനൽസ്',
-        category: 'competitions',
-        categoryLabel: 'Competitions',
-        venue: 'Cordova Grand Stage',
-        status: 'Scheduled',
-        desc: 'Top 5 finalists compete for the prestigious Gold Medal in Classical Mappila Song & Senior Oratory.',
-        guest: 'Grand Jury Council',
-        icon: Award
-      },
-      {
-        id: 'p2-06',
-        time: '07:00 PM – 09:30 PM',
-        title: 'Grand Valedictory Finale & Championship Conferment',
-        malayalam: 'സമാപന മഹാസമ്മേളനം',
-        category: 'ceremony',
-        categoryLabel: 'Closing Ceremony',
-        venue: 'Cordova Grand Stage',
-        status: 'Scheduled',
-        desc: 'Presidential valedictory address, announcement of Overall Festival Champions, conferring of Dalenzia 2K26 Golden Trophy, and ceremonial closing.',
-        guest: 'Chancellor, Patrons & Visiting Dignitaries',
-        icon: Trophy
       }
     ]
   },
@@ -223,72 +106,46 @@ const SCHEDULE_DATA = {
     dayLabel: 'Day 03',
     dateLabel: 'Wednesday · December 23, 2026',
     dateShort: 'Dec 23, 2026',
-    themeHighlight: 'Championship Finals, Grand Valedictory & Award Ceremonies',
+    themeHighlight: "Cultural Programmes, Parents' Meeting & Closing Ceremony",
     programmes: [
       {
-        id: 'p3-01',
-        time: '08:30 AM – 11:30 AM',
-        title: 'Grand Finale Showcase & Inter-Squad Contests',
-        malayalam: 'ഗ്രാൻഡ് ഫിനാലെ മത്സരങ്ങൾ',
-        category: 'competitions',
-        categoryLabel: 'Competitions',
-        venue: 'Cordova Grand Stage',
-        status: 'Scheduled',
-        desc: 'Concluding high-stakes stage rounds and finale presentations between qualifying squads across all arenas.',
-        guest: 'Festival Steering Committee',
-        icon: Trophy
-      },
-      {
-        id: 'p3-02',
-        time: '11:30 AM – 01:00 PM',
-        title: 'Scholastic Conclave & Valedictory Keynote Discourse',
-        malayalam: 'പണ്ഡിത സമ്മേളനം & സമാപന പ്രഭാഷണം',
-        category: 'sessions',
-        categoryLabel: 'Guest Sessions',
-        venue: 'Cordova Grand Stage',
-        status: 'Scheduled',
-        desc: 'Special discourse on the transformative power of faith, intellect, and creativity in the nueva era.',
-        guest: 'Senior Islamic Scholars & Thought Leaders',
-        icon: Mic
-      },
-      {
-        id: 'p3-03',
-        time: '01:00 PM – 02:30 PM',
-        title: 'Congregational Prayer & Festive Feast',
-        malayalam: 'പ്രാർത്ഥന & വിരുന്ന്',
-        category: 'recess',
-        categoryLabel: 'Recess',
-        venue: 'Campus Mosque & Dining Quadrangle',
-        status: 'Scheduled',
-        desc: 'Communal banquet for all registered scholars, patrons, faculty, and visiting guests.',
-        guest: 'Hospitality Board',
-        icon: Clock
-      },
-      {
-        id: 'p3-04',
-        time: '03:00 PM – 06:30 PM',
-        title: 'Grand Valedictory Session & Award Ceremony',
-        malayalam: 'സമാപന മഹാസമ്മേളനം & അവാർഡ് ദാനം',
-        category: 'ceremony',
-        categoryLabel: 'Award Ceremony',
-        venue: 'Cordova Grand Stage',
-        status: 'Scheduled',
-        desc: 'Presentation of the coveted Dalenzia Fest 2K26 Championship Trophy, Individual Laureate honours, and special awards.',
-        guest: 'Chief Patrons & Esteemed Leaders',
-        icon: Award
-      },
-      {
-        id: 'p3-05',
-        time: '07:30 PM – 10:00 PM',
-        title: 'Closing Cultural Symphony & Benediction',
-        malayalam: 'സമാപന സാംസ്കാരിക സന്ധ്യ & പ്രാർത്ഥന',
+        id: 'EVT-D3-01',
+        time: '09:00 AM – 01:00 PM',
+        title: 'Cultural Programmes',
+        malayalam: 'സാംസ്കാരിക പരിപാടികൾ',
         category: 'cultural',
         categoryLabel: 'Cultural Programmes',
-        venue: 'Cordova Grand Stage',
-        status: 'Scheduled',
-        desc: 'Sufi choral symphony ensemble, traditional choral odes, and final blessing prayers by the Sadath Council.',
-        guest: 'Sufi Ensemble & Sadath Council',
+        venue: 'Main Stage',
+        status: 'Confirmed',
+        desc: 'Day 03 Cultural Showcase & Sessions.',
+        guest: 'Cultural Board',
         icon: Music
+      },
+      {
+        id: 'EVT-D3-02',
+        time: '04:00 PM – 06:30 PM',
+        title: "Parents' Meeting",
+        malayalam: 'രക്ഷാകർതൃ സംഗമം',
+        category: 'sessions',
+        categoryLabel: "Parents' Meeting",
+        venue: 'Main Stage',
+        status: 'Confirmed',
+        desc: 'Official Parents & Guardians Conclave.',
+        guest: 'Institution Directorate',
+        icon: Users
+      },
+      {
+        id: 'EVT-D3-03',
+        time: '08:00 PM – 10:30 PM',
+        title: 'Closing Ceremony',
+        malayalam: 'സമാപന സമ്മേളനം',
+        category: 'ceremony',
+        categoryLabel: 'Closing Ceremony',
+        venue: 'Main Stage',
+        status: 'Confirmed',
+        desc: 'Grand Closing Ceremony, Valedictory Session & Trophy Awards.',
+        guest: 'Executive Secretariat & Patrons',
+        icon: Trophy
       }
     ]
   }
@@ -296,40 +153,26 @@ const SCHEDULE_DATA = {
 
 const CATEGORIES = [
   { id: 'all', name: 'All Programmes' },
-  { id: 'ceremony', name: 'Inaugural & Valedictory' },
-  { id: 'competitions', name: 'Competitions' },
+  { id: 'ceremony', name: 'Ceremonies' },
   { id: 'cultural', name: 'Cultural Events' },
-  { id: 'sessions', name: 'Guest Sessions' }
+  { id: 'sessions', name: 'Conclaves & Gatherings' },
+  { id: 'competitions', name: 'Official Competitions' }
 ];
 
 const GRAND_VENUES = [
   {
-    name: 'Cordova Grand Stage',
-    malayalam: 'കൊർദോവ വേദി',
-    role: 'Central Ceremonial Hall',
-    desc: 'The primary ceremonial auditorium for the Grand Inauguration, Keynote Addresses, and the Championship Valedictory Finale.',
-    capacity: '2,500+ Capacity'
+    name: 'Main Stage',
+    malayalam: 'പ്രധാന വേദി',
+    role: 'Central Festival Stage',
+    desc: "Official ceremonial and cultural stage for Inauguration, Cultural Programmes, Alumni Gathering, Burda Majlis, Parents' Meeting, and Closing Ceremony.",
+    capacity: 'Main Campus Auditorium'
   },
   {
-    name: 'Al-Azhar Grand Hall',
-    malayalam: 'അൽ-അസ്ഹർ ഹാൾ',
-    role: 'Cultural & Conclave Arena',
-    desc: 'Dedicated to high-energy debate battles, musical renditions, and the thematic "Nueva Era" symposium.',
-    capacity: '1,200+ Capacity'
-  },
-  {
-    name: 'Baghdad Conclave Hall',
-    malayalam: 'ബാഗ്ദാദ് ഹാൾ',
-    role: 'Literary & Research Symposium',
-    desc: 'Specialized hall hosting classical Arabic essay presentations, scholarly discourses, and academic roundtables.',
-    capacity: '800+ Capacity'
-  },
-  {
-    name: 'Granada Arena & Digital Lab',
-    malayalam: 'ഗ്രനഡ അരീന',
-    role: 'Media Screening & Fine Arts',
-    desc: 'Multimedia theater for short film screenings, photography exhibitions, and live digital poster illustration.',
-    capacity: '600+ Capacity'
+    name: 'Academic Off-Stage Halls',
+    malayalam: 'അക്കാദമിക് വേദികൾ',
+    role: 'Competitions & Evaluations',
+    desc: 'Designated academic halls for official Stage and Off-Stage contests according to the Festival Charter.',
+    capacity: 'Academic Blocks'
   }
 ];
 
@@ -369,7 +212,7 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
     const base = SCHEDULE_DATA[activeDay];
     if (!storeSchedules || storeSchedules.length === 0) return base;
 
-    const dayFilter = activeDay === 'day1' ? '21' : '22';
+    const dayFilter = activeDay === 'day1' ? '21' : activeDay === 'day2' ? '22' : '23';
     const dayStoreList = storeSchedules.filter(s => String(s.date).includes(dayFilter));
     if (dayStoreList.length === 0) return base;
 

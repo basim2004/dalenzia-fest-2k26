@@ -130,7 +130,7 @@ export default function TeamLeaderPortal({ onNavigatePublic }) {
       ) : activeModule === 'leaderboard' ? (
         <TeamLeaderLeaderboard teamId={teamId} />
       ) : activeModule === 'schedule' ? (
-        <TeamLeaderSchedule />
+        <TeamLeaderSchedule teamId={teamId} />
       ) : activeModule === 'guests' ? (
         <TeamLeaderGuests />
       ) : activeModule === 'announcements' ? (

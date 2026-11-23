@@ -26,6 +26,7 @@ export const COLLECTIONS = {
   REGISTRATIONS: "registrations",
   STUDENTS: "students",
   PROGRAMMES: "programmes",
+  SCHEDULES: "programme_schedules",
   EVALUATIONS: "evaluations",
   TEAMS: "teams",
   TEAM_ALLOCATIONS: "team_allocations",
@@ -286,3 +287,73 @@ export async function syncFestivalStoreToCloud(storeData) {
     return { success: false, error: err.message, results };
   }
 }
+
+/**
+ * Save / Update a Programme Schedule entry in Firebase Firestore
+ */
+export async function syncScheduleToFirebase(scheduleEntry) {
+  try {
+    if (!db) return { success: false, error: "Firebase not initialized" };
+    const docId = String(scheduleEntry.id);
+    const docRef = doc(db, COLLECTIONS.SCHEDULES, docId);
+    await setDoc(docRef, {
+      ...scheduleEntry,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+    return { success: true };
+  } catch (error) {
+    console.error("Error syncing schedule to Firebase:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Fetch all Programme Schedules from Firebase Firestore
+ */
+export async function fetchSchedulesFromFirebase() {
+  try {
+    if (!db) return [];
+    const colRef = collection(db, COLLECTIONS.SCHEDULES);
+    const snapshot = await getDocs(colRef);
+    const schedules = [];
+    snapshot.forEach(d => {
+      schedules.push({ id: d.id, ...d.data() });
+    });
+    return schedules;
+  } catch (error) {
+    console.error("Error fetching schedules from Firebase:", error);
+    return [];
+  }
+}
+
+/**
+ * Real-time listener for Programme Schedules
+ */
+export function subscribeToSchedules(callback) {
+  if (!db) return () => {};
+  const colRef = collection(db, COLLECTIONS.SCHEDULES);
+  return onSnapshot(colRef, (snapshot) => {
+    const list = [];
+    snapshot.forEach(d => list.push({ id: d.id, ...d.data() }));
+    callback(list);
+  }, (err) => {
+    console.error("Schedule subscription error:", err);
+  });
+}
+
+/**
+ * Delete a Programme Schedule entry from Firebase Firestore
+ */
+export async function deleteScheduleFromFirebase(scheduleId) {
+  try {
+    if (!db) return { success: false, error: "Firebase not initialized" };
+    const { deleteDoc } = await import("firebase/firestore");
+    const docRef = doc(db, COLLECTIONS.SCHEDULES, String(scheduleId));
+    await deleteDoc(docRef);
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting schedule from Firebase:", error);
+    return { success: false, error: error.message };
+  }
+}
+

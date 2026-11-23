@@ -213,7 +213,7 @@ export default function ConvenerSchedule() {
             onChange={(e) => setSelectedDate(e.target.value)}
             className="px-3 py-2 bg-[#F7F3E9]/50 border border-stone-300 rounded-xl text-xs font-bold text-stone-700 focus:outline-none focus:border-[#A91F35]"
           >
-            <option value="all">All Dates (Day 01 & 02)</option>
+            <option value="all">All Dates (Day 01, 02 & 03)</option>
             <option value="Dec 21, 2026">Dec 21, 2026 (Day 01)</option>
             <option value="Dec 22, 2026">Dec 22, 2026 (Day 02)</option>
             <option value="Dec 23, 2026">Dec 23, 2026 (Day 03)</option>

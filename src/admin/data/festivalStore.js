@@ -4,6 +4,7 @@ import {
   OFFICIAL_SCORING_CONFIG,
   OFFICIAL_CHARTER_PROGRAMMES,
   OFFICIAL_CHARTER_STUDENT_TARGETS,
+  OFFICIAL_CONFIRMED_FESTIVAL_EVENTS,
   createDefaultProgrammeAssignments
 } from './officialCharterData.js';
 import {
@@ -11,7 +12,9 @@ import {
   syncStudentTeamAssignmentToFirebase,
   syncTeamAuditLogToFirebase,
   syncStudentToFirebase,
-  fetchStudentsFromFirebase
+  fetchStudentsFromFirebase,
+  syncScheduleToFirebase,
+  deleteScheduleFromFirebase
 } from '../../firebase/firebaseService.js';
 
 // DALENZIA FEST 2K26 - CENTRAL FESTIVAL DATA ENGINE & STORE
@@ -648,7 +651,7 @@ const INITIAL_DATA = {
   charterProgrammes: OFFICIAL_CHARTER_PROGRAMMES,
   programmes: [],
   programmeStages: [],
-  programmeSchedules: [],
+  programmeSchedules: OFFICIAL_CONFIRMED_FESTIVAL_EVENTS,
   guestCategories: [
     {
       "id": "GCAT-HON",
@@ -1264,6 +1267,19 @@ class FestivalStore {
         details: 'Audit reconciliation ratified: Team 1 (Dazzlers) = 22 members, Team 2 (Dynamos) = 22 members (Total: 44 allocated scholars). Resolved typographical duplicate roster entries from Dalenzia_Teams.pdf: STU-1026 (Anshid) and STU-1033 (Nusaih) retained in unassigned pool without deletion.',
         performedBy: 'System Integrity Auditor & Festival Secretariat',
         timestamp: new Date().toISOString()
+      });
+    }
+
+    // Ensure official 7 festival schedule events exist
+    if (!currentData.programmeSchedules || !Array.isArray(currentData.programmeSchedules) || currentData.programmeSchedules.length === 0) {
+      currentData.programmeSchedules = JSON.parse(JSON.stringify(OFFICIAL_CONFIRMED_FESTIVAL_EVENTS));
+    } else {
+      // Ensure all 7 confirmed festival events are present
+      OFFICIAL_CONFIRMED_FESTIVAL_EVENTS.forEach(evt => {
+        const exists = currentData.programmeSchedules.some(s => s.id === evt.id || (s.date === evt.date && s.title === evt.title));
+        if (!exists) {
+          currentData.programmeSchedules.push({ ...evt });
+        }
       });
     }
 
@@ -3867,12 +3883,12 @@ class FestivalStore {
       !s.isArchived && s.status !== 'Cancelled' && s.id !== excludeScheduleId
     );
 
-    const candidateDateNorm = String(date).includes('21') ? 'Dec 21, 2026' : 'Dec 22, 2026';
+    const candidateDateNorm = String(date).includes('21') ? 'Dec 21, 2026' : String(date).includes('22') ? 'Dec 22, 2026' : 'Dec 23, 2026';
 
     const normStage = (s) => String(s || '').toLowerCase().replace(/\s*\(stage\s*\d+\)/i, '').trim();
 
     activeSchedules.forEach(existing => {
-      const existingDateNorm = String(existing.date || '').includes('21') ? 'Dec 21, 2026' : 'Dec 22, 2026';
+      const existingDateNorm = String(existing.date || '').includes('21') ? 'Dec 21, 2026' : String(existing.date || '').includes('22') ? 'Dec 22, 2026' : 'Dec 23, 2026';
       if (existingDateNorm !== candidateDateNorm) return;
 
       const existStart = this._parseTimeToMinutes(existing.startTime);
@@ -4179,6 +4195,7 @@ class FestivalStore {
 
     this.addAuditLog('SCHEDULE_ENTRY_CREATED', `Scheduled session for ${prog.title} at ${newSchedule.stage} on ${newSchedule.date} by ${adminUser}`);
     this.saveData();
+    syncScheduleToFirebase(newSchedule).catch(e => console.warn('Firebase sync warning:', e));
     return { success: true, schedule: newSchedule, conflicts: conflictCheck.conflicts };
   }
 
@@ -4229,6 +4246,7 @@ class FestivalStore {
 
     this.addAuditLog('SCHEDULE_ENTRY_UPDATED', `Updated schedule for ${schedule.programmeTitle} (${schedule.id}) by ${adminUser}`);
     this.saveData();
+    syncScheduleToFirebase(schedule).catch(e => console.warn('Firebase sync warning:', e));
     return { success: true, schedule, conflicts: conflictCheck.conflicts };
   }
 
@@ -4252,6 +4270,7 @@ class FestivalStore {
 
     this.addAuditLog('SCHEDULE_ENTRY_CANCELLED', `Cancelled schedule for ${schedule.programmeTitle} (${schedule.id}): ${reason} by ${adminUser}`);
     this.saveData();
+    syncScheduleToFirebase(schedule).catch(e => console.warn('Firebase sync warning:', e));
     return { success: true, schedule };
   }
 
@@ -4276,6 +4295,7 @@ class FestivalStore {
 
     this.addAuditLog('SCHEDULE_ENTRY_ARCHIVED', `Archived schedule entry for ${schedule.programmeTitle} (${schedule.id}) by ${adminUser}`);
     this.saveData();
+    syncScheduleToFirebase(schedule).catch(e => console.warn('Firebase sync warning:', e));
     return { success: true };
   }
 
@@ -4286,6 +4306,7 @@ class FestivalStore {
     this.data.programmeSchedules = (this.data.programmeSchedules || []).filter(s => s.id !== id);
     this.addAuditLog('SCHEDULE_ENTRY_DELETED', `Deleted schedule entry ${id} by ${adminUser}`);
     this.saveData();
+    deleteScheduleFromFirebase(id).catch(e => console.warn('Firebase sync warning:', e));
     return { success: true };
   }
 
@@ -4296,10 +4317,12 @@ class FestivalStore {
     }).filter(s => s.isPublished && s.status !== 'Cancelled');
 
     if (date) {
-      if (date === 'day1' || date.includes('21')) {
+      if (date === 'day1' || String(date).includes('21')) {
         list = list.filter(s => String(s.date).includes('21'));
-      } else if (date === 'day2' || date.includes('22')) {
+      } else if (date === 'day2' || String(date).includes('22')) {
         list = list.filter(s => String(s.date).includes('22'));
+      } else if (date === 'day3' || String(date).includes('23')) {
+        list = list.filter(s => String(s.date).includes('23'));
       } else {
         list = list.filter(s => s.date === date);
       }
@@ -10756,39 +10779,189 @@ class FestivalStore {
   }
 
   getStudentSchedule(studentId, filterDate = null) {
-    const comps = this.getStudentCompetitions(studentId);
-    const progs = this.getStudentProgrammes(studentId);
+    const student = (this.data.registeredStudents || []).find(s => s.id === studentId || s.chestNo === studentId);
+    const studentCategory = student?.classCategory;
 
-    const scheduleItems = [
-      ...comps.map(c => ({
-        id: `SCH-COMP-${c.id}`,
-        title: c.title,
-        subtitle: `${c.code} • ${c.category}`,
-        kind: 'Competition',
-        date: c.date,
-        time: c.time,
-        venue: c.venue,
-        status: c.status,
-        badgeColor: '#A91F35'
-      })),
-      ...progs.map(p => ({
-        id: `SCH-PRG-${p.id}`,
-        title: p.title,
-        subtitle: `${p.category} • Stage Session`,
-        kind: 'Programme',
-        date: p.date,
-        time: p.time,
-        venue: p.venue,
-        status: 'Confirmed',
-        badgeColor: '#E6A916'
-      }))
-    ];
+    // 1. All 7 Confirmed official festival events across the 3 days
+    const festivalEvents = (this.data.programmeSchedules || []).filter(s => !s.isArchived && s.isPublished !== false).map(s => {
+      const day = s.day || (String(s.date).includes('21') ? 'Day 01' : String(s.date).includes('22') ? 'Day 02' : 'Day 03');
+      return {
+        id: `SCH-EVT-${s.id}`,
+        title: s.programmeTitle || s.title,
+        subtitle: `${s.category || 'General'} • Official Festival Event`,
+        kind: 'Festival Event',
+        day,
+        date: s.date,
+        time: s.timeRange || s.startTime || s.time,
+        venue: s.stage || s.venue || 'Main Stage',
+        status: s.status || 'Confirmed',
+        badgeColor: '#E6A916',
+        isOfficialFestivalEvent: true
+      };
+    });
 
-    if (filterDate) {
-      return scheduleItems.filter(item => item.date.includes(filterDate));
+    // 2. Student's specific competitions (configured and published only, without exposing others' records)
+    const studentCompetitions = [];
+    if (student) {
+      const assignments = (this.data.programmeAssignments || []).filter(c => c.isPublished);
+      assignments.forEach(c => {
+        const isParticipant = (c.participants || []).some(p => p.studentId === student.id || p.chestNo === student.chestNo);
+        const isSameCategory = studentCategory && c.category && c.category.toLowerCase() === studentCategory.toLowerCase();
+        if (isParticipant || isSameCategory) {
+          const day = String(c.date).includes('21') ? 'Day 01' : String(c.date).includes('22') ? 'Day 02' : 'Day 03';
+          studentCompetitions.push({
+            id: `SCH-COMP-${c.id}`,
+            title: c.title || c.name,
+            subtitle: `${c.code} • ${c.category} (${c.classification || 'Stage'})`,
+            kind: 'Competition',
+            day,
+            date: c.date || 'Dec 21, 2026',
+            time: c.time || c.startTime || 'To Be Announced',
+            venue: c.stage || c.venue || 'To Be Announced',
+            status: c.status || 'Scheduled',
+            badgeColor: '#A91F35',
+            isDirectParticipant: isParticipant
+          });
+        }
+      });
     }
 
-    return scheduleItems.sort((a, b) => (a.date > b.date ? 1 : -1));
+    let allItems = [...festivalEvents, ...studentCompetitions];
+
+    if (filterDate && filterDate !== 'all') {
+      allItems = allItems.filter(item => {
+        if (filterDate === 'day1') return String(item.date).includes('21') || item.day === 'Day 01';
+        if (filterDate === 'day2') return String(item.date).includes('22') || item.day === 'Day 02';
+        if (filterDate === 'day3') return String(item.date).includes('23') || item.day === 'Day 03';
+        return String(item.date).includes(filterDate) || item.day === filterDate;
+      });
+    }
+
+    return allItems;
+  }
+
+  getJudgeSchedule(judgeId) {
+    if (!judgeId) return [];
+    // Only competitions where this judge is assigned
+    const assignments = this.data.programmeAssignments || [];
+    const assigned = assignments.filter(c => {
+      const judges = c.assignedJudgeIds || [];
+      return judges.includes(judgeId) || judges.some(j => String(j).toLowerCase() === String(judgeId).toLowerCase());
+    });
+
+    return assigned.map(c => ({
+      id: c.id,
+      competitionCode: c.code || c.competitionCode,
+      programmeName: c.title || c.name || c.competitionTitle,
+      category: c.category,
+      classification: c.classification || c.format || 'Stage',
+      day: String(c.date).includes('21') ? 'Day 01' : String(c.date).includes('22') ? 'Day 02' : 'Day 03',
+      date: c.date || '21, 22, 23 DECEMBER 2026',
+      startTime: c.startTime || c.time || 'To Be Announced',
+      time: c.time || c.startTime || 'To Be Announced',
+      endTime: c.endTime || '',
+      stage: c.stage || c.venue || 'To Be Announced',
+      venue: c.venue || c.stage || 'To Be Announced',
+      status: c.status || 'Upcoming',
+      isAssigned: true
+    }));
+  }
+
+  getTeamLeaderSchedule(teamId) {
+    // 1. All confirmed festival events (Day 1, 2, 3)
+    const confirmedEvents = (this.data.programmeSchedules || []).filter(s => !s.isArchived && s.isPublished !== false).map(s => ({
+      id: s.id,
+      title: s.programmeTitle || s.title,
+      code: s.programmeCode || s.code || 'EVT',
+      category: s.category || 'General',
+      classification: 'Festival Event',
+      day: s.day || (String(s.date).includes('21') ? 'Day 01' : String(s.date).includes('22') ? 'Day 02' : 'Day 03'),
+      date: s.date,
+      time: s.timeRange || s.startTime || s.time,
+      venue: s.stage || s.venue || 'Main Stage',
+      status: s.status || 'Confirmed',
+      isFestivalEvent: true
+    }));
+
+    // 2. Team-specific configured and published competitions
+    const teamCompetitions = [];
+    if (teamId) {
+      const assignments = (this.data.programmeAssignments || []).filter(c => c.isPublished);
+      assignments.forEach(comp => {
+        const teamParticipants = (comp.participants || []).filter(p => p.teamId === teamId);
+        if (teamParticipants.length > 0) {
+          teamCompetitions.push({
+            id: comp.id,
+            title: comp.title || comp.name,
+            code: comp.code,
+            category: comp.category,
+            classification: comp.classification || 'Stage',
+            day: String(comp.date).includes('21') ? 'Day 01' : String(comp.date).includes('22') ? 'Day 02' : 'Day 03',
+            date: comp.date,
+            time: comp.time || comp.startTime || 'To Be Announced',
+            venue: comp.stage || comp.venue || 'To Be Announced',
+            status: comp.status || 'Scheduled',
+            participantsCount: teamParticipants.length,
+            isCompetition: true
+          });
+        }
+      });
+    }
+
+    return {
+      confirmedEvents,
+      teamCompetitions
+    };
+  }
+
+  getStageSchedule(stageIdOrName) {
+    if (!stageIdOrName) return [];
+    const norm = (s) => String(s || '').toLowerCase().trim();
+    const query = norm(stageIdOrName);
+
+    // Official festival events on this stage
+    const events = (this.data.programmeSchedules || []).filter(s => {
+      if (s.isArchived || s.isPublished === false) return false;
+      const sStage = norm(s.stage);
+      const sStageId = norm(s.stageId);
+      const sVenue = norm(s.venue);
+      return sStage === query || sStageId === query || sVenue === query ||
+             sStage.includes(query) || (sStageId && query.includes(sStageId));
+    }).map(s => ({
+      id: s.id,
+      title: s.programmeTitle || s.title,
+      code: s.programmeCode || s.code,
+      category: s.category || 'General',
+      day: s.day || (String(s.date).includes('21') ? 'Day 01' : String(s.date).includes('22') ? 'Day 02' : 'Day 03'),
+      date: s.date,
+      time: s.timeRange || s.startTime || s.time,
+      venue: s.stage || s.venue || 'Main Stage',
+      status: s.status || 'Confirmed',
+      isOfficialEvent: true
+    }));
+
+    // Configured and published competitions for this stage
+    const comps = (this.data.programmeAssignments || []).filter(c => {
+      if (!c.isPublished) return false;
+      const cStage = norm(c.stage);
+      const cStageId = norm(c.stageId);
+      const cVenue = norm(c.venue);
+      return cStage === query || cStageId === query || cVenue === query ||
+             cStage.includes(query) || (cStageId && query.includes(cStageId));
+    }).map(c => ({
+      id: c.id,
+      title: c.title || c.name,
+      code: c.code,
+      category: c.category,
+      day: String(c.date).includes('21') ? 'Day 01' : String(c.date).includes('22') ? 'Day 02' : 'Day 03',
+      date: c.date,
+      time: c.time || c.startTime || 'To Be Announced',
+      venue: c.stage || c.venue || 'To Be Announced',
+      status: c.status || 'Scheduled',
+      isCompetition: true
+    }));
+
+    return [...events, ...comps];
   }
 
   getStudentPublishedResults(studentId) {

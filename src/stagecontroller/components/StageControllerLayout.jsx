@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  LayoutDashboard, Trophy, Hash, Sparkles, Volume2,
+  LayoutDashboard, CalendarDays, Trophy, Hash, Sparkles, Volume2,
   Tv, ShieldCheck, FileText, Settings, LogOut, Menu,
   X, ExternalLink, Globe, Mic2, MapPin, Radio,
   Clock, Monitor, LifeBuoy
@@ -31,6 +31,7 @@ export default function StageControllerLayout({
 
   const navigationItems = [
     { id: 'dashboard', name: 'Stage Dashboard', icon: LayoutDashboard },
+    { id: 'schedule', name: 'Stage Schedule', icon: CalendarDays },
     { id: 'competitions', name: 'Stage Competitions', icon: Trophy },
     { id: 'codes', name: 'Participant Code Letters', icon: Hash },
     { id: 'draw', name: 'Live Random Code Draw', icon: Sparkles, highlight: true },
