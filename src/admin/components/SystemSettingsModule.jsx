@@ -18,6 +18,7 @@ import {
 import { firebaseConfig, app } from '../../firebase/config';
 import { testFirebaseConnection, syncFestivalStoreToCloud } from '../../firebase/firebaseService';
 import festivalStore from '../data/festivalStore';
+import PortalAccountsManagement from './PortalAccountsManagement';
 
 export default function SystemSettingsModule() {
   const [connectionStatus, setConnectionStatus] = useState('ready'); // ready, checking, connected, error
@@ -342,6 +343,11 @@ export default function SystemSettingsModule() {
             </a>
           </div>
         </div>
+      </div>
+
+      {/* Unified Portal Authentication & Accounts Directory */}
+      <div className="pt-4">
+        <PortalAccountsManagement />
       </div>
     </div>
   );

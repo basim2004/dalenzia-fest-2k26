@@ -2,46 +2,67 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mic2, Lock, ArrowRight, ShieldCheck, AlertCircle,
-  Globe, HelpCircle, Radio, Sparkles, MapPin, Tv
+  Globe, HelpCircle, Radio, Sparkles, MapPin, Tv,
+  Eye, EyeOff
 } from 'lucide-react';
 import { festivalStore } from '../../admin/data/festivalStore';
+import { unifiedLogin, unifiedChangePassword } from '../../services/unifiedAuthService';
+import UnifiedPasswordModal from '../../components/auth/UnifiedPasswordModal';
 
 export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic }) {
-  const [emailOrUsername, setEmailOrUsername] = useState('controller1');
-  const [password, setPassword] = useState('stage2k26');
+  const [emailOrUsername, setEmailOrUsername] = useState('stage01@stagecontroller');
+  const [password, setPassword] = useState('+91 98470 50001');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
 
-  const demoStages = [
-    { id: 'controller1', stageId: 'STG-01', stageNumber: '01', name: 'Cordova Grand Stage', controller: 'Usthad Salman Farisi' },
-    { id: 'controller2', stageId: 'STG-02', stageNumber: '02', name: 'Al-Farabi Heritage Hall', controller: 'Prof. Zakariyya Hudawi' },
-    { id: 'controller3', stageId: 'STG-03', stageNumber: '03', name: 'Ibn Khaldun Academic Hall', controller: 'Usthad Zainul Abid' },
-    { id: 'controller4', stageId: 'STG-04', stageNumber: '04', name: 'Media Studio Preview Room', controller: 'Usthad Bilal Shareef' },
-    { id: 'controller5', stageId: 'STG-05', stageNumber: '05', name: 'Al-Andalus Exhibition Quadrangle', controller: 'Usthad Anas Faizy' }
-  ];
+  // First-login password change state
+  const [pendingSession, setPendingSession] = useState(null);
+  const [showFirstLoginModal, setShowFirstLoginModal] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      const result = festivalStore.verifyStageControllerLogin(emailOrUsername, password);
-      if (result && result.session) {
-        onLoginSuccess(result.session);
+      const res = await unifiedLogin(emailOrUsername, password, 'STAGE_CONTROLLER');
+      setIsLoading(false);
+
+      if (res && res.success) {
+        if (res.mustChangePassword) {
+          setPendingSession({
+            ...res.session,
+            currentPasswordUsed: password
+          });
+          setShowFirstLoginModal(true);
+          return;
+        }
+
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('dalenzia_stage_session', JSON.stringify(res.session));
+        }
+        onLoginSuccess(res.session);
+      } else {
+        setError(res?.error || 'Invalid Stage Controller credentials.');
       }
     } catch (err) {
-      setError(err.message || 'Invalid Stage Controller credentials.');
-    } finally {
       setIsLoading(false);
+      setError(err.message || 'Invalid Stage Controller credentials.');
     }
   };
 
-  const handleQuickSelect = (stage) => {
-    setEmailOrUsername(stage.id);
-    setPassword('stage2k26');
-    setError('');
+  const handleFirstTimePasswordSubmit = async ({ newPassword }) => {
+    if (!pendingSession) return;
+    await unifiedChangePassword('STAGE_CONTROLLER', pendingSession.id, pendingSession.currentPasswordUsed, newPassword);
+    const updatedSession = { ...pendingSession, mustChangePassword: false };
+    delete updatedSession.currentPasswordUsed;
+    setShowFirstLoginModal(false);
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('dalenzia_stage_session', JSON.stringify(updatedSession));
+    }
+    onLoginSuccess(updatedSession);
   };
 
   return (
@@ -106,7 +127,7 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 mb-1.5 uppercase tracking-wider">
-                  Controller Username or Email
+                  Authorized Username (username@stagecontroller)
                 </label>
                 <div className="relative">
                   <Radio className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
@@ -115,7 +136,7 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
                     value={emailOrUsername}
                     onChange={(e) => setEmailOrUsername(e.target.value)}
                     required
-                    placeholder="e.g. controller1 or controller1@dalenziafest.in"
+                    placeholder="e.g. stage01@stagecontroller"
                     className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                   />
                 </div>
@@ -124,7 +145,7 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="text-xs font-bold text-stone-700 uppercase tracking-wider">
-                    Password
+                    Password (Initial: Registered Phone)
                   </label>
                   <button
                     type="button"
@@ -137,64 +158,58 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
                 <div className="relative">
                   <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    placeholder="Enter stage controller password"
-                    className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
+                    placeholder="Registered Phone Number"
+                    className="w-full pl-10 pr-10 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 cursor-pointer"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
                 </div>
               </div>
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full mt-2 py-3 bg-[#A91F35] hover:bg-[#8e172a] text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.99] disabled:opacity-70"
+                className="w-full mt-2 py-3 bg-[#A91F35] hover:bg-[#8e172a] text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.99] disabled:opacity-70 cursor-pointer"
               >
                 <span>{isLoading ? 'Verifying...' : 'Access Stage Operations'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </form>
 
-            {/* Quick Demo Stage Selector */}
+            {/* Stage Controller Standard Credentials Notice */}
             <div className="mt-6 pt-5 border-t border-stone-100">
-              <div className="flex items-center justify-between mb-2.5">
-                <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">
-                  Select Assigned Stage
-                </span>
-                <span className="text-[10px] text-stone-400 font-mono">Pass: stage2k26</span>
-              </div>
-
-              <div className="space-y-1.5">
-                {demoStages.slice(0, 3).map((st) => (
-                  <button
-                    key={st.id}
-                    type="button"
-                    onClick={() => handleQuickSelect(st)}
-                    className={`w-full p-2.5 rounded-xl border text-left transition-all text-xs flex items-center justify-between ${
-                      emailOrUsername.toLowerCase() === st.id
-                        ? 'border-[#A91F35] bg-[#A91F35]/5 shadow-xs'
-                        : 'border-stone-200 hover:border-stone-300 bg-stone-50/60'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <span className="px-2 py-0.5 rounded-md bg-[#A91F35] text-white font-mono font-bold text-[10px]">
-                        STAGE {st.stageNumber}
-                      </span>
-                      <div>
-                        <div className="font-bold text-stone-900 text-xs truncate">{st.name}</div>
-                        <div className="text-[10px] text-stone-500">{st.controller}</div>
-                      </div>
-                    </div>
-                    <ArrowRight className="w-3.5 h-3.5 text-stone-400" />
-                  </button>
-                ))}
+              <div className="p-3.5 rounded-2xl bg-[#F7F3E9] border border-stone-200/80 text-[11px] text-stone-600 space-y-1">
+                <div className="font-bold text-[#A91F35] flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Standard Stage Controller Credentials</span>
+                </div>
+                <div>Username: <strong className="font-mono text-stone-800">stage01@stagecontroller</strong> ... <strong className="font-mono text-stone-800">stage05@stagecontroller</strong></div>
+                <div>Initial Password: <strong className="font-mono text-stone-800">Registered Phone Number (+91 98470 50001 - 50005)</strong></div>
               </div>
             </div>
           </div>
         </motion.div>
       </main>
+
+      {/* Mandatory First-Login Password Change Modal */}
+      <UnifiedPasswordModal
+        isOpen={showFirstLoginModal}
+        isFirstLogin={true}
+        portalTitle="Stage Controller Operations"
+        userName={pendingSession?.name || "Stage Controller"}
+        initialPasswordUsed={pendingSession?.currentPasswordUsed || ""}
+        onSubmit={handleFirstTimePasswordSubmit}
+        onClose={() => setShowFirstLoginModal(false)}
+      />
 
       {/* Help Modal */}
       <AnimatePresence>

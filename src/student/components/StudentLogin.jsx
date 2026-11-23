@@ -3,32 +3,66 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   GraduationCap, Lock, Mail, ArrowRight, ShieldCheck,
   AlertCircle, Sparkles, CheckCircle2, Globe, HelpCircle,
-  UserCheck, Award, QrCode
+  UserCheck, Award, QrCode, Eye, EyeOff
 } from 'lucide-react';
 import { festivalStore } from '../../admin/data/festivalStore';
+import { unifiedLogin, unifiedChangePassword } from '../../services/unifiedAuthService';
+import UnifiedPasswordModal from '../../components/auth/UnifiedPasswordModal';
 
 export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
   const [chestNoOrEmail, setChestNoOrEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showForgotModal, setShowForgotModal] = useState(false);
 
-  const handleSubmit = (e) => {
+  // First-login password change state
+  const [pendingSession, setPendingSession] = useState(null);
+  const [showFirstLoginModal, setShowFirstLoginModal] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      const result = festivalStore.verifyStudentLogin(chestNoOrEmail, password);
-      if (result && result.session) {
-        onLoginSuccess(result.session);
+      const res = await unifiedLogin(chestNoOrEmail, password, 'STUDENT');
+      setIsLoading(false);
+
+      if (res && res.success) {
+        if (res.mustChangePassword) {
+          setPendingSession({
+            ...res.session,
+            currentPasswordUsed: password
+          });
+          setShowFirstLoginModal(true);
+          return;
+        }
+
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('dalenzia_student_session', JSON.stringify(res.session));
+        }
+        onLoginSuccess(res.session);
+      } else {
+        setError(res?.error || 'Invalid student credentials.');
       }
     } catch (err) {
-      setError(err.message || 'Invalid student credentials.');
-    } finally {
       setIsLoading(false);
+      setError(err.message || 'Invalid student credentials.');
     }
+  };
+
+  const handleFirstTimePasswordSubmit = async ({ newPassword }) => {
+    if (!pendingSession) return;
+    await unifiedChangePassword('STUDENT', pendingSession.id, pendingSession.currentPasswordUsed, newPassword);
+    const updatedSession = { ...pendingSession, mustChangePassword: false };
+    delete updatedSession.currentPasswordUsed;
+    setShowFirstLoginModal(false);
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('dalenzia_student_session', JSON.stringify(updatedSession));
+    }
+    onLoginSuccess(updatedSession);
   };
 
 
@@ -95,7 +129,7 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 mb-1.5 uppercase tracking-wider">
-                  Chest Number or Email
+                  Authorized Username (username@student)
                 </label>
                 <div className="relative">
                   <UserCheck className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
@@ -104,7 +138,7 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
                     value={chestNoOrEmail}
                     onChange={(e) => setChestNoOrEmail(e.target.value)}
                     required
-                    placeholder="e.g. C-101 or student@dalanzia.org"
+                    placeholder="e.g. stu1001@student or c101@student"
                     className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                   />
                 </div>
@@ -113,7 +147,7 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="text-xs font-bold text-stone-700 uppercase tracking-wider">
-                    Password
+                    Password (Initial: Student ID)
                   </label>
                   <button
                     type="button"
@@ -126,20 +160,27 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
                 <div className="relative">
                   <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    placeholder="Enter student password"
-                    className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
+                    placeholder="Official Student ID (e.g. STU-1001)"
+                    className="w-full pl-10 pr-10 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 cursor-pointer"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
                 </div>
               </div>
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full mt-2 py-3 bg-[#A91F35] hover:bg-[#8e172a] text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.99] disabled:opacity-70"
+                className="w-full mt-2 py-3 bg-[#A91F35] hover:bg-[#8e172a] text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.99] disabled:opacity-70 cursor-pointer"
               >
                 <span>{isLoading ? 'Authenticating...' : 'Enter Student Portal'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -151,14 +192,26 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
               <div className="p-3.5 rounded-2xl bg-[#F7F3E9] border border-stone-200/80 text-[11px] text-stone-600 space-y-1">
                 <div className="font-bold text-stone-900 flex items-center gap-1.5">
                   <GraduationCap className="w-4 h-4 text-[#A91F35]" />
-                  <span>Student Credentials Notice</span>
+                  <span>Standard Student Credentials</span>
                 </div>
-                <div>Please sign in with your allocated Chest Number (e.g. C-101) or registered Email and festival password. If you need account credentials, contact your squad Team Leader or the Festival Secretariat.</div>
+                <div>Username format: <strong className="font-mono text-stone-800">username@student</strong> (e.g. <span className="font-mono">stu1001@student</span>, <span className="font-mono">c101@student</span>).</div>
+                <div>Initial Password: <strong className="font-mono text-stone-800">Your Official Student ID (e.g. STU-1001)</strong>. Must be changed upon first login.</div>
               </div>
             </div>
           </div>
         </motion.div>
       </main>
+
+      {/* Mandatory First-Login Password Change Modal */}
+      <UnifiedPasswordModal
+        isOpen={showFirstLoginModal}
+        isFirstLogin={true}
+        portalTitle="Student Portal"
+        userName={pendingSession?.name || "Student"}
+        initialPasswordUsed={pendingSession?.currentPasswordUsed || ""}
+        onSubmit={handleFirstTimePasswordSubmit}
+        onClose={() => setShowFirstLoginModal(false)}
+      />
 
       {/* Forgot Password Modal */}
       <AnimatePresence>

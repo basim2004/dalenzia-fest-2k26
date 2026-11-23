@@ -17,10 +17,12 @@ import {
   Calendar
 } from 'lucide-react';
 import { festivalStore } from '../../admin/data/festivalStore';
+import { unifiedLogin, unifiedChangePassword } from '../../services/unifiedAuthService';
+import UnifiedPasswordModal from '../../components/auth/UnifiedPasswordModal';
 
 export default function ConvenerLogin({ onLoginSuccess, onNavigatePublic }) {
-  const [identifier, setIdentifier] = useState('convener@dalenziafest.in');
-  const [password, setPassword] = useState('convener2k26');
+  const [identifier, setIdentifier] = useState('irfan@convener');
+  const [password, setPassword] = useState('+91 90481 31562');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -28,28 +30,56 @@ export default function ConvenerLogin({ onLoginSuccess, onNavigatePublic }) {
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
 
-  const handleSubmit = (e) => {
+  // First-login password change state
+  const [pendingSession, setPendingSession] = useState(null);
+  const [showFirstLoginModal, setShowFirstLoginModal] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     if (!identifier.trim() || !password.trim()) {
-      setError('Please provide both Convener email and password.');
+      setError('Please provide both Convener username and password.');
       return;
     }
 
     setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      const res = await unifiedLogin(identifier, password, 'CONVENER');
       setIsLoading(false);
-      const res = festivalStore.verifyConvenerLogin(identifier, password);
+
       if (res.success) {
+        if (res.mustChangePassword) {
+          setPendingSession({
+            ...res.session,
+            currentPasswordUsed: password
+          });
+          setShowFirstLoginModal(true);
+          return;
+        }
+
         sessionStorage.removeItem('dalenzia_admin_session');
         sessionStorage.setItem('dalenzia_convener_session', JSON.stringify(res.session));
         onLoginSuccess(res.session);
       } else {
         setError(res.error || 'Invalid credentials. Access restricted to authorized Festival Convener.');
       }
-    }, 500);
+    } catch (err) {
+      setIsLoading(false);
+      setError(err.message || 'Authentication error.');
+    }
+  };
+
+  const handleFirstTimePasswordSubmit = async ({ newPassword }) => {
+    if (!pendingSession) return;
+    await unifiedChangePassword('CONVENER', pendingSession.id, pendingSession.currentPasswordUsed, newPassword);
+    const updatedSession = { ...pendingSession, mustChangePassword: false };
+    delete updatedSession.currentPasswordUsed;
+    setShowFirstLoginModal(false);
+    sessionStorage.removeItem('dalenzia_admin_session');
+    sessionStorage.setItem('dalenzia_convener_session', JSON.stringify(updatedSession));
+    onLoginSuccess(updatedSession);
   };
 
   const handleSendReset = (e) => {
@@ -120,7 +150,7 @@ export default function ConvenerLogin({ onLoginSuccess, onNavigatePublic }) {
             {/* Email / Username Input */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-stone-700 block">
-                Convener Email / Identifier
+                Official Username (username@convener)
               </label>
               <div className="relative">
                 <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
@@ -128,7 +158,7 @@ export default function ConvenerLogin({ onLoginSuccess, onNavigatePublic }) {
                   type="text"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  placeholder="convener@dalenziafest.in"
+                  placeholder="irfan@convener"
                   required
                   className="w-full bg-[#FAF7F0] pl-10 pr-4 py-2.5 rounded-2xl border border-stone-300 text-xs font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                 />
@@ -139,7 +169,7 @@ export default function ConvenerLogin({ onLoginSuccess, onNavigatePublic }) {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-stone-700">
-                  Password
+                  Password (Initial: Registered Phone)
                 </label>
                 <button
                   type="button"
@@ -155,7 +185,7 @@ export default function ConvenerLogin({ onLoginSuccess, onNavigatePublic }) {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
+                  placeholder="Registered Phone Number"
                   required
                   className="w-full bg-[#FAF7F0] pl-10 pr-10 py-2.5 rounded-2xl border border-stone-300 text-xs font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                 />
@@ -169,14 +199,14 @@ export default function ConvenerLogin({ onLoginSuccess, onNavigatePublic }) {
               </div>
             </div>
 
-            {/* Quick Demo Credentials Reminder */}
+            {/* Standard Credentials Reminder */}
             <div className="p-3 bg-[#F7F3E9] rounded-2xl border border-stone-200/80 text-[11px] text-stone-600 space-y-1">
               <div className="font-bold text-[#A91F35] flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Authorized Convener Credentials</span>
+                <span>Standard Convener Credentials</span>
               </div>
-              <div>Email: <strong className="font-mono text-stone-800">convener@dalenziafest.in</strong></div>
-              <div>Password: <strong className="font-mono text-stone-800">convener2k26</strong></div>
+              <div>Username: <strong className="font-mono text-stone-800">irfan@convener</strong></div>
+              <div>Initial Password: <strong className="font-mono text-stone-800">Registered Phone (+91 90481 31562)</strong></div>
             </div>
 
             {/* Submit Button */}
@@ -211,6 +241,17 @@ export default function ConvenerLogin({ onLoginSuccess, onNavigatePublic }) {
           </div>
         </motion.div>
       </div>
+
+      {/* Mandatory First-Login Password Change Modal */}
+      <UnifiedPasswordModal
+        isOpen={showFirstLoginModal}
+        isFirstLogin={true}
+        portalTitle="Convener Operational Portal"
+        userName={pendingSession?.user || "Festival Convener"}
+        initialPasswordUsed={pendingSession?.currentPasswordUsed || ""}
+        onSubmit={handleFirstTimePasswordSubmit}
+        onClose={() => setShowFirstLoginModal(false)}
+      />
 
       {/* Forgot Password Modal */}
       <AnimatePresence>

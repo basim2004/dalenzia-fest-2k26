@@ -14,10 +14,12 @@ import {
   X
 } from 'lucide-react';
 import { festivalStore } from '../data/festivalStore';
+import { unifiedLogin, unifiedChangePassword } from '../../services/unifiedAuthService';
+import UnifiedPasswordModal from '../../components/auth/UnifiedPasswordModal';
 
 export default function AdminLogin({ onLoginSuccess }) {
-  const [identifier, setIdentifier] = useState('admin@dalenziafest.in');
-  const [password, setPassword] = useState('dalenzia2k26');
+  const [identifier, setIdentifier] = useState('basim@admin');
+  const [password, setPassword] = useState('+91 98470 10001');
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState('super_admin');
   const [error, setError] = useState('');
@@ -26,29 +28,56 @@ export default function AdminLogin({ onLoginSuccess }) {
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
 
-  const handleSubmit = (e) => {
+  // First-login password change state
+  const [pendingSession, setPendingSession] = useState(null);
+  const [showFirstLoginModal, setShowFirstLoginModal] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     if (!identifier.trim() || !password.trim()) {
-      setError('Please provide both username/email and password.');
+      setError('Please provide both username and password.');
       return;
     }
 
     setIsLoading(true);
 
-    // Secure authentication check via backend store
-    setTimeout(() => {
+    try {
+      const res = await unifiedLogin(identifier, password, 'MAIN_ADMIN');
       setIsLoading(false);
-      const res = festivalStore.verifyAdminLogin(identifier, password, role);
+
       if (res.success) {
+        if (res.mustChangePassword) {
+          setPendingSession({
+            ...res.session,
+            currentPasswordUsed: password
+          });
+          setShowFirstLoginModal(true);
+          return;
+        }
+
         sessionStorage.removeItem('dalenzia_convener_session');
         sessionStorage.setItem('dalenzia_admin_session', JSON.stringify(res.session));
         onLoginSuccess(res.session);
       } else {
-        setError(res.error || 'Invalid developer credentials. Access restricted.');
+        setError(res.error || 'Invalid administrator credentials. Access restricted.');
       }
-    }, 500);
+    } catch (err) {
+      setIsLoading(false);
+      setError(err.message || 'Authentication error.');
+    }
+  };
+
+  const handleFirstTimePasswordSubmit = async ({ newPassword }) => {
+    if (!pendingSession) return;
+    await unifiedChangePassword('MAIN_ADMIN', pendingSession.id, pendingSession.currentPasswordUsed, newPassword);
+    const updatedSession = { ...pendingSession, mustChangePassword: false };
+    delete updatedSession.currentPasswordUsed;
+    setShowFirstLoginModal(false);
+    sessionStorage.removeItem('dalenzia_convener_session');
+    sessionStorage.setItem('dalenzia_admin_session', JSON.stringify(updatedSession));
+    onLoginSuccess(updatedSession);
   };
 
   const handleSendReset = (e) => {
@@ -126,10 +155,10 @@ export default function AdminLogin({ onLoginSuccess }) {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Username / Email */}
+            {/* Username */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
-                Official Email or ID
+                Authorized Username (username@admin)
               </label>
               <div className="relative">
                 <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
@@ -137,7 +166,7 @@ export default function AdminLogin({ onLoginSuccess }) {
                   type="text"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  placeholder="admin@dalenziafest.in"
+                  placeholder="basim@admin or admin@admin"
                   className="w-full bg-[#FAF7F0] pl-10 pr-4 py-2.5 rounded-xl border border-stone-300 text-xs font-semibold text-stone-800 focus:outline-none focus:border-[#A91F35] transition-all"
                 />
               </div>
@@ -147,7 +176,7 @@ export default function AdminLogin({ onLoginSuccess }) {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
-                  Password
+                  Password (Initial: Registered Phone)
                 </label>
                 <button
                   type="button"
@@ -163,7 +192,7 @@ export default function AdminLogin({ onLoginSuccess }) {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
+                  placeholder="Registered Phone Number"
                   className="w-full bg-[#FAF7F0] pl-10 pr-10 py-2.5 rounded-xl border border-stone-300 text-xs font-semibold text-stone-800 focus:outline-none focus:border-[#A91F35] transition-all"
                 />
                 <button
@@ -212,11 +241,22 @@ export default function AdminLogin({ onLoginSuccess }) {
           {/* Quick Notice */}
           <div className="pt-2 border-t border-stone-200 text-center">
             <p className="text-[11px] text-stone-500 font-medium">
-              Demo Credentials: <span className="font-mono text-stone-800 font-bold">admin@dalenziafest.in</span> / <span className="font-mono text-stone-800 font-bold">dalenzia2k26</span>
+              Standard Format: <span className="font-mono text-stone-800 font-bold">username@admin</span> • Initial: <span className="font-mono text-stone-800 font-bold">Registered Phone</span>
             </p>
           </div>
         </div>
       </motion.div>
+
+      {/* Mandatory First-Login Password Change Modal */}
+      <UnifiedPasswordModal
+        isOpen={showFirstLoginModal}
+        isFirstLogin={true}
+        portalTitle="Developer & Main Admin Control Centre"
+        userName={pendingSession?.user || "Administrator"}
+        initialPasswordUsed={pendingSession?.currentPasswordUsed || ""}
+        onSubmit={handleFirstTimePasswordSubmit}
+        onClose={() => setShowFirstLoginModal(false)}
+      />
 
       {/* Forgot Password Modal */}
       <AnimatePresence>

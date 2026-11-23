@@ -15,10 +15,11 @@ import {
   UserCheck
 } from 'lucide-react';
 import { festivalStore } from '../../admin/data/festivalStore';
+import { unifiedLogin, unifiedChangePassword } from '../../services/unifiedAuthService';
 
 export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
-  const [emailOrUsername, setEmailOrUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState('noufal@teamleader');
+  const [password, setPassword] = useState('+91 98471 20001');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -29,16 +30,16 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
   const [changePassError, setChangePassError] = useState('');
   const [changePassLoading, setChangePassLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      const res = festivalStore.verifyTeamLeaderLogin(emailOrUsername, password);
+      const res = await unifiedLogin(emailOrUsername, password, 'TEAM_LEADER');
       if (res && res.success) {
         // If first login and must change password
-        if (res.session.mustChangePassword) {
+        if (res.mustChangePassword) {
           setPendingSession({ ...res.session, currentPasswordUsed: password });
           setLoading(false);
           return;
@@ -48,6 +49,8 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
           sessionStorage.setItem('dalenzia_teamleader_session', JSON.stringify(res.session));
         }
         onLoginSuccess(res.session);
+      } else {
+        setError(res?.error || 'Invalid Team Leader credentials.');
       }
     } catch (err) {
       setError(err.message || 'Invalid Team Leader credentials. Please check your username and phone number.');
@@ -56,7 +59,7 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
     }
   };
 
-  const handleFirstTimePasswordSubmit = (e) => {
+  const handleFirstTimePasswordSubmit = async (e) => {
     e.preventDefault();
     setChangePassError('');
 
@@ -75,7 +78,8 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
 
     setChangePassLoading(true);
     try {
-      festivalStore.updateTeamLeaderPassword(
+      await unifiedChangePassword(
+        'TEAM_LEADER',
         pendingSession.teamId,
         pendingSession.currentPasswordUsed,
         newPassword

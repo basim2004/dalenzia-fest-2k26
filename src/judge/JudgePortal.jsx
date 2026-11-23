@@ -32,15 +32,29 @@ import {
 } from 'lucide-react';
 import { festivalStore } from '../admin/data/festivalStore';
 import ConvenerHelpdesk from '../components/ConvenerHelpdesk';
+import { unifiedLogin, unifiedChangePassword } from '../services/unifiedAuthService';
+import UnifiedPasswordModal from '../components/auth/UnifiedPasswordModal';
 
 export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
   // Authentication state for individual judge
-  // Default demo logged-in as Chief Adjudicator (JDG-1001)
-  const [currentJudgeId, setCurrentJudgeId] = useState('JDG-1001');
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [loginEmail, setLoginEmail] = useState('judge@dalenziafest.in');
-  const [loginPassword, setLoginPassword] = useState('judge2k26');
+  const [judgeSession, setJudgeSession] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = sessionStorage.getItem('dalenzia_judge_session');
+        if (stored) return JSON.parse(stored);
+      } catch (e) {}
+    }
+    return null;
+  });
+
+  const [currentJudgeId, setCurrentJudgeId] = useState(() => judgeSession?.id || 'JDG-1001');
+  const [isAuthenticated, setIsAuthenticated] = useState(() => Boolean(judgeSession));
+  const [loginEmail, setLoginEmail] = useState('judge01@judge');
+  const [loginPassword, setLoginPassword] = useState('+91 98470 30001');
+  const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const [pendingSession, setPendingSession] = useState(null);
+  const [showFirstLoginModal, setShowFirstLoginModal] = useState(false);
 
   // Active navigation tab
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -116,28 +130,58 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
   }, [storeData?.notifications, currentJudgeId]);
 
   // Handle Login
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const foundJudge = storeData.judges.find(
-      j => j.email.toLowerCase() === loginEmail.toLowerCase().trim()
-    );
+    setLoginError('');
 
-    if (foundJudge) {
-      if (foundJudge.status !== 'Active') {
-        setLoginError('Your judge account is currently inactive. Please contact the Fest Administrator.');
-        return;
+    try {
+      const res = await unifiedLogin(loginEmail, loginPassword, 'JUDGE');
+      if (res.success) {
+        if (res.mustChangePassword) {
+          setPendingSession({
+            ...res.session,
+            currentPasswordUsed: loginPassword
+          });
+          setShowFirstLoginModal(true);
+          return;
+        }
+
+        setCurrentJudgeId(res.session.id);
+        setJudgeSession(res.session);
+        setIsAuthenticated(true);
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('dalenzia_judge_session', JSON.stringify(res.session));
+        }
+        showToast(`Welcome, ${res.session.user}! Signed into Judge Portal.`);
+      } else {
+        setLoginError(res.error || 'Invalid credentials.');
       }
-      setCurrentJudgeId(foundJudge.id);
-      setIsAuthenticated(true);
-      setLoginError('');
-      showToast(`Welcome, ${foundJudge.name}! Signed into Judge Portal.`);
-    } else {
-      setLoginError('Invalid judge credentials. Try judge@dalenziafest.in');
+    } catch (err) {
+      setLoginError(err.message || 'Authentication error.');
     }
+  };
+
+  const handleFirstTimePasswordSubmit = async ({ newPassword }) => {
+    if (!pendingSession) return;
+    await unifiedChangePassword('JUDGE', pendingSession.id, pendingSession.currentPasswordUsed, newPassword);
+    const updatedSession = { ...pendingSession, mustChangePassword: false };
+    delete updatedSession.currentPasswordUsed;
+    setShowFirstLoginModal(false);
+    setCurrentJudgeId(updatedSession.id);
+    setJudgeSession(updatedSession);
+    setIsAuthenticated(true);
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('dalenzia_judge_session', JSON.stringify(updatedSession));
+    }
+    showToast(`Security credentials updated. Welcome, ${updatedSession.user}!`);
   };
 
   // Handle Logout
   const handleLogout = () => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('dalenzia_judge_session');
+    }
+    setJudgeSession(null);
     setIsAuthenticated(false);
   };
 
@@ -356,39 +400,54 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
 
           <form onSubmit={handleLogin} className="space-y-4 text-left text-xs">
             <div>
-              <label className="block font-bold text-stone-700 mb-1">Judge Email Address</label>
+              <label className="block font-bold text-stone-700 mb-1">
+                Authorized Username (username@judge)
+              </label>
               <input
-                type="email"
+                type="text"
                 required
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:border-[#A91F35]"
+                placeholder="judge01@judge"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:border-[#A91F35] font-semibold text-stone-800"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-stone-700 mb-1">Secure Password / Access Token</label>
-              <input
-                type="password"
-                required
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:border-[#A91F35]"
-              />
+              <label className="block font-bold text-stone-700 mb-1">
+                Password (Initial: Registered Phone)
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  placeholder="Registered Phone Number"
+                  className="w-full pl-3.5 pr-10 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:border-[#A91F35] font-semibold text-stone-800"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 cursor-pointer"
+                >
+                  {showPassword ? <Eye className="w-4 h-4 text-[#A91F35]" /> : <Lock className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 rounded-xl font-bold bg-[#A91F35] text-white hover:bg-[#8B1A2C] transition-all shadow-md active:scale-95"
+              className="w-full py-3 rounded-xl font-bold bg-[#A91F35] text-white hover:bg-[#8B1A2C] transition-all shadow-md active:scale-95 cursor-pointer"
             >
               Sign In to Judge Portal
             </button>
           </form>
 
           <div className="p-3 rounded-xl bg-[#F7F3E9] border border-stone-200 text-stone-600 text-[11px] text-left">
-            <div className="font-bold text-[#A91F35] mb-1">Demo Adjudicator Access:</div>
-            <div>Email: <strong className="font-mono">judge@dalenziafest.in</strong></div>
-            <div>Password: <strong className="font-mono">judge2k26</strong></div>
+            <div className="font-bold text-[#A91F35] mb-1">Standard Judge Credentials:</div>
+            <div>Username: <strong className="font-mono text-stone-800">judge01@judge</strong></div>
+            <div>Initial Password: <strong className="font-mono text-stone-800">+91 98470 30001 (Phone)</strong></div>
           </div>
 
           <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
@@ -396,6 +455,17 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
             <a href="#home" className="hover:text-[#A91F35] font-bold">Public Website →</a>
           </div>
         </div>
+
+        {/* Mandatory First-Login Password Change Modal */}
+        <UnifiedPasswordModal
+          isOpen={showFirstLoginModal}
+          isFirstLogin={true}
+          portalTitle="Judge & Adjudication Portal"
+          userName={pendingSession?.user || "Official Adjudicator"}
+          initialPasswordUsed={pendingSession?.currentPasswordUsed || ""}
+          onSubmit={handleFirstTimePasswordSubmit}
+          onClose={() => setShowFirstLoginModal(false)}
+        />
       </div>
     );
   }

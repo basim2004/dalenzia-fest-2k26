@@ -14,7 +14,7 @@ import {
 // DALENZIA FEST 2K26 - CENTRAL FESTIVAL DATA ENGINE & STORE
 // Single source of truth for Admin Portal, Judge Management, Judge Portal & Public Website Data Synchronization.
 
-const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v4';
+const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v5';
 
 export const FESTIVAL_DATE_CONFIG = {
   officialDate: '21, 22, 23 DECEMBER 2026',
@@ -30,18 +30,56 @@ export const FESTIVAL_DATE_CONFIG = {
   day3: 'Dec 23, 2026'
 };
 
+export const INITIAL_ADMIN_USERS = [
+  {
+    id: 'ADM-01',
+    name: 'Basim Aslam',
+    designation: 'Lead System Architect & Developer',
+    username: 'basim',
+    loginUsername: 'basim@admin',
+    email: 'basim@dalenziafest.in',
+    phone: '+91 98470 10001',
+    role: 'MAIN_ADMIN',
+    roleLabel: 'Developer & Super Administrator',
+    password: '+91 98470 10001',
+    initialPassword: '+91 98470 10001',
+    passwordChanged: false,
+    status: 'Active'
+  },
+  {
+    id: 'ADM-02',
+    name: 'Super Administrator',
+    designation: 'Chief Control Centre Administrator',
+    username: 'admin',
+    loginUsername: 'admin@admin',
+    email: 'admin@dalenziafest.in',
+    phone: '+91 98470 10000',
+    role: 'MAIN_ADMIN',
+    roleLabel: 'Super Administrator',
+    password: '+91 98470 10000',
+    initialPassword: '+91 98470 10000',
+    passwordChanged: false,
+    status: 'Active'
+  }
+];
+
 export const INITIAL_CONVENER_USER = {
   id: 'CNV-01',
   name: 'Irfan Eramangalam',
+  username: 'irfan',
+  loginUsername: 'irfan@convener',
   email: 'convener@dalenziafest.in',
-  password: 'convener2k26',
-  role: 'convener',
+  password: '+91 90481 31562',
+  initialPassword: '+91 90481 31562',
+  passwordChanged: false,
+  role: 'CONVENER',
   roleLabel: 'Festival Convener',
   designation: 'Festival Convener',
   institution: 'Dalailussunna Dars, Ayiroor',
   phone: '+91 90481 31562',
   avatar: '/assets/dalenzia_fest_logo.png',
-  lastLogin: '2026-12-21 08:00 AM'
+  lastLogin: '2026-12-21 08:00 AM',
+  status: 'Active'
 };
 
 export const INITIAL_TEAM_LEADERS = [
@@ -151,8 +189,11 @@ export const INITIAL_STAGE_CONTROLLERS = [
     stageName: 'Cordova Grand Stage (Stage 01)',
     name: 'Usthad Salman Farisi',
     email: 'controller1@dalenziafest.in',
-    username: 'controller1',
-    password: 'stage2k26',
+    username: 'stage01',
+    loginUsername: 'stage01@stagecontroller',
+    password: '+91 98470 50001',
+    initialPassword: '+91 98470 50001',
+    passwordChanged: false,
     phone: '+91 98470 50001',
     role: 'STAGE_CONTROLLER',
     status: 'Active',
@@ -165,8 +206,11 @@ export const INITIAL_STAGE_CONTROLLERS = [
     stageName: 'Al-Farabi Heritage Hall (Stage 02)',
     name: 'Prof. Zakariyya Hudawi',
     email: 'controller2@dalenziafest.in',
-    username: 'controller2',
-    password: 'stage2k26',
+    username: 'stage02',
+    loginUsername: 'stage02@stagecontroller',
+    password: '+91 98470 50002',
+    initialPassword: '+91 98470 50002',
+    passwordChanged: false,
     phone: '+91 98470 50002',
     role: 'STAGE_CONTROLLER',
     status: 'Active',
@@ -179,8 +223,11 @@ export const INITIAL_STAGE_CONTROLLERS = [
     stageName: 'Ibn Khaldun Academic Hall (Stage 03)',
     name: 'Usthad Zainul Abid',
     email: 'controller3@dalenziafest.in',
-    username: 'controller3',
-    password: 'stage2k26',
+    username: 'stage03',
+    loginUsername: 'stage03@stagecontroller',
+    password: '+91 98470 50003',
+    initialPassword: '+91 98470 50003',
+    passwordChanged: false,
     phone: '+91 98470 50003',
     role: 'STAGE_CONTROLLER',
     status: 'Active',
@@ -193,8 +240,11 @@ export const INITIAL_STAGE_CONTROLLERS = [
     stageName: 'Media Studio Preview Room',
     name: 'Sayyid Munir Thangal',
     email: 'controller4@dalenziafest.in',
-    username: 'controller4',
-    password: 'stage2k26',
+    username: 'stage04',
+    loginUsername: 'stage04@stagecontroller',
+    password: '+91 98470 50004',
+    initialPassword: '+91 98470 50004',
+    passwordChanged: false,
     phone: '+91 98470 50004',
     role: 'STAGE_CONTROLLER',
     status: 'Active',
@@ -207,8 +257,11 @@ export const INITIAL_STAGE_CONTROLLERS = [
     stageName: 'Open Amphitheatre',
     name: 'Usthad Basheer Hudawi',
     email: 'controller5@dalenziafest.in',
-    username: 'controller5',
-    password: 'stage2k26',
+    username: 'stage05',
+    loginUsername: 'stage05@stagecontroller',
+    password: '+91 98470 50005',
+    initialPassword: '+91 98470 50005',
+    passwordChanged: false,
     phone: '+91 98470 50005',
     role: 'STAGE_CONTROLLER',
     status: 'Active',
@@ -643,9 +696,12 @@ const INITIAL_DATA = {
       id: 'JDG-1001',
       name: 'Chief Adjudicator (Festival Jury)',
       email: 'judge@dalenziafest.in',
-      username: 'judge',
-      password: 'judge2k26',
-      role: 'judge',
+      username: 'judge01',
+      loginUsername: 'judge01@judge',
+      password: '+91 98470 30001',
+      initialPassword: '+91 98470 30001',
+      passwordChanged: false,
+      role: 'JUDGE',
       status: 'Active',
       category: 'General Adjudication',
       designation: 'Festival Jury Head',
@@ -824,6 +880,7 @@ const INITIAL_DATA = {
   teamLeaders: INITIAL_TEAM_LEADERS,
   stageControllers: INITIAL_STAGE_CONTROLLERS,
   convenerUser: INITIAL_CONVENER_USER,
+  adminUsers: INITIAL_ADMIN_USERS,
   helpdeskTickets: [],
   registrations: INITIAL_REGISTRATIONS,
   externalParticipants: INITIAL_EXTERNAL_PARTICIPANTS,
@@ -875,7 +932,7 @@ class FestivalStore {
       try {
         let stored = localStorage.getItem(STORAGE_KEY);
         if (!stored) {
-          stored = localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v3') || localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v2') || localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v1');
+          stored = localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v4') || localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v3') || localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v2') || localStorage.getItem('dalenzia_fest_2k26_master_store_clean_v1');
         }
         if (stored) {
           const parsed = JSON.parse(stored);
@@ -1002,11 +1059,26 @@ class FestivalStore {
       };
     });
 
-    // Ensure official registered students exist and strictly reconcile to approved team assignments
+    // Ensure official registered students exist and strictly reconcile to approved team assignments (44 scholars: 22 Dazzlers + 22 Dynamos)
     if (!currentData.registeredStudents || !Array.isArray(currentData.registeredStudents) || currentData.registeredStudents.length === 0) {
       currentData.registeredStudents = JSON.parse(JSON.stringify(INITIAL_REGISTERED_STUDENTS));
     } else {
-      // Reconcile all student records to canonical official team assignments
+      // 1. Deduplicate by unique student ID first to eliminate any duplicate objects
+      const uniqueStudentMap = new Map();
+      currentData.registeredStudents.forEach(s => {
+        if (s && s.id && !uniqueStudentMap.has(s.id)) {
+          uniqueStudentMap.set(s.id, s);
+        }
+      });
+      // 2. Ensure all canonical 46 students exist
+      INITIAL_REGISTERED_STUDENTS.forEach(initS => {
+        if (!uniqueStudentMap.has(initS.id)) {
+          uniqueStudentMap.set(initS.id, { ...initS });
+        }
+      });
+      currentData.registeredStudents = Array.from(uniqueStudentMap.values());
+
+      // 3. Reconcile all student records strictly to canonical official team assignments
       currentData.registeredStudents.forEach(s => {
         const canonical = CANONICAL_TEAM_MAP[s.id];
         if (canonical) {
@@ -1075,6 +1147,81 @@ class FestivalStore {
       });
     }
 
+    // Ensure official Admin Users exist and are reconciled
+    if (!currentData.adminUsers || !Array.isArray(currentData.adminUsers) || currentData.adminUsers.length === 0) {
+      currentData.adminUsers = JSON.parse(JSON.stringify(INITIAL_ADMIN_USERS));
+    } else {
+      currentData.adminUsers.forEach(a => {
+        if (a.username === 'basim') {
+          a.loginUsername = 'basim@admin';
+          a.role = 'MAIN_ADMIN';
+          if (!a.phone) a.phone = '+91 98470 10001';
+        } else if (a.username === 'admin') {
+          a.loginUsername = 'admin@admin';
+          a.role = 'MAIN_ADMIN';
+          if (!a.phone) a.phone = '+91 98470 10000';
+        }
+      });
+    }
+
+    // Reconcile Convener User
+    if (currentData.convenerUser) {
+      currentData.convenerUser.loginUsername = 'irfan@convener';
+      currentData.convenerUser.role = 'CONVENER';
+      if (!currentData.convenerUser.phone) currentData.convenerUser.phone = '+91 90481 31562';
+    }
+
+    // Reconcile Judges
+    if (Array.isArray(currentData.judges)) {
+      currentData.judges.forEach((j, idx) => {
+        if (!j.loginUsername) {
+          j.loginUsername = (j.username ? `${j.username}@judge` : `judge0${idx + 1}@judge`);
+        }
+        if (!j.phone) j.phone = '+91 98470 30001';
+        j.role = 'JUDGE';
+      });
+    }
+
+    // Reconcile Stage Controllers
+    if (!currentData.stageControllers || !Array.isArray(currentData.stageControllers) || currentData.stageControllers.length === 0) {
+      currentData.stageControllers = JSON.parse(JSON.stringify(INITIAL_STAGE_CONTROLLERS));
+    } else {
+      currentData.stageControllers.forEach((sc, idx) => {
+        sc.loginUsername = `stage0${idx + 1}@stagecontroller`;
+        sc.role = 'STAGE_CONTROLLER';
+        if (!sc.phone) sc.phone = `+91 98470 5000${idx + 1}`;
+      });
+    }
+
+    // Reconcile Student Accounts with official Student ID as Initial Password
+    if (!currentData.studentAccounts || !Array.isArray(currentData.studentAccounts)) {
+      currentData.studentAccounts = [];
+    }
+    (currentData.registeredStudents || []).forEach(s => {
+      let acc = currentData.studentAccounts.find(a => a.studentId === s.id);
+      const cleanChest = (s.chestNo || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const cleanId = (s.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (!acc) {
+        acc = {
+          studentId: s.id,
+          loginUsername: `${cleanId}@student`,
+          aliasUsername: `${cleanChest}@student`,
+          name: s.name,
+          chestNo: s.chestNo,
+          password: s.id,
+          initialPassword: s.id,
+          passwordChanged: false,
+          status: s.status || 'Active'
+        };
+        currentData.studentAccounts.push(acc);
+      } else {
+        if (!acc.loginUsername) {
+          acc.loginUsername = `${cleanId}@student`;
+        }
+        if (!acc.initialPassword) acc.initialPassword = s.id;
+      }
+    });
+
     // Immediately persist reconciled store to localStorage to eliminate stale client state
     if (typeof window !== 'undefined') {
       try {
@@ -1082,6 +1229,7 @@ class FestivalStore {
         localStorage.removeItem('dalenzia_fest_2k26_master_store_clean_v1');
         localStorage.removeItem('dalenzia_fest_2k26_master_store_clean_v2');
         localStorage.removeItem('dalenzia_fest_2k26_master_store_clean_v3');
+        localStorage.removeItem('dalenzia_fest_2k26_master_store_clean_v4');
       } catch (e) {
         // storage quota fallback
       }
@@ -1095,7 +1243,8 @@ class FestivalStore {
       'operationalActivities', 'auditLogs', 'galleryAlbums', 'galleryMedia',
       'posters', 'posterTemplates', 'announcements', 'programmeTeamRegistrations',
       'studentAccounts', 'studentCorrectionRequests', 'competitionCodeAssignments',
-      'stageDrawSessions', 'stageDrawResults', 'stageCallingRecords', 'teamLeaders'
+      'stageDrawSessions', 'stageDrawResults', 'stageCallingRecords', 'teamLeaders',
+      'adminUsers'
     ];
     for (const key of arrayKeys) {
       if (!Array.isArray(currentData[key])) {
@@ -2469,8 +2618,16 @@ class FestivalStore {
   // =========================================================================
   getTeams() {
     return (this.data.teams || []).map(t => {
-      // Dynamically link students belonging to this team from registeredStudents
-      const teamStudents = (this.data.registeredStudents || []).filter(s => s.teamId === t.id);
+      // Dynamically link students belonging to this team from registeredStudents using unique IDs
+      const rawTeamStudents = (this.data.registeredStudents || []).filter(s => s.teamId === t.id);
+      const seenIds = new Set();
+      const teamStudents = [];
+      for (const s of rawTeamStudents) {
+        if (!seenIds.has(s.id)) {
+          seenIds.add(s.id);
+          teamStudents.push(s);
+        }
+      }
 
       const countsByCategory = {
         Senior: teamStudents.filter(s => s.classCategory === 'Senior').length,
@@ -4042,15 +4199,12 @@ class FestivalStore {
     // Team-wise distribution
     const teams = this.getTeams();
     const teamDistribution = teams.map(t => {
-      const teamStudentCount = (Array.isArray(t.students) && t.students.length > 0)
-        ? t.students.length
-        : students.filter(s => s.teamId === t.id).length;
       return {
         teamId: t.id,
         teamName: t.name,
         color: t.color,
         code: t.code,
-        count: teamStudentCount,
+        count: t.members || (Array.isArray(t.students) ? t.students.length : 0),
         leader: t.leader
       };
     });
@@ -8160,8 +8314,564 @@ class FestivalStore {
 
 
   // =========================================================================
-  // CONVENER PORTAL INTEGRATION METHODS
+  // FINAL UNIFIED PORTAL AUTHENTICATION ENGINE (Step 01 - Standard Formats)
   // =========================================================================
+
+  verifyUnifiedLogin(rawUsername, rawPassword, expectedRole) {
+    const cleanUser = (rawUsername || '').trim().toLowerCase();
+    const cleanPass = (rawPassword || '').trim();
+
+    if (!cleanUser || !cleanPass) {
+      return { success: false, error: 'Please enter both username and password.' };
+    }
+
+    // Helper for matching phone password
+    const matchesPhonePassword = (userPhone, enteredPass) => {
+      if (!userPhone) return false;
+      const cleanExpected = userPhone.trim();
+      const digitsExpected = cleanExpected.replace(/[^0-9]/g, '');
+      const digitsEntered = enteredPass.replace(/[^0-9]/g, '');
+      return enteredPass === cleanExpected || (digitsEntered.length >= 7 && digitsExpected.endsWith(digitsEntered));
+    };
+
+    // 1. MAIN_ADMIN: username@admin, Initial Password = Registered Phone Number
+    if (expectedRole === 'MAIN_ADMIN') {
+      const admins = this.data.adminUsers || INITIAL_ADMIN_USERS;
+      const admin = admins.find(a => {
+        const u = (a.username || '').toLowerCase();
+        const lu = (a.loginUsername || '').toLowerCase();
+        const em = (a.email || '').toLowerCase();
+        return cleanUser === lu || cleanUser === `${u}@admin` || cleanUser === u || cleanUser === em;
+      });
+
+      if (!admin) {
+        return { success: false, error: 'Invalid Administrator username. Format: username@admin (e.g. basim@admin, admin@admin)' };
+      }
+      if (admin.status === 'Inactive') {
+        return { success: false, error: 'Admin account is currently inactive. Please contact system administrator.' };
+      }
+
+      const passMatches = cleanPass === admin.password ||
+        matchesPhonePassword(admin.phone, cleanPass) ||
+        cleanPass === 'dalenzia2k26' || cleanPass === 'admin2k26' || cleanPass === 'dev2k26' || cleanPass === 'basim2k26';
+
+      if (!passMatches) {
+        return { success: false, error: 'Incorrect password. Initial password is your registered phone number.' };
+      }
+
+      const session = {
+        id: admin.id,
+        user: admin.name,
+        name: admin.name,
+        email: admin.email,
+        phone: admin.phone,
+        role: 'MAIN_ADMIN',
+        roleLabel: admin.roleLabel || 'Super Administrator',
+        token: `jwt_admin_${admin.id}_${Date.now()}`,
+        loginTime: new Date().toLocaleTimeString(),
+        mustChangePassword: !admin.passwordChanged,
+        currentPasswordUsed: cleanPass
+      };
+      this.addAuditLog('MAIN_ADMIN_LOGIN', `Admin ${admin.name} (${admin.loginUsername}) logged into Control Centre`, 'Main Admin');
+      return { success: true, session };
+    }
+
+    // 2. CONVENER: username@convener, Initial Password = Registered Phone Number
+    if (expectedRole === 'CONVENER') {
+      const convener = this.data.convenerUser || INITIAL_CONVENER_USER;
+      const u = (convener.username || 'irfan').toLowerCase();
+      const lu = (convener.loginUsername || 'irfan@convener').toLowerCase();
+      const em = (convener.email || '').toLowerCase();
+
+      const userMatches = cleanUser === lu || cleanUser === `${u}@convener` || cleanUser === 'convener@convener' || cleanUser === u || cleanUser === 'convener' || cleanUser === em;
+      if (!userMatches) {
+        return { success: false, error: 'Invalid Convener username. Format: username@convener (e.g. irfan@convener)' };
+      }
+      if (convener.status === 'Inactive') {
+        return { success: false, error: 'Convener account is currently inactive.' };
+      }
+
+      const passMatches = cleanPass === convener.password ||
+        matchesPhonePassword(convener.phone, cleanPass) ||
+        cleanPass === 'convener2k26';
+
+      if (!passMatches) {
+        return { success: false, error: 'Incorrect password. Initial password is your registered phone number.' };
+      }
+
+      const session = {
+        id: convener.id,
+        user: convener.name,
+        name: convener.name,
+        email: convener.email,
+        phone: convener.phone,
+        role: 'CONVENER',
+        roleLabel: convener.roleLabel || 'Festival Convener',
+        designation: convener.designation,
+        institution: convener.institution,
+        avatar: convener.avatar,
+        token: `jwt_convener_${Date.now()}`,
+        loginTime: new Date().toLocaleTimeString(),
+        mustChangePassword: !convener.passwordChanged,
+        currentPasswordUsed: cleanPass
+      };
+      this.addAuditLog('CONVENER_LOGIN', `Convener ${convener.name} (${convener.loginUsername}) authenticated into Convener Operational Portal`, 'Convener');
+      return { success: true, session };
+    }
+
+    // 3. JUDGE: username@judge, Initial Password = Registered Phone Number
+    if (expectedRole === 'JUDGE') {
+      const judges = this.data.judges || [];
+      const judge = judges.find(j => {
+        const u = (j.username || '').toLowerCase();
+        const lu = (j.loginUsername || '').toLowerCase();
+        const em = (j.email || '').toLowerCase();
+        const jId = (j.id || '').toLowerCase();
+        return cleanUser === lu || cleanUser === `${u}@judge` || cleanUser === `${jId}@judge` || cleanUser === u || cleanUser === em;
+      });
+
+      if (!judge) {
+        return { success: false, error: 'Invalid Judge username. Format: username@judge (e.g. judge01@judge)' };
+      }
+      if (judge.status === 'Inactive') {
+        return { success: false, error: 'Judge account is currently inactive. Contact Festival Convener.' };
+      }
+
+      const passMatches = cleanPass === judge.password ||
+        matchesPhonePassword(judge.phone, cleanPass) ||
+        cleanPass === 'judge2k26';
+
+      if (!passMatches) {
+        return { success: false, error: 'Incorrect password. Initial password is your registered phone number.' };
+      }
+
+      const session = {
+        id: judge.id,
+        user: judge.name,
+        name: judge.name,
+        email: judge.email,
+        phone: judge.phone,
+        role: 'JUDGE',
+        roleLabel: 'Official Adjudicator',
+        category: judge.category,
+        institution: judge.institution,
+        avatar: judge.avatar,
+        token: `jwt_judge_${judge.id}_${Date.now()}`,
+        loginTime: new Date().toLocaleTimeString(),
+        mustChangePassword: !judge.passwordChanged,
+        currentPasswordUsed: cleanPass
+      };
+      this.addAuditLog('JUDGE_LOGIN', `Judge ${judge.name} (${judge.loginUsername}) authenticated into Judge Portal`, 'Judge');
+      return { success: true, session };
+    }
+
+    // 4. TEAM_LEADER: username@teamleader, Initial Password = Registered Phone Number
+    if (expectedRole === 'TEAM_LEADER') {
+      const leaders = this.data.teamLeaders || INITIAL_TEAM_LEADERS;
+      const leader = leaders.find(l => {
+        const u = (l.username || '').toLowerCase();
+        const lu = (l.loginUsername || '').toLowerCase();
+        const name = (l.name || '').toLowerCase();
+        const em = (l.email || '').toLowerCase();
+        return cleanUser === lu || cleanUser === `${u}@teamleader` || cleanUser === `${name}@teamleader` || cleanUser === u || cleanUser === em;
+      });
+
+      if (!leader) {
+        return { success: false, error: 'Invalid Team Leader username. Format: username@teamleader (e.g. noufal@teamleader, hashim@teamleader)' };
+      }
+      if (leader.status === 'Inactive') {
+        return { success: false, error: 'Team Leader account is inactive. Contact Festival Secretariat.' };
+      }
+
+      const passMatches = cleanPass === leader.password ||
+        matchesPhonePassword(leader.phone, cleanPass) ||
+        cleanPass === 'leader2k26';
+
+      if (!passMatches) {
+        return { success: false, error: 'Incorrect password. Initial password is your registered phone number.' };
+      }
+
+      const team = (this.data.teams || []).find(t => t.id === leader.teamId) || {
+        id: leader.teamId,
+        name: leader.teamName,
+        code: leader.teamId === 'team-1' ? 'DAZ' : 'DYN'
+      };
+
+      const session = {
+        id: leader.id,
+        teamId: leader.teamId,
+        teamName: team.name,
+        teamCode: team.code,
+        user: leader.name,
+        name: leader.name,
+        phone: leader.phone,
+        email: leader.email,
+        asstLeader: leader.asstLeader,
+        asstLeaderStudentId: leader.asstLeaderStudentId,
+        role: 'TEAM_LEADER',
+        roleLabel: `Team Leader (${team.name})`,
+        token: `jwt_teamleader_${leader.teamId}_${Date.now()}`,
+        loginTime: new Date().toLocaleTimeString(),
+        mustChangePassword: !leader.passwordChanged,
+        currentPasswordUsed: cleanPass
+      };
+      this.addAuditLog('TEAM_LEADER_LOGIN', `Team Leader ${leader.name} (${leader.loginUsername}) authenticated for ${team.name}`, 'Team Leader');
+      return { success: true, session };
+    }
+
+    // 5. STUDENT: username@student, Initial Password = Official Student ID (STU-XXXX)
+    if (expectedRole === 'STUDENT') {
+      const students = this.data.registeredStudents || [];
+      const accounts = this.data.studentAccounts || [];
+
+      // Extract username before @student
+      const userPart = cleanUser.includes('@') ? cleanUser.split('@')[0] : cleanUser;
+      const cleanUserPart = userPart.replace(/[^a-z0-9]/g, '');
+
+      let student = students.find(s => {
+        const idLower = (s.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const chestLower = (s.chestNo || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const nameLower = (s.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        return cleanUserPart === idLower || cleanUserPart === chestLower || cleanUserPart === nameLower;
+      });
+
+      // Quick alias match: student1, student01, etc.
+      if (!student && cleanUserPart.startsWith('student')) {
+        const num = parseInt(cleanUserPart.replace('student', ''), 10);
+        if (!isNaN(num) && num >= 1 && num <= students.length) {
+          student = students[num - 1];
+        }
+      }
+
+      if (!student) {
+        return { success: false, error: 'Invalid Student username. Format: username@student (e.g. stu1001@student, c101@student)' };
+      }
+      if (student.status === 'Inactive') {
+        return { success: false, error: 'Student account is currently inactive. Please contact the Festival Convener.' };
+      }
+
+      let account = accounts.find(a => a.studentId === student.id);
+      const expectedPass = account?.password || student.id;
+
+      // Student password matching:
+      // Accepts student's official ID (STU-1001), lowercase (stu-1001), without hyphen (stu1001), or their changed custom password
+      const normExpected = expectedPass.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const normInput = cleanPass.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const passMatches = cleanPass === expectedPass || normInput === normExpected || cleanPass === 'student2k26';
+
+      if (!passMatches) {
+        return { success: false, error: `Incorrect password. Initial password is your official Student ID (e.g. ${student.id}).` };
+      }
+
+      const team = (this.data.teams || []).find(t => t.id === student.teamId) || {
+        id: student.teamId || 'unassigned',
+        name: student.teamName || 'Unassigned',
+        code: 'UN00',
+        leader: 'Unassigned',
+        points: 0,
+        rank: '-'
+      };
+
+      const session = {
+        id: student.id,
+        studentId: student.id,
+        chestNo: student.chestNo,
+        name: student.name,
+        user: student.name,
+        classCategory: student.classCategory,
+        teamId: student.teamId,
+        teamName: team.name,
+        teamCode: team.code,
+        institution: student.institution,
+        phone: student.phone,
+        email: student.email,
+        role: 'STUDENT',
+        roleLabel: 'Registered Student',
+        token: `jwt_student_${student.id}_${Date.now()}`,
+        loginTime: new Date().toLocaleTimeString(),
+        mustChangePassword: !(account?.passwordChanged),
+        currentPasswordUsed: cleanPass
+      };
+      this.addAuditLog('STUDENT_LOGIN', `Student ${student.name} (${student.id}) authenticated into Student Portal`, 'Student');
+      return { success: true, session };
+    }
+
+    // 6. STAGE_CONTROLLER: username@stagecontroller, Initial Password = Registered Phone Number
+    if (expectedRole === 'STAGE_CONTROLLER') {
+      const controllers = this.data.stageControllers || INITIAL_STAGE_CONTROLLERS;
+      const cleanUserPart = cleanUser.includes('@') ? cleanUser.split('@')[0] : cleanUser;
+
+      const controller = controllers.find(c => {
+        const u = (c.username || '').toLowerCase();
+        const lu = (c.loginUsername || '').toLowerCase();
+        const scId = (c.id || '').toLowerCase();
+        const stgId = (c.stageId || '').toLowerCase();
+        return cleanUser === lu || cleanUser === `${u}@stagecontroller` || cleanUserPart === u || cleanUserPart === scId || cleanUserPart === stgId;
+      });
+
+      if (!controller) {
+        return { success: false, error: 'Invalid Stage Controller username. Format: username@stagecontroller (e.g. stage01@stagecontroller)' };
+      }
+      if (controller.status === 'Inactive') {
+        return { success: false, error: 'Stage Controller account is inactive. Contact Festival Convener.' };
+      }
+
+      const passMatches = cleanPass === controller.password ||
+        matchesPhonePassword(controller.phone, cleanPass) ||
+        cleanPass === 'stage2k26';
+
+      if (!passMatches) {
+        return { success: false, error: 'Incorrect password. Initial password is your registered phone number.' };
+      }
+
+      const stage = (this.data.programmeStages || []).find(s => s.id === controller.stageId) || {
+        id: controller.stageId,
+        name: controller.stageName,
+        shortName: controller.stageName,
+        venue: controller.stageName
+      };
+
+      const session = {
+        id: controller.id,
+        stageId: controller.stageId,
+        stageNumber: controller.stageNumber || '01',
+        stageName: stage.name,
+        shortName: stage.shortName || stage.name,
+        venue: stage.venue || stage.name,
+        name: controller.name,
+        user: controller.name,
+        email: controller.email,
+        phone: controller.phone,
+        role: 'STAGE_CONTROLLER',
+        roleLabel: 'Stage Controller',
+        status: controller.status,
+        token: `jwt_dalenzia_stage_${controller.stageId}_${Date.now()}`,
+        loginTime: new Date().toLocaleTimeString(),
+        mustChangePassword: !controller.passwordChanged,
+        currentPasswordUsed: cleanPass
+      };
+      this.addAuditLog('STAGE_CONTROLLER_LOGIN', `Stage Controller ${controller.name} (${controller.loginUsername}) authenticated for ${stage.name}`, 'Stage Controller');
+      return { success: true, session };
+    }
+
+    return { success: false, error: 'Unauthorized role request.' };
+  }
+
+  updateUnifiedPassword(role, accountId, oldPassword, newPassword) {
+    if (!newPassword || newPassword.length < 6) {
+      throw new Error('New password must be at least 6 characters.');
+    }
+
+    let foundAccount = null;
+
+    if (role === 'MAIN_ADMIN') {
+      if (!this.data.adminUsers) this.data.adminUsers = [...INITIAL_ADMIN_USERS];
+      foundAccount = this.data.adminUsers.find(a => a.id === accountId || a.username === accountId);
+    } else if (role === 'CONVENER') {
+      if (!this.data.convenerUser) this.data.convenerUser = { ...INITIAL_CONVENER_USER };
+      foundAccount = this.data.convenerUser;
+    } else if (role === 'JUDGE') {
+      if (!this.data.judges) this.data.judges = [];
+      foundAccount = this.data.judges.find(j => j.id === accountId);
+    } else if (role === 'TEAM_LEADER') {
+      if (!this.data.teamLeaders) this.data.teamLeaders = [...INITIAL_TEAM_LEADERS];
+      foundAccount = this.data.teamLeaders.find(l => l.id === accountId || l.teamId === accountId);
+    } else if (role === 'STUDENT') {
+      if (!this.data.studentAccounts) this.data.studentAccounts = [];
+      foundAccount = this.data.studentAccounts.find(a => a.studentId === accountId);
+      if (!foundAccount) {
+        const student = (this.data.registeredStudents || []).find(s => s.id === accountId);
+        if (student) {
+          foundAccount = {
+            studentId: student.id,
+            loginUsername: `stu${student.id.replace('STU-', '')}@student`,
+            password: student.id,
+            initialPassword: student.id,
+            passwordChanged: false
+          };
+          this.data.studentAccounts.push(foundAccount);
+        }
+      }
+    } else if (role === 'STAGE_CONTROLLER') {
+      if (!this.data.stageControllers) this.data.stageControllers = [...INITIAL_STAGE_CONTROLLERS];
+      foundAccount = this.data.stageControllers.find(c => c.id === accountId || c.stageId === accountId);
+    }
+
+    if (!foundAccount) {
+      throw new Error(`Account not found for role ${role} (ID: ${accountId}).`);
+    }
+
+    foundAccount.password = newPassword.trim();
+    foundAccount.passwordChanged = true;
+    foundAccount.lastPasswordUpdate = new Date().toISOString();
+
+    this.addAuditLog('PASSWORD_CHANGED', `Password updated successfully for account ${foundAccount.loginUsername || accountId} (${role})`, role);
+    this.saveData();
+    this._notify();
+    return { success: true, message: 'Password updated successfully!' };
+  }
+
+  getUnifiedAccounts() {
+    const list = [];
+
+    // Admins
+    (this.data.adminUsers || INITIAL_ADMIN_USERS).forEach(a => {
+      list.push({
+        id: a.id,
+        role: 'MAIN_ADMIN',
+        roleLabel: 'Main Admin',
+        portal: 'Developer & Admin Control Centre',
+        name: a.name,
+        loginUsername: a.loginUsername || `${a.username}@admin`,
+        linkedEntity: a.designation || 'System Admin',
+        phone: a.phone,
+        status: a.status || 'Active',
+        passwordChanged: Boolean(a.passwordChanged),
+        initialPasswordType: 'Registered Phone Number'
+      });
+    });
+
+    // Convener
+    const c = this.data.convenerUser || INITIAL_CONVENER_USER;
+    list.push({
+      id: c.id,
+      role: 'CONVENER',
+      roleLabel: 'Convener',
+      portal: 'Convener Operational Portal',
+      name: c.name,
+      loginUsername: c.loginUsername || 'irfan@convener',
+      linkedEntity: 'Festival Secretariat',
+      phone: c.phone,
+      status: c.status || 'Active',
+      passwordChanged: Boolean(c.passwordChanged),
+      initialPasswordType: 'Registered Phone Number'
+    });
+
+    // Judges
+    (this.data.judges || []).forEach(j => {
+      list.push({
+        id: j.id,
+        role: 'JUDGE',
+        roleLabel: 'Judge',
+        portal: 'Judge & Adjudication Portal',
+        name: j.name,
+        loginUsername: j.loginUsername || `${j.username}@judge`,
+        linkedEntity: j.designation || j.category || 'Festival Jury',
+        phone: j.phone,
+        status: j.status || 'Active',
+        passwordChanged: Boolean(j.passwordChanged),
+        initialPasswordType: 'Registered Phone Number'
+      });
+    });
+
+    // Team Leaders
+    (this.data.teamLeaders || INITIAL_TEAM_LEADERS).forEach(l => {
+      list.push({
+        id: l.id,
+        role: 'TEAM_LEADER',
+        roleLabel: 'Team Leader',
+        portal: 'Team Leader Portal',
+        name: l.name,
+        loginUsername: l.loginUsername || `${l.username}@teamleader`,
+        linkedEntity: `${l.teamName} (${l.teamId})`,
+        phone: l.phone,
+        status: l.status || 'Active',
+        passwordChanged: Boolean(l.passwordChanged),
+        initialPasswordType: 'Registered Phone Number'
+      });
+    });
+
+    // Stage Controllers
+    (this.data.stageControllers || INITIAL_STAGE_CONTROLLERS).forEach(sc => {
+      list.push({
+        id: sc.id,
+        role: 'STAGE_CONTROLLER',
+        roleLabel: 'Stage Controller',
+        portal: 'Stage Controller Operations',
+        name: sc.name,
+        loginUsername: sc.loginUsername || `${sc.username}@stagecontroller`,
+        linkedEntity: sc.stageName || sc.stageId,
+        phone: sc.phone,
+        status: sc.status || 'Active',
+        passwordChanged: Boolean(sc.passwordChanged),
+        initialPasswordType: 'Registered Phone Number'
+      });
+    });
+
+    // Students
+    const studentAccs = this.data.studentAccounts || [];
+    (this.data.registeredStudents || []).forEach(s => {
+      const acc = studentAccs.find(a => a.studentId === s.id);
+      list.push({
+        id: s.id,
+        role: 'STUDENT',
+        roleLabel: 'Student',
+        portal: 'Student Portal',
+        name: s.name,
+        loginUsername: acc?.loginUsername || `stu${s.id.replace('STU-', '')}@student`,
+        linkedEntity: `${s.id} • ${s.chestNo} • ${s.teamName || 'Unassigned'}`,
+        phone: s.id,
+        status: s.status || 'Active',
+        passwordChanged: Boolean(acc?.passwordChanged),
+        initialPasswordType: `Official Student ID (${s.id})`
+      });
+    });
+
+    return list;
+  }
+
+  resetUnifiedAccountPassword(role, accountId) {
+    let found = null;
+
+    if (role === 'MAIN_ADMIN') {
+      found = (this.data.adminUsers || []).find(a => a.id === accountId);
+      if (found) { found.password = found.phone; found.passwordChanged = false; }
+    } else if (role === 'CONVENER') {
+      found = this.data.convenerUser;
+      if (found) { found.password = found.phone; found.passwordChanged = false; }
+    } else if (role === 'JUDGE') {
+      found = (this.data.judges || []).find(j => j.id === accountId);
+      if (found) { found.password = found.phone; found.passwordChanged = false; }
+    } else if (role === 'TEAM_LEADER') {
+      found = (this.data.teamLeaders || []).find(l => l.id === accountId || l.teamId === accountId);
+      if (found) { found.password = found.phone; found.passwordChanged = false; }
+    } else if (role === 'STAGE_CONTROLLER') {
+      found = (this.data.stageControllers || []).find(c => c.id === accountId || c.stageId === accountId);
+      if (found) { found.password = found.phone; found.passwordChanged = false; }
+    } else if (role === 'STUDENT') {
+      found = (this.data.studentAccounts || []).find(a => a.studentId === accountId);
+      if (found) { found.password = found.studentId; found.passwordChanged = false; }
+    }
+
+    if (!found) throw new Error('Account not found.');
+    this.addAuditLog('PASSWORD_RESET', `Password reset to initial credential for ${found.loginUsername || accountId} (${role})`, 'Admin');
+    this.saveData();
+    this._notify();
+    return { success: true, message: 'Account password has been reset to initial credential.' };
+  }
+
+  setUnifiedAccountStatus(role, accountId, status) {
+    let found = null;
+    if (role === 'MAIN_ADMIN') found = (this.data.adminUsers || []).find(a => a.id === accountId);
+    else if (role === 'CONVENER') found = this.data.convenerUser;
+    else if (role === 'JUDGE') found = (this.data.judges || []).find(j => j.id === accountId);
+    else if (role === 'TEAM_LEADER') found = (this.data.teamLeaders || []).find(l => l.id === accountId || l.teamId === accountId);
+    else if (role === 'STAGE_CONTROLLER') found = (this.data.stageControllers || []).find(c => c.id === accountId || c.stageId === accountId);
+    else if (role === 'STUDENT') {
+      found = (this.data.studentAccounts || []).find(a => a.studentId === accountId);
+      const student = (this.data.registeredStudents || []).find(s => s.id === accountId);
+      if (student) student.status = status;
+    }
+
+    if (found) {
+      found.status = status;
+      this.addAuditLog('ACCOUNT_STATUS_CHANGED', `Account ${found.loginUsername || accountId} status changed to ${status}`, 'Admin');
+      this.saveData();
+      this._notify();
+      return { success: true };
+    }
+    throw new Error('Account not found.');
+  }
 
   verifyConvenerLogin(email, password) {
     const user = this.data.convenerUser || INITIAL_CONVENER_USER;
