@@ -18,8 +18,8 @@ import { festivalStore } from '../../admin/data/festivalStore';
 import { unifiedLogin, unifiedChangePassword } from '../../services/unifiedAuthService';
 
 export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
-  const [emailOrUsername, setEmailOrUsername] = useState('noufal@teamleader');
-  const [password, setPassword] = useState('+91 98471 20001');
+  const [emailOrUsername, setEmailOrUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -166,13 +166,10 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
                   required
                   value={emailOrUsername}
                   onChange={(e) => setEmailOrUsername(e.target.value)}
-                  placeholder="e.g. noufal@teamleader or hashim@teamleader"
+                  placeholder="Enter team leader username"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-300 font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35]"
                 />
               </div>
-              <p className="text-[10px] text-stone-500 mt-1">
-                Format: <code className="text-stone-800 bg-stone-100 px-1 py-0.5 rounded">username@teamleader</code>
-              </p>
             </div>
 
             <div>
@@ -185,49 +182,23 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Registered Phone Number"
+                  placeholder="Enter password"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-300 font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35]"
                 />
               </div>
-              <p className="text-[10px] text-stone-500 mt-1">
-                Initial password is your registered phone number.
-              </p>
             </div>
 
             <div className="pt-2">
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 rounded-2xl bg-[#A91F35] hover:bg-[#8e192c] text-white font-extrabold tracking-wide shadow-lg shadow-[#A91F35]/20 flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-60"
+                className="w-full py-3 rounded-2xl bg-[#A91F35] hover:bg-[#8e192c] text-white font-extrabold tracking-wide shadow-lg shadow-[#A91F35]/20 flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-60 cursor-pointer"
               >
                 <span>{loading ? 'Authenticating Squad...' : 'Sign In to Squad Portal'}</span>
                 <ArrowRight className="w-4 h-4 text-[#E6A916]" />
               </button>
             </div>
           </form>
-
-          {/* Official Format Reference */}
-          <div className="p-3.5 rounded-2xl bg-[#F7F3E9] border border-stone-200/80 text-[11px] text-stone-600 space-y-2">
-            <div className="font-bold text-stone-900 flex items-center gap-1.5">
-              <Shield className="w-3.5 h-3.5 text-[#A91F35]" />
-              <span>Official Team Leader Credentials Reference</span>
-            </div>
-            <div className="grid grid-cols-2 gap-2 pt-1 text-[10px]">
-              <div className="p-2 rounded-xl bg-white border border-stone-200">
-                <div className="font-bold text-[#A91F35]">TEAM 1 • Dazzlers</div>
-                <div className="text-stone-700 mt-0.5 font-mono">noufal@teamleader</div>
-                <div className="text-stone-400 text-[9px] mt-0.5">Initial Pass: Phone</div>
-              </div>
-              <div className="p-2 rounded-xl bg-white border border-stone-200">
-                <div className="font-bold text-amber-800">TEAM 2 • Dynamos</div>
-                <div className="text-stone-700 mt-0.5 font-mono">hashim@teamleader</div>
-                <div className="text-stone-400 text-[9px] mt-0.5">Initial Pass: Phone</div>
-              </div>
-            </div>
-            <div className="text-[10px] text-stone-500">
-              * Your authorized team is automatically identified upon login. No cross-team access is permitted.
-            </div>
-          </div>
         </motion.div>
       </main>
 

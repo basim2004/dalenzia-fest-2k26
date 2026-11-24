@@ -102,8 +102,24 @@ export default function AdminPortal({ onNavigatePublic }) {
   }
 
   // 2. Strict role authorization:
-  // Convener role accounts must NOT access the Admin Control Centre or Developer Dashboard
-  if (userSession.role === 'convener') {
+  // Only verified administrator roles may access Main Admin Control Centre
+  const ADMIN_AUTHORIZED_ROLES = ['super_admin', 'admin', 'developer', 'MAIN_ADMIN', 'result_mgr', 'reg_mgr'];
+  const isAuthorizedAdmin = userSession && (
+    ADMIN_AUTHORIZED_ROLES.includes(userSession.role) ||
+    ADMIN_AUTHORIZED_ROLES.includes(userSession.roleKey) ||
+    userSession.portalRole === 'admin'
+  );
+
+  if (!isAuthorizedAdmin) {
+    const rolePortalMap = {
+      convener: { name: 'Convener Portal', hash: '#convener' },
+      judge: { name: 'Judge Portal', hash: '#judge' },
+      team_leader: { name: 'Team Leader Portal', hash: '#teamleader' },
+      student: { name: 'Student Portal', hash: '#student' },
+      stage_controller: { name: 'Stage Controller Portal', hash: '#stage' }
+    };
+    const targetPortal = rolePortalMap[userSession.role] || rolePortalMap[userSession.role?.toLowerCase()] || { name: 'Public Site', hash: '#home' };
+
     return (
       <div className="min-h-screen bg-[#F7F3E9] text-[#1c1917] flex items-center justify-center p-4">
         <div className="bg-white rounded-3xl p-8 max-w-lg w-full text-center shadow-2xl border-2 border-rose-300 space-y-5">
@@ -118,18 +134,18 @@ export default function AdminPortal({ onNavigatePublic }) {
               Access Denied
             </h2>
             <p className="text-xs text-stone-600 leading-relaxed mt-2">
-              Your session is currently authenticated as <strong>Festival Convener</strong>. Convener accounts are authorized solely for the Convener Operations Portal and cannot access the Admin Control Centre or Developer Dashboard.
+              Your account ({userSession.user || userSession.email || 'Authenticated User'}) is not authorized for the Main Admin Control Centre. Access is strictly restricted to certified festival administrators.
             </p>
           </div>
 
           <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3">
             <button
               onClick={() => {
-                window.location.hash = '#convener';
+                window.location.hash = targetPortal.hash;
               }}
               className="w-full sm:w-auto px-6 py-2.5 rounded-2xl bg-[#A91F35] text-white text-xs font-bold shadow-md hover:bg-[#8D182B] transition-all cursor-pointer"
             >
-              Return to Convener Portal
+              Return to {targetPortal.name}
             </button>
             <button
               onClick={() => {
@@ -138,7 +154,7 @@ export default function AdminPortal({ onNavigatePublic }) {
               }}
               className="w-full sm:w-auto px-6 py-2.5 rounded-2xl bg-stone-100 text-stone-700 text-xs font-bold hover:bg-stone-200 transition-all cursor-pointer"
             >
-              Switch to Developer Login
+              Sign In with Admin Account
             </button>
           </div>
         </div>

@@ -10,8 +10,8 @@ import { unifiedLogin, unifiedChangePassword } from '../../services/unifiedAuthS
 import UnifiedPasswordModal from '../../components/auth/UnifiedPasswordModal';
 
 export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic }) {
-  const [emailOrUsername, setEmailOrUsername] = useState('stage01@stagecontroller');
-  const [password, setPassword] = useState('+91 98470 50001');
+  const [emailOrUsername, setEmailOrUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -127,7 +127,7 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 mb-1.5 uppercase tracking-wider">
-                  Authorized Username (username@stagecontroller)
+                  Authorized Username
                 </label>
                 <div className="relative">
                   <Radio className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
@@ -136,7 +136,7 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
                     value={emailOrUsername}
                     onChange={(e) => setEmailOrUsername(e.target.value)}
                     required
-                    placeholder="e.g. stage01@stagecontroller"
+                    placeholder="Enter stage controller username"
                     className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                   />
                 </div>
@@ -145,15 +145,8 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="text-xs font-bold text-stone-700 uppercase tracking-wider">
-                    Password (Initial: Registered Phone)
+                    Password
                   </label>
-                  <button
-                    type="button"
-                    onClick={() => setShowHelpModal(true)}
-                    className="text-[11px] font-bold text-[#A91F35] hover:underline"
-                  >
-                    Help / Credentials
-                  </button>
                 </div>
                 <div className="relative">
                   <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
@@ -162,7 +155,7 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    placeholder="Registered Phone Number"
+                    placeholder="Enter password"
                     className="w-full pl-10 pr-10 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                   />
                   <button
@@ -184,18 +177,6 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
                 <ArrowRight className="w-4 h-4" />
               </button>
             </form>
-
-            {/* Stage Controller Standard Credentials Notice */}
-            <div className="mt-6 pt-5 border-t border-stone-100">
-              <div className="p-3.5 rounded-2xl bg-[#F7F3E9] border border-stone-200/80 text-[11px] text-stone-600 space-y-1">
-                <div className="font-bold text-[#A91F35] flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Standard Stage Controller Credentials</span>
-                </div>
-                <div>Username: <strong className="font-mono text-stone-800">stage01@stagecontroller</strong> ... <strong className="font-mono text-stone-800">stage05@stagecontroller</strong></div>
-                <div>Initial Password: <strong className="font-mono text-stone-800">Registered Phone Number (+91 98470 50001 - 50005)</strong></div>
-              </div>
-            </div>
           </div>
         </motion.div>
       </main>
@@ -226,7 +207,7 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
               </div>
               <h3 className="text-base font-serif font-black text-stone-900">Stage Controller Access</h3>
               <p className="text-xs text-stone-600 mt-2 leading-relaxed">
-                Stage Controllers manage designated stage schedules, live random code draws, participant calling, and stage displays. Default password for all stages is <span className="font-mono font-bold text-[#A91F35]">stage2k26</span>.
+                Stage Controllers manage designated stage schedules, live random code draws, participant calling, and stage displays. Please sign in with your authorized official credentials.
               </p>
               <button
                 onClick={() => setShowHelpModal(false)}

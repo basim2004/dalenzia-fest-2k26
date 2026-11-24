@@ -81,12 +81,12 @@ export async function unifiedLogin(username, password, expectedRole) {
   // Validate username format
   if (!parsed.domain || !parsed.role) {
     const roleHints = {
-      [PORTAL_ROLES.MAIN_ADMIN]: 'username@admin (e.g. basim@admin, admin@admin)',
-      [PORTAL_ROLES.CONVENER]: 'username@convener (e.g. irfan@convener)',
-      [PORTAL_ROLES.JUDGE]: 'username@judge (e.g. judge01@judge)',
-      [PORTAL_ROLES.TEAM_LEADER]: 'username@teamleader (e.g. noufal@teamleader, hashim@teamleader)',
-      [PORTAL_ROLES.STUDENT]: 'username@student (e.g. stu1001@student, c101@student)',
-      [PORTAL_ROLES.STAGE_CONTROLLER]: 'username@stagecontroller (e.g. stage01@stagecontroller)'
+      [PORTAL_ROLES.MAIN_ADMIN]: 'username@admin',
+      [PORTAL_ROLES.CONVENER]: 'username@convener',
+      [PORTAL_ROLES.JUDGE]: 'username@judge',
+      [PORTAL_ROLES.TEAM_LEADER]: 'username@teamleader',
+      [PORTAL_ROLES.STUDENT]: 'username@student',
+      [PORTAL_ROLES.STAGE_CONTROLLER]: 'username@stagecontroller'
     };
     return {
       success: false,

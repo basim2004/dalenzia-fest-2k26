@@ -212,7 +212,7 @@ export default function App() {
 
   // If Judge Portal is active, render dedicated individual judge grading portal
   if (currentPage === 'judge') {
-    return <JudgePortal onNavigateAdmin={navigateToAdmin} onNavigatePublic={navigateToHome} />;
+    return <JudgePortal onNavigatePublic={navigateToHome} />;
   }
 
   // If Team Leader Portal is active, render dedicated team operational portal
@@ -222,7 +222,7 @@ export default function App() {
 
   // If Convener Portal is active, render dedicated operational management portal
   if (currentPage === 'convener') {
-    return <ConvenerPortal onNavigateAdmin={navigateToAdmin} onNavigatePublic={navigateToHome} />;
+    return <ConvenerPortal onNavigatePublic={navigateToHome} />;
   }
 
   // If Admin Portal is active, render the dedicated ERP Control Centre without public navbar/footer

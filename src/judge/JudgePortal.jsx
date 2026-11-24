@@ -37,7 +37,7 @@ import ConvenerHelpdesk from '../components/ConvenerHelpdesk';
 import { unifiedLogin, unifiedChangePassword } from '../services/unifiedAuthService';
 import UnifiedPasswordModal from '../components/auth/UnifiedPasswordModal';
 
-export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
+export default function JudgePortal({ onNavigatePublic }) {
   // Authentication state for individual judge
   const [judgeSession, setJudgeSession] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -51,8 +51,8 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
 
   const [currentJudgeId, setCurrentJudgeId] = useState(() => judgeSession?.id || 'JDG-1001');
   const [isAuthenticated, setIsAuthenticated] = useState(() => Boolean(judgeSession));
-  const [loginEmail, setLoginEmail] = useState('judge01@judge');
-  const [loginPassword, setLoginPassword] = useState('+91 98470 30001');
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
   const [pendingSession, setPendingSession] = useState(null);
@@ -403,21 +403,21 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
           <form onSubmit={handleLogin} className="space-y-4 text-left text-xs">
             <div>
               <label className="block font-bold text-stone-700 mb-1">
-                Authorized Username (username@judge)
+                Authorized Username
               </label>
               <input
                 type="text"
                 required
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
-                placeholder="judge01@judge"
+                placeholder="Enter judge username"
                 className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:border-[#A91F35] font-semibold text-stone-800"
               />
             </div>
 
             <div>
               <label className="block font-bold text-stone-700 mb-1">
-                Password (Initial: Registered Phone)
+                Password
               </label>
               <div className="relative">
                 <input
@@ -425,7 +425,7 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
                   required
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
-                  placeholder="Registered Phone Number"
+                  placeholder="Enter password"
                   className="w-full pl-3.5 pr-10 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:border-[#A91F35] font-semibold text-stone-800"
                 />
                 <button
@@ -446,15 +446,8 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
             </button>
           </form>
 
-          <div className="p-3 rounded-xl bg-[#F7F3E9] border border-stone-200 text-stone-600 text-[11px] text-left">
-            <div className="font-bold text-[#A91F35] mb-1">Standard Judge Credentials:</div>
-            <div>Username: <strong className="font-mono text-stone-800">judge01@judge</strong></div>
-            <div>Initial Password: <strong className="font-mono text-stone-800">+91 98470 30001 (Phone)</strong></div>
-          </div>
-
-          <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
-            <a href="#admin" className="hover:text-[#A91F35] font-bold">← Admin Portal</a>
-            <a href="#home" className="hover:text-[#A91F35] font-bold">Public Website →</a>
+          <div className="pt-2 border-t border-stone-100 flex items-center justify-center text-xs text-stone-500">
+            <a href="#home" className="hover:text-[#A91F35] font-bold">← Return to Public Website</a>
           </div>
         </div>
 
@@ -575,19 +568,18 @@ export default function JudgePortal({ onNavigateAdmin, onNavigatePublic }) {
           })}
         </nav>
 
-        {/* Footer controls & Switcher */}
+        {/* Footer controls */}
         <div className="p-4 border-t border-white/10 space-y-2">
-          <div className="text-[10px] text-white/60 mb-1">Switch View / Portal:</div>
           <a
-            href="#admin"
+            href="#home"
             className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white transition-all"
           >
-            <span>Admin Control Panel</span>
+            <span>Public Website</span>
             <ExternalLink className="w-3.5 h-3.5 text-[#E6A916]" />
           </a>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-rose-300 hover:bg-white/10 transition-all"
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-rose-300 hover:bg-white/10 transition-all cursor-pointer"
           >
             <span>Sign Out</span>
             <LogOut className="w-3.5 h-3.5" />

@@ -129,7 +129,7 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 mb-1.5 uppercase tracking-wider">
-                  Authorized Username (username@student)
+                  Authorized Username
                 </label>
                 <div className="relative">
                   <UserCheck className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
@@ -138,7 +138,7 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
                     value={chestNoOrEmail}
                     onChange={(e) => setChestNoOrEmail(e.target.value)}
                     required
-                    placeholder="e.g. stu1001@student or c101@student"
+                    placeholder="Enter student username"
                     className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                   />
                 </div>
@@ -147,7 +147,7 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="text-xs font-bold text-stone-700 uppercase tracking-wider">
-                    Password (Initial: Student ID)
+                    Password
                   </label>
                   <button
                     type="button"
@@ -164,7 +164,7 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    placeholder="Official Student ID (e.g. STU-1001)"
+                    placeholder="Enter password"
                     className="w-full pl-10 pr-10 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                   />
                   <button
@@ -186,18 +186,6 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
                 <ArrowRight className="w-4 h-4" />
               </button>
             </form>
-
-            {/* Student Registry Notice */}
-            <div className="mt-6 pt-5 border-t border-stone-100">
-              <div className="p-3.5 rounded-2xl bg-[#F7F3E9] border border-stone-200/80 text-[11px] text-stone-600 space-y-1">
-                <div className="font-bold text-stone-900 flex items-center gap-1.5">
-                  <GraduationCap className="w-4 h-4 text-[#A91F35]" />
-                  <span>Standard Student Credentials</span>
-                </div>
-                <div>Username format: <strong className="font-mono text-stone-800">username@student</strong> (e.g. <span className="font-mono">stu1001@student</span>, <span className="font-mono">c101@student</span>).</div>
-                <div>Initial Password: <strong className="font-mono text-stone-800">Your Official Student ID (e.g. STU-1001)</strong>. Must be changed upon first login.</div>
-              </div>
-            </div>
           </div>
         </motion.div>
       </main>
