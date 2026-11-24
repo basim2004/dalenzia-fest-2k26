@@ -28,43 +28,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { festivalStore } from '../admin/data/festivalStore';
-
-// Authentic Team Leaderboard Data (from official model: Dalenzia Fest Results Leaderboard.png)
-const STATIC_TEAMS_DATA = [];
-
-// Authentic Verified Category Results (Model & Syllabi Aligned)
-const STATIC_RESULTS_DATA = [];
-
-// Special Honors & Festival Spotlights
-const SPECIAL_HONORS = [
-  {
-    title: 'Kalaprathibha (Overall Arts Champion)',
-    recipient: 'Ahmad Rayan K.',
-    chestNo: 'C-104',
-    team: 'Areekode',
-    points: 42,
-    disciplines: 'Arabic Essay (1st), Extempore English (1st), Classical Qasida (2nd)',
-    quote: 'True knowledge blossoms when discipline meets humble devotion.'
-  },
-  {
-    title: 'Best Orator (Prabhashana Prathibha)',
-    recipient: 'Bilal Rahman',
-    chestNo: 'C-219',
-    team: 'Pulikkal',
-    points: 35,
-    disciplines: 'Story Telling (1st), Inter-Sector Debate (1st Team), Malayalam Oratory (1st)',
-    quote: 'Words are sacred trusts that illuminate the path toward Nueva Era.'
-  },
-  {
-    title: 'Creative Innovator of Nueva Era',
-    recipient: 'Salmanul Faris',
-    chestNo: 'C-311',
-    team: 'Manjeri West',
-    points: 32,
-    disciplines: 'Calligraphy & Arabic Typography (1st), Concept Sketching (1st), Short Film Visuals (2nd)',
-    quote: 'Tradition inspires form; modern creative vision brings it to life.'
-  }
-];
+import { subscribeToTeams } from '../firebase/firebaseService';
 
 export default function ResultsPage({
   onNavigateHome,
@@ -83,7 +47,8 @@ export default function ResultsPage({
   });
 
   useEffect(() => {
-    const unsub = festivalStore.subscribe(() => {
+    // 1. Subscribe to local festivalStore updates
+    const unsubStore = festivalStore.subscribe(() => {
       setTeamsList(festivalStore.getTeams() || []);
       setResultsList(festivalStore.getPublishedResultPosters() || []);
       try {
@@ -92,15 +57,52 @@ export default function ResultsPage({
         setAnnouncements([]);
       }
     });
-    return unsub;
+
+    // 2. Real-time Firebase team standings listener
+    let unsubFirebaseTeams = () => {};
+    try {
+      unsubFirebaseTeams = subscribeToTeams((fbTeams) => {
+        if (Array.isArray(fbTeams) && fbTeams.length > 0) {
+          setTeamsList(fbTeams);
+        }
+      });
+    } catch (e) {
+      console.warn('Firebase team subscription fallback:', e);
+    }
+
+    return () => {
+      if (typeof unsubStore === 'function') unsubStore();
+      if (typeof unsubFirebaseTeams === 'function') unsubFirebaseTeams();
+    };
   }, []);
 
-  const [activeTab, setActiveTab] = useState('leaderboard'); // 'leaderboard', 'results', 'history', 'downloads', 'live'
+  const [activeTab, setActiveTab] = useState('leaderboard'); // 'leaderboard', 'results', 'matrix', 'honors'
   const [leaderboardPeriod, setLeaderboardPeriod] = useState('overall'); // 'overall', 'day1', 'day2'
   const [categoryFilter, setCategoryFilter] = useState('all'); // 'all', 'individual', 'group'
   const [searchQuery, setSearchQuery] = useState('');
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+
+  // Dynamic genuine team standings from approved scores
+  const sortedTeams = useMemo(() => {
+    return [...teamsList].sort((a, b) => (b.points || 0) - (a.points || 0));
+  }, [teamsList]);
+
+  const topTeam = sortedTeams[0] || { name: 'Dazzlers', points: 0, leader: 'Noufal', members: 22 };
+  const secondTeam = sortedTeams[1] || { name: 'Dynamos', points: 0, leader: 'Hashim', members: 22 };
+  const hasApprovedScores = (topTeam.points || 0) > 0 || (secondTeam.points || 0) > 0;
+  const isPointsTied = (topTeam.points || 0) === (secondTeam.points || 0);
+  const pointsLead = Math.abs((topTeam.points || 0) - (secondTeam.points || 0));
+
+  // Dynamic student standings from approved results
+  const studentStandings = useMemo(() => {
+    try {
+      const all = festivalStore.getStudentLeaderboard() || [];
+      return all.filter(s => (s.points || 0) > 0);
+    } catch {
+      return [];
+    }
+  }, [resultsList]);
 
   // Filtered Results
   const filteredResults = useMemo(() => {
@@ -146,7 +148,7 @@ export default function ResultsPage({
   const liveTickerUpdates = useMemo(() => {
     const items = [];
 
-    // Latest verified published results
+    // 1. Latest verified published results
     if (resultsList && resultsList.length > 0) {
       const latestResults = [...resultsList].reverse().slice(0, 3);
       latestResults.forEach(r => {
@@ -159,26 +161,23 @@ export default function ResultsPage({
       });
     }
 
-    // Official announcements
+    // 2. Official verified announcements
     if (announcements && announcements.length > 0) {
       announcements.slice(0, 4).forEach(a => {
-        if (a.title) items.push(a.title);
+        if (a.title && !a.title.toLowerCase().includes('test')) items.push(a.title);
       });
     }
 
-    // Live team standings update
-    if (teamsList && teamsList.length > 0) {
-      const sortedTeams = [...teamsList].sort((a, b) => (b.points || 0) - (a.points || 0));
-      if (sortedTeams.length >= 2) {
-        items.push(`Team Points Standings: ${sortedTeams[0].name} (${sortedTeams[0].points || 0} pts) • ${sortedTeams[1].name} (${sortedTeams[1].points || 0} pts)`);
-      }
+    // 3. Live team standings update - ONLY when approved points exist (never show 0-point standings as breaking news)
+    if (hasApprovedScores && sortedTeams.length >= 2) {
+      items.push(`Team Points Standings: ${sortedTeams[0].name} (${sortedTeams[0].points || 0} pts) • ${sortedTeams[1].name} (${sortedTeams[1].points || 0} pts)`);
     }
 
     return items;
-  }, [resultsList, announcements, teamsList]);
+  }, [resultsList, announcements, hasApprovedScores, sortedTeams]);
 
   return (
-    <div className="relative min-h-screen bg-[#F7F3E9] text-[#1c1917] selection:bg-[#A91F35] selection:text-white pt-20 md:pt-28 font-sans overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#F7F3E9] text-[#1c1917] selection:bg-[#A91F35] selection:text-white font-sans overflow-x-hidden">
       {/* SECTION 07: Top Live Breaking Ticker with Continuous Marquee Animation */}
       <div className="bg-[#A91F35] text-white py-2.5 px-4 shadow-md sticky top-[60px] md:top-[72px] z-40 border-y border-[#E6A916]/40 backdrop-blur-md overflow-hidden">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-xs md:text-sm font-semibold tracking-wide">
@@ -212,8 +211,8 @@ export default function ResultsPage({
                   </div>
                 </div>
               ) : (
-                <div className="text-white/80 italic text-xs">
-                  Official live updates and certified marks will stream here once published by the Convener Secretariat.
+                <div className="text-white/90 text-xs font-medium tracking-wide">
+                  Official results will be published here as soon as approved by the Tabulation Committee.
                 </div>
               )}
             </div>
@@ -221,7 +220,7 @@ export default function ResultsPage({
 
           <button
             onClick={() => setActiveTab('leaderboard')}
-            className="hidden sm:inline-flex items-center gap-1 text-[#E6A916] hover:text-white transition-colors shrink-0 font-bold ml-4 text-xs underline underline-offset-4 z-10"
+            className="hidden sm:inline-flex items-center gap-1 text-[#E6A916] hover:text-white transition-colors shrink-0 font-bold ml-4 text-xs underline underline-offset-4 z-10 cursor-pointer"
           >
             View Live Standings →
           </button>
@@ -231,7 +230,7 @@ export default function ResultsPage({
       {/* ========================================================================= */}
       {/* SECTION 01: RESULTS HERO & 3D CHAMPIONSHIP STAGE                          */}
       {/* ========================================================================= */}
-      <section className="relative py-12 md:py-20 px-4 md:px-8 border-b border-[#A91F35]/15 overflow-hidden">
+      <section className="relative py-8 md:py-12 px-4 md:px-8 border-b border-[#A91F35]/15 overflow-hidden">
         {/* Ambient Gold Particle Dust Atmosphere */}
         <AmbientGoldParticles count={65} />
 
@@ -246,7 +245,7 @@ export default function ResultsPage({
 
         <div className="relative max-w-7xl mx-auto z-10">
           {/* Breadcrumb Navigation */}
-          <nav className="flex items-center gap-2 text-xs font-bold tracking-widest text-[#A91F35] uppercase mb-8">
+          <nav className="flex items-center gap-2 text-xs font-bold tracking-widest text-[#A91F35] uppercase mb-5">
             <button
               onClick={onNavigateHome}
               className="hover:underline flex items-center gap-1 transition-colors"
@@ -282,14 +281,27 @@ export default function ResultsPage({
 
               {/* Status Badge & Fast Action Pill */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
-                <div className="bg-emerald-50 text-emerald-800 border border-emerald-300 text-xs font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>Verified Live Feed · 82% Published</span>
+                <div className={`border text-xs font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm ${
+                  resultsList.length > 0
+                    ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                    : 'bg-amber-50 text-amber-900 border-amber-300'
+                }`}>
+                  {resultsList.length > 0 ? (
+                    <>
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                      <span>Verified Live Feed · {resultsList.length} Published</span>
+                    </>
+                  ) : (
+                    <>
+                      <Clock className="w-4 h-4 text-amber-700" />
+                      <span>Verified Results · Tabulation In Progress</span>
+                    </>
+                  )}
                 </div>
 
                 <button
                   onClick={() => setIsPdfModalOpen(true)}
-                  className="bg-white hover:bg-stone-50 text-[#1c1917] border border-[#A91F35]/30 text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm transition-all"
+                  className="bg-white hover:bg-stone-50 text-[#1c1917] border border-[#A91F35]/30 text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
                 >
                   <Printer className="w-3.5 h-3.5 text-[#A91F35]" />
                   <span>Print Official Sheet</span>
@@ -297,7 +309,7 @@ export default function ResultsPage({
 
                 <button
                   onClick={handleCopyShare}
-                  className="bg-white hover:bg-stone-50 text-[#1c1917] border border-[#A91F35]/30 text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm transition-all"
+                  className="bg-white hover:bg-stone-50 text-[#1c1917] border border-[#A91F35]/30 text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
                 >
                   {copiedLink ? (
                     <>
@@ -332,7 +344,7 @@ export default function ResultsPage({
                 {/* Soft Gradient Overlay for depth */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
-                {/* Gold Crest Floating Card */}
+                {/* Gold Crest Floating Card (Derived strictly from verified approved standings) */}
                 <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-3 border border-[#E6A916]/50 shadow-lg flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-[#A91F35] flex items-center justify-center text-[#E6A916] shadow-sm">
@@ -343,13 +355,27 @@ export default function ResultsPage({
                         CHAMPIONSHIP TROPHY 2K26
                       </div>
                       <div className="text-xs font-semibold text-stone-700">
-                        Lead: Areekode (693 PTS)
+                        {hasApprovedScores && !isPointsTied
+                          ? `Lead: ${topTeam.name} (${topTeam.points || 0} PTS)`
+                          : hasApprovedScores && isPointsTied
+                          ? `Tied: ${topTeam.name} & ${secondTeam.name} (${topTeam.points || 0} PTS)`
+                          : 'Standings: Dazzlers vs Dynamos'}
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] font-black uppercase text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
-                      Stage Active
+                    <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${
+                      hasApprovedScores && !isPointsTied
+                        ? 'text-emerald-700 bg-emerald-100'
+                        : hasApprovedScores && isPointsTied
+                        ? 'text-amber-800 bg-amber-100'
+                        : 'text-stone-600 bg-stone-100'
+                    }`}>
+                      {hasApprovedScores && !isPointsTied
+                        ? `+${pointsLead} PTS Lead`
+                        : hasApprovedScores && isPointsTied
+                        ? 'Level Points'
+                        : 'Scores Pending'}
                     </span>
                   </div>
                 </div>
@@ -393,7 +419,7 @@ export default function ResultsPage({
                 }`}
               >
                 <TrendingUp className="w-4 h-4 text-[#E6A916]" />
-                <span>Team Comparison</span>
+                <span>Squad Comparison</span>
               </button>
 
               <button
@@ -410,7 +436,7 @@ export default function ResultsPage({
 
               <button
                 onClick={() => setIsPdfModalOpen(true)}
-                className="px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider flex items-center gap-2 bg-white text-stone-700 border border-stone-300 hover:border-[#A91F35] transition-all shadow-sm"
+                className="px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider flex items-center gap-2 bg-white text-stone-700 border border-stone-300 hover:border-[#A91F35] transition-all shadow-sm cursor-pointer"
               >
                 <Download className="w-4 h-4 text-[#A91F35]" />
                 <span>Downloads</span>
@@ -418,15 +444,17 @@ export default function ResultsPage({
             </div>
 
             {/* Quick Stats Summary */}
-            <div className="flex items-center gap-4 text-xs font-semibold text-stone-600">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-semibold text-stone-600">
               <span className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                4 Competing Sectors
+                2 Official Squads
               </span>
               <span className="text-stone-300">|</span>
-              <span>40+ Categories</span>
+              <span>83 Official Programmes</span>
               <span className="text-stone-300">|</span>
-              <span className="font-serif text-[#A91F35] font-bold">2K26 Edition</span>
+              <span className="font-serif text-[#A91F35] font-bold">
+                {resultsList.length > 0 ? `${resultsList.length} Results Published` : 'Official Results Center'}
+              </span>
             </div>
           </div>
         </div>
@@ -820,10 +848,12 @@ export default function ResultsPage({
             <div className="bg-white rounded-3xl p-12 text-center border border-stone-300 space-y-3">
               <FileText className="w-12 h-12 text-stone-300 mx-auto" />
               <h3 className="text-lg font-serif font-bold text-stone-700">
-                No published results match "{searchQuery}"
+                {searchQuery ? `No published results match "${searchQuery}"` : 'Official Results Awaiting Publication'}
               </h3>
               <p className="text-xs text-stone-500">
-                Try searching for candidate name (e.g. "Rayan"), team (e.g. "Areekode"), or event title.
+                {searchQuery
+                  ? 'Try searching for candidate name, chest number, squad (Dazzlers or Dynamos), or event title.'
+                  : 'Certified competition results will appear here in real-time once verified by the Convener Secretariat.'}
               </p>
             </div>
           ) : (
@@ -931,7 +961,7 @@ export default function ResultsPage({
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 04: SECTOR TEAM PERFORMANCE COMPARISON MATRIX                    */}
+      {/* SECTION 04: OFFICIAL SQUAD PERFORMANCE COMPARISON MATRIX                  */}
       {/* ========================================================================= */}
       <section id="matrix" className="py-16 md:py-24 px-4 md:px-8 border-b border-[#A91F35]/15 bg-white select-none">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -944,10 +974,10 @@ export default function ResultsPage({
               <span className="w-8 h-[2px] bg-[#A91F35]" />
             </div>
             <h2 className="text-3xl md:text-5xl font-serif font-black text-[#1c1917] tracking-tight">
-              Sector Medal Matrix
+              Official Squad Medal Matrix
             </h2>
             <p className="text-xs md:text-sm text-stone-600 font-medium">
-              Comprehensive statistical evaluation of medals won, point distribution, and team standing.
+              Comprehensive statistical evaluation of podium finishes, point distribution, and squad standings.
             </p>
           </div>
 
@@ -958,72 +988,83 @@ export default function ResultsPage({
                 <thead>
                   <tr className="bg-[#A91F35] text-white text-xs font-black uppercase tracking-wider">
                     <th className="py-4 px-6">Rank</th>
-                    <th className="py-4 px-6">Sector Contingent</th>
-                    <th className="py-4 px-6 text-center">🥇 Gold (10/15p)</th>
-                    <th className="py-4 px-6 text-center">🥈 Silver (7/10p)</th>
-                    <th className="py-4 px-6 text-center">🥉 Bronze (5/7p)</th>
-                    <th className="py-4 px-6 text-right">Total Score</th>
-                    <th className="py-4 px-6 text-center">Status</th>
+                    <th className="py-4 px-6">Official Squad Contingent</th>
+                    <th className="py-4 px-6 text-center">🥇 1st Place (Winner)</th>
+                    <th className="py-4 px-6 text-center">🥈 2nd Place</th>
+                    <th className="py-4 px-6 text-center">🥉 3rd Place</th>
+                    <th className="py-4 px-6 text-right">Aggregate Score</th>
+                    <th className="py-4 px-6 text-center">Championship Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-200 text-sm font-semibold text-stone-800">
-                  {teamsList.map((team, idx) => (
-                    <tr
-                      key={team.name}
-                      className={`hover:bg-stone-100/80 transition-colors ${
-                        idx === 0 ? 'bg-[#FFFDF8] font-bold' : ''
-                      }`}
-                    >
-                      <td className="py-4 px-6">
-                        <span
-                          className={`w-7 h-7 rounded-lg inline-flex items-center justify-center font-serif font-bold text-xs ${
-                            idx === 0
-                              ? 'bg-[#E6A916] text-[#A91F35]'
-                              : 'bg-stone-200 text-stone-700'
-                          }`}
-                        >
-                          {team.rank}
-                        </span>
-                      </td>
+                  {sortedTeams.map((team, idx) => {
+                    const isLeader = idx === 0 && (team.points || 0) > 0 && pointsLead > 0;
+                    return (
+                      <tr
+                        key={team.name}
+                        className={`hover:bg-stone-100/80 transition-colors ${
+                          idx === 0 ? 'bg-[#FFFDF8] font-bold' : ''
+                        }`}
+                      >
+                        <td className="py-4 px-6">
+                          <span
+                            className={`w-7 h-7 rounded-lg inline-flex items-center justify-center font-serif font-bold text-xs ${
+                              isLeader
+                                ? 'bg-[#E6A916] text-[#A91F35]'
+                                : 'bg-stone-200 text-stone-700'
+                            }`}
+                          >
+                            {idx + 1}
+                          </span>
+                        </td>
 
-                      <td className="py-4 px-6">
-                        <div className="font-serif text-base text-[#1c1917]">
-                          {team.name}
-                        </div>
-                        <div className="text-xs text-stone-500 font-serif">
-                          {team.malayalam} · Capt: {team.captain}
-                        </div>
-                      </td>
+                        <td className="py-4 px-6">
+                          <div className="font-serif text-base text-[#1c1917]">
+                            {team.name}
+                          </div>
+                          <div className="text-xs text-stone-500 font-serif">
+                            Leader: {team.leader || 'Team Leader'} · {team.members || 22} Registered Scholars
+                          </div>
+                        </td>
 
-                      <td className="py-4 px-6 text-center font-mono font-bold text-amber-700">
-                        {team.golds}
-                      </td>
+                        <td className="py-4 px-6 text-center font-mono font-bold text-amber-700">
+                          {team.firstPlaces || 0}
+                        </td>
 
-                      <td className="py-4 px-6 text-center font-mono font-bold text-stone-600">
-                        {team.silvers}
-                      </td>
+                        <td className="py-4 px-6 text-center font-mono font-bold text-stone-600">
+                          {team.secondPlaces || 0}
+                        </td>
 
-                      <td className="py-4 px-6 text-center font-mono font-bold text-amber-900">
-                        {team.bronzes}
-                      </td>
+                        <td className="py-4 px-6 text-center font-mono font-bold text-amber-900">
+                          {team.thirdPlaces || 0}
+                        </td>
 
-                      <td className="py-4 px-6 text-right font-serif text-xl font-black text-[#A91F35]">
-                        {team.points} <span className="text-xs font-sans text-stone-500">PTS</span>
-                      </td>
+                        <td className="py-4 px-6 text-right font-serif text-xl font-black text-[#A91F35]">
+                          {team.points || 0} <span className="text-xs font-sans text-stone-500">PTS</span>
+                        </td>
 
-                      <td className="py-4 px-6 text-center">
-                        <span
-                          className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-full ${
-                            idx === 0
-                              ? 'bg-[#E6A916]/30 text-[#A91F35] border border-[#E6A916]'
-                              : 'bg-stone-200 text-stone-700'
-                          }`}
-                        >
-                          {team.leadStatus}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                        <td className="py-4 px-6 text-center">
+                          <span
+                            className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-full ${
+                              isLeader
+                                ? 'bg-emerald-100 text-emerald-800 font-extrabold'
+                                : (team.points || 0) === 0
+                                ? 'bg-stone-100 text-stone-600'
+                                : 'bg-[#E6A916]/20 text-[#A91F35]'
+                            }`}
+                          >
+                            {isLeader
+                              ? `Leading (+${pointsLead} pts)`
+                              : (team.points || 0) === 0
+                              ? 'Awaiting Results'
+                              : isPointsTied
+                              ? 'Level Points'
+                              : 'Contending'}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -1052,51 +1093,71 @@ export default function ResultsPage({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {SPECIAL_HONORS.map((honor, idx) => (
-              <motion.div
-                key={honor.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.12 }}
-                className="bg-white rounded-3xl p-6 md:p-8 border border-[#A91F35]/20 shadow-md flex flex-col justify-between space-y-6 relative group hover:shadow-2xl transition-all"
-              >
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-[#A91F35] text-[#E6A916] flex items-center justify-center shadow-md">
-                    <Crown className="w-6 h-6" />
+          {studentStandings.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {studentStandings.slice(0, 3).map((scholar, idx) => (
+                <motion.div
+                  key={scholar.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: idx * 0.12 }}
+                  className="bg-white rounded-3xl p-6 md:p-8 border border-[#A91F35]/20 shadow-md flex flex-col justify-between space-y-6 relative group hover:shadow-2xl transition-all"
+                >
+                  <div className="space-y-4">
+                    <div className="w-12 h-12 rounded-2xl bg-[#A91F35] text-[#E6A916] flex items-center justify-center shadow-md">
+                      <Crown className="w-6 h-6" />
+                    </div>
+
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-[#A91F35] bg-[#A91F35]/10 px-2.5 py-1 rounded-full">
+                        {idx === 0 ? 'TOP SCHOLAR HONOUR' : idx === 1 ? 'DISTINGUISHED ORATOR' : 'CREATIVE HONOUR'}
+                      </span>
+                      <h3 className="text-xl font-serif font-black text-[#1c1917] pt-1">
+                        {scholar.name}
+                      </h3>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-[#FAF7F0] border border-[#A91F35]/10 space-y-2">
+                      <div className="text-lg font-serif font-bold text-[#A91F35]">
+                        {scholar.points} PTS
+                      </div>
+                      <div className="text-xs font-semibold text-stone-600">
+                        Chest No: <span className="font-mono text-stone-800">{scholar.chestNo}</span> · Squad: <span className="text-[#A91F35] font-bold">{scholar.teamName}</span>
+                      </div>
+                      <div className="text-xs text-stone-500 font-medium pt-1">
+                        <span className="font-bold text-stone-700">Podiums:</span> {scholar.firstPlaces}🥇 · {scholar.secondPlaces}🥈 · {scholar.thirdPlaces}🥉
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="space-y-1">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-[#A91F35] bg-[#A91F35]/10 px-2.5 py-1 rounded-full">
-                      HONORARY TITLE
-                    </span>
-                    <h3 className="text-xl font-serif font-black text-[#1c1917] pt-1">
-                      {honor.title}
-                    </h3>
+                  <div className="pt-4 border-t border-stone-200">
+                    <p className="text-xs font-serif italic text-stone-600">
+                      Ranked #{idx + 1} on the official individual championship leaderboard.
+                    </p>
                   </div>
-
-                  <div className="p-4 rounded-2xl bg-[#FAF7F0] border border-[#A91F35]/10 space-y-2">
-                    <div className="text-lg font-serif font-bold text-[#A91F35]">
-                      {honor.recipient}
-                    </div>
-                    <div className="text-xs font-semibold text-stone-600">
-                      Chest No: <span className="font-mono text-stone-800">{honor.chestNo}</span> · Sector: <span className="text-[#A91F35] font-bold">{honor.team}</span>
-                    </div>
-                    <div className="text-xs text-stone-500 font-medium pt-1">
-                      <span className="font-bold text-stone-700">Events Won:</span> {honor.disciplines}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-stone-200">
-                  <p className="text-xs font-serif italic text-stone-600">
-                    "{honor.quote}"
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white rounded-3xl p-10 md:p-14 text-center border border-[#A91F35]/20 shadow-md space-y-4 max-w-2xl mx-auto">
+              <div className="w-16 h-16 rounded-2xl bg-[#A91F35]/10 text-[#A91F35] flex items-center justify-center mx-auto">
+                <Crown className="w-8 h-8 text-[#E6A916]" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-serif font-black text-[#1c1917]">
+                  Championship Laurels & Spotlights
+                </h3>
+                <p className="text-xs md:text-sm text-stone-600 leading-relaxed font-medium">
+                  Prestige titles including <strong>Kalaprathibha</strong>, <strong>Prabhashana Prathibha (Best Orator)</strong>, and <strong>Creative Innovator</strong> will be officially conferred upon the highest scoring candidates as results are certified by the Central Tabulation Bureau.
+                </p>
+              </div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 text-amber-900 border border-amber-200 text-xs font-bold">
+                <Clock className="w-3.5 h-3.5 text-amber-700" />
+                <span>Awaiting Official Result Tabulation</span>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -1153,28 +1214,28 @@ export default function ResultsPage({
                 <div className="space-y-3">
                   <h3 className="text-sm font-bold uppercase tracking-wider text-[#A91F35] flex items-center gap-2">
                     <Trophy className="w-4 h-4 text-[#E6A916]" />
-                    Central Sector Standings
+                    Central Squad Standings
                   </h3>
                   <table className="w-full text-xs font-semibold border border-stone-300">
                     <thead className="bg-[#A91F35] text-white">
                       <tr>
                         <th className="p-2 text-left">Rank</th>
-                        <th className="p-2 text-left">Sector Contingent</th>
-                        <th className="p-2 text-center">Gold</th>
-                        <th className="p-2 text-center">Silver</th>
-                        <th className="p-2 text-center">Bronze</th>
+                        <th className="p-2 text-left">Squad Contingent</th>
+                        <th className="p-2 text-center">1st</th>
+                        <th className="p-2 text-center">2nd</th>
+                        <th className="p-2 text-center">3rd</th>
                         <th className="p-2 text-right">Points</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-stone-200">
-                      {teamsList.map((t) => (
+                      {sortedTeams.map((t, idx) => (
                         <tr key={t.name} className="hover:bg-stone-50">
-                          <td className="p-2 font-bold">{t.rank}</td>
-                          <td className="p-2">{t.name} ({t.malayalam})</td>
-                          <td className="p-2 text-center">{t.golds}</td>
-                          <td className="p-2 text-center">{t.silvers}</td>
-                          <td className="p-2 text-center">{t.bronzes}</td>
-                          <td className="p-2 text-right font-bold text-[#A91F35]">{t.points} PTS</td>
+                          <td className="p-2 font-bold">{idx + 1}</td>
+                          <td className="p-2">{t.name}</td>
+                          <td className="p-2 text-center">{t.firstPlaces || 0}</td>
+                          <td className="p-2 text-center">{t.secondPlaces || 0}</td>
+                          <td className="p-2 text-center">{t.thirdPlaces || 0}</td>
+                          <td className="p-2 text-right font-bold text-[#A91F35]">{t.points || 0} PTS</td>
                         </tr>
                       ))}
                     </tbody>
@@ -1188,17 +1249,29 @@ export default function ResultsPage({
                     Published Results Highlights
                   </h3>
                   <div className="space-y-2 text-xs">
-                    {resultsList.slice(0, 4).map((r) => (
-                      <div key={r.id} className="p-2.5 bg-stone-50 rounded-xl border border-stone-200 flex justify-between items-center">
-                        <div>
-                          <span className="font-bold text-stone-800">{r.eventTitle}</span>
-                          <span className="text-stone-500 ml-2">({r.code})</span>
+                    {resultsList.length > 0 ? (
+                      resultsList.slice(0, 4).map((r) => (
+                        <div key={r.id} className="p-2.5 bg-stone-50 rounded-xl border border-stone-200 flex justify-between items-center">
+                          <div>
+                            <span className="font-bold text-stone-800">{r.eventTitle}</span>
+                            <span className="text-stone-500 ml-2">({r.code})</span>
+                          </div>
+                          <div className="text-right">
+                            {r.positions && r.positions[0] ? (
+                              <span className="font-bold text-[#A91F35]">
+                                1st: {r.positions[0].name} ({r.positions[0].team})
+                              </span>
+                            ) : (
+                              <span className="text-stone-500 italic">Result Certified</span>
+                            )}
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <span className="font-bold text-[#A91F35]">1st: {r.positions[0].name} ({r.positions[0].team})</span>
-                        </div>
+                      ))
+                    ) : (
+                      <div className="p-3 bg-stone-50 rounded-xl border border-stone-200 text-stone-500 text-xs text-center italic">
+                        Official result certificates will appear here once certified by the Convener Secretariat.
                       </div>
-                    ))}
+                    )}
                   </div>
                 </div>
 
