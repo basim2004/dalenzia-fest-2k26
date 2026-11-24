@@ -33,6 +33,7 @@ body {
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: #F7F3E9;
@@ -40,6 +41,20 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #A91F35;
   border-radius: 9999px;
+}
+
+/* Hide scrollbar utility for clean overflow-x-auto navigation and carousels */
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar,
+.scrollbar-none {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
 }
 
 @keyframes spinSlow {

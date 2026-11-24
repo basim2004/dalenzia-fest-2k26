@@ -282,11 +282,11 @@ export default function PreviousEditionPage({ onNavigateHome }) {
       {/* ========================================================================= */}
       {/* 0. STICKY TOP HEADER & BREADCRUMB                                         */}
       {/* ========================================================================= */}
-      <header className="sticky top-0 z-40 bg-[#F7F3E9]/95 backdrop-blur-md border-b border-[#A91F35]/15 py-3 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <header className="sticky top-[60px] md:top-[72px] z-40 bg-[#F7F3E9]/95 backdrop-blur-md border-b border-[#A91F35]/10 py-2.5 px-4 md:px-8">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-3">
           
           {/* Breadcrumb & Identity */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={onNavigateHome}
               className="flex items-center gap-1.5 text-xs font-bold text-stone-600 hover:text-[#A91F35] transition-colors cursor-pointer"
@@ -306,7 +306,10 @@ export default function PreviousEditionPage({ onNavigateHome }) {
           </div>
 
           {/* Quick-Jump Navigation Pills */}
-          <nav className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 text-xs font-semibold no-scrollbar">
+          <nav
+            className="flex items-center gap-2 overflow-x-auto py-1 text-xs font-semibold no-scrollbar scrollbar-none select-none"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
             <button
               type="button"
               onClick={scrollToArchiveSection('2k25-hero')}
