@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Calendar, MapPin, ArrowRight } from 'lucide-react';
+import FestivalRadioPlayer from './FestivalRadioPlayer';
 
 export default function FestivalCountdownStage() {
   const [timeLeft, setTimeLeft] = useState({ days: 33, hours: 18, minutes: 27, seconds: 46 });
@@ -104,6 +105,9 @@ export default function FestivalCountdownStage() {
           </div>
 
         </div>
+
+        {/* Festival Radio & Interactive Audio Playlist */}
+        <FestivalRadioPlayer />
 
         {/* Closing Action */}
         <div className="pt-4">
