@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Calendar, MapPin, ArrowRight, Play, ChevronDown, Trophy, Users, Layers, Clock, Sparkles } from 'lucide-react';
+import { Calendar, MapPin, ArrowRight, Play, ChevronDown, Trophy, Users, Layers, Sparkles } from 'lucide-react';
 import festivalStore from '../admin/data/festivalStore';
 
 // Responsive & Lightweight Golden Sand Particles Canvas
@@ -73,30 +73,6 @@ function GoldenSandCanvas({ mouse }) {
   return <canvas ref={canvasRef} className="w-full h-full pointer-events-none" />;
 }
 
-// Real-time Countdown Hook to Dec 21, 2026
-function useFestivalCountdown(targetDate) {
-  const [timeLeft, setTimeLeft] = useState({ days: 33, hours: 18, minutes: 27, seconds: 46 });
-
-  useEffect(() => {
-    const updateCountdown = () => {
-      const difference = +new Date(targetDate) - +new Date();
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
-        });
-      }
-    };
-    updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
-    return () => clearInterval(timer);
-  }, [targetDate]);
-
-  return timeLeft;
-}
-
 export default function CinematicHero({ onOpenTeaser }) {
   const containerRef = useRef(null);
   const mouse = useRef({ x: 0, y: 0 });
@@ -109,8 +85,6 @@ export default function CinematicHero({ onOpenTeaser }) {
     const unsub = festivalStore.subscribe(update);
     return () => unsub();
   }, []);
-
-  const countdown = useFestivalCountdown('2026-12-21T09:00:00+05:30');
 
   // Mouse tilt tracking for desktop
   const handleMouseMove = (e) => {
@@ -192,12 +166,12 @@ export default function CinematicHero({ onOpenTeaser }) {
       {/* Main Grid: Content (Left) & 3D Stage (Right) */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto">
         
-        {/* Left Column: Festival Information, Typography & Integrated Countdown */}
+        {/* Left Column: Festival Information & Typography */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="show"
-          className="lg:col-span-6 flex flex-col items-start space-y-5 text-left"
+          className="lg:col-span-6 flex flex-col items-start space-y-6 text-left"
         >
           {/* Subtle Festival Eyebrow Badge */}
           <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#A91F35]/10 border border-[#A91F35]/25 text-[#A91F35] text-xs font-black tracking-widest uppercase shadow-2xs backdrop-blur-xs">
@@ -229,7 +203,7 @@ export default function CinematicHero({ onOpenTeaser }) {
           </motion.div>
 
           {/* Primary Action Buttons */}
-          <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-3.5 pt-1 w-full sm:w-auto">
+          <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-3.5 pt-2 w-full sm:w-auto">
             <a
               href="#about"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#A91F35] hover:bg-[#8d182b] text-white text-xs md:text-sm font-bold tracking-wide shadow-lg hover:shadow-xl active:scale-95 transition-all group"
@@ -247,47 +221,6 @@ export default function CinematicHero({ onOpenTeaser }) {
               </div>
               <span>Watch Teaser</span>
             </button>
-          </motion.div>
-
-          {/* Cohesive Festival Countdown Card */}
-          <motion.div variants={fadeInUp} className="w-full max-w-md pt-2">
-            <div className="bg-gradient-to-br from-white/95 via-white/85 to-[#FAF6EE]/90 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-[#A91F35]/15 shadow-sm space-y-2.5 hover:border-[#E6A916]/40 transition-colors">
-              <div className="flex items-center justify-between pb-2 border-b border-[#A91F35]/10">
-                <span className="text-[10px] uppercase tracking-widest font-extrabold text-[#A91F35] flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-[#E6A916]" />
-                  <span>Festival Countdown</span>
-                </span>
-                <span className="text-[10px] font-mono font-bold text-stone-500">
-                  21 Dec 2026 · 09:00 AM IST
-                </span>
-              </div>
-              <div className="grid grid-cols-4 gap-2 text-center">
-                <div className="flex flex-col">
-                  <span className="font-mono text-2xl sm:text-3xl font-black text-[#1c1917]">
-                    {String(countdown.days).padStart(2, '0')}
-                  </span>
-                  <span className="text-[9px] uppercase tracking-wider text-stone-500 font-bold">DAYS</span>
-                </div>
-                <div className="flex flex-col border-l border-stone-200">
-                  <span className="font-mono text-2xl sm:text-3xl font-black text-[#1c1917]">
-                    {String(countdown.hours).padStart(2, '0')}
-                  </span>
-                  <span className="text-[9px] uppercase tracking-wider text-stone-500 font-bold">HOURS</span>
-                </div>
-                <div className="flex flex-col border-l border-stone-200">
-                  <span className="font-mono text-2xl sm:text-3xl font-black text-[#1c1917]">
-                    {String(countdown.minutes).padStart(2, '0')}
-                  </span>
-                  <span className="text-[9px] uppercase tracking-wider text-stone-500 font-bold">MINS</span>
-                </div>
-                <div className="flex flex-col border-l border-stone-200">
-                  <span className="font-mono text-2xl sm:text-3xl font-black text-[#E6A916]">
-                    {String(countdown.seconds).padStart(2, '0')}
-                  </span>
-                  <span className="text-[9px] uppercase tracking-wider text-stone-500 font-bold">SECS</span>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </motion.div>
 
