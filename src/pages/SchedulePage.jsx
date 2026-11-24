@@ -300,41 +300,45 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
           </div>
         </div>
 
-        {/* Hero Headline & 3D Calendar Stage Scene */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-2">
+        {/* Hero Headline & Information Section */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full pt-2">
           
-          {/* Left Text Column */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="lg:col-span-6 space-y-5 text-left"
+            className="max-w-3xl space-y-5 text-left"
           >
             <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#A91F35] text-white rounded-full text-xs font-extrabold tracking-widest uppercase shadow-sm">
               <Calendar className="w-3.5 h-3.5 text-[#E6A916]" />
               <span>DALENZIA FEST 2K26 · OFFICIAL TIMETABLE</span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-serif font-bold text-[#1c1917] tracking-tight leading-[1.12]">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-[#1c1917] tracking-tight leading-[1.12]">
               THE FESTIVAL <br />
               <span className="text-[#A91F35] italic">TIMELINE</span> <br />
-              <span className="text-[#E6A916]">Two Days. One Era.</span>
+              <span className="text-[#E6A916]">Three Days. One Era.</span>
             </h1>
 
-            <p className="text-sm md:text-base text-[#1c1917]/80 leading-relaxed font-normal max-w-lg">
-              Two Days. Countless Moments. One NUEVA ERA. Explore the complete two-day schedule detailing session hours, stage venues, competitive rounds, and presidential ceremonies across Ayiroor.
+            <p className="text-sm md:text-base text-[#1c1917]/80 leading-relaxed font-normal max-w-2xl">
+              Three Days. Countless Moments. One NUEVA ERA. Explore the complete three-day schedule detailing session hours, stage venues, competitive rounds, and presidential ceremonies across Ayiroor.
             </p>
 
             {/* Date & Venue Info */}
             <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm font-semibold text-[#1c1917] pt-1">
               <span className="flex items-center gap-1.5 text-[#A91F35]">
                 <Calendar className="w-4 h-4" />
-                21, 22, 23 DECEMBER 2026
+                December 21–23, 2026
               </span>
               <span className="text-stone-300">•</span>
               <span className="flex items-center gap-1.5 text-[#A91F35]">
                 <MapPin className="w-4 h-4" />
                 Dalailussunna Dars, Ayiroor
+              </span>
+              <span className="text-stone-300">•</span>
+              <span className="flex items-center gap-1.5 text-[#E6A916] font-bold">
+                <Clock className="w-4 h-4" />
+                3 Vibrant Days · 5 Grand Arenas
               </span>
             </div>
 
@@ -355,31 +359,6 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
                 <Download className="w-4 h-4" />
                 <span>Download Schedule (PDF)</span>
               </button>
-            </div>
-          </motion.div>
-
-          {/* Right 3D Stage Composition */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-6 relative flex items-center justify-center"
-          >
-            <div className="relative w-full max-w-[540px] rounded-3xl overflow-hidden shadow-2xl border border-white/60 bg-white group">
-              <img
-                src="/assets/schedule/schedule_hero_stage.png"
-                alt="Dalenzia Schedule 3D Stage - Calendar Flip, Golden Hourglass, Neon Arch & Classical Volumes"
-                className="w-full h-auto object-contain group-hover:scale-[1.02] transition-transform duration-700"
-              />
-              
-              {/* Bottom Subtle Overlay Ribbon */}
-              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#A91F35]/90 via-[#A91F35]/60 to-transparent p-4 flex items-center justify-between text-white text-xs font-semibold">
-                <span className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-[#E6A916]" />
-                  48 Hours of Continuous Brilliance
-                </span>
-                <span className="text-[#E6A916] font-bold">5 Grand Arenas</span>
-              </div>
             </div>
           </motion.div>
 
