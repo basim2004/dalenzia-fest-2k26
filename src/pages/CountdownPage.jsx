@@ -243,12 +243,12 @@ export default function CountdownPage({ onNavigateHome }) {
 
         #dz-radio-root {
           position: relative;
-          min-height: 100svh;
+          min-height: calc(100svh - 80px);
           width: 100%;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          overflow: hidden;
+          overflow-x: hidden;
           background: var(--crimson);
         }
 
@@ -271,7 +271,7 @@ export default function CountdownPage({ onNavigateHome }) {
           width: 100%;
           position: relative;
           z-index: 2;
-          padding: 3.5rem 1rem 2rem 1rem;
+          padding: 2.5rem 1.5rem 2rem 1.5rem;
         }
 
         /* Circular Geometry: thin gold outlines perfectly centered behind the ticket card */
@@ -307,9 +307,8 @@ export default function CountdownPage({ onNavigateHome }) {
         .dz-card {
           position: relative;
           z-index: 2;
-          width: min(88vw, 420px);
+          width: min(90vw, 420px);
           aspect-ratio: 400/600;
-          max-height: calc(100svh - 160px);
           container-type: inline-size;
           opacity: 1;
           transform: none;
@@ -549,14 +548,14 @@ export default function CountdownPage({ onNavigateHome }) {
         /* Tablet (min-width: 640px) */
         @media (min-width: 640px) {
           .dz-stage-center {
-            padding: 4rem 1.5rem 2.2rem 1.5rem;
+            padding: 3rem 1.5rem 2.2rem 1.5rem;
           }
           .dz-card {
-            width: min(65vw, 500px, calc((100svh - 180px) * (400 / 600)));
+            width: clamp(460px, 60vw, 540px);
           }
-          .dz-rings i:nth-child(1) { width: 700px; height: 700px; }
-          .dz-rings i:nth-child(2) { width: 920px; height: 920px; }
-          .dz-rings i:nth-child(3) { width: 1180px; height: 1180px; }
+          .dz-rings i:nth-child(1) { width: 750px; height: 750px; }
+          .dz-rings i:nth-child(2) { width: 1000px; height: 1000px; }
+          .dz-rings i:nth-child(3) { width: 1300px; height: 1300px; }
         }
 
         /* Laptop (min-width: 1024px) */
@@ -565,19 +564,19 @@ export default function CountdownPage({ onNavigateHome }) {
             inset: 16px 16px 58px 16px;
           }
           .dz-stage-center {
-            padding: 4.5rem 2rem 2.5rem 2rem;
+            padding: 3.5rem 2rem 2.5rem 2rem;
           }
           .dz-card {
-            width: min(46vw, 580px, calc((100svh - 190px) * (400 / 600)));
+            width: clamp(540px, 45vw, 640px);
           }
           .dz-pixels {
             width: 112px;
             right: 24px;
             top: 24px;
           }
-          .dz-rings i:nth-child(1) { width: 850px; height: 850px; }
-          .dz-rings i:nth-child(2) { width: 1150px; height: 1150px; }
-          .dz-rings i:nth-child(3) { width: 1480px; height: 1480px; }
+          .dz-rings i:nth-child(1) { width: 900px; height: 900px; }
+          .dz-rings i:nth-child(2) { width: 1250px; height: 1250px; }
+          .dz-rings i:nth-child(3) { width: 1600px; height: 1600px; }
           .dz-strip {
             height: 11vh;
             min-height: 84px;
@@ -597,19 +596,19 @@ export default function CountdownPage({ onNavigateHome }) {
             inset: 20px 20px 64px 20px;
           }
           .dz-stage-center {
-            padding: 5rem 2.5rem 3rem 2.5rem;
+            padding: 4rem 2.5rem 3rem 2.5rem;
           }
           .dz-card {
-            width: min(38vw, 680px, calc((100svh - 210px) * (400 / 600)));
+            width: clamp(640px, 40vw, 760px);
           }
           .dz-pixels {
             width: 130px;
             right: 32px;
             top: 32px;
           }
-          .dz-rings i:nth-child(1) { width: 1050px; height: 1050px; }
-          .dz-rings i:nth-child(2) { width: 1400px; height: 1400px; }
-          .dz-rings i:nth-child(3) { width: 1800px; height: 1800px; }
+          .dz-rings i:nth-child(1) { width: 1100px; height: 1100px; }
+          .dz-rings i:nth-child(2) { width: 1500px; height: 1500px; }
+          .dz-rings i:nth-child(3) { width: 1950px; height: 1950px; }
           .dz-strip {
             height: 12vh;
             min-height: 96px;
@@ -626,11 +625,11 @@ export default function CountdownPage({ onNavigateHome }) {
         /* Ultra-wide Displays (min-width: 1920px) */
         @media (min-width: 1920px) {
           .dz-card {
-            width: min(32vw, 760px, calc((100svh - 230px) * (400 / 600)));
+            width: clamp(740px, 35vw, 860px);
           }
-          .dz-rings i:nth-child(1) { width: 1250px; height: 1250px; }
-          .dz-rings i:nth-child(2) { width: 1650px; height: 1650px; }
-          .dz-rings i:nth-child(3) { width: 2100px; height: 2100px; }
+          .dz-rings i:nth-child(1) { width: 1300px; height: 1300px; }
+          .dz-rings i:nth-child(2) { width: 1800px; height: 1800px; }
+          .dz-rings i:nth-child(3) { width: 2300px; height: 2300px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
