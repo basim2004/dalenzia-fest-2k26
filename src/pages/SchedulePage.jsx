@@ -269,9 +269,9 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
         {/* Golden Ambient Particle Atmosphere */}
         <AmbientGoldParticles count={65} />
 
-        {/* Top Breadcrumb & Dual Logo */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-xs font-semibold text-stone-600">
+        {/* Top Breadcrumb */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full flex items-center justify-between">
+          <nav className="flex items-center gap-2 text-xs font-semibold text-stone-600">
             <button
               onClick={onNavigateHome}
               className="flex items-center gap-1 hover:text-[#A91F35] transition-colors cursor-pointer"
@@ -288,44 +288,47 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
             </button>
             <ChevronRight className="w-3 h-3 text-stone-400" />
             <span className="text-[#A91F35] font-bold">Programme Schedule</span>
-          </div>
-
-          {/* Official Fest Logo lockup */}
-          <div className="h-8 md:h-10">
-            <img
-              src="/assets/dalenzia_fest_logo.png"
-              alt="Dalenzia Fest Logo"
-              className="h-full w-auto object-contain"
-            />
-          </div>
+          </nav>
         </div>
 
-        {/* Hero Headline & Information Section */}
+        {/* Hero Headline & Information Section - Centred Layout */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full pt-2">
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="max-w-3xl space-y-5 text-left"
+            className="max-w-4xl mx-auto space-y-6 text-center flex flex-col items-center"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#A91F35] text-white rounded-full text-xs font-extrabold tracking-widest uppercase shadow-sm">
+            {/* Single Official Dalenzia Logo positioned neatly above centred hero content */}
+            <div className="h-10 sm:h-12 md:h-14 flex items-center justify-center">
+              <img
+                src="/assets/dalenzia_fest_logo.png"
+                alt="Dalenzia Fest 2K26"
+                className="h-full w-auto object-contain"
+              />
+            </div>
+
+            {/* Official Timetable Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#A91F35] text-white rounded-full text-xs font-extrabold tracking-widest uppercase shadow-sm">
               <Calendar className="w-3.5 h-3.5 text-[#E6A916]" />
               <span>DALENZIA FEST 2K26 · OFFICIAL TIMETABLE</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-[#1c1917] tracking-tight leading-[1.12]">
+            {/* Centred Hero Heading */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-[#1c1917] tracking-tight leading-[1.12]">
               THE FESTIVAL <br />
               <span className="text-[#A91F35] italic">TIMELINE</span> <br />
               <span className="text-[#E6A916]">Three Days. One Era.</span>
             </h1>
 
-            <p className="text-sm md:text-base text-[#1c1917]/80 leading-relaxed font-normal max-w-2xl">
+            {/* Centred Description Paragraph */}
+            <p className="text-sm md:text-base text-[#1c1917]/80 leading-relaxed font-normal max-w-2xl mx-auto">
               Three Days. Countless Moments. One NUEVA ERA. Explore the complete three-day schedule detailing session hours, stage venues, competitive rounds, and presidential ceremonies across Ayiroor.
             </p>
 
             {/* Date & Venue Info */}
-            <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm font-semibold text-[#1c1917] pt-1">
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs md:text-sm font-semibold text-[#1c1917] pt-1">
               <span className="flex items-center gap-1.5 text-[#A91F35]">
                 <Calendar className="w-4 h-4" />
                 December 21–23, 2026
@@ -342,11 +345,11 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
               </span>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-3">
+            {/* Action Buttons Centred */}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <button
                 onClick={scrollToTimeline}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#A91F35] text-white hover:bg-[#8e172a] text-xs md:text-sm font-bold shadow-lg transition-all active:scale-95 group cursor-pointer"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#A91F35] text-white hover:bg-[#8e172a] text-xs md:text-sm font-bold shadow-lg transition-all active:scale-95 group cursor-pointer"
               >
                 <span>View Full Timeline</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -354,7 +357,7 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
 
               <button
                 onClick={() => setIsPdfModalOpen(true)}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#E6A916] text-[#A91F35] hover:bg-[#ffd166] text-xs md:text-sm font-extrabold shadow-md transition-all active:scale-95 cursor-pointer"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#E6A916] text-[#A91F35] hover:bg-[#ffd166] text-xs md:text-sm font-extrabold shadow-md transition-all active:scale-95 cursor-pointer"
               >
                 <Download className="w-4 h-4" />
                 <span>Download Schedule (PDF)</span>
