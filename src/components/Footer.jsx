@@ -16,16 +16,16 @@ export default function Footer({ lang }) {
       <div className="max-w-md mx-auto px-6 relative z-10 space-y-6 text-center">
         {/* Emblem & Branding */}
         <div className="flex flex-col items-center gap-3">
-          <div className="flex flex-wrap items-center justify-center gap-4 bg-black/20 px-5 py-2.5 rounded-2xl border border-white/10 shadow-xs max-w-fit mx-auto">
-            <div className="h-9 sm:h-10 flex items-center justify-center">
+          <div className="flex items-center justify-center gap-3.5 sm:gap-5 md:gap-6 bg-black/20 px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl border border-white/10 shadow-xs max-w-fit mx-auto">
+            <div className="h-8 sm:h-9 md:h-10 lg:h-11 flex items-center justify-center shrink-0">
               <img
                 src="/assets/dalenzia_fest_logo.png"
                 alt="Dalenzia Fest"
                 className="h-full w-auto object-contain"
               />
             </div>
-            <span className="h-7 sm:h-8 w-[1px] bg-white/25 shrink-0" />
-            <div className="h-11 sm:h-13 flex items-center justify-center">
+            <span className="h-9 sm:h-11 md:h-14 w-[1px] bg-white/25 shrink-0" />
+            <div className="h-13 sm:h-16 md:h-20 lg:h-[84px] flex items-center justify-center shrink-0">
               <img
                 src="/assets/brand/official_nueva_era_reverse_white.png"
                 alt="Nueva Era"
