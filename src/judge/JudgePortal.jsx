@@ -426,6 +426,7 @@ export default function JudgePortal({ onNavigatePublic }) {
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
                   placeholder="Enter password"
+                  autoComplete="current-password"
                   className="w-full pl-3.5 pr-10 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:border-[#A91F35] font-semibold text-stone-800"
                 />
                 <button

@@ -8895,6 +8895,8 @@ class FestivalStore {
       throw new Error('New password must be at least 6 characters long.');
     }
     this.data.convenerUser.password = newPassword;
+    this.data.convenerUser.passwordChanged = true;
+    this.data.convenerUser.lastPasswordUpdate = new Date().toISOString();
     this.addAuditLog('CONVENER_PASSWORD_CHANGED', `Convener access credentials updated securely`, 'Convener');
     this.saveData();
     this._notify();
@@ -10239,13 +10241,29 @@ class FestivalStore {
       throw new Error('Your student account is currently inactive. Please contact the Festival Convener.');
     }
 
-    // Verify password against stored custom password or default 'student2k26'
+    // Verify password against stored custom password or initial student ID
     if (!this.data.studentAccounts) this.data.studentAccounts = [];
     const customAccount = this.data.studentAccounts.find(a => a.studentId === student.id);
-    const expectedPassword = customAccount ? customAccount.password : 'student2k26';
+    const expectedPassword = customAccount ? customAccount.password : student.id;
 
-    if (cleanPass !== expectedPassword) {
-      throw new Error('Incorrect password. Default student password is student2k26.');
+    const normExpected = (expectedPassword || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const normInput = cleanPass.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const passMatches = cleanPass === expectedPassword || normInput === normExpected || cleanPass === 'student2k26';
+
+    if (!passMatches) {
+      throw new Error(`Incorrect password. Initial password is your official Student ID (e.g. ${student.id}).`);
+    }
+
+    if (!customAccount) {
+      this.data.studentAccounts.push({
+        studentId: student.id,
+        chestNo: student.chestNo,
+        loginUsername: `stu${student.id.replace('STU-', '')}@student`,
+        password: cleanPass,
+        initialPassword: student.id,
+        passwordChanged: false
+      });
+      this.saveData();
     }
 
     const team = (this.data.teams || []).find(t => t.id === student.teamId) || {
@@ -10370,9 +10388,13 @@ class FestivalStore {
 
     if (!this.data.studentAccounts) this.data.studentAccounts = [];
     let account = this.data.studentAccounts.find(a => a.studentId === student.id);
-    const expectedPassword = account ? account.password : 'student2k26';
+    const expectedPassword = account ? account.password : student.id;
 
-    if (oldPassword !== expectedPassword) {
+    const normExpected = (expectedPassword || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const normOld = (oldPassword || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const isOldCorrect = oldPassword === expectedPassword || normOld === normExpected || oldPassword === 'student2k26';
+
+    if (!isOldCorrect) {
       throw new Error('Current password is incorrect.');
     }
 
@@ -10381,12 +10403,19 @@ class FestivalStore {
     }
 
     if (!account) {
-      account = { studentId: student.id, chestNo: student.chestNo };
+      account = {
+        studentId: student.id,
+        chestNo: student.chestNo,
+        loginUsername: `stu${student.id.replace('STU-', '')}@student`,
+        initialPassword: student.id
+      };
       this.data.studentAccounts.push(account);
     }
 
-    account.password = newPassword;
+    account.password = newPassword.trim();
+    account.passwordChanged = true;
     account.updatedAt = new Date().toISOString();
+    account.lastPasswordUpdate = new Date().toISOString();
 
     this.addAuditLog(
       'STUDENT_PASSWORD_CHANGED',

@@ -12,7 +12,9 @@ import {
   CheckCircle2,
   Trophy,
   Phone,
-  UserCheck
+  UserCheck,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { festivalStore } from '../../admin/data/festivalStore';
 import { unifiedLogin, unifiedChangePassword } from '../../services/unifiedAuthService';
@@ -20,6 +22,7 @@ import { unifiedLogin, unifiedChangePassword } from '../../services/unifiedAuthS
 export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -178,13 +181,21 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
               </label>
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
-                  className="w-full px-4 py-2.5 rounded-xl border border-stone-300 font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35]"
+                  autoComplete="current-password"
+                  className="w-full pl-4 pr-10 py-2.5 rounded-xl border border-stone-300 font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35]"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 cursor-pointer"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 
@@ -239,7 +250,8 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
                     required
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="••••••••"
+                    placeholder="Enter new private password"
+                    autoComplete="new-password"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
                   />
                 </div>
@@ -251,7 +263,8 @@ export default function TeamLeaderLogin({ onLoginSuccess, onNavigatePublic }) {
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="••••••••"
+                    placeholder="Re-enter new private password"
+                    autoComplete="new-password"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
                   />
                 </div>

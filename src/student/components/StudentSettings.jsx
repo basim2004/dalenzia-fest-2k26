@@ -103,7 +103,7 @@ export default function StudentSettings({ studentSession, onLogout }) {
               required
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
-              placeholder="Enter current password (default: student2k26)"
+              placeholder="Enter your current password"
               className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-xl font-medium focus:outline-none focus:border-[#A91F35]"
             />
           </div>

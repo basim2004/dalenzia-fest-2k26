@@ -165,6 +165,7 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     placeholder="Enter password"
+                    autoComplete="current-password"
                     className="w-full pl-10 pr-10 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                   />
                   <button
@@ -216,7 +217,7 @@ export default function StudentLogin({ onLoginSuccess, onNavigatePublic }) {
               </div>
               <h3 className="text-base font-serif font-black text-stone-900">Student Account Recovery</h3>
               <p className="text-xs text-stone-600 mt-2 leading-relaxed">
-                Student accounts are securely managed by the Central Festival Registry. Default password is <span className="font-mono font-bold text-[#A91F35]">student2k26</span>. If you changed your password and forgot it, please contact the <strong>Festival Convener Secretariat</strong> or your official <strong>Team Leader</strong> to issue a password reset.
+                Student accounts are securely managed by the Central Festival Registry. Initial password is your official <strong>Student ID</strong> (e.g. <span className="font-mono font-bold text-[#A91F35]">STU-1001</span>). If you changed your password and forgot it, please contact the <strong>Festival Convener Secretariat</strong> or your official <strong>Team Leader</strong> to issue a password reset.
               </p>
               <button
                 onClick={() => setShowForgotModal(false)}

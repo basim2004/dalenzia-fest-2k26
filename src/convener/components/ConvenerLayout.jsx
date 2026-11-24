@@ -420,8 +420,9 @@ export default function ConvenerLayout({
                       type="password"
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
-                      placeholder="••••••••"
+                      placeholder="Enter your current password"
                       required
+                      autoComplete="current-password"
                       className="w-full bg-[#FAF7F0] px-3.5 py-2 rounded-xl border border-stone-300 text-xs font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35]"
                     />
                   </div>
@@ -432,8 +433,9 @@ export default function ConvenerLayout({
                       type="password"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="••••••••"
+                      placeholder="Enter new private password"
                       required
+                      autoComplete="new-password"
                       className="w-full bg-[#FAF7F0] px-3.5 py-2 rounded-xl border border-stone-300 text-xs font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35]"
                     />
                   </div>
@@ -444,8 +446,9 @@ export default function ConvenerLayout({
                       type="password"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="••••••••"
+                      placeholder="Re-enter new private password"
                       required
+                      autoComplete="new-password"
                       className="w-full bg-[#FAF7F0] px-3.5 py-2 rounded-xl border border-stone-300 text-xs font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35]"
                     />
                   </div>

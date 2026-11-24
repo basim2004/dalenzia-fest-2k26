@@ -193,6 +193,7 @@ export default function AdminLogin({ onLoginSuccess }) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
+                  autoComplete="current-password"
                   className="w-full bg-[#FAF7F0] pl-10 pr-10 py-2.5 rounded-xl border border-stone-300 text-xs font-semibold text-stone-800 focus:outline-none focus:border-[#A91F35] transition-all"
                 />
                 <button

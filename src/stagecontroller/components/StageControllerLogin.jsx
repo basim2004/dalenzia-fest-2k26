@@ -42,6 +42,7 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
 
         if (typeof window !== 'undefined') {
           sessionStorage.setItem('dalenzia_stage_session', JSON.stringify(res.session));
+          localStorage.setItem('dalanzia_stage_controller_session', JSON.stringify(res.session));
         }
         onLoginSuccess(res.session);
       } else {
@@ -61,6 +62,7 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
     setShowFirstLoginModal(false);
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('dalenzia_stage_session', JSON.stringify(updatedSession));
+      localStorage.setItem('dalanzia_stage_controller_session', JSON.stringify(updatedSession));
     }
     onLoginSuccess(updatedSession);
   };
@@ -156,6 +158,7 @@ export default function StageControllerLogin({ onLoginSuccess, onNavigatePublic 
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     placeholder="Enter password"
+                    autoComplete="current-password"
                     className="w-full pl-10 pr-10 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                   />
                   <button

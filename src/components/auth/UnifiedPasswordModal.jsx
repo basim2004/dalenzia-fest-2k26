@@ -20,12 +20,22 @@ export default function UnifiedPasswordModal({
   onSubmit,
   onClose
 }) {
-  const [currentPassword, setCurrentPassword] = useState(initialPasswordUsed || '');
+  const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Clear inputs when modal is opened or closed
+  React.useEffect(() => {
+    if (isOpen) {
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      setError('');
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 

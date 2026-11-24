@@ -187,6 +187,7 @@ export default function ConvenerLogin({ onLoginSuccess, onNavigatePublic }) {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
                   required
+                  autoComplete="current-password"
                   className="w-full bg-[#FAF7F0] pl-10 pr-10 py-2.5 rounded-2xl border border-stone-300 text-xs font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35] focus:ring-1 focus:ring-[#A91F35] transition-all"
                 />
                 <button
