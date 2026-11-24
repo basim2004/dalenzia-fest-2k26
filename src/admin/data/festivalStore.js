@@ -8582,7 +8582,13 @@ class FestivalStore {
     return { success: true, message: 'Password updated successfully!' };
   }
 
-  getUnifiedAccounts() {
+  getUnifiedAccounts(actorRole = null) {
+    // Access strictly restricted to certified Main Admin & Developer accounts
+    const ADMIN_AUTHORIZED = ['super_admin', 'admin', 'developer', 'MAIN_ADMIN', 'result_mgr', 'reg_mgr'];
+    if (actorRole && !ADMIN_AUTHORIZED.includes(actorRole)) {
+      throw new Error('Access Denied: Authenticated Portal Directory is restricted to Main Admin only.');
+    }
+
     const list = [];
 
     // Admins
@@ -8691,7 +8697,12 @@ class FestivalStore {
     return list;
   }
 
-  resetUnifiedAccountPassword(role, accountId) {
+  resetUnifiedAccountPassword(role, accountId, actorRole = null) {
+    const ADMIN_AUTHORIZED = ['super_admin', 'admin', 'developer', 'MAIN_ADMIN', 'result_mgr', 'reg_mgr'];
+    if (actorRole && !ADMIN_AUTHORIZED.includes(actorRole)) {
+      throw new Error('Access Denied: Resetting portal credentials is restricted to Main Admin only.');
+    }
+
     let found = null;
 
     if (role === 'MAIN_ADMIN') {
@@ -8721,7 +8732,12 @@ class FestivalStore {
     return { success: true, message: 'Account password has been reset to initial credential.' };
   }
 
-  setUnifiedAccountStatus(role, accountId, status) {
+  setUnifiedAccountStatus(role, accountId, status, actorRole = null) {
+    const ADMIN_AUTHORIZED = ['super_admin', 'admin', 'developer', 'MAIN_ADMIN', 'result_mgr', 'reg_mgr'];
+    if (actorRole && !ADMIN_AUTHORIZED.includes(actorRole)) {
+      throw new Error('Access Denied: Managing portal account status is restricted to Main Admin only.');
+    }
+
     let found = null;
     if (role === 'MAIN_ADMIN') found = (this.data.adminUsers || []).find(a => a.id === accountId);
     else if (role === 'CONVENER') found = this.data.convenerUser;

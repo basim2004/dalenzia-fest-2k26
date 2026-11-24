@@ -16,7 +16,8 @@ import {
   GraduationCap,
   Mic2,
   Building,
-  RefreshCw
+  RefreshCw,
+  ShieldAlert
 } from 'lucide-react';
 import {
   getUnifiedPortalAccounts,
@@ -27,7 +28,49 @@ import {
 } from '../../services/unifiedAuthService';
 import { festivalStore } from '../data/festivalStore';
 
+const ADMIN_AUTHORIZED_ROLES = ['super_admin', 'admin', 'developer', 'MAIN_ADMIN', 'result_mgr', 'reg_mgr'];
+
 export default function PortalAccountsManagement() {
+  // Security access verification: Strictly Main Admin / Developer only
+  const adminSession = (() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = sessionStorage.getItem('dalenzia_admin_session');
+        if (stored) return JSON.parse(stored);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return null;
+  })();
+
+  const isAuthorizedAdmin = adminSession && (
+    ADMIN_AUTHORIZED_ROLES.includes(adminSession.role) ||
+    ADMIN_AUTHORIZED_ROLES.includes(adminSession.roleKey) ||
+    adminSession.portalRole === 'admin'
+  );
+
+  if (!isAuthorizedAdmin) {
+    return (
+      <div className="bg-white rounded-3xl p-8 border-2 border-rose-300 shadow-xl text-center space-y-4 max-w-lg mx-auto my-8">
+        <div className="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">
+          <ShieldAlert className="w-7 h-7" />
+        </div>
+        <div className="space-y-1.5">
+          <span className="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-black uppercase tracking-wider">
+            Access Restricted · Main Admin Only
+          </span>
+          <h3 className="font-serif font-black text-lg text-stone-900">
+            Authenticated Portal Directory Protected
+          </h3>
+          <p className="text-xs text-stone-600 leading-relaxed">
+            The Authenticated Portal Directory and credential management controls are strictly restricted to Main Admin and Developer accounts.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const [accounts, setAccounts] = useState(() => getUnifiedPortalAccounts());
   const [selectedRole, setSelectedRole] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');

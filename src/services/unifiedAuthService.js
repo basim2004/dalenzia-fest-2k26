@@ -182,24 +182,52 @@ export async function unifiedChangePassword(role, accountId, oldPassword, newPas
 }
 
 /**
- * Unified Account Management Data Fetcher (Admin & Convener)
+ * Unified Account Management Data Fetcher (Strictly Main Admin / Developer Only)
  */
-export function getUnifiedPortalAccounts() {
-  return festivalStore.getUnifiedAccounts();
+export function getUnifiedPortalAccounts(actorRole = null) {
+  // If called from frontend, check admin session if actorRole not explicitly provided
+  if (typeof window !== 'undefined' && !actorRole) {
+    try {
+      const stored = sessionStorage.getItem('dalenzia_admin_session');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        actorRole = parsed?.role || parsed?.portalRole;
+      }
+    } catch (e) {}
+  }
+  return festivalStore.getUnifiedAccounts(actorRole);
 }
 
 /**
- * Toggle Portal Account Activation
+ * Toggle Portal Account Activation (Strictly Main Admin / Developer Only)
  */
-export function togglePortalAccountStatus(role, accountId, newStatus) {
-  return festivalStore.setUnifiedAccountStatus(role, accountId, newStatus);
+export function togglePortalAccountStatus(role, accountId, newStatus, actorRole = null) {
+  if (typeof window !== 'undefined' && !actorRole) {
+    try {
+      const stored = sessionStorage.getItem('dalenzia_admin_session');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        actorRole = parsed?.role || parsed?.portalRole;
+      }
+    } catch (e) {}
+  }
+  return festivalStore.setUnifiedAccountStatus(role, accountId, newStatus, actorRole);
 }
 
 /**
- * Reset Portal Account to Initial Password
+ * Reset Portal Account to Initial Password (Strictly Main Admin / Developer Only)
  */
-export function resetPortalAccountPassword(role, accountId) {
-  return festivalStore.resetUnifiedAccountPassword(role, accountId);
+export function resetPortalAccountPassword(role, accountId, actorRole = null) {
+  if (typeof window !== 'undefined' && !actorRole) {
+    try {
+      const stored = sessionStorage.getItem('dalenzia_admin_session');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        actorRole = parsed?.role || parsed?.portalRole;
+      }
+    } catch (e) {}
+  }
+  return festivalStore.resetUnifiedAccountPassword(role, accountId, actorRole);
 }
 
 export default {
