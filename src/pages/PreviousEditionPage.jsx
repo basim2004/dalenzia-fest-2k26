@@ -71,6 +71,7 @@ import InteractiveStage3DViewer from '../components/InteractiveStage3DViewer';
 import { STAGES_3D_DATA } from '../data/stage3DData';
 import WhatsAppCommunitySection from '../components/WhatsAppCommunitySection';
 import MemoryTv3DSection from '../components/MemoryTv3DSection';
+import InteractiveResultPostersSection from '../components/InteractiveResultPostersSection';
 
 export default function PreviousEditionPage({ onNavigateHome }) {
   // Stage 3D Active Selection
@@ -1796,60 +1797,10 @@ export default function PreviousEditionPage({ onNavigateHome }) {
           </div>
         </div>
 
-        {/* Competition Result Sheets Browser */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-sm space-y-6 text-left">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-stone-100">
-            <div>
-              <h3 className="text-xl font-serif font-black text-stone-900">
-                Official Competition Arena Result Sheets (01–55)
-              </h3>
-              <p className="text-xs text-stone-500 mt-0.5">
-                Archived scorecards published by the Dalenzia 2K25 official scrutiny panel.
-              </p>
-            </div>
-            
-            <div className="relative w-full sm:w-64">
-              <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-3" />
-              <input
-                type="text"
-                value={resultsSearch}
-                onChange={(e) => setResultsSearch(e.target.value)}
-                placeholder="Search result sheet..."
-                className="w-full pl-9 pr-3.5 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs font-semibold focus:outline-none focus:border-[#A91F35]"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
-            {filteredResults.slice(0, 24).map((r) => (
-              <div
-                key={r.id}
-                onClick={() => setSelectedResult(r)}
-                className="p-2.5 rounded-2xl bg-stone-50 border border-stone-200 hover:border-[#A91F35] cursor-pointer group transition-all text-center space-y-2"
-              >
-                <div className="w-full h-32 bg-stone-950 rounded-xl overflow-hidden p-1 flex items-center justify-center">
-                  <img
-                    src={r.src}
-                    alt={r.title}
-                    className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <div className="truncate">
-                  <span className="font-serif font-bold text-xs text-stone-800 block truncate">{r.title}</span>
-                  <span className="text-[10px] text-[#A91F35] font-mono font-bold block">{r.id}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {filteredResults.length > 24 && (
-            <div className="text-center pt-2">
-              <p className="text-xs text-stone-500 font-medium">
-                Showing first 24 of {filteredResults.length} competition sheets. Type in search box to find specific items.
-              </p>
-            </div>
-          )}
-        </div>
+        {/* ========================================================================= */}
+        {/* INTERACTIVE 3D MECHANICAL KEYCAP & RESULT POSTERS EXHIBITION (01–55)       */}
+        {/* ========================================================================= */}
+        <InteractiveResultPostersSection />
 
         {/* 4. COMPLETE STUDENT ID CARD GALLERY (ARCHIVE OF ALL 48 ORIGINAL PASSES) */}
         <div id="2k25-idcards" className="bg-stone-900 text-white rounded-3xl p-6 sm:p-8 md:p-10 border border-stone-800 shadow-2xl space-y-8 text-left">
