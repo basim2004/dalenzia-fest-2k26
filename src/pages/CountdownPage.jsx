@@ -247,10 +247,8 @@ export default function CountdownPage({ onNavigateHome }) {
           width: 100%;
           display: flex;
           flex-direction: column;
-          align-items: center;
-          justify-content: flex-end;
+          justify-content: space-between;
           overflow: hidden;
-          padding-top: 4vh;
           background: var(--crimson);
         }
 
@@ -264,14 +262,27 @@ export default function CountdownPage({ onNavigateHome }) {
           z-index: 1;
         }
 
-        /* Circular Geometry: thin gold outlines */
+        /* Stage Center: Vertically & horizontally centers ticket & rings in available space */
+        .dz-stage-center {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          position: relative;
+          z-index: 2;
+          padding: 3.5rem 1rem 2rem 1rem;
+        }
+
+        /* Circular Geometry: thin gold outlines perfectly centered behind the ticket card */
         .dz-rings {
           position: absolute;
           left: 50%;
-          top: 42%;
+          top: 48%;
           width: 0;
           height: 0;
           z-index: 0;
+          pointer-events: none;
         }
         .dz-rings i {
           position: absolute;
@@ -292,12 +303,13 @@ export default function CountdownPage({ onNavigateHome }) {
         .dz-rings i:nth-child(3) { width: 980px; height: 980px; opacity: .16; }
         @keyframes dzspin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        /* Card */
+        /* Card: Mobile default (strictly preserves approved mobile layout and sizing) */
         .dz-card {
           position: relative;
           z-index: 2;
-          width: min(90vw, 440px);
+          width: min(88vw, 420px);
           aspect-ratio: 400/600;
+          max-height: calc(100svh - 160px);
           container-type: inline-size;
           opacity: 1;
           transform: none;
@@ -473,11 +485,21 @@ export default function CountdownPage({ onNavigateHome }) {
         }
         @keyframes dzhint { 50% { transform: translateX(-50%) translateY(-1.6cqw); } }
 
+        /* Bottom Section Wrapper */
+        .dz-bottom-wrap {
+          width: 100%;
+          position: relative;
+          z-index: 5;
+          display: flex;
+          flex-direction: column;
+        }
+
         /* Footer Cream Band & Wavy Lines */
         .dz-strip {
           width: 100%;
-          height: 13vh;
-          min-height: 88px;
+          height: 10vh;
+          min-height: 72px;
+          max-height: 96px;
           position: relative;
           z-index: 1;
           background: var(--cream);
@@ -487,7 +509,7 @@ export default function CountdownPage({ onNavigateHome }) {
           position: absolute;
           left: 0;
           right: 0;
-          bottom: 16px;
+          bottom: 14px;
           height: 24px;
           background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='24'%3E%3Cg fill='none' stroke='%23A91F35' stroke-width='1.4'%3E%3Cpath d='M0 6C10 0 20 0 30 6S50 12 60 6'/%3E%3Cpath d='M0 11C10 5 20 5 30 11S50 17 60 11'/%3E%3Cpath d='M0 16C10 10 20 10 30 16S50 22 60 16'/%3E%3C/g%3E%3C/svg%3E") repeat-x;
           animation: dzwave 3.2s linear infinite;
@@ -501,7 +523,7 @@ export default function CountdownPage({ onNavigateHome }) {
           width: 100%;
           overflow: hidden;
           background: var(--deep);
-          padding: 11px 0;
+          padding: 10px 0;
           border-top: 1px solid var(--gold);
         }
         .dz-ticker div {
@@ -517,6 +539,99 @@ export default function CountdownPage({ onNavigateHome }) {
         .dz-ticker span { margin: 0 18px; }
         .dz-ticker span:nth-child(even) { color: var(--gold); }
         @keyframes dztick { to { transform: translateX(-50%); } }
+
+        /* =========================================================
+           RESPONSIVE BREAKPOINTS (Tablet, Laptop, Desktop, Ultra-Wide)
+           Proportionally scales card, background rings, ticker, and border
+           without distorting the vertical ticket composition
+           ========================================================= */
+
+        /* Tablet (min-width: 640px) */
+        @media (min-width: 640px) {
+          .dz-stage-center {
+            padding: 4rem 1.5rem 2.2rem 1.5rem;
+          }
+          .dz-card {
+            width: min(65vw, 500px, calc((100svh - 180px) * (400 / 600)));
+          }
+          .dz-rings i:nth-child(1) { width: 700px; height: 700px; }
+          .dz-rings i:nth-child(2) { width: 920px; height: 920px; }
+          .dz-rings i:nth-child(3) { width: 1180px; height: 1180px; }
+        }
+
+        /* Laptop (min-width: 1024px) */
+        @media (min-width: 1024px) {
+          #dz-radio-root::before {
+            inset: 16px 16px 58px 16px;
+          }
+          .dz-stage-center {
+            padding: 4.5rem 2rem 2.5rem 2rem;
+          }
+          .dz-card {
+            width: min(46vw, 580px, calc((100svh - 190px) * (400 / 600)));
+          }
+          .dz-pixels {
+            width: 112px;
+            right: 24px;
+            top: 24px;
+          }
+          .dz-rings i:nth-child(1) { width: 850px; height: 850px; }
+          .dz-rings i:nth-child(2) { width: 1150px; height: 1150px; }
+          .dz-rings i:nth-child(3) { width: 1480px; height: 1480px; }
+          .dz-strip {
+            height: 11vh;
+            min-height: 84px;
+            max-height: 110px;
+          }
+          .dz-ticker {
+            padding: 13px 0;
+          }
+          .dz-ticker div {
+            font-size: 13px;
+          }
+        }
+
+        /* Desktop (min-width: 1440px) */
+        @media (min-width: 1440px) {
+          #dz-radio-root::before {
+            inset: 20px 20px 64px 20px;
+          }
+          .dz-stage-center {
+            padding: 5rem 2.5rem 3rem 2.5rem;
+          }
+          .dz-card {
+            width: min(38vw, 680px, calc((100svh - 210px) * (400 / 600)));
+          }
+          .dz-pixels {
+            width: 130px;
+            right: 32px;
+            top: 32px;
+          }
+          .dz-rings i:nth-child(1) { width: 1050px; height: 1050px; }
+          .dz-rings i:nth-child(2) { width: 1400px; height: 1400px; }
+          .dz-rings i:nth-child(3) { width: 1800px; height: 1800px; }
+          .dz-strip {
+            height: 12vh;
+            min-height: 96px;
+            max-height: 125px;
+          }
+          .dz-ticker {
+            padding: 15px 0;
+          }
+          .dz-ticker div {
+            font-size: 14px;
+          }
+        }
+
+        /* Ultra-wide Displays (min-width: 1920px) */
+        @media (min-width: 1920px) {
+          .dz-card {
+            width: min(32vw, 760px, calc((100svh - 230px) * (400 / 600)));
+          }
+          .dz-rings i:nth-child(1) { width: 1250px; height: 1250px; }
+          .dz-rings i:nth-child(2) { width: 1650px; height: 1650px; }
+          .dz-rings i:nth-child(3) { width: 2100px; height: 2100px; }
+        }
 
         @media (prefers-reduced-motion: reduce) {
           .dz-rings i, .dz-strip::after, .dz-ticker div, .dz-reel, .dz-pixels i {
@@ -550,24 +665,17 @@ export default function CountdownPage({ onNavigateHome }) {
 
       {/* Main Ticket-Style Stage (#dz-radio-root) */}
       <section id="dz-radio-root">
-        {/* Decorative Rings */}
-        <div className="dz-rings">
-          <i />
-          <i />
-          <i />
-        </div>
+        {/* Stage Center Container: Vertically & Horizontally Centers Ticket Card and Background Rings */}
+        <div className="dz-stage-center">
+          {/* Decorative Rings Centered Directly Behind Ticket */}
+          <div className="dz-rings">
+            <i />
+            <i />
+            <i />
+          </div>
 
-        {/* Decorative Pixel Squares */}
-        <div className="dz-pixels">
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-        </div>
-
-        {/* The Vertical Ticket Card */}
-        <div className="dz-card" id="dzCard" ref={cardRef}>
+          {/* The Vertical Ticket Card */}
+          <div className="dz-card" id="dzCard" ref={cardRef}>
           {/* Arch Ticket SVG with Scalloped Edges */}
           <svg className="dz-arch" viewBox="0 0 400 600" aria-hidden="true">
             <path d="M20 600V200A180 180 0 0 1 380 200V600Z" fill="#F7F3E9" />
@@ -760,7 +868,19 @@ export default function CountdownPage({ onNavigateHome }) {
             </svg>
           </div>
         </div>
+      </div>
 
+      {/* Decorative Pixel Squares */}
+      <div className="dz-pixels">
+        <i />
+        <i />
+        <i />
+        <i />
+        <i />
+      </div>
+
+      {/* Bottom Section Wrapper: Cream Wave Separator + Marquee Ticker */}
+      <div className="dz-bottom-wrap">
         {/* Cream Band with Animated Wave Separator Lines */}
         <div className="dz-strip" />
 
@@ -775,7 +895,8 @@ export default function CountdownPage({ onNavigateHome }) {
             ))}
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* Slide-Up Interactive Radio Playlist Drawer */}
       <AnimatePresence>
