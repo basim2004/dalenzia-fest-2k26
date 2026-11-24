@@ -74,11 +74,23 @@ export default function ResultsPage({
 }) {
   const [teamsList, setTeamsList] = useState(() => festivalStore.getTeams() || []);
   const [resultsList, setResultsList] = useState(() => festivalStore.getPublishedResultPosters() || []);
+  const [announcements, setAnnouncements] = useState(() => {
+    try {
+      return festivalStore.getAnnouncements?.({ portalRole: 'public' }) || [];
+    } catch {
+      return [];
+    }
+  });
 
   useEffect(() => {
     const unsub = festivalStore.subscribe(() => {
       setTeamsList(festivalStore.getTeams() || []);
       setResultsList(festivalStore.getPublishedResultPosters() || []);
+      try {
+        setAnnouncements(festivalStore.getAnnouncements?.({ portalRole: 'public' }) || []);
+      } catch {
+        setAnnouncements([]);
+      }
     });
     return unsub;
   }, []);
@@ -130,23 +142,86 @@ export default function ResultsPage({
     }
   };
 
+  // Formulate dynamic ticker updates from official live announcements and verified published results
+  const liveTickerUpdates = useMemo(() => {
+    const items = [];
+
+    // Latest verified published results
+    if (resultsList && resultsList.length > 0) {
+      const latestResults = [...resultsList].reverse().slice(0, 3);
+      latestResults.forEach(r => {
+        const firstPos = r.positions && r.positions[0];
+        if (firstPos) {
+          items.push(`Official Result Declared: ${r.eventTitle} (${r.category || 'General'}) — 1st Place: ${firstPos.name} (${firstPos.team})`);
+        } else {
+          items.push(`Official Result Declared: ${r.eventTitle} (${r.category || 'General'})`);
+        }
+      });
+    }
+
+    // Official announcements
+    if (announcements && announcements.length > 0) {
+      announcements.slice(0, 4).forEach(a => {
+        if (a.title) items.push(a.title);
+      });
+    }
+
+    // Live team standings update
+    if (teamsList && teamsList.length > 0) {
+      const sortedTeams = [...teamsList].sort((a, b) => (b.points || 0) - (a.points || 0));
+      if (sortedTeams.length >= 2) {
+        items.push(`Team Points Standings: ${sortedTeams[0].name} (${sortedTeams[0].points || 0} pts) • ${sortedTeams[1].name} (${sortedTeams[1].points || 0} pts)`);
+      }
+    }
+
+    return items;
+  }, [resultsList, announcements, teamsList]);
+
   return (
     <div className="relative min-h-screen bg-[#F7F3E9] text-[#1c1917] selection:bg-[#A91F35] selection:text-white pt-20 md:pt-28 font-sans overflow-x-hidden">
-      {/* SECTION 07: Top Live Breaking Ticker */}
-      <div className="bg-[#A91F35] text-white py-2.5 px-4 shadow-md sticky top-[60px] md:top-[72px] z-40 border-y border-[#E6A916]/40 backdrop-blur-md">
+      {/* SECTION 07: Top Live Breaking Ticker with Continuous Marquee Animation */}
+      <div className="bg-[#A91F35] text-white py-2.5 px-4 shadow-md sticky top-[60px] md:top-[72px] z-40 border-y border-[#E6A916]/40 backdrop-blur-md overflow-hidden">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-xs md:text-sm font-semibold tracking-wide">
-          <div className="flex items-center gap-3 overflow-hidden">
-            <span className="flex items-center gap-1.5 bg-[#E6A916] text-[#A91F35] text-[10px] uppercase font-black px-2 py-0.5 rounded-full shrink-0 shadow-sm animate-pulse">
+          <div className="flex items-center gap-3 flex-1 min-w-0 overflow-hidden">
+            <span className="flex items-center gap-1.5 bg-[#E6A916] text-[#A91F35] text-[10px] uppercase font-black px-2 py-0.5 rounded-full shrink-0 shadow-sm animate-pulse z-10">
               <span className="w-1.5 h-1.5 rounded-full bg-[#A91F35]" />
               LIVE UPDATE
             </span>
-            <span className="truncate text-white/95">
-              Debate Competition – Final Round is Now Live • Team Points Updated Just Now • Next: Qawwali Night & Grand Award Ceremony
-            </span>
+
+            {/* Seamless Infinite Marquee Track */}
+            <div className="relative flex-1 overflow-hidden select-none whitespace-nowrap mask-[linear-gradient(to_right,transparent,black_2%,black_98%,transparent)]">
+              {liveTickerUpdates.length > 0 ? (
+                <div className="animate-marquee-live flex items-center gap-8 cursor-default">
+                  {/* First segment */}
+                  <div className="flex items-center gap-8 shrink-0">
+                    {liveTickerUpdates.map((item, idx) => (
+                      <span key={`first-${idx}`} className="flex items-center gap-8 text-white/95">
+                        <span>{item}</span>
+                        <span className="text-[#E6A916] font-bold">•</span>
+                      </span>
+                    ))}
+                  </div>
+                  {/* Duplicated segment for seamless infinite loop */}
+                  <div className="flex items-center gap-8 shrink-0" aria-hidden="true">
+                    {liveTickerUpdates.map((item, idx) => (
+                      <span key={`second-${idx}`} className="flex items-center gap-8 text-white/95">
+                        <span>{item}</span>
+                        <span className="text-[#E6A916] font-bold">•</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-white/80 italic text-xs">
+                  Official live updates and certified marks will stream here once published by the Convener Secretariat.
+                </div>
+              )}
+            </div>
           </div>
+
           <button
             onClick={() => setActiveTab('leaderboard')}
-            className="hidden sm:inline-flex items-center gap-1 text-[#E6A916] hover:text-white transition-colors shrink-0 font-bold ml-4 text-xs underline underline-offset-4"
+            className="hidden sm:inline-flex items-center gap-1 text-[#E6A916] hover:text-white transition-colors shrink-0 font-bold ml-4 text-xs underline underline-offset-4 z-10"
           >
             View Live Standings →
           </button>

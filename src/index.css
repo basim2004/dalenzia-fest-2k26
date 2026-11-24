@@ -88,3 +88,30 @@ body {
 .animate-pulse-glow {
   animation: pulseGlow 3s ease-in-out infinite;
 }
+
+@keyframes marqueeLive {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-live {
+  display: flex;
+  width: max-content;
+  animation: marqueeLive 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-live:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-live {
+    animation: none;
+    transform: none;
+  }
+}
