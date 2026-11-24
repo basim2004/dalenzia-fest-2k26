@@ -108,7 +108,7 @@ export default function GalleryPage({
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-black tracking-tight text-white leading-tight">
             The Visual Chronicle. <br />
-            <span className="text-[#E6A916] italic font-serif">Two Days. One Era.</span>
+            <span className="text-[#E6A916] italic font-serif">Three Days, One Era.</span>
           </h1>
 
           <p className="text-sm md:text-base text-stone-200 max-w-2xl mx-auto leading-relaxed font-normal">

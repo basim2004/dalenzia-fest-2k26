@@ -1254,7 +1254,7 @@ export default function ResultsPage({
           </h2>
 
           <p className="text-sm md:text-base text-stone-700 font-medium max-w-2xl mx-auto leading-relaxed">
-            Dalenzia Fest 2K26 salutes every participant, mentor and well-wisher who transformed these two days into an unforgettable arena of knowledge, devotion, and intellectual courage.
+            Dalenzia Fest 2K26 salutes every participant, mentor and well-wisher who transformed these three days into an unforgettable arena of knowledge, devotion, and intellectual courage.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">

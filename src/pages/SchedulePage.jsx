@@ -433,7 +433,7 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
             </p>
           </div>
 
-          {/* Interactive Two-Day Selector Tabs */}
+          {/* Interactive Three-Day Selector Tabs */}
           <div className="flex justify-center">
             <div className="bg-white p-2 rounded-3xl shadow-lg border border-[#A91F35]/15 flex items-center gap-2 max-w-lg w-full">
               {[
