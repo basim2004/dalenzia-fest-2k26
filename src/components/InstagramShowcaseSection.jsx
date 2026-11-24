@@ -101,7 +101,13 @@ export default function InstagramShowcaseSection() {
       <div className="max-w-7xl mx-auto relative z-10 space-y-14">
         
         {/* Section Header */}
-        <div className="text-center space-y-3.5 max-w-3xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center space-y-3.5 max-w-3xl mx-auto"
+        >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-500/15 via-rose-500/15 to-amber-500/15 border border-rose-500/30 text-rose-300 text-xs font-black tracking-widest uppercase">
             <InstagramIcon className="w-4 h-4 text-rose-400" />
             <span>OFFICIAL SOCIAL CHANNELS</span>
@@ -116,18 +122,23 @@ export default function InstagramShowcaseSection() {
           </p>
 
           <p className="text-sm md:text-base text-stone-300 font-medium leading-relaxed max-w-2xl mx-auto">
-            Connect with our 21, 22, 23 DECEMBER 2026 visual stories, live updates, candidate performances, and scholastic heritage across both official Instagram profiles.
+            Connect with our December 21–23, 2026 visual stories, live updates, candidate performances, and scholastic heritage across both official Instagram profiles.
           </p>
-        </div>
+        </motion.div>
 
         {/* Both Account Showcases: Side by Side on Desktop, Stacked on Mobile */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-          {INSTAGRAM_ACCOUNTS.map((acc) => {
+          {INSTAGRAM_ACCOUNTS.map((acc, idx) => {
             const activeTab = activeTabByAccount[acc.id] || 'qr';
 
             return (
-              <div
+              <motion.div
                 key={acc.id}
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.65, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -6 }}
                 className="bg-stone-900/90 rounded-[32px] p-6 sm:p-8 border-2 border-white/10 hover:border-amber-500/40 shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-6 text-left group relative overflow-hidden"
               >
                 {/* Subtle Glow Accent */}
@@ -366,7 +377,7 @@ export default function InstagramShowcaseSection() {
                   )}
                 </div>
 
-              </div>
+              </motion.div>
             );
           })}
         </div>

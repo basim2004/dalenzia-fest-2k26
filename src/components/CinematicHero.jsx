@@ -1,9 +1,9 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Calendar, MapPin, ArrowRight, Play, ChevronDown, Trophy, Users, Layers, Clock, Sparkles } from 'lucide-react';
 import festivalStore from '../admin/data/festivalStore';
 
-// Lightweight Golden Sand Particles Canvas
+// Responsive & Lightweight Golden Sand Particles Canvas
 function GoldenSandCanvas({ mouse }) {
   const canvasRef = useRef(null);
 
@@ -23,22 +23,26 @@ function GoldenSandCanvas({ mouse }) {
     };
     window.addEventListener('resize', handleResize);
 
-    const count = 75;
+    // Optimized particle count based on screen width
+    const isMobile = width < 768;
+    const count = isMobile ? 40 : 80;
     const particles = Array.from({ length: count }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
       size: Math.random() * 2.2 + 0.8,
-      speedY: Math.random() * 0.7 + 0.25,
+      speedY: Math.random() * 0.6 + 0.2,
       speedX: (Math.random() - 0.5) * 0.25,
-      opacity: Math.random() * 0.6 + 0.25,
+      opacity: Math.random() * 0.6 + 0.2,
+      driftAngle: Math.random() * Math.PI * 2,
     }));
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
       particles.forEach((p) => {
+        p.driftAngle += 0.015;
         p.y += p.speedY;
-        p.x += p.speedX + (mouse?.current?.x || 0) * 0.15;
+        p.x += p.speedX + Math.sin(p.driftAngle) * 0.35 + (mouse?.current?.x || 0) * 0.12;
 
         if (p.y > height) {
           p.y = -5;
@@ -98,6 +102,7 @@ export default function CinematicHero({ onOpenTeaser }) {
   const mouse = useRef({ x: 0, y: 0 });
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [highlights, setHighlights] = useState(() => festivalStore.getFestivalHighlights());
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const update = () => setHighlights(festivalStore.getFestivalHighlights());
@@ -107,107 +112,146 @@ export default function CinematicHero({ onOpenTeaser }) {
 
   const countdown = useFestivalCountdown('2026-12-21T09:00:00+05:30');
 
+  // Mouse tilt tracking for desktop
   const handleMouseMove = (e) => {
-    if (!containerRef.current) return;
+    if (shouldReduceMotion || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     mouse.current = { x: x * 2, y: -y * 2 };
-    setTilt({ x: x * 8, y: -y * 8 });
+    setTilt({ x: x * 7, y: -y * 7 });
   };
 
+  // Gyroscope orientation tracking for phone
   const handleOrientation = (e) => {
-    if (e.beta !== null && e.gamma !== null) {
-      const y = Math.min(Math.max(e.beta - 45, -20), 20) / 20;
-      const x = Math.min(Math.max(e.gamma, -20), 20) / 20;
-      mouse.current = { x, y: -y };
-      setTilt({ x: x * 7, y: -y * 7 });
-    }
+    if (shouldReduceMotion || e.beta === null || e.gamma === null) return;
+    const y = Math.min(Math.max(e.beta - 45, -15), 15) / 15;
+    const x = Math.min(Math.max(e.gamma, -15), 15) / 15;
+    mouse.current = { x, y: -y };
+    setTilt({ x: x * 5, y: -y * 5 });
   };
 
   useEffect(() => {
     window.addEventListener('deviceorientation', handleOrientation);
     return () => window.removeEventListener('deviceorientation', handleOrientation);
-  }, []);
+  }, [shouldReduceMotion]);
+
+  // Motion variants for staged cinematic reveal
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 28 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
 
   return (
     <section
       id="hero"
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-[640px] lg:h-[88vh] lg:max-h-[820px] flex flex-col justify-between bg-[#F7F3E9] overflow-hidden pt-4 pb-4 select-none"
+      className="relative min-h-[680px] lg:min-h-[88vh] flex flex-col justify-between bg-[#F7F3E9] overflow-hidden pt-6 pb-6 select-none"
       style={{ perspective: '1200px' }}
     >
-      {/* Background Architectural Atmosphere & Falling Sand Canvas */}
+      {/* Background Architectural Atmosphere & Dynamic Motion Layers */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        {/* Soft radial glow */}
-        <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-[#E6A916]/12 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-[#A91F35]/8 rounded-full blur-3xl pointer-events-none" />
+        {/* Soft Radial Ambient Lighting */}
+        <div className="absolute top-1/4 right-1/4 w-[500px] lg:w-[750px] h-[500px] lg:h-[750px] bg-[#E6A916]/12 rounded-full blur-3xl pointer-events-none animate-pulse duration-1000" />
+        <div className="absolute bottom-10 left-10 w-[400px] lg:w-[600px] h-[400px] lg:h-[600px] bg-[#A91F35]/8 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Golden Sand Particles */}
+        {/* Concentric Golden Brand Geometry (Layered Parallax) */}
+        <div
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 w-[600px] h-[600px] lg:w-[900px] lg:h-[900px] rounded-full border border-[#E6A916]/15 pointer-events-none"
+          style={{
+            transform: `translate(30%, -50%) rotate(${tilt.x * 3}deg)`,
+            transition: 'transform 0.4s ease-out',
+          }}
+        />
+        <div
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 w-[450px] h-[450px] lg:w-[700px] lg:h-[700px] rounded-full border border-[#A91F35]/10 border-dashed pointer-events-none animate-[spin_120s_linear_infinite]"
+        />
+
+        {/* Golden Sand Particles Canvas */}
         <div className="absolute inset-0 pointer-events-none">
           <GoldenSandCanvas mouse={mouse} />
         </div>
       </div>
 
       {/* Main Grid: Content (Left) & 3D Stage (Right) */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto">
         
         {/* Left Column: Festival Information, Typography & Integrated Countdown */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
           className="lg:col-span-6 flex flex-col items-start space-y-5 text-left"
         >
-          {/* Subtle Festival Eyebrow Badge (Festival Context Without Oversized Logo) */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#A91F35]/10 border border-[#A91F35]/20 text-[#A91F35] text-xs font-black tracking-widest uppercase">
-            <Sparkles className="w-3.5 h-3.5 text-[#E6A916]" />
+          {/* Subtle Festival Eyebrow Badge */}
+          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#A91F35]/10 border border-[#A91F35]/25 text-[#A91F35] text-xs font-black tracking-widest uppercase shadow-2xs backdrop-blur-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#E6A916] animate-spin-slow" />
             <span>Dalailussunna Dars Presents · 2K26 Edition</span>
-          </div>
+          </motion.div>
 
           {/* Main Headline: Festival Tagline in Prominent Editorial Typography */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[44px] font-serif font-black tracking-tight text-[#1c1917] leading-[1.18] max-w-xl">
-            A New Era of Ideas, Learning and Creative Expression
-          </h1>
+          <motion.div variants={fadeInUp} className="space-y-1">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-serif font-black tracking-tight text-[#1c1917] leading-[1.15] max-w-xl">
+              A New Era of Ideas, Learning and Creative Expression
+            </h1>
+            <p className="text-sm sm:text-base font-semibold text-[#A91F35] tracking-wide pt-1">
+              Three Days, One Era
+            </p>
+          </motion.div>
 
           {/* Date & Venue Badges */}
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs sm:text-sm font-semibold text-[#1c1917]/85 pt-1">
+          <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs sm:text-sm font-semibold text-[#1c1917]/85 pt-0.5">
             <div className="flex items-center gap-2 text-[#A91F35] font-bold">
               <Calendar className="w-4 h-4 text-[#E6A916]" />
-              <span>21, 22, 23 DECEMBER 2026</span>
+              <span>December 21–23, 2026</span>
             </div>
             <span className="hidden sm:inline text-stone-300">•</span>
             <div className="flex items-center gap-2 text-[#A91F35] font-bold">
               <MapPin className="w-4 h-4 text-[#E6A916]" />
               <span>Dalailussunna Dars, Ayiroor</span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Primary Action Buttons */}
-          <div className="flex flex-wrap items-center gap-3.5 pt-1">
+          <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-3.5 pt-1 w-full sm:w-auto">
             <a
               href="#about"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#A91F35] hover:bg-[#8d182b] text-white text-xs md:text-sm font-bold tracking-wide shadow-lg hover:shadow-xl active:scale-95 transition-all group"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#A91F35] hover:bg-[#8d182b] text-white text-xs md:text-sm font-bold tracking-wide shadow-lg hover:shadow-xl active:scale-95 transition-all group"
             >
               <span>Explore Festival</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
             </a>
 
             <button
               onClick={onOpenTeaser}
-              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-white/90 hover:bg-white border border-[#A91F35]/25 text-[#A91F35] text-xs md:text-sm font-bold tracking-wide shadow-sm hover:shadow-md active:scale-95 transition-all group cursor-pointer"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-white/95 hover:bg-white border border-[#A91F35]/25 text-[#A91F35] text-xs md:text-sm font-bold tracking-wide shadow-sm hover:shadow-md active:scale-95 transition-all group cursor-pointer"
             >
-              <div className="w-6 h-6 rounded-full bg-[#A91F35] text-white flex items-center justify-center shadow-xs">
+              <div className="w-6 h-6 rounded-full bg-[#A91F35] text-white flex items-center justify-center shadow-xs group-hover:scale-110 transition-transform">
                 <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
               </div>
               <span>Watch Teaser</span>
             </button>
-          </div>
+          </motion.div>
 
-          {/* Cohesive Festival Countdown Card (Visually Connected to Hero Content) */}
-          <div className="w-full max-w-md pt-2">
-            <div className="bg-gradient-to-br from-white/95 via-white/85 to-[#FAF6EE]/90 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-[#A91F35]/15 shadow-sm space-y-2.5">
+          {/* Cohesive Festival Countdown Card */}
+          <motion.div variants={fadeInUp} className="w-full max-w-md pt-2">
+            <div className="bg-gradient-to-br from-white/95 via-white/85 to-[#FAF6EE]/90 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-[#A91F35]/15 shadow-sm space-y-2.5 hover:border-[#E6A916]/40 transition-colors">
               <div className="flex items-center justify-between pb-2 border-b border-[#A91F35]/10">
                 <span className="text-[10px] uppercase tracking-widest font-extrabold text-[#A91F35] flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-[#E6A916]" />
@@ -244,19 +288,19 @@ export default function CinematicHero({ onOpenTeaser }) {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
 
-        {/* Right Column: Main 3D NUEVA ERA Theme Visual (Hero's Main Attraction) */}
+        {/* Right Column: Main 3D NUEVA ERA Theme Visual */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.2 }}
+          transition={{ duration: 0.95, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-6 relative flex items-center justify-center min-h-[360px] sm:min-h-[440px] md:min-h-[500px]"
           style={{
             transformStyle: 'preserve-3d',
-            transform: `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
-            transition: 'transform 0.15s ease-out',
+            transform: shouldReduceMotion ? 'none' : `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
+            transition: 'transform 0.18s ease-out',
           }}
         >
           {/* Main 3D Theme Studio Composition */}
@@ -266,14 +310,14 @@ export default function CinematicHero({ onOpenTeaser }) {
             <div className="absolute inset-0 bg-gradient-to-tr from-[#E6A916]/25 via-[#FAF6EE]/50 to-[#A91F35]/15 rounded-[40px] blur-3xl pointer-events-none" />
 
             {/* Premium 3D Theme Showcase Stage Card */}
-            <div className="relative z-10 w-full bg-gradient-to-b from-white/95 via-[#FAF6EE]/85 to-[#F2EADC]/80 backdrop-blur-md rounded-[36px] p-6 sm:p-10 border border-[#A91F35]/15 shadow-2xl flex flex-col items-center justify-center overflow-hidden group">
+            <div className="relative z-10 w-full bg-gradient-to-b from-white/95 via-[#FAF6EE]/90 to-[#F2EADC]/85 backdrop-blur-md rounded-[36px] p-6 sm:p-10 border border-[#A91F35]/15 shadow-2xl flex flex-col items-center justify-center overflow-hidden group">
               
               {/* Subtle top studio highlight line */}
-              <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#E6A916] to-transparent opacity-60" />
+              <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#E6A916] to-transparent opacity-70" />
 
               {/* Floating 3D NUEVA ERA Typography & Symbols Composition */}
               <motion.div
-                animate={{ y: [0, -10, 0] }}
+                animate={shouldReduceMotion ? {} : { y: [0, -10, 0] }}
                 transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut" }}
                 className="relative z-10 w-full flex items-center justify-center py-4"
               >
@@ -286,7 +330,7 @@ export default function CinematicHero({ onOpenTeaser }) {
 
               {/* Realistic Contact Floor Shadow underneath the floating 3D composition */}
               <motion.div
-                animate={{ scale: [1, 0.92, 1], opacity: [0.35, 0.22, 0.35] }}
+                animate={shouldReduceMotion ? {} : { scale: [1, 0.92, 1], opacity: [0.35, 0.22, 0.35] }}
                 transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut" }}
                 className="w-4/5 h-6 bg-gradient-to-r from-transparent via-stone-900 to-transparent blur-md rounded-full mt-2 pointer-events-none"
               />
@@ -307,11 +351,16 @@ export default function CinematicHero({ onOpenTeaser }) {
       </div>
 
       {/* Bottom Bar: 4 Metrics & Scroll Indicator */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full mt-6 pt-4 border-t border-[#A91F35]/15">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+        className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full mt-6 pt-4 border-t border-[#A91F35]/15"
+      >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10">
-              <Trophy className="w-5 h-5" />
+          <div className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10 group-hover:scale-105 group-hover:border-[#E6A916]/50 transition-all">
+              <Trophy className="w-5 h-5 text-[#A91F35]" />
             </div>
             <div>
               <span className="font-mono text-base md:text-lg font-black text-[#A91F35] block leading-none">
@@ -321,9 +370,9 @@ export default function CinematicHero({ onOpenTeaser }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10">
-              <Users className="w-5 h-5" />
+          <div className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10 group-hover:scale-105 group-hover:border-[#E6A916]/50 transition-all">
+              <Users className="w-5 h-5 text-[#A91F35]" />
             </div>
             <div>
               <span className="font-mono text-xs md:text-sm font-black text-[#A91F35] block leading-tight">
@@ -333,9 +382,9 @@ export default function CinematicHero({ onOpenTeaser }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10">
-              <Layers className="w-5 h-5" />
+          <div className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10 group-hover:scale-105 group-hover:border-[#E6A916]/50 transition-all">
+              <Layers className="w-5 h-5 text-[#A91F35]" />
             </div>
             <div>
               <span className="font-mono text-xs md:text-sm font-black text-[#A91F35] block leading-tight">
@@ -345,9 +394,9 @@ export default function CinematicHero({ onOpenTeaser }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10">
-              <Clock className="w-5 h-5" />
+          <div className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10 group-hover:scale-105 group-hover:border-[#E6A916]/50 transition-all">
+              <Clock className="w-5 h-5 text-[#A91F35]" />
             </div>
             <div>
               <span className="font-mono text-base md:text-lg font-black text-[#A91F35] block leading-none">
@@ -358,13 +407,13 @@ export default function CinematicHero({ onOpenTeaser }) {
           </div>
         </div>
 
-        {/* Scroll To Explore Indicator */}
+        {/* Scroll To Explore Indicator with Motion Bounce */}
         <div className="flex justify-center items-center gap-2 mt-4 text-[11px] font-bold uppercase tracking-widest text-[#A91F35]">
           <span className="w-12 h-[1px] bg-[#A91F35]/30" />
           <motion.div
-            animate={{ y: [0, 4, 0] }}
-            transition={{ repeat: Infinity, duration: 1.8 }}
-            className="flex items-center gap-1.5 cursor-pointer"
+            animate={shouldReduceMotion ? {} : { y: [0, 4, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+            className="flex items-center gap-1.5 cursor-pointer hover:text-[#8d182b] transition-colors"
             onClick={() => {
               const aboutEl = document.getElementById('about');
               if (aboutEl) aboutEl.scrollIntoView({ behavior: 'smooth' });
@@ -375,7 +424,7 @@ export default function CinematicHero({ onOpenTeaser }) {
           </motion.div>
           <span className="w-12 h-[1px] bg-[#A91F35]/30" />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -33,7 +33,13 @@ export default function FestivalCountdownStage() {
       <div className="relative z-10 max-w-5xl mx-auto px-4 md:px-8 text-center space-y-10">
         
         {/* Section Header */}
-        <div className="space-y-3 max-w-xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="space-y-3 max-w-xl mx-auto"
+        >
           <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[#E6A916] text-[#A91F35] text-xs font-black uppercase tracking-widest shadow-md">
             <Sparkles className="w-3.5 h-3.5" />
             <span>FESTIVAL COUNTDOWN</span>
@@ -43,13 +49,23 @@ export default function FestivalCountdownStage() {
             The Festival Begins In
           </h2>
 
-          <p className="text-xs md:text-sm text-white/80 font-medium">
-            Join the grand congregation at Dalailussunna Dars, Ayiroor on 21, 22, 23 DECEMBER 2026.
+          <p className="text-sm font-bold text-[#E6A916] tracking-wide">
+            Three Days, One Era
           </p>
-        </div>
+
+          <p className="text-xs md:text-sm text-white/80 font-medium">
+            Join the grand congregation at Dalailussunna Dars, Ayiroor on December 21–23, 2026.
+          </p>
+        </motion.div>
 
         {/* Hourglass & Real-time Numbers Composition */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-14 pt-4">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-14 pt-4"
+        >
           
           {/* 3D Realistic Golden Hourglass */}
           <motion.div
@@ -103,7 +119,7 @@ export default function FestivalCountdownStage() {
             </div>
           </div>
 
-        </div>
+        </motion.div>
 
         {/* Closing Action */}
         <div className="pt-4">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import {
   BookOpen,
   Calendar,
@@ -21,6 +21,7 @@ import { MALABAR_HERITAGE_ARTICLES } from '../../data/malabarHeritageArticles';
 export default function HeritageArticlesSection() {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [copiedLink, setCopiedLink] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   const handleOpenArticle = (article) => {
     setSelectedArticle(article);
@@ -62,7 +63,13 @@ export default function HeritageArticlesSection() {
   return (
     <div className="pt-16 md:pt-24 border-t border-[#A91F35]/15 space-y-12">
       {/* Editorial Section Header */}
-      <div className="max-w-4xl mx-auto text-center space-y-4 px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-4xl mx-auto text-center space-y-4 px-4"
+      >
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#A91F35]/20 shadow-2xs">
           <Scroll className="w-3.5 h-3.5 text-[#A91F35]" />
           <span className="text-[11px] font-extrabold uppercase tracking-[0.25em] text-[#A91F35]">
@@ -89,7 +96,7 @@ export default function HeritageArticlesSection() {
             Scholarly Citations & Footnotes
           </span>
         </div>
-      </div>
+      </motion.div>
 
       {/* Featured 5-Article Magazine Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -99,20 +106,25 @@ export default function HeritageArticlesSection() {
           return (
             <motion.article
               key={article.id}
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className={`group flex flex-col justify-between bg-white rounded-3xl border border-stone-200/90 shadow-sm hover:shadow-xl hover:border-[#A91F35]/30 transition-all duration-300 overflow-hidden ${
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.65, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={shouldReduceMotion ? {} : { y: -6 }}
+              className={`group flex flex-col justify-between bg-white rounded-3xl border border-stone-200/90 shadow-sm hover:shadow-xl hover:border-[#A91F35]/35 transition-all duration-300 overflow-hidden ${
                 isLargeFeatured && idx === 0 ? 'md:col-span-2 lg:col-span-2' : ''
               }`}
             >
               <div>
-                {/* Authentic Archival Image Card Header */}
+                {/* Authentic Archival Image Card Header with Smooth Image Reveal */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-stone-100">
-                  <img
+                  <motion.img
                     src={article.image.url}
                     alt={article.title}
+                    initial={{ scale: 1.06 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     loading="lazy"
                   />

@@ -68,7 +68,13 @@ export default function WhatsAppCommunitySection({
       <div className="max-w-6xl mx-auto relative z-10 space-y-12">
         
         {/* Section Header */}
-        <div className="text-center space-y-3.5 max-w-3xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center space-y-3.5 max-w-3xl mx-auto"
+        >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#25D366]/15 border border-[#25D366]/30 text-[#128C7E] text-xs font-black tracking-widest uppercase">
             <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
             <span>{editionBadge}</span>
@@ -83,15 +89,21 @@ export default function WhatsAppCommunitySection({
               isArchival ? 'text-stone-300' : 'text-stone-600'
             }`}
           >
-            Stay connected with the Dalenzia community. Join our official WhatsApp group for 21, 22, 23 DECEMBER 2026 festival updates, announcements, live alerts and memorable moments.
+            Stay connected with the Dalenzia community. Join our official WhatsApp group for December 21–23, 2026 festival updates, announcements, live alerts and memorable moments.
           </p>
-        </div>
+        </motion.div>
 
         {/* Main Showcase Grid: Information & Benefits on Left, Verified QR Card on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* Left: Community Benefits & Call-to-Action (7 Cols) */}
-          <div className="lg:col-span-7 space-y-6">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 space-y-6"
+          >
             
             {/* Festival Identity Header */}
             <div className="flex items-center gap-4 pb-4 border-b border-stone-200/60 dark:border-white/10">
@@ -227,10 +239,16 @@ export default function WhatsAppCommunitySection({
               Direct invite link: <span className="underline break-all">{WHATSAPP_GROUP_URL}</span>
             </p>
 
-          </div>
+          </motion.div>
 
-          {/* Right: Official WhatsApp QR Card (5 Cols) */}
-          <div className="lg:col-span-5 flex justify-center">
+          {/* Right: Official WhatsApp QR Card (5 Cols) with Motion Entrance & Scanner Effect */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 flex justify-center"
+          >
             <div
               className={`w-full max-w-sm rounded-[32px] p-6 sm:p-8 text-center space-y-6 relative border-2 shadow-2xl transition-all ${
                 isArchival
@@ -261,14 +279,20 @@ export default function WhatsAppCommunitySection({
                 </div>
               </div>
 
-              {/* Scannable Clean High-Resolution QR Code Container */}
-              <div className="relative group">
-                <div className="bg-white rounded-3xl p-5 shadow-2xl inline-block border-4 border-stone-200">
+              {/* Scannable Clean High-Resolution QR Code Container with Animated Scan Line */}
+              <div className="relative group inline-block">
+                <div className="bg-white rounded-3xl p-5 shadow-2xl inline-block border-4 border-stone-200 relative overflow-hidden">
                   <img
                     src="/assets/dalenzia_whatsapp_qr.png"
                     alt="Scan to Join DALENZIA WhatsApp Community"
                     className="w-52 h-52 sm:w-60 sm:h-60 object-contain mx-auto select-none"
                     loading="lazy"
+                  />
+                  {/* Subtle Glowing Scanner Ray */}
+                  <motion.div
+                    animate={{ y: [0, 180, 0] }}
+                    transition={{ repeat: Infinity, duration: 3.2, ease: "easeInOut" }}
+                    className="absolute top-5 left-5 right-5 h-[2px] bg-gradient-to-r from-transparent via-[#25D366] to-transparent shadow-[0_0_8px_#25D366] pointer-events-none"
                   />
                 </div>
 
@@ -298,7 +322,7 @@ export default function WhatsAppCommunitySection({
               </div>
 
             </div>
-          </div>
+          </motion.div>
 
         </div>
 
