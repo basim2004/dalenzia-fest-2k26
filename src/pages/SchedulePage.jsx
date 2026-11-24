@@ -300,15 +300,6 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
             transition={{ duration: 0.7 }}
             className="max-w-4xl mx-auto space-y-6 text-center flex flex-col items-center"
           >
-            {/* Single Official Dalenzia Logo positioned neatly above centred hero content */}
-            <div className="h-10 sm:h-12 md:h-14 flex items-center justify-center">
-              <img
-                src="/assets/dalenzia_fest_logo.png"
-                alt="Dalenzia Fest 2K26"
-                className="h-full w-auto object-contain"
-              />
-            </div>
-
             {/* Official Timetable Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#A91F35] text-white rounded-full text-xs font-extrabold tracking-widest uppercase shadow-sm">
               <Calendar className="w-3.5 h-3.5 text-[#E6A916]" />
