@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Sparkles, Eye, Trophy, Users, Layers, Clock, ArrowRight } from 'lucide-react';
 import festivalStore from '../admin/data/festivalStore';
+import HeritageArticlesSection from './HeritageArticles/HeritageArticlesSection';
 
 export default function AboutSection() {
   const [highlights, setHighlights] = useState(() => festivalStore.getFestivalHighlights());
@@ -194,6 +195,9 @@ export default function AboutSection() {
           </motion.div>
 
         </div>
+
+        {/* Editorial Malabar Islamic Heritage & Dars Tradition Articles */}
+        <HeritageArticlesSection />
       </div>
     </section>
   );
