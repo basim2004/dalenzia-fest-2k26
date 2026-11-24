@@ -149,22 +149,28 @@ export default function PreviousEditionPage({ onNavigateHome }) {
     return DALENZIA_2K25_ID_CARDS;
   }, [idCardFilter]);
 
-  // Photo Gallery Categories definition
+  // General Photo Gallery (Excludes Prize Distribution photos to eliminate duplicate display)
+  const generalGalleryPhotos = useMemo(() => {
+    return PHOTO_GALLERY_2K25.filter(p => p.category !== 'prizes');
+  }, []);
+
+  // Photo Gallery Categories definition (Prize Distribution count updated to 0)
   const galleryCategories = [
-    { id: 'all', label: 'All Photos', count: PHOTO_GALLERY_2K25.length },
-    { id: 'inaugural', label: 'Inauguration', count: PHOTO_GALLERY_2K25.filter(p => p.category === 'inaugural').length },
-    { id: 'programs', label: 'Stage Programmes', count: PHOTO_GALLERY_2K25.filter(p => p.category === 'programs').length },
-    { id: 'prizes', label: 'Prize Distribution', count: PHOTO_GALLERY_2K25.filter(p => p.category === 'prizes').length },
-    { id: 'closing', label: 'Closing Ceremony', count: PHOTO_GALLERY_2K25.filter(p => p.category === 'closing').length },
-    { id: 'celebrations', label: 'Team Moments', count: PHOTO_GALLERY_2K25.filter(p => p.category === 'celebrations').length },
-    { id: 'moments', label: 'Special Moments', count: PHOTO_GALLERY_2K25.filter(p => p.category === 'moments').length }
+    { id: 'all', label: 'All Photos', count: generalGalleryPhotos.length },
+    { id: 'inaugural', label: 'Inauguration', count: generalGalleryPhotos.filter(p => p.category === 'inaugural').length },
+    { id: 'programs', label: 'Stage Programmes', count: generalGalleryPhotos.filter(p => p.category === 'programs').length },
+    { id: 'prizes', label: 'Prize Distribution', count: 0 },
+    { id: 'closing', label: 'Closing Ceremony', count: generalGalleryPhotos.filter(p => p.category === 'closing').length },
+    { id: 'celebrations', label: 'Team Moments', count: generalGalleryPhotos.filter(p => p.category === 'celebrations').length },
+    { id: 'moments', label: 'Special Moments', count: generalGalleryPhotos.filter(p => p.category === 'moments').length }
   ];
 
-  // Filtered Photos
+  // Filtered Photos (Does not display Prize Distribution photos in this gallery)
   const filteredPhotos = useMemo(() => {
-    if (photoCategory === 'all') return PHOTO_GALLERY_2K25;
-    return PHOTO_GALLERY_2K25.filter(p => p.category === photoCategory);
-  }, [photoCategory]);
+    if (photoCategory === 'prizes') return [];
+    if (photoCategory === 'all') return generalGalleryPhotos;
+    return generalGalleryPhotos.filter(p => p.category === photoCategory);
+  }, [photoCategory, generalGalleryPhotos]);
 
   // Dynamic Video Category & SubCategory Counts (Calculated from Real 27 Videos)
   const videoCategoryCounts = useMemo(() => {
@@ -385,7 +391,7 @@ export default function PreviousEditionPage({ onNavigateHome }) {
               onClick={scrollToArchiveSection('2k25-gallery')}
               className="px-3 py-1 rounded-full bg-white/90 border border-stone-200 hover:border-[#A91F35] text-stone-700 hover:text-[#A91F35] shrink-0 transition-colors cursor-pointer"
             >
-              Gallery ({PHOTO_GALLERY_2K25.length})
+              Gallery ({generalGalleryPhotos.length})
             </button>
             <button
               type="button"
@@ -2276,7 +2282,7 @@ export default function PreviousEditionPage({ onNavigateHome }) {
               Complete 2K25 Photo Gallery
             </h2>
             <p className="text-sm md:text-base text-stone-600 font-medium">
-              147 authentic high-resolution moments from the inaugural edition, preserving every smile, performance, and prayer. Includes all inaugural assembly photographs.
+              {generalGalleryPhotos.length} authentic high-resolution moments from the inaugural edition, preserving every smile, performance, and prayer. Includes all inaugural assembly photographs.
             </p>
           </div>
 
@@ -2304,23 +2310,39 @@ export default function PreviousEditionPage({ onNavigateHome }) {
 
           {/* Photo Gallery Grid (Adaptive Uncropped Images with object-contain) */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
-            {filteredPhotos.map((photo, index) => (
-              <div
-                key={photo.id}
-                onClick={() => setSelectedPhotoIndex(index)}
-                className="group relative bg-[#1c1917] rounded-2xl overflow-hidden shadow-xs cursor-pointer border border-stone-200 hover:border-[#E6A916] transition-all p-1 flex items-center justify-center min-h-[170px]"
-              >
-                <img
-                  src={photo.src}
-                  alt={photo.title}
-                  loading="lazy"
-                  className="max-h-48 w-auto max-w-full object-contain rounded-xl group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center text-white pointer-events-none">
-                  <Maximize2 className="w-5 h-5 text-[#E6A916]" />
-                </div>
+            {filteredPhotos.length === 0 ? (
+              <div className="col-span-full py-12 px-4 text-center space-y-3 bg-stone-50 rounded-3xl border border-dashed border-stone-300">
+                <p className="text-sm font-semibold text-stone-700">
+                  All Prize Distribution photographs are exclusively curated in the dedicated Moments of Honour section below.
+                </p>
+                <button
+                  type="button"
+                  onClick={scrollToArchiveSection('2k25-moments-of-honour')}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#A91F35] text-white text-xs font-bold shadow-sm hover:bg-[#8f182b] transition-all cursor-pointer"
+                >
+                  <Trophy className="w-3.5 h-3.5 text-[#E6A916]" />
+                  <span>View Featured Presentation Moments & Award Archive</span>
+                </button>
               </div>
-            ))}
+            ) : (
+              filteredPhotos.map((photo, index) => (
+                <div
+                  key={photo.id}
+                  onClick={() => setSelectedPhotoIndex(index)}
+                  className="group relative bg-[#1c1917] rounded-2xl overflow-hidden shadow-xs cursor-pointer border border-stone-200 hover:border-[#E6A916] transition-all p-1 flex items-center justify-center min-h-[170px]"
+                >
+                  <img
+                    src={photo.src}
+                    alt={photo.title}
+                    loading="lazy"
+                    className="max-h-48 w-auto max-w-full object-contain rounded-xl group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center text-white pointer-events-none">
+                    <Maximize2 className="w-5 h-5 text-[#E6A916]" />
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
         </div>
