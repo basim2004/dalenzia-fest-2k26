@@ -102,6 +102,15 @@ export default function Navbar({ lang, setLang, currentPage = 'home', setCurrent
       return;
     }
 
+    if (link.id === 'countdown') {
+      if (setCurrentPage) {
+        setCurrentPage('countdown');
+        window.location.hash = '#countdown';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
     if (link.id === 'home') {
       if (setCurrentPage) {
         setCurrentPage('home');

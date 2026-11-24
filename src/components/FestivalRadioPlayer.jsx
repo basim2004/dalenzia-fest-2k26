@@ -61,7 +61,7 @@ export const RADIO_PLAYLIST = [
   },
 ];
 
-export default function FestivalRadioPlayer() {
+export default function FestivalRadioPlayer({ triggerToggle, onPlayStateChange }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -72,6 +72,20 @@ export default function FestivalRadioPlayer() {
   const audioRef = useRef(null);
 
   const currentTrack = RADIO_PLAYLIST[currentIndex];
+
+  useEffect(() => {
+    if (triggerToggle) {
+      if (!isPlaying) {
+        togglePlay();
+      }
+    }
+  }, [triggerToggle]);
+
+  useEffect(() => {
+    if (onPlayStateChange) {
+      onPlayStateChange(isPlaying);
+    }
+  }, [isPlaying, onPlayStateChange]);
 
   useEffect(() => {
     if (audioRef.current) {

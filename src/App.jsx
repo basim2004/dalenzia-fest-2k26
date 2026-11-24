@@ -18,6 +18,7 @@ import GalleryPage from './pages/GalleryPage';
 import PostersPage from './pages/PostersPage';
 import PreviousEditionPage from './pages/PreviousEditionPage';
 import RegisterPage from './pages/RegisterPage';
+import CountdownPage from './pages/CountdownPage';
 import AdminPortal from './admin/AdminPortal';
 import JudgePortal from './judge/JudgePortal';
 import ConvenerPortal from './convener/ConvenerPortal';
@@ -71,6 +72,7 @@ export default function App() {
       if (hash === '#schedule' || path === '/schedule') return 'schedule';
       if (hash === '#guests' || path === '/guests') return 'guests';
       if (hash === '#events' || path === '/events') return 'events';
+      if (hash === '#countdown' || path === '/countdown') return 'countdown';
     }
     return 'home';
   });
@@ -123,6 +125,8 @@ export default function App() {
         setCurrentPage('guests');
       } else if (hash === '#events' || path === '/events') {
         setCurrentPage('events');
+      } else if (hash === '#countdown' || path === '/countdown') {
+        setCurrentPage('countdown');
       } else if (hash === '#home' || hash === '') {
         setCurrentPage('home');
       }
@@ -290,6 +294,11 @@ export default function App() {
       ) : currentPage === 'previous' ? (
         <PreviousEditionPage
           onNavigateHome={navigateToHome}
+        />
+      ) : currentPage === 'countdown' ? (
+        <CountdownPage
+          onNavigateHome={navigateToHome}
+          onNavigateRegister={navigateToRegister}
         />
       ) : (
         <>
