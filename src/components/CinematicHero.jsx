@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Calendar, MapPin, ArrowRight, Play, ChevronDown, Trophy, Users, Layers, Sparkles } from 'lucide-react';
+import { Calendar, MapPin, ArrowRight, Play, ChevronDown, Trophy, Users, Layers, Clock, Sparkles } from 'lucide-react';
 import festivalStore from '../admin/data/festivalStore';
 
 // Responsive & Lightweight Golden Sand Particles Canvas
