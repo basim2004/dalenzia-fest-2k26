@@ -230,8 +230,8 @@ export default function DashboardView({ onNavigateModule }) {
           },
           {
             label: 'Charter Programmes',
-            value: stats.totalCharterProgrammes || 83,
-            sub: `${stats.stageProgrammesCount || 40} Stage • ${stats.offStageProgrammesCount || 32} Off • ${stats.generalProgrammesCount || 11} Gen`,
+            value: stats.totalCharterProgrammes || 77,
+            sub: `${stats.stageProgrammesCount || 32} Stage • ${stats.offStageProgrammesCount || 31} Off • ${stats.generalProgrammesCount || 14} Gen`,
             icon: Calendar,
             color: '#4338ca',
             actionMod: 'competitions'
@@ -572,13 +572,12 @@ export default function DashboardView({ onNavigateModule }) {
               </div>
             </div>
 
-            {/* Official 4 Categories (Minor, Sub Junior, Junior, Senior) */}
+            {/* Official 3 Student Categories (Sub Junior, Junior, Senior) */}
             <div className="space-y-3.5">
               {(stats?.studentOverview?.categories || [
-                { id: 'CAT-MIN', key: 'Minor', label: 'Minor Category', actual: 19, target: 19, pct: 100, color: '#10B981' },
-                { id: 'CAT-SUB', key: 'SubJunior', label: 'Sub Junior Category', actual: 12, target: 12, pct: 100, color: '#2563EB' },
-                { id: 'CAT-JUN', key: 'Junior', label: 'Junior Category', actual: 7, target: 7, pct: 100, color: '#8B5CF6' },
-                { id: 'CAT-SEN', key: 'Senior', label: 'Senior Category', actual: 8, target: 8, pct: 100, color: '#A91F35' }
+                { id: 'CAT-SUB', key: 'SubJunior', label: 'Sub Junior Category (Class 5–9)', actual: 19, target: 19, pct: 100, color: '#2563EB' },
+                { id: 'CAT-JUN', key: 'Junior', label: 'Junior Category (Class 10, +1)', actual: 15, target: 15, pct: 100, color: '#8B5CF6' },
+                { id: 'CAT-SEN', key: 'Senior', label: 'Senior Category (+2, Degree)', actual: 12, target: 12, pct: 100, color: '#A91F35' }
               ]).map((cat) => (
                 <div key={cat.id || cat.key} className="space-y-1.5">
                   <div className="flex items-center justify-between text-xs">
@@ -621,22 +620,20 @@ export default function DashboardView({ onNavigateModule }) {
                 <div className="p-2 rounded-xl bg-white border border-stone-200/60">
                   <div className="text-[10px] text-stone-500 font-semibold uppercase">Squad Allocation</div>
                   <div className="font-bold text-stone-900 mt-0.5">
-                    {stats?.studentOverview?.assignedToTeams || 44} / {stats?.studentOverview?.totalActual || 46} Scholars
+                    {stats?.studentOverview?.assignedToTeams || 46} / {stats?.studentOverview?.totalActual || 46} Scholars
                   </div>
                   <div className="text-[10px] text-stone-500 mt-0.5">
-                    Dazzlers: 22 • Dynamos: 22
+                    Dazzlers: 23 • Dynamos: 23
                   </div>
                 </div>
 
                 <div className="p-2 rounded-xl bg-white border border-stone-200/60">
-                  <div className="text-[10px] text-stone-500 font-semibold uppercase">Audit Status</div>
+                  <div className="text-[10px] text-stone-500 font-semibold uppercase">Rulebook Sync</div>
                   <div className="font-bold text-stone-900 mt-0.5">
-                    {(stats?.studentOverview?.auditHeld || 0) > 0
-                      ? `${stats.studentOverview.auditHeld} Duplicates Held`
-                      : 'Verified & Cleared'}
+                    Updated 12-Page Charter
                   </div>
-                  <div className="text-[10px] text-stone-500 mt-0.5">
-                    STU-1026 & STU-1033 Held
+                  <div className="text-[10px] text-emerald-700 font-semibold mt-0.5">
+                    46 Active Scholars Verified
                   </div>
                 </div>
               </div>
@@ -648,9 +645,9 @@ export default function DashboardView({ onNavigateModule }) {
             <div className="flex items-center justify-between border-b border-stone-100 pb-2.5">
               <div>
                 <h2 className="text-base font-bold text-[#A91F35] font-serif">
-                  Charter Programmes ({stats.totalCharterProgrammes || 83} Total)
+                  Charter Programmes ({stats.totalCharterProgrammes || 77} Total)
                 </h2>
-                <p className="text-[11px] text-stone-500">Official Festival Charter Master List</p>
+                <p className="text-[11px] text-stone-500">Official Updated Festival Charter Master List</p>
               </div>
               <button
                 onClick={() => onNavigate('competitions')}
@@ -667,8 +664,8 @@ export default function DashboardView({ onNavigateModule }) {
                   <span className="font-bold text-[11px]">Stage</span>
                 </div>
                 <div className="mt-2 flex items-baseline justify-between">
-                  <span className="text-lg font-mono font-bold text-stone-900">{stats.stageProgrammesCount || 40}</span>
-                  <span className="text-[9px] text-stone-500">Pages 5–8</span>
+                  <span className="text-lg font-mono font-bold text-stone-900">{stats.stageProgrammesCount || 32}</span>
+                  <span className="text-[9px] text-stone-500">Pages 5–7</span>
                 </div>
               </div>
 
@@ -678,8 +675,8 @@ export default function DashboardView({ onNavigateModule }) {
                   <span className="font-bold text-[11px]">Off Stage</span>
                 </div>
                 <div className="mt-2 flex items-baseline justify-between">
-                  <span className="text-lg font-mono font-bold text-stone-900">{stats.offStageProgrammesCount || 32}</span>
-                  <span className="text-[9px] text-stone-500">Pages 5–8</span>
+                  <span className="text-lg font-mono font-bold text-stone-900">{stats.offStageProgrammesCount || 31}</span>
+                  <span className="text-[9px] text-stone-500">Pages 5–7</span>
                 </div>
               </div>
 
@@ -689,8 +686,8 @@ export default function DashboardView({ onNavigateModule }) {
                   <span className="font-bold text-[11px]">General</span>
                 </div>
                 <div className="mt-2 flex items-baseline justify-between">
-                  <span className="text-lg font-mono font-bold text-stone-900">{stats.generalProgrammesCount || 11}</span>
-                  <span className="text-[9px] text-stone-500">Page 9 Team</span>
+                  <span className="text-lg font-mono font-bold text-stone-900">{stats.generalProgrammesCount || 14}</span>
+                  <span className="text-[9px] text-stone-500">Page 8 Team</span>
                 </div>
               </div>
             </div>

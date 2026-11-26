@@ -331,19 +331,33 @@ export default function TeamLeaderCompetitions({ teamId }) {
                 <div className="p-3 bg-amber-50 rounded-2xl border border-amber-200 text-amber-900 space-y-1">
                   <div><strong>Category:</strong> {selectedCompForReg.category} | <strong>Venue:</strong> {selectedCompForReg.venue}</div>
                   <div><strong>Date & Time:</strong> {selectedCompForReg.date} ({selectedCompForReg.time || 'TBD'})</div>
+                  <div className="text-[11px] font-semibold text-[#A91F35]">
+                    {selectedCompForReg.category === 'General' || selectedCompForReg.type === 'Group'
+                      ? `Group / General Quota: ${selectedCompForReg.requiredMembers ? `${selectedCompForReg.requiredMembers} members per entry • ` : ''}Max 2 entries per team`
+                      : `Individual Quota: Max 3 entries per team • Student limits: Sub Junior (4+5), Junior/Senior (5+6)`}
+                  </div>
                 </div>
 
                 <div>
                   <label className="font-bold text-stone-700 block mb-1">
-                    Select Candidates from {team?.name} Roster:
+                    Select Eligible Candidates from {team?.name} Roster:
                   </label>
                   <div className="max-h-48 overflow-y-auto border border-stone-200 rounded-2xl p-2 space-y-1">
-                    {teamStudents.length === 0 ? (
-                      <div className="p-4 text-center text-stone-500">
-                        No students enrolled in your squad roster yet.
-                      </div>
-                    ) : (
-                      teamStudents.map(student => {
+                    {(() => {
+                      const compCat = (selectedCompForReg.category || 'General').toLowerCase().replace(/[\s_-]/g, '');
+                      const eligibleStudents = teamStudents.filter(s => {
+                        if (compCat === 'general' || selectedCompForReg.type === 'Group') return true;
+                        const sCat = (s.classCategory || s.category || '').toLowerCase().replace(/[\s_-]/g, '');
+                        return sCat === compCat;
+                      });
+                      if (eligibleStudents.length === 0) {
+                        return (
+                          <div className="p-4 text-center text-stone-500">
+                            No eligible {selectedCompForReg.category} category students in your squad roster.
+                          </div>
+                        );
+                      }
+                      return eligibleStudents.map(student => {
                         const isAlreadyRegistered = (selectedCompForReg.teamParticipants || []).some(
                           p => p.studentId === student.id
                         );
@@ -388,8 +402,8 @@ export default function TeamLeaderCompetitions({ teamId }) {
                             )}
                           </label>
                         );
-                      })
-                    )}
+                      });
+                    })()}
                   </div>
                 </div>
 

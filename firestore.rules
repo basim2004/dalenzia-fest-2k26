@@ -73,6 +73,33 @@ service cloud.firestore {
       allow update, delete: if false; // Immutable audit trail
     }
 
+    // Programme Definitions & Active Competitions
+    match /programmes/{progId} {
+      allow read: if true;
+      allow create, update, delete: if isMainAdmin() || isConvener() || isAuthenticated();
+    }
+
+    // Evaluations & Judge Submissions
+    match /evaluations/{evalId} {
+      allow read: if isAuthenticated() || true;
+      allow create, update: if isAuthenticated();
+      allow delete: if isMainAdmin() || isConvener();
+    }
+
+    // Official Published Results
+    match /published_results/{resId} {
+      allow read: if true;
+      allow create, update: if isMainAdmin() || isConvener();
+      allow delete: if isMainAdmin();
+    }
+
+    // System Configuration (Scoring Engine & Charter Migration Backup)
+    match /system_config/{cfgId} {
+      allow read: if true;
+      allow create, update: if isMainAdmin() || isConvener();
+      allow delete: if isMainAdmin();
+    }
+
     // Public / Default collections
     match /{document=**} {
       allow read: if true;

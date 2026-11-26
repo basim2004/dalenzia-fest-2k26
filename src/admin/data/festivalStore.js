@@ -1,4 +1,5 @@
 import {
+  OFFICIAL_CHARTER_METADATA,
   OFFICIAL_PROGRAMME_CATEGORIES,
   OFFICIAL_TEAMS,
   OFFICIAL_SCORING_CONFIG,
@@ -8,13 +9,35 @@ import {
   createDefaultProgrammeAssignments
 } from './officialCharterData.js';
 import {
+  normalizeCategoryName,
+  normalizeClassification,
+  isGroupOrGeneralProgramme,
+  getPositionPointsTable,
+  getStudentEntryLimits,
+  calculateGradeForScore,
+  validateMarkEntries,
+  validateParticipantRegistration,
+  calculateCompetitionResults,
+  isOfficiallyApprovedStatus,
+  calculateStandingsFromApprovedResults
+} from './scoringEngine.js';
+import {
   syncTeamToFirebase,
   syncStudentTeamAssignmentToFirebase,
   syncTeamAuditLogToFirebase,
   syncStudentToFirebase,
   fetchStudentsFromFirebase,
   syncScheduleToFirebase,
-  deleteScheduleFromFirebase
+  deleteScheduleFromFirebase,
+  syncCompetitionToFirebase,
+  syncEvaluationToFirebase,
+  syncPublishedResultToFirebase,
+  syncScoringConfigToFirebase,
+  syncCharterMigrationBackupToFirebase,
+  subscribeToCompetitions,
+  subscribeToEvaluations,
+  subscribeToPublishedResults,
+  subscribeToScoringConfig
 } from '../../firebase/firebaseService.js';
 
 // DALENZIA FEST 2K26 - CENTRAL FESTIVAL DATA ENGINE & STORE
@@ -132,59 +155,57 @@ export const INITIAL_TEAM_LEADERS = [
 export const INITIAL_TEAMS = OFFICIAL_TEAMS;
 
 export const INITIAL_REGISTERED_STUDENTS = [
-  // Senior Category (8 Students)
+  // Senior Category (+2 & Degree: 12 Students — Team 1: 6, Team 2: 6)
   { id: 'STU-1001', chestNo: 'C-101', name: 'Noufal', classCategory: 'Senior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '+91 98471 20001', email: 'noufal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isLeader: true, role: 'Leader' },
   { id: 'STU-1002', chestNo: 'C-102', name: 'Hafiz Hassan', classCategory: 'Senior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'hafiz.hassan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isAsstLeader: true, role: 'Asst Leader' },
   { id: 'STU-1003', chestNo: 'C-103', name: 'Binyamin', classCategory: 'Senior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'binyamin@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1004', chestNo: 'C-104', name: 'Hafiz Sinan', classCategory: 'Senior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'hafiz.sinan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1013', chestNo: 'C-113', name: 'Sulthan', classCategory: 'Senior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sulthan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1014', chestNo: 'C-114', name: 'Rizwan', classCategory: 'Senior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rizwan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1005', chestNo: 'C-105', name: 'Hashim', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '+91 98471 20002', email: 'hashim@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isLeader: true, role: 'Leader' },
-  { id: 'STU-1006', chestNo: 'C-106', name: 'Aslam Sha', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aslam.sha@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1007', chestNo: 'C-107', name: 'Hafiz Hussan', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'hafiz.hussan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
   { id: 'STU-1008', chestNo: 'C-108', name: 'Irfan Edayyur', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'irfan.edayur@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10', isAsstLeader: true, role: 'Asst Leader' },
+  { id: 'STU-1007', chestNo: 'C-107', name: 'Hafiz Hussan', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'hafiz.hussan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1006', chestNo: 'C-106', name: 'Aslam Sha', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aslam.sha@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1011', chestNo: 'C-111', name: 'Shammas', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shammas@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1015', chestNo: 'C-115', name: 'Husain Shinaf', classCategory: 'Senior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'husain.shinaf@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
 
-  // Junior Category (7 Students)
-  { id: 'STU-1009', chestNo: 'C-109', name: 'Midlaj P (Midlaj kadampuzha)', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'midlaj.p@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1010', chestNo: 'C-110', name: 'Sahal (Sahl)', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sahal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1011', chestNo: 'C-111', name: 'Shammas', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shammas@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  // Junior Category (Class 10 & +1: 15 Students — Team 1: 7, Team 2: 8)
   { id: 'STU-1012', chestNo: 'C-112', name: 'Razeen', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'razeen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1013', chestNo: 'C-113', name: 'Sulthan', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sulthan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1014', chestNo: 'C-114', name: 'Rizwan', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rizwan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1015', chestNo: 'C-115', name: 'Husain Shinaf', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'husain.shinaf@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1017', chestNo: 'C-117', name: 'Anshid T', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'anshid.t@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1018', chestNo: 'C-118', name: 'Aflah P (Aflah Tirur)', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aflah.p@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1009', chestNo: 'C-109', name: 'Midlaj P (Midlaj Kadampuzha)', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'midlaj.p@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1022', chestNo: 'C-122', name: 'Fakih', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'fakih@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1024', chestNo: 'C-124', name: 'Nihal', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'nihal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1026', chestNo: 'C-126', name: 'Anshid', classCategory: 'Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'anshid@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1021', chestNo: 'C-121', name: 'Midlaj M (Midlaj Manoor)', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'midlaj.m@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1010', chestNo: 'C-110', name: 'Sahal (Sahl)', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sahal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1016', chestNo: 'C-116', name: 'Rayyan Razi', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rayyan.razi@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1019', chestNo: 'C-119', name: 'Aflah AK', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aflah.ak@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1020', chestNo: 'C-120', name: 'Athif', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'athif@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1023', chestNo: 'C-123', name: 'Uvais', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'uvais@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1025', chestNo: 'C-125', name: 'Ahnaf', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ahnaf@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1027', chestNo: 'C-127', name: 'Zayan', classCategory: 'Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'zayan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
 
-  // Sub Junior Category (12 Students)
-  { id: 'STU-1016', chestNo: 'C-116', name: 'Rayyan Razi', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rayyan.razi@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1017', chestNo: 'C-117', name: 'Anshid T', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'anshid.t@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1018', chestNo: 'C-118', name: 'Aflah P (Aflah Tirur)', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aflah.p@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1019', chestNo: 'C-119', name: 'Aflah AK', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'aflah.ak@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1020', chestNo: 'C-120', name: 'Athif', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'athif@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1021', chestNo: 'C-121', name: 'Midlaj M (Midlaj manoor)', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'midlaj.m@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1022', chestNo: 'C-122', name: 'Fakih', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'fakih@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1023', chestNo: 'C-123', name: 'Nusaih (Uvais)', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'uvais@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1024', chestNo: 'C-124', name: 'Nihal', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'nihal@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1025', chestNo: 'C-125', name: 'Ahnaf', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ahnaf@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1026', chestNo: 'C-126', name: 'Anshid', classCategory: 'Sub Junior', teamId: null, teamName: 'Unassigned', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'anshid@dalanzia.org', status: 'Audit Flagged (PDF Typo Duplicate)', gender: 'Male', registeredAt: '2026-11-10', auditNote: 'Typographical duplicate from Dalenzia_Teams.pdf (#18 Anshid duplicating #9 Anshid / STU-1017 Anshid T). Held in unassigned registry without deletion for audit compliance.' },
-  { id: 'STU-1027', chestNo: 'C-127', name: 'Zayan', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'zayan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  
-  // Minor Category (19 Students)
-  { id: 'STU-1028', chestNo: 'C-128', name: 'Rifaee', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rifaee@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1029', chestNo: 'C-129', name: 'Rizwan', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rizwan.2@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1030', chestNo: 'C-130', name: 'Abdul Nasar', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'abdul.nasar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1031', chestNo: 'C-131', name: 'Shaheen', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shaheen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1032', chestNo: 'C-132', name: 'Sayyid Dilbar', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'seyyid.dilbar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1033', chestNo: 'C-133', name: 'Nusaih', classCategory: 'Minor', teamId: null, teamName: 'Unassigned', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'nusaih@dalanzia.org', status: 'Audit Flagged (PDF Typo Duplicate)', gender: 'Male', registeredAt: '2026-11-10', auditNote: 'Typographical duplicate from Dalenzia_Teams.pdf (#18 Nusaih duplicating #10 Nusaih / STU-1023 Nusaih Uvais). Held in unassigned registry without deletion for audit compliance.' },
-  { id: 'STU-1034', chestNo: 'C-134', name: 'Ali Akbar', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ali.akbar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1035', chestNo: 'C-135', name: 'Toufeeq', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'toufeeq@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1036', chestNo: 'C-136', name: 'Touheed', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'touheed@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1037', chestNo: 'C-137', name: 'Subhan', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'subhan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1038', chestNo: 'C-138', name: 'Farhan', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'farhan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1039', chestNo: 'C-139', name: 'Thahir', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'thahir@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1040', chestNo: 'C-140', name: 'Farhah (Faizan)', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'faizan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1041', chestNo: 'C-141', name: 'Shidan', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shidan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1042', chestNo: 'C-142', name: 'Yaseen', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'yaseen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1043', chestNo: 'C-143', name: 'Sinan', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sinan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1044', chestNo: 'C-144', name: 'Fasil', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'fasil@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1045', chestNo: 'C-145', name: 'Abdul Haq', classCategory: 'Minor', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'abdul.haq@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
-  { id: 'STU-1046', chestNo: 'C-146', name: 'Ziyad', classCategory: 'Minor', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ziyad@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' }
+  // Sub Junior Category (Class 5 to 9: 19 Students — Team 1: 10, Team 2: 9)
+  { id: 'STU-1028', chestNo: 'C-128', name: 'Rifaee', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rifaee@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1030', chestNo: 'C-130', name: 'Abdul Nasar', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'abdul.nasar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1032', chestNo: 'C-132', name: 'Sayyid Dilbar', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'seyyid.dilbar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1034', chestNo: 'C-134', name: 'Ali Akbar', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ali.akbar@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1037', chestNo: 'C-137', name: 'Subhan', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'subhan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1042', chestNo: 'C-142', name: 'Yaseen', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'yaseen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1044', chestNo: 'C-144', name: 'Fasil', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'fasil@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1036', chestNo: 'C-136', name: 'Touheed', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'touheed@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1046', chestNo: 'C-146', name: 'Ziyad', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'ziyad@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1038', chestNo: 'C-138', name: 'Farhan', classCategory: 'Sub Junior', teamId: 'team-1', teamName: 'Dazzlers', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'farhan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1029', chestNo: 'C-129', name: 'Rizwan', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'rizwan.2@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1031', chestNo: 'C-131', name: 'Shaheen', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shaheen@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1033', chestNo: 'C-133', name: 'Nusaih', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'nusaih@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1035', chestNo: 'C-135', name: 'Toufeeq', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'toufeeq@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1040', chestNo: 'C-140', name: 'Faizan', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'faizan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1041', chestNo: 'C-141', name: 'Shidan', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'shidan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1039', chestNo: 'C-139', name: 'Thahir', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'thahir@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1045', chestNo: 'C-145', name: 'Abdul Haq', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'abdul.haq@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' },
+  { id: 'STU-1043', chestNo: 'C-143', name: 'Sinan Edakkara', classCategory: 'Sub Junior', teamId: 'team-2', teamName: 'Dynamos', institution: 'Dalailussunna Dars, Ayiroor', phone: '', email: 'sinan@dalanzia.org', status: 'Active', gender: 'Male', registeredAt: '2026-11-10' }
 ];
 
 export const INITIAL_STAGE_CONTROLLERS = [
@@ -551,19 +572,81 @@ class FestivalStore {
   constructor() {
     this.data = this.loadData();
     this._listeners = new Set();
+    this._cloudUnsubs = [];
 
-    // Cross-Tab Real-time Broadcast Listener (Admin <-> Convener Instant Synchronization)
+    // Cross-Tab Real-time Broadcast Listener (Admin <-> Convener <-> Judge <-> Team <-> Student)
     if (typeof window !== 'undefined') {
-      window.addEventListener('storage', (e) => {
-        if (e.key === STORAGE_KEY) {
-          try {
-            this.data = this.loadData();
-            this._notify();
-          } catch (err) {
-            console.error('Error syncing storage event across tabs in FestivalStore', err);
+      if (typeof window.addEventListener === 'function') {
+        window.addEventListener('storage', (e) => {
+          if (e.key === STORAGE_KEY) {
+            try {
+              this.data = this.loadData();
+              this._notify();
+            } catch (err) {
+              console.error('Error syncing storage event across tabs in FestivalStore', err);
+            }
           }
+        });
+      }
+      this.initCloudSyncListeners();
+    }
+  }
+
+  initCloudSyncListeners() {
+    if (typeof window === 'undefined' || this._cloudInitialized) return;
+    this._cloudInitialized = true;
+    try {
+      const unsubEvals = subscribeToEvaluations((cloudEvals) => {
+        if (!Array.isArray(cloudEvals) || cloudEvals.length === 0) return;
+        let changed = false;
+        const map = new Map((this.data.submittedEvaluations || []).map(e => [e.id, e]));
+        cloudEvals.forEach(ce => {
+          if (!ce?.id) return;
+          const local = map.get(ce.id);
+          const remoteTs = new Date(ce.approvedAt || ce.submittedAt || ce.returnedAt || 0).getTime();
+          const localTs = local ? new Date(local.approvedAt || local.submittedAt || local.returnedAt || 0).getTime() : -1;
+          if (!local || remoteTs > localTs) {
+            map.set(ce.id, { ...ce });
+            changed = true;
+          }
+        });
+        if (changed) {
+          this.data.submittedEvaluations = Array.from(map.values());
+          this._recomputeStandingsIntoData(this.data);
+          this.saveData();
         }
       });
+      const unsubComps = subscribeToCompetitions((cloudComps) => {
+        if (!Array.isArray(cloudComps) || cloudComps.length === 0) return;
+        const map = new Map((this.data.programmeAssignments || []).map(c => [c.id, c]));
+        let changed = false;
+        cloudComps.forEach(cc => {
+          if (!cc?.id) return;
+          const existing = map.get(cc.id);
+          if (!existing || cc.isPublished !== existing.isPublished || cc.status !== existing.status || (cc.participants?.length || 0) !== (existing.participants?.length || 0)) {
+            map.set(cc.id, { ...(existing || {}), ...cc, category: normalizeCategoryName(cc.category, { migrateLegacy: true }) });
+            changed = true;
+          }
+        });
+        if (changed) {
+          this.data.programmeAssignments = Array.from(map.values());
+          this.data.programmes = [...this.data.programmeAssignments];
+          this.saveData();
+        }
+      });
+      const unsubCfg = subscribeToScoringConfig((cloudCfg) => {
+        if (!cloudCfg || !cloudCfg.positionPoints) return;
+        const remoteAt = new Date(cloudCfg.audit?.lastUpdatedAt || 0).getTime();
+        const localAt = new Date(this.data.scoringConfig?.audit?.lastUpdatedAt || 0).getTime();
+        if (remoteAt > localAt) {
+          this.data.scoringConfig = { ...this.data.scoringConfig, ...cloudCfg };
+          this._recomputeStandingsIntoData(this.data);
+          this.saveData();
+        }
+      });
+      this._cloudUnsubs.push(unsubEvals, unsubComps, unsubCfg);
+    } catch (e) {
+      // Offline / non-browser fallback
     }
   }
 
@@ -683,24 +766,72 @@ class FestivalStore {
       });
     }
 
-    // Always enforce the 5 official charter categories
-    currentData.programmeCategories = OFFICIAL_PROGRAMME_CATEGORIES;
-
-    // Always enforce the 83 official charter programme definitions
-    currentData.charterProgrammes = OFFICIAL_CHARTER_PROGRAMMES;
-
-    // Ensure official scoring configuration exists
-    if (!currentData.scoringConfig || !currentData.scoringConfig.positionPoints) {
-      currentData.scoringConfig = JSON.parse(JSON.stringify(OFFICIAL_SCORING_CONFIG));
+    // Backup pre-v2 store snapshot non-destructively before applying updated Charter v2 rules
+    const isCharterV2 = currentData.charterVersion === OFFICIAL_CHARTER_METADATA.version;
+    if (!isCharterV2 && typeof window !== 'undefined') {
+      try {
+        if (!localStorage.getItem('dalenzia_fest_2k26_pre_rulebook_v2_backup')) {
+          localStorage.setItem('dalenzia_fest_2k26_pre_rulebook_v2_backup', JSON.stringify({
+            backedUpAt: new Date().toISOString(),
+            previousCharterVersion: currentData.charterVersion || 'v1-13page',
+            snapshot: currentData
+          }));
+        }
+        syncCharterMigrationBackupToFirebase({
+          previousCharterVersion: currentData.charterVersion || 'v1-13page',
+          totalPreviousStudents: (currentData.registeredStudents || []).length,
+          totalPreviousAssignments: (currentData.programmeAssignments || []).length
+        }).catch(() => {});
+      } catch (e) {}
     }
 
-    // Clean out unconfirmed demo charter programmes that do not have submitted evaluations
+    currentData.charterVersion = OFFICIAL_CHARTER_METADATA.version;
+
+    // Always enforce the 4 official updated charter classifications (Sub Junior, Junior, Senior, General)
+    currentData.programmeCategories = OFFICIAL_PROGRAMME_CATEGORIES;
+
+    // Always enforce the 77 official updated charter programme definitions
+    currentData.charterProgrammes = OFFICIAL_CHARTER_PROGRAMMES;
+
+    // Migrate & enforce updated scoring configuration (5-3-1 Ind, 15-10-5 Grp, 4+5 / 5+6 limits)
+    const charterLookupByCode = new Map(OFFICIAL_CHARTER_PROGRAMMES.map(p => [p.code, p]));
+    const charterLookupById = new Map(OFFICIAL_CHARTER_PROGRAMMES.map(p => [p.id, p]));
+    if (!currentData.scoringConfig || !currentData.scoringConfig.positionPoints || currentData.scoringConfig.charterVersion !== OFFICIAL_CHARTER_METADATA.version) {
+      const prevCfg = currentData.scoringConfig || {};
+      const wasAdminConfirmed = Boolean(prevCfg.audit?.confirmedByAdmin && prevCfg.charterVersion === OFFICIAL_CHARTER_METADATA.version);
+      currentData.scoringConfig = {
+        ...JSON.parse(JSON.stringify(OFFICIAL_SCORING_CONFIG)),
+        ...(wasAdminConfirmed ? prevCfg : {}),
+        charterVersion: OFFICIAL_CHARTER_METADATA.version,
+        positionPoints: JSON.parse(JSON.stringify(OFFICIAL_SCORING_CONFIG.positionPoints)),
+        entryLimits: JSON.parse(JSON.stringify(OFFICIAL_SCORING_CONFIG.entryLimits)),
+        gradeRules: JSON.parse(JSON.stringify(OFFICIAL_SCORING_CONFIG.gradeRules)),
+        pendingAdminConfirmations: JSON.parse(JSON.stringify(OFFICIAL_SCORING_CONFIG.pendingAdminConfirmations))
+      };
+    }
+
+    // Migrate active competitions safely: preserve valid configured competitions, normalize Minor -> Sub Junior, update Group quotas
     if (Array.isArray(currentData.programmeAssignments)) {
-      currentData.programmeAssignments = currentData.programmeAssignments.filter(p => {
-        const isLegacyDemo = p.id && (p.id.startsWith('PRG-MIN') || p.id.startsWith('PRG-GEN') || p.id.startsWith('PRG-SUB') || p.id.startsWith('PRG-JUN') || p.id.startsWith('PRG-SEN'));
-        const hasEvaluations = (currentData.submittedEvaluations || []).some(e => e.assignmentId === p.id || e.competitionId === p.competitionId);
-        return !isLegacyDemo || hasEvaluations;
-      });
+      currentData.programmeAssignments = currentData.programmeAssignments
+        .filter(p => {
+          const isLegacyDemo = p.id && (p.id.startsWith('PRG-MIN') || p.id.startsWith('PRG-GEN') || p.id.startsWith('PRG-SUB') || p.id.startsWith('PRG-JUN') || p.id.startsWith('PRG-SEN'));
+          const hasEvaluations = (currentData.submittedEvaluations || []).some(e => e.assignmentId === p.id || e.competitionId === p.competitionId);
+          return !isLegacyDemo || hasEvaluations || p.manuallyActivated;
+        })
+        .map(p => {
+          const masterMatch = charterLookupById.get(p.id) || charterLookupByCode.get(p.code || p.competitionCode);
+          const normCat = normalizeCategoryName(p.category, { migrateLegacy: true });
+          const normCls = normalizeClassification(p.classification || p.format, normCat);
+          return {
+            ...p,
+            category: normCat,
+            classification: normCls,
+            format: normCls,
+            type: masterMatch ? masterMatch.type : (normCat === 'General' ? 'Group' : (p.type || 'Individual')),
+            requiredMembers: masterMatch ? masterMatch.requiredMembers : (p.requiredMembers ?? null),
+            maxEntriesPerTeam: (masterMatch?.type === 'Group' || normCat === 'General' || (p.type || '').toLowerCase() === 'group') ? 2 : 3
+          };
+        });
       currentData.programmes = [...currentData.programmeAssignments];
     } else {
       currentData.programmeAssignments = [];
@@ -726,30 +857,21 @@ class FestivalStore {
       if (!a.totalMaxMarks) a.totalMaxMarks = a.maxMarks || 100;
       if (!Array.isArray(a.participants)) a.participants = [];
     });
-    // Canonical team mapping strictly enforcing Dalenzia 2K26 approved rosters (22 Dazzlers + 22 Dynamos)
-    const CANONICAL_TEAM_MAP = {};
+    // Canonical student & team mapping strictly enforcing updated Dalenzia 2K26 rosters (23 Dazzlers + 23 Dynamos = 46 active scholars)
+    const CANONICAL_STUDENT_MAP = {};
     INITIAL_REGISTERED_STUDENTS.forEach(s => {
-      CANONICAL_TEAM_MAP[s.id] = {
-        teamId: s.teamId,
-        teamName: s.teamName,
-        isLeader: s.isLeader || false,
-        isAsstLeader: s.isAsstLeader || false,
-        role: s.role || null
-      };
+      CANONICAL_STUDENT_MAP[s.id] = s;
     });
 
-    // Ensure official registered students exist and strictly reconcile to approved team assignments (44 scholars: 22 Dazzlers + 22 Dynamos)
     if (!currentData.registeredStudents || !Array.isArray(currentData.registeredStudents) || currentData.registeredStudents.length === 0) {
       currentData.registeredStudents = JSON.parse(JSON.stringify(INITIAL_REGISTERED_STUDENTS));
     } else {
-      // 1. Deduplicate by unique student ID first to eliminate any duplicate objects
       const uniqueStudentMap = new Map();
       currentData.registeredStudents.forEach(s => {
         if (s && s.id && !uniqueStudentMap.has(s.id)) {
           uniqueStudentMap.set(s.id, s);
         }
       });
-      // 2. Ensure all canonical 46 students exist
       INITIAL_REGISTERED_STUDENTS.forEach(initS => {
         if (!uniqueStudentMap.has(initS.id)) {
           uniqueStudentMap.set(initS.id, { ...initS });
@@ -757,24 +879,21 @@ class FestivalStore {
       });
       currentData.registeredStudents = Array.from(uniqueStudentMap.values());
 
-      // 3. Reconcile all student records strictly to canonical official team assignments
+      // Reconcile official fields (team, category, active status, canonical name) while preserving phone/email/dob/bio
       currentData.registeredStudents.forEach(s => {
-        const canonical = CANONICAL_TEAM_MAP[s.id];
+        const canonical = CANONICAL_STUDENT_MAP[s.id];
         if (canonical) {
           s.teamId = canonical.teamId;
           s.teamName = canonical.teamName;
+          s.classCategory = canonical.classCategory;
+          s.name = canonical.name;
+          s.status = s.status && s.status.includes('Audit Flagged') ? 'Active' : (s.status || 'Active');
+          delete s.auditNote;
           if (canonical.isLeader !== undefined) s.isLeader = canonical.isLeader;
           if (canonical.isAsstLeader !== undefined) s.isAsstLeader = canonical.isAsstLeader;
           if (canonical.role !== undefined) s.role = canonical.role;
         } else {
-          s.teamId = null;
-          s.teamName = 'Unassigned';
-        }
-        if (s.id === 'STU-1026' || s.id === 'STU-1033') {
-          s.teamId = null;
-          s.teamName = 'Unassigned';
-          s.status = 'Audit Flagged (PDF Typo Duplicate)';
-          s.auditNote = 'Typographical duplicate from Dalenzia_Teams.pdf held in unassigned registry without deletion.';
+          s.classCategory = normalizeCategoryName(s.classCategory, { migrateLegacy: true });
         }
       });
     }
@@ -931,17 +1050,30 @@ class FestivalStore {
       }
     }
 
-    // Retain official audit log of team count reconciliation
-    const auditLogId = 'AUD-TEAM-RECON-44-UNIQUE';
+    // Retain official audit log of Charter v2 Migration (46 active scholars: 23 Dazzlers + 23 Dynamos, 77 Official Programmes)
+    const auditLogId = 'AUD-CHARTER-V2-77-46';
     if (!currentData.auditLogs.some(l => l.id === auditLogId)) {
       currentData.auditLogs.unshift({
         id: auditLogId,
-        action: 'TEAM_MEMBER_COUNT_RECONCILIATION',
-        details: 'Audit reconciliation ratified: Team 1 (Dazzlers) = 22 members, Team 2 (Dynamos) = 22 members (Total: 44 allocated scholars). Resolved typographical duplicate roster entries from Dalenzia_Teams.pdf: STU-1026 (Anshid) and STU-1033 (Nusaih) retained in unassigned pool without deletion.',
-        performedBy: 'System Integrity Auditor & Festival Secretariat',
+        action: 'CHARTER_V2_RULEBOOK_MIGRATION',
+        details: 'Migrated to updated 12-page Festival Charter & Team Charts: 77 programmes (32 Stage, 31 Off Stage, 14 General), 46 active scholars (Team 1 Dazzlers: 23, Team 2 Dynamos: 23), Senior (12) / Junior (15) / Sub Junior (19), Position Points 5-3-1 (Individual) & 15-10-5 (General/Group).',
+        performedBy: 'Charter v2 System Auditor',
         timestamp: new Date().toISOString()
       });
     }
+
+    // Always normalize evaluations/posters categories & recompute standings consistently
+    if (Array.isArray(currentData.submittedEvaluations)) {
+      currentData.submittedEvaluations.forEach(ev => {
+        if (ev.category) ev.category = normalizeCategoryName(ev.category, { migrateLegacy: true });
+      });
+    }
+    if (Array.isArray(currentData.resultPosters)) {
+      currentData.resultPosters.forEach(p => {
+        if (p.category) p.category = normalizeCategoryName(p.category, { migrateLegacy: true });
+      });
+    }
+    this._recomputeStandingsIntoData(currentData);
 
     // Ensure official 7 festival schedule events exist
     if (!currentData.programmeSchedules || !Array.isArray(currentData.programmeSchedules) || currentData.programmeSchedules.length === 0) {
@@ -999,7 +1131,7 @@ class FestivalStore {
     const publishedResults = assignments.filter(a => a.isPublished).length;
     const overallTeamPoints = teams.reduce((acc, t) => acc + (t.points || 0), 0);
 
-    // Official Charter Master Programme Stats (83 Definitions: 40 Stage, 32 Off Stage, 11 General)
+    // Official Charter Master Programme Stats (77 Definitions: 32 Stage, 31 Off Stage, 14 General)
     const charterList = this.getCharterProgrammes();
     const totalCharterProgrammes = charterList.length;
     const stageProgrammesCount = charterList.filter(p => p.classification === 'Stage').length;
@@ -1056,45 +1188,28 @@ class FestivalStore {
   getStudentRegistrationOverview() {
     const students = this.getRegisteredStudents();
 
-    // Official Charter Reference Targets (Charter Pages 1-3)
+    // Official Charter Reference Targets (Updated 12-Page Charter: Sub Junior 19, Junior 15, Senior 12 = 46)
     const targets = OFFICIAL_CHARTER_STUDENT_TARGETS || {
-      Minor: 19,
-      SubJunior: 12,
-      Junior: 7,
-      Senior: 8,
+      SubJunior: 19,
+      Junior: 15,
+      Senior: 12,
       total: 46
     };
 
-    // Actual registrations grouped strictly by the 4 official categories
     const actualCounts = {
-      Minor: students.filter(s => (s.classCategory || '').toLowerCase() === 'minor').length,
-      SubJunior: students.filter(s => {
-        const cat = (s.classCategory || '').toLowerCase().replace(/[\s-_]/g, '');
-        return cat === 'subjunior';
-      }).length,
-      Junior: students.filter(s => (s.classCategory || '').toLowerCase() === 'junior').length,
-      Senior: students.filter(s => (s.classCategory || '').toLowerCase() === 'senior').length
+      SubJunior: students.filter(s => normalizeCategoryName(s.classCategory) === 'Sub Junior').length,
+      Junior: students.filter(s => normalizeCategoryName(s.classCategory) === 'Junior').length,
+      Senior: students.filter(s => normalizeCategoryName(s.classCategory) === 'Senior').length
     };
 
     const categories = [
       {
-        id: 'CAT-MIN',
-        key: 'Minor',
-        label: 'Minor Category',
-        actual: actualCounts.Minor,
-        target: targets.Minor,
-        pct: Math.min(100, Math.round((actualCounts.Minor / targets.Minor) * 100)),
-        color: '#10B981',
-        textColor: 'text-emerald-700',
-        badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200'
-      },
-      {
         id: 'CAT-SUB',
         key: 'SubJunior',
-        label: 'Sub Junior Category',
+        label: 'Sub Junior Category (Class 5–9)',
         actual: actualCounts.SubJunior,
         target: targets.SubJunior,
-        pct: Math.min(100, Math.round((actualCounts.SubJunior / targets.SubJunior) * 100)),
+        pct: targets.SubJunior > 0 ? Math.min(100, Math.round((actualCounts.SubJunior / targets.SubJunior) * 100)) : 0,
         color: '#2563EB',
         textColor: 'text-blue-700',
         badgeBg: 'bg-blue-50 text-blue-800 border-blue-200'
@@ -1102,10 +1217,10 @@ class FestivalStore {
       {
         id: 'CAT-JUN',
         key: 'Junior',
-        label: 'Junior Category',
+        label: 'Junior Category (Class 10, +1)',
         actual: actualCounts.Junior,
         target: targets.Junior,
-        pct: Math.min(100, Math.round((actualCounts.Junior / targets.Junior) * 100)),
+        pct: targets.Junior > 0 ? Math.min(100, Math.round((actualCounts.Junior / targets.Junior) * 100)) : 0,
         color: '#8B5CF6',
         textColor: 'text-purple-700',
         badgeBg: 'bg-purple-50 text-purple-800 border-purple-200'
@@ -1113,10 +1228,10 @@ class FestivalStore {
       {
         id: 'CAT-SEN',
         key: 'Senior',
-        label: 'Senior Category',
+        label: 'Senior Category (+2, Degree)',
         actual: actualCounts.Senior,
         target: targets.Senior,
-        pct: Math.min(100, Math.round((actualCounts.Senior / targets.Senior) * 100)),
+        pct: targets.Senior > 0 ? Math.min(100, Math.round((actualCounts.Senior / targets.Senior) * 100)) : 0,
         color: '#A91F35',
         textColor: 'text-[#A91F35]',
         badgeBg: 'bg-rose-50 text-rose-800 border-rose-200'
@@ -1270,11 +1385,10 @@ class FestivalStore {
       offStage: offStage.length,
       general: general.length,
       byCategory: {
-        Minor: list.filter(p => p.category === 'Minor').length,
-        'Sub Junior': list.filter(p => p.category === 'Sub Junior').length,
-        Junior: list.filter(p => p.category === 'Junior').length,
-        Senior: list.filter(p => p.category === 'Senior').length,
-        General: list.filter(p => p.category === 'General').length,
+        'Sub Junior': list.filter(p => normalizeCategoryName(p.category) === 'Sub Junior').length,
+        Junior: list.filter(p => normalizeCategoryName(p.category) === 'Junior').length,
+        Senior: list.filter(p => normalizeCategoryName(p.category) === 'Senior').length,
+        General: list.filter(p => normalizeCategoryName(p.category) === 'General').length
       }
     };
   }
@@ -1294,41 +1408,46 @@ class FestivalStore {
       return { success: false, error: 'Competition already configured for this programme', competition: existing };
     }
 
-    const defaultCriteria = [
-      { id: 'c1', name: 'Content & Expression / തനിമ & പ്രമേയം', maxMarks: 40 },
-      { id: 'c2', name: 'Presentation & Pronunciation / ശൈലി & ഉച്ചാരണം', maxMarks: 30 },
-      { id: 'c3', name: 'Accuracy & Grammar / കൃത്യത & വ്യാകരണം', maxMarks: 20 },
-      { id: 'c4', name: 'Overall Impression / സവിശേഷ പ്രകടനം', maxMarks: 10 }
-    ];
+    const defaultCriteria = (Array.isArray(options.criteria) && options.criteria.length > 0)
+      ? options.criteria
+      : (Array.isArray(prog.evaluationCriteria) && prog.evaluationCriteria.length > 0 ? prog.evaluationCriteria : [
+          { id: 'c1', name: 'Content & Expression / തനിമ & പ്രമേയം', maxMarks: 40 },
+          { id: 'c2', name: 'Presentation & Pronunciation / ശൈലി & ഉച്ചാരണം', maxMarks: 30 },
+          { id: 'c3', name: 'Accuracy & Grammar / കൃത്യത & വ്യാകരണം', maxMarks: 20 },
+          { id: 'c4', name: 'Overall Impression / സവിശേഷ പ്രകടനം', maxMarks: 10 }
+        ]);
 
+    const isGroup = isGroupOrGeneralProgramme(prog);
     const newComp = {
       id: prog.id,
       competitionId: prog.id,
       competitionCode: prog.code,
       code: prog.code,
+      itemNo: prog.itemNo,
       title: prog.name,
       competitionTitle: prog.name,
       name: prog.name,
-      category: prog.category,
+      category: normalizeCategoryName(prog.category),
       categoryCode: prog.category.toUpperCase().slice(0, 3),
       classification: prog.classification,
       format: prog.classification,
       type: prog.type,
-      requiredMembers: prog.requiredMembers,
+      requiredMembers: prog.requiredMembers ?? null,
       source: prog.source,
       order: prog.order,
-      stageId: options.stageId || (prog.classification === 'Stage' ? 'STG-01' : 'OFF-STAGE'),
-      stage: options.stage || (prog.classification === 'Stage' ? 'Cordova Grand Stage (Stage 01)' : 'Academic Halls / Off Stage'),
-      venue: options.venue || (prog.classification === 'Stage' ? 'Cordova Grand Stage (Stage 01)' : 'Academic Halls / Off Stage'),
+      manuallyActivated: true,
+      stageId: options.stageId || (prog.classification === 'Off Stage' ? 'STG-03' : 'STG-01'),
+      stage: options.stage || (prog.classification === 'Off Stage' ? 'Ibn Khaldun Academic Hall (Stage 03)' : 'Cordova Grand Stage (Stage 01)'),
+      venue: options.venue || (prog.classification === 'Off Stage' ? 'Ibn Khaldun Academic Hall (Stage 03)' : 'Cordova Grand Stage (Stage 01)'),
       date: options.date || '2026-12-21',
-      time: options.time || '10:00 AM',
-      startTime: options.startTime || '10:00 AM',
-      endTime: options.endTime || '12:00 PM',
+      time: options.time || (isGroup ? '02:00 PM' : '10:00 AM'),
+      startTime: options.startTime || (isGroup ? '02:00 PM' : '10:00 AM'),
+      endTime: options.endTime || (isGroup ? '04:30 PM' : '12:00 PM'),
       duration: options.duration || '45 mins',
       status: options.status || 'Scheduled',
       isOfficialCharter: true,
-      maxParticipants: prog.type === 'Team' || prog.type === 'Group' ? 16 : 24,
-      maxEntriesPerTeam: prog.type === 'Team' || prog.type === 'Group' ? 2 : 3,
+      maxParticipants: isGroup ? ((prog.requiredMembers || 4) * 4) : 24,
+      maxEntriesPerTeam: isGroup ? 2 : 3,
       groupSize: prog.requiredMembers ? `${prog.requiredMembers} Members` : (prog.type === 'Individual' ? '1 Student' : 'Team'),
       assignedJudgeIds: options.assignedJudgeIds || ['JDG-1001', 'JDG-001'],
       participants: [],
@@ -1336,12 +1455,15 @@ class FestivalStore {
       totalMaxMarks: prog.maxMarks || 100,
       criteria: defaultCriteria,
       evaluationCriteria: defaultCriteria,
+      judgingGuideline: prog.judgingGuideline || '',
       desc: `Official DALENZIA FEST 2K26 ${prog.category} ${prog.classification} event: ${prog.name}.`,
       isPublished: false,
       publishedAt: null
     };
 
     this.data.programmeAssignments.push(newComp);
+    this.data.programmes = [...this.data.programmeAssignments];
+    syncCompetitionToFirebase(newComp).catch(() => {});
     this.addAuditLog('COMPETITION_ACTIVATED', `Activated competition ${newComp.title} (${newComp.code}) from official Charter master list`);
     this.saveData();
     return { success: true, competition: newComp };
@@ -1555,7 +1677,7 @@ class FestivalStore {
     name,
     classification = 'Stage', // 'Stage' | 'Off Stage' | 'General'
     type = 'Individual', // 'Individual' | 'Group' | 'General'
-    category = 'Senior', // 'Minor' | 'Sub Junior' | 'Junior' | 'Senior' | 'General'
+    category = 'Senior', // 'Sub Junior' | 'Junior' | 'Senior' | 'General'
     judgeId = 'JDG-1001',
     judgeName = 'Chief Adjudicator (Festival Jury)',
     criteria,
@@ -1567,7 +1689,7 @@ class FestivalStore {
 
     const isGeneral = classification === 'General' || type === 'General' || category === 'General';
     const compClassification = isGeneral ? 'General' : (classification === 'Off Stage' ? 'Off Stage' : 'Stage');
-    const compCategory = isGeneral ? 'General' : (category || 'Senior');
+    const compCategory = isGeneral ? 'General' : normalizeCategoryName(category || 'Senior', { migrateLegacy: true });
     const compType = isGeneral ? 'General' : (type === 'Group' ? 'Group' : 'Individual');
     const compFormat = compClassification === 'Stage' ? 'On Stage' : (compClassification === 'Off Stage' ? 'Off Stage' : 'General');
 
@@ -1652,48 +1774,61 @@ class FestivalStore {
     if (!assignment) throw new Error('Target competition not found.');
 
     const now = new Date().toISOString();
-    const isGeneral = (type || assignment.type || '').toLowerCase() === 'general';
+    const isGroup = isGroupOrGeneralProgramme({
+      ...assignment,
+      type: type || assignment.type,
+      category: category || assignment.category
+    });
+    const maxMarks = Number(assignment.maxMarks || assignment.totalMaxMarks || 100);
 
-    // Validate scores payload
-    if (!Array.isArray(scores) || scores.length === 0) {
-      throw new Error('Please enter marks for at least one candidate/team before submitting.');
+    // Validate scores payload through centralized validation helper
+    const entryValidation = validateMarkEntries(scores, { maxMarks, isGroup });
+    if (!entryValidation.isValid) {
+      throw new Error(entryValidation.errors[0] || 'Invalid evaluation scores payload.');
     }
 
     const validatedScores = [];
-    const seenIds = new Set();
+    const seenKeys = new Set();
 
-    if (isGeneral) {
-      // General Team validation: must be existing teams
-      scores.forEach(sc => {
+    if (isGroup) {
+      // Group / General Team evaluation (supports up to 2 entries per team)
+      scores.forEach((sc, idx) => {
         if (!sc.teamId) throw new Error('Invalid score entry: teamId is required.');
-        if (seenIds.has(sc.teamId)) {
-          throw new Error(`Duplicate evaluation detected for team ${sc.teamName || sc.teamId}.`);
+        const entryIndex = Number(sc.entryIndex || 1);
+        const dedupeKey = `${sc.teamId}::${entryIndex}`;
+        if (seenKeys.has(dedupeKey)) {
+          throw new Error(`Duplicate evaluation detected for team ${sc.teamName || sc.teamId} Entry #${entryIndex}.`);
         }
-        seenIds.add(sc.teamId);
+        seenKeys.add(dedupeKey);
 
         const team = (this.data.teams || []).find(t => t.id === sc.teamId);
         if (!team) {
           throw new Error(`Team ID "${sc.teamId}" does not exist in official team records.`);
         }
 
-        const total = typeof sc.total === 'number' ? sc.total : 0;
+        const total = Number(sc.total ?? sc.score ?? sc.marks ?? 0);
         validatedScores.push({
           teamId: team.id,
           teamName: team.displayName || team.name,
-          name: team.displayName || team.name,
+          entryIndex,
+          entryLabel: sc.entryLabel || `${team.displayName || team.name}${entryIndex > 1 ? ' (Entry #2)' : ' (Entry #1)'}`,
+          name: sc.entryLabel || team.displayName || team.name,
+          memberIds: Array.isArray(sc.memberIds) ? sc.memberIds : [],
+          memberNames: Array.isArray(sc.memberNames) ? sc.memberNames : [],
+          codeLetter: sc.codeLetter || '',
           criteriaMarks: sc.criteriaMarks || {},
           total,
-          remarks: sc.remarks || 'Team Evaluation'
+          remarks: sc.remarks || 'Group / General Evaluation'
         });
       });
     } else {
       // Individual Student validation: must be existing registered students
       scores.forEach(sc => {
         if (!sc.studentId) throw new Error('Invalid score entry: studentId is required.');
-        if (seenIds.has(sc.studentId)) {
+        if (seenKeys.has(sc.studentId)) {
           throw new Error(`Duplicate evaluation detected for student ID ${sc.studentId}.`);
         }
-        seenIds.add(sc.studentId);
+        seenKeys.add(sc.studentId);
 
         const student = (this.data.registeredStudents || []).find(s => s.id === sc.studentId);
         if (!student) {
@@ -1703,12 +1838,13 @@ class FestivalStore {
         const team = (this.data.teams || []).find(t => t.id === student.teamId);
         const teamName = team ? (team.displayName || team.name) : (student.teamName || 'Unassigned');
 
-        const total = typeof sc.total === 'number' ? sc.total : 0;
+        const total = Number(sc.total ?? sc.score ?? sc.marks ?? 0);
         validatedScores.push({
           studentId: student.id,
           chestNo: student.chestNo || '',
+          codeLetter: sc.codeLetter || '',
           name: student.name,
-          category: student.category || 'General',
+          category: normalizeCategoryName(student.classCategory || student.category, { migrateLegacy: true }),
           teamId: student.teamId,
           teamName,
           criteriaMarks: sc.criteriaMarks || {},
@@ -1718,11 +1854,20 @@ class FestivalStore {
       });
     }
 
-    // Sort validated scores descending by total
     validatedScores.sort((a, b) => b.total - a.total);
 
-    // Update assignment participants so UI tables can render candidates
-    assignment.participants = validatedScores;
+    // Preserve participant links while attaching scored totals
+    if (!Array.isArray(assignment.participants) || assignment.participants.length === 0) {
+      assignment.participants = validatedScores;
+    }
+
+    const previewCalc = calculateCompetitionResults({
+      competition: assignment,
+      scores: validatedScores,
+      scoringConfig: this.getScoringConfig(),
+      teams: this.data.teams || [],
+      registeredStudents: this.data.registeredStudents || []
+    });
 
     // Check if an existing evaluation sheet exists for this judge & competition
     let existing = (this.data.submittedEvaluations || []).find(
@@ -1736,16 +1881,19 @@ class FestivalStore {
           scores: JSON.parse(JSON.stringify(existing.scores)),
           submittedAt: existing.submittedAt,
           previousStatus: existing.status,
+          returnReason: existing.returnReason || null,
+          returnedByName: existing.returnedByName || null,
           resubmittedAt: now
         });
       }
       existing.scores = validatedScores;
+      existing.calculatedResults = previewCalc;
       existing.submittedAt = now;
-      existing.status = 'SUBMITTED';
-      existing.statusNote = 'Submitted via Judge Portal';
+      existing.status = 'Pending Approval';
+      existing.statusNote = 'Submitted via Judge Portal (Awaiting Admin / Convener Approval)';
       existing.remarks = remarks;
-      existing.type = isGeneral ? 'General' : 'Individual';
-      existing.category = assignment.category;
+      existing.type = isGroup ? 'Group' : 'Individual';
+      existing.category = normalizeCategoryName(assignment.category, { migrateLegacy: true });
       existing.returnedAt = null;
       existing.returnReason = null;
       existing.returnedByRole = null;
@@ -1756,15 +1904,17 @@ class FestivalStore {
         assignmentId: assignment.id,
         competitionId: assignment.competitionId,
         competitionCode: assignment.competitionCode,
-        competitionTitle: assignment.competitionTitle,
-        type: isGeneral ? 'General' : 'Individual',
-        category: assignment.category,
+        competitionTitle: assignment.competitionTitle || assignment.title,
+        type: isGroup ? 'Group' : 'Individual',
+        category: normalizeCategoryName(assignment.category, { migrateLegacy: true }),
+        classification: assignment.classification,
         judgeId,
         judgeName,
         submittedAt: now,
-        status: 'SUBMITTED',
-        statusNote: 'Submitted via Judge Portal',
+        status: 'Pending Approval',
+        statusNote: 'Submitted via Judge Portal (Awaiting Admin / Convener Approval)',
         scores: validatedScores,
+        calculatedResults: previewCalc,
         remarks,
         revisionHistory: []
       };
@@ -1774,7 +1924,7 @@ class FestivalStore {
       this.data.submittedEvaluations.push(existing);
     }
 
-    // Update assignment status
+    // Pending approval: unapproved submissions never credit standings
     assignment.status = 'Pending Approval';
     assignment.convenerApproved = false;
     assignment.adminApproved = false;
@@ -1782,7 +1932,6 @@ class FestivalStore {
     assignment.approvedByName = null;
     assignment.approvedAt = null;
 
-    // Update Judge record
     const judge = (this.data.judges || []).find(j => j.id === judgeId);
     if (judge) {
       if (!Array.isArray(judge.submittedCompIds)) judge.submittedCompIds = [];
@@ -1792,26 +1941,26 @@ class FestivalStore {
       judge.evaluationStatus = 'Submitted';
     }
 
-    // Recalculate points (unapproved results yield 0 points)
     this.recalculateApprovedTeamPoints();
+    syncEvaluationToFirebase(existing).catch(() => {});
+    syncCompetitionToFirebase(assignment).catch(() => {});
 
-    // Add confirmation notification
     this.addNotification({
       judgeId,
       recipientName: judgeName,
       type: 'Submission',
       title: 'Marks Submitted Successfully',
-      message: `Your evaluation sheet for ${assignment.competitionTitle} has been securely submitted and logged.`
+      message: `Your evaluation sheet for ${assignment.competitionTitle} has been submitted and is pending Admin / Convener approval.`
     });
 
     this.addAuditLog(
       'MARKS_SUBMITTED',
-      `${judgeName} (${judgeId}) submitted marks for competition ${assignment.competitionTitle} (${validatedScores.length} entries)`
+      `${judgeName} (${judgeId}) submitted marks for ${assignment.competitionTitle} (${validatedScores.length} entries, Pending Approval)`
     );
 
     this.saveData();
     this._notify();
-    return { success: true, evaluation: existing, assignment };
+    return { success: true, evaluation: existing, assignment, calculatedPreview: previewCalc, tieWarnings: entryValidation.warnings };
   }
 
   // =========================================================================
@@ -1851,17 +2000,49 @@ class FestivalStore {
       };
     }
 
-    // Update all submitted evaluations for this competition
-    (this.data.submittedEvaluations || []).forEach(e => {
-      if (e.competitionId === assignment.competitionId || e.assignmentId === assignment.id) {
-        e.status = 'APPROVED';
-        e.approvedByRole = roleUpper;
-        e.approvedByName = finalApproverName;
-        e.approvedAt = now;
-        e.approvalNotes = notes || '';
-      }
+    // Compute centralized result calculation at approval time
+    const evalList = (this.data.submittedEvaluations || []).filter(e =>
+      e.competitionId === assignment.competitionId || e.assignmentId === assignment.id
+    );
+    const mergedScores = [];
+    if (evalList.length === 1) {
+      (evalList[0].scores || []).forEach(s => mergedScores.push(s));
+    } else if (evalList.length > 1) {
+      const byKey = new Map();
+      evalList.forEach(ev => {
+        (ev.scores || []).forEach((s, i) => {
+          const k = s.studentId || (s.teamId ? `${s.teamId}::${s.entryIndex || 1}` : `${i}`);
+          if (!byKey.has(k)) byKey.set(k, { base: { ...s }, sum: 0, count: 0 });
+          const rec = byKey.get(k);
+          rec.sum += Number(s.total ?? s.score ?? 0);
+          rec.count += 1;
+        });
+      });
+      byKey.forEach(v => mergedScores.push({ ...v.base, total: Number((v.sum / v.count).toFixed(2)) }));
+    }
+
+    const calculatedResults = calculateCompetitionResults({
+      competition: assignment,
+      scores: mergedScores,
+      scoringConfig: this.getScoringConfig(),
+      teams: this.data.teams || [],
+      registeredStudents: this.data.registeredStudents || []
     });
 
+    assignment.calculatedResults = calculatedResults;
+
+    // Update all submitted evaluations for this competition
+    evalList.forEach(e => {
+      e.status = 'APPROVED';
+      e.approvedByRole = roleUpper;
+      e.approvedByName = finalApproverName;
+      e.approvedAt = now;
+      e.approvalNotes = notes || '';
+      e.calculatedResults = calculatedResults;
+      syncEvaluationToFirebase(e).catch(() => {});
+    });
+
+    syncCompetitionToFirebase(assignment).catch(() => {});
     this.recalculateApprovedTeamPoints();
 
     this.addAuditLog(
@@ -1935,6 +2116,13 @@ class FestivalStore {
     assignment.approvedByName = null;
     assignment.approvedAt = null;
 
+    syncCompetitionToFirebase(assignment).catch(() => {});
+    (this.data.submittedEvaluations || []).forEach(e => {
+      if (e.competitionId === assignment.competitionId || e.assignmentId === assignment.id) {
+        syncEvaluationToFirebase(e).catch(() => {});
+      }
+    });
+
     this.recalculateApprovedTeamPoints();
 
     this.addAuditLog(
@@ -1956,97 +2144,93 @@ class FestivalStore {
   }
 
   // =========================================================================
-  // CENTRALIZED AUTOMATIC SCORING ENGINE
-  // Individual: 1st=3, 2nd=2, 3rd=1 (to student's team)
-  // General: 1st=10, 2nd=8, 3rd=6 (directly to team; NEVER multiplied by member count)
-  // ONLY APPROVED results contribute to team points!
+  // CENTRALIZED AUTOMATIC SCORING ENGINE (SINGLE SOURCE OF TRUTH)
+  // Updated Charter 2K26:
+  //   Individual: 1st=5, 2nd=3, 3rd=1 (+ active grade points if Admin confirmed)
+  //   Group / General: 1st=15, 2nd=10, 3rd=5 directly to team
+  // ONLY APPROVED / PUBLISHED results contribute to team & student standings!
   // =========================================================================
-  recalculateApprovedTeamPoints() {
-    // Reset points on teams
-    (this.data.teams || []).forEach(team => {
-      team.individualPoints = 0;
-      team.generalPoints = 0;
-      team.points = 0;
-      team.firstPlaces = 0;
-      team.secondPlaces = 0;
-      team.thirdPlaces = 0;
+  _recomputeStandingsIntoData(targetData) {
+    const standings = calculateStandingsFromApprovedResults({
+      teams: targetData.teams || [],
+      registeredStudents: targetData.registeredStudents || [],
+      submittedEvaluations: targetData.submittedEvaluations || [],
+      resultPosters: targetData.resultPosters || [],
+      programmeAssignments: targetData.programmeAssignments || [],
+      scoringConfig: targetData.scoringConfig || OFFICIAL_SCORING_CONFIG
     });
 
-    const teamMap = {};
-    (this.data.teams || []).forEach(t => {
-      teamMap[t.id] = t;
-    });
-
-    // ONLY APPROVED results contribute to Team Total Points and Leaderboard
-    const approvedEvaluations = (this.data.submittedEvaluations || []).filter(e => {
-      const s = (e.status || '').toUpperCase();
-      return s === 'APPROVED';
-    });
-
-    approvedEvaluations.forEach(ev => {
-      const isGeneral = (ev.type || '').toLowerCase() === 'general';
-      const scores = Array.isArray(ev.scores) ? [...ev.scores] : [];
-
-      // Sort scores descending by total
-      scores.sort((a, b) => (b.total || 0) - (a.total || 0));
-
-      if (isGeneral) {
-        // General competition: 1st: 10, 2nd: 8, 3rd: 6 directly to the team
-        // Do NOT multiply team points by the number of team members
-        const pointsTable = [10, 8, 6];
-        scores.forEach((sc, idx) => {
-          if (idx < 3) {
-            const pts = pointsTable[idx];
-            const team = teamMap[sc.teamId];
-            if (team) {
-              team.generalPoints = (team.generalPoints || 0) + pts;
-              team.points = (team.points || 0) + pts;
-              if (idx === 0) team.firstPlaces = (team.firstPlaces || 0) + 1;
-              if (idx === 1) team.secondPlaces = (team.secondPlaces || 0) + 1;
-              if (idx === 2) team.thirdPlaces = (team.thirdPlaces || 0) + 1;
-            }
-          }
-        });
+    const teamMap = new Map(standings.teamStandings.map(t => [t.id, t]));
+    (targetData.teams || []).forEach(team => {
+      const calc = teamMap.get(team.id);
+      if (calc) {
+        team.points = calc.points;
+        team.individualPoints = calc.individualPoints;
+        team.generalPoints = calc.groupGeneralPoints;
+        team.positionPoints = calc.positionPoints;
+        team.gradePoints = calc.gradePoints;
+        team.firstPlaces = calc.goldCount;
+        team.secondPlaces = calc.silverCount;
+        team.thirdPlaces = calc.bronzeCount;
+        team.rank = calc.rank;
+        team.categoryBreakdown = calc.categoryPoints;
       } else {
-        // Individual competition: 1st: 3, 2nd: 2, 3rd: 1 credited to student's assigned team
-        const pointsTable = [3, 2, 1];
-        scores.forEach((sc, idx) => {
-          if (idx < 3) {
-            const pts = pointsTable[idx];
-            let targetTeamId = sc.teamId;
-            if (!targetTeamId && sc.studentId) {
-              const stu = (this.data.registeredStudents || []).find(s => s.id === sc.studentId);
-              if (stu) targetTeamId = stu.teamId;
-            }
-            const team = teamMap[targetTeamId];
-            if (team) {
-              team.individualPoints = (team.individualPoints || 0) + pts;
-              team.points = (team.points || 0) + pts;
-              if (idx === 0) team.firstPlaces = (team.firstPlaces || 0) + 1;
-              if (idx === 1) team.secondPlaces = (team.secondPlaces || 0) + 1;
-              if (idx === 2) team.thirdPlaces = (team.thirdPlaces || 0) + 1;
-            }
-          }
-        });
+        team.points = 0;
+        team.individualPoints = 0;
+        team.generalPoints = 0;
+        team.firstPlaces = 0;
+        team.secondPlaces = 0;
+        team.thirdPlaces = 0;
       }
     });
 
-    this.saveData();
-    this._notify();
+    const stuMap = new Map(standings.studentLeaderboard.map(s => [s.id, s]));
+    (targetData.registeredStudents || []).forEach(stu => {
+      const calc = stuMap.get(stu.id);
+      stu.totalPoints = calc ? calc.points : 0;
+      stu.individualPoints = calc ? calc.individualPoints : 0;
+      stu.firstPlaces = calc ? calc.firstCount : 0;
+      stu.secondPlaces = calc ? calc.secondCount : 0;
+      stu.thirdPlaces = calc ? calc.thirdCount : 0;
+    });
+
+    return standings;
   }
 
-  // AUTOMATIC TEAM LEADERBOARD
-  // =========================================================================
+  getCentralizedStandings() {
+    return calculateStandingsFromApprovedResults({
+      teams: this.data.teams || [],
+      registeredStudents: this.data.registeredStudents || [],
+      submittedEvaluations: this.data.submittedEvaluations || [],
+      resultPosters: this.data.resultPosters || [],
+      programmeAssignments: this.data.programmeAssignments || [],
+      scoringConfig: this.getScoringConfig()
+    });
+  }
+
+  recalculateApprovedTeamPoints() {
+    const standings = this._recomputeStandingsIntoData(this.data);
+    (this.data.teams || []).forEach(t => {
+      syncTeamToFirebase(t).catch(() => {});
+    });
+    this.saveData();
+    this._notify();
+    return standings;
+  }
+
   getTeamLeaderboard() {
-    this.recalculateApprovedTeamPoints();
-    const sorted = [...(this.data.teams || [])].sort((a, b) => (b.points || 0) - (a.points || 0));
-    return sorted.map((team, idx) => ({
-      ...team,
-      rank: idx + 1,
-      totalPoints: team.points || 0,
-      individualPoints: team.individualPoints || 0,
-      generalPoints: team.generalPoints || 0
-    }));
+    const standings = this.getCentralizedStandings();
+    return standings.teamStandings.map((ts, idx) => {
+      const teamObj = (this.data.teams || []).find(t => t.id === ts.id) || {};
+      return {
+        ...teamObj,
+        ...ts,
+        rank: idx + 1,
+        totalPoints: ts.points || 0,
+        individualPoints: ts.individualPoints || 0,
+        generalPoints: ts.groupGeneralPoints || 0
+      };
+    });
   }
 
   requestCorrection(evalId, reason) {
@@ -2111,26 +2295,38 @@ class FestivalStore {
       templateStyle: 'editorial_crimson',
       status: 'Published',
       firstPrize: p1 ? {
+        studentId: p1.studentId || null,
         name: p1.name,
         chestNo: p1.chestNo,
         teamId: p1.teamId,
         teamName: p1.teamName,
+        grade: p1.grade,
+        memberIds: p1.memberIds || [],
+        memberNames: p1.memberNames || [],
         score: `${p1.averageScore} / 100`,
         points: p1.pointsAwarded
       } : null,
       secondPrize: p2 ? {
+        studentId: p2.studentId || null,
         name: p2.name,
         chestNo: p2.chestNo,
         teamId: p2.teamId,
         teamName: p2.teamName,
+        grade: p2.grade,
+        memberIds: p2.memberIds || [],
+        memberNames: p2.memberNames || [],
         score: `${p2.averageScore} / 100`,
         points: p2.pointsAwarded
       } : null,
       thirdPrize: p3 ? {
+        studentId: p3.studentId || null,
         name: p3.name,
         chestNo: p3.chestNo,
         teamId: p3.teamId,
         teamName: p3.teamName,
+        grade: p3.grade,
+        memberIds: p3.memberIds || [],
+        memberNames: p3.memberNames || [],
         score: `${p3.averageScore} / 100`,
         points: p3.pointsAwarded
       } : null
@@ -2148,15 +2344,10 @@ class FestivalStore {
       this.data.resultPosters.unshift(posterData);
     }
 
-    // Automatically update team points in central leaderboard!
-    agg.rankedParticipants.forEach(p => {
-      if (p.pointsAwarded > 0 && p.teamId) {
-        const team = this.data.teams.find(t => t.id === p.teamId);
-        if (team) {
-          team.points += p.pointsAwarded;
-        }
-      }
-    });
+    assignment.status = 'APPROVED';
+    assignment.isPublished = true;
+    this.recalculateApprovedTeamPoints();
+    syncPublishedResultToFirebase(posterData).catch(() => {});
 
     // Notify all assigned judges that the official poster has been published
     assignment.assignedJudgeIds.forEach(jId => {
@@ -2494,10 +2685,9 @@ class FestivalStore {
       }
 
       const countsByCategory = {
-        Senior: teamStudents.filter(s => s.classCategory === 'Senior').length,
-        Junior: teamStudents.filter(s => s.classCategory === 'Junior').length,
-        'Sub Junior': teamStudents.filter(s => s.classCategory === 'Sub Junior').length,
-        Minor: teamStudents.filter(s => s.classCategory === 'Minor').length
+        Senior: teamStudents.filter(s => normalizeCategoryName(s.classCategory) === 'Senior').length,
+        Junior: teamStudents.filter(s => normalizeCategoryName(s.classCategory) === 'Junior').length,
+        'Sub Junior': teamStudents.filter(s => normalizeCategoryName(s.classCategory) === 'Sub Junior').length
       };
 
       return {
@@ -2539,16 +2729,10 @@ class FestivalStore {
         unassigned: unassigned.filter(s => s.classCategory === 'Junior').length
       },
       'Sub Junior': {
-        total: allStudents.filter(s => s.classCategory === 'Sub Junior').length,
+        total: allStudents.filter(s => normalizeCategoryName(s.classCategory) === 'Sub Junior').length,
         team1: team1.countsByCategory?.['Sub Junior'] || 0,
         team2: team2.countsByCategory?.['Sub Junior'] || 0,
-        unassigned: unassigned.filter(s => s.classCategory === 'Sub Junior').length
-      },
-      Minor: {
-        total: allStudents.filter(s => s.classCategory === 'Minor').length,
-        team1: team1.countsByCategory?.Minor || 0,
-        team2: team2.countsByCategory?.Minor || 0,
-        unassigned: unassigned.filter(s => s.classCategory === 'Minor').length
+        unassigned: unassigned.filter(s => normalizeCategoryName(s.classCategory) === 'Sub Junior').length
       }
     };
 
@@ -4056,15 +4240,11 @@ class FestivalStore {
     // Count pending participants or registrations
     const pendingRegistrations = unassignedStudents;
 
-    // Official 4 Categories: Senior, Junior, Sub Junior, Minor
+    // Official 3 Student Categories: Senior, Junior, Sub Junior
     const categoryBreakdown = {
-      Senior: students.filter(s => (s.classCategory || '').toLowerCase() === 'senior').length,
-      Junior: students.filter(s => (s.classCategory || '').toLowerCase() === 'junior').length,
-      SubJunior: students.filter(s => {
-        const cat = (s.classCategory || '').toLowerCase().replace(/[\s-_]/g, '');
-        return cat === 'subjunior';
-      }).length,
-      Minor: students.filter(s => (s.classCategory || '').toLowerCase() === 'minor').length,
+      Senior: students.filter(s => normalizeCategoryName(s.classCategory) === 'Senior').length,
+      Junior: students.filter(s => normalizeCategoryName(s.classCategory) === 'Junior').length,
+      SubJunior: students.filter(s => normalizeCategoryName(s.classCategory) === 'Sub Junior').length
     };
 
     // Team-wise distribution
@@ -4085,7 +4265,6 @@ class FestivalStore {
       seniorCount: categoryBreakdown.Senior,
       juniorCount: categoryBreakdown.Junior,
       subJuniorCount: categoryBreakdown.SubJunior,
-      minorCount: categoryBreakdown.Minor,
       activeStudents,
       inactiveStudents,
       assignedStudents,
@@ -4261,8 +4440,7 @@ class FestivalStore {
     const c = category.toString().trim().toLowerCase().replace(/[\s-_]/g, '');
     if (c === 'senior') return 'Senior';
     if (c === 'junior') return 'Junior';
-    if (c === 'subjunior') return 'Sub Junior';
-    if (c === 'minor') return 'Minor';
+    if (c === 'subjunior' || c === 'minor') return 'Sub Junior';
     return 'Senior';
   }
 
@@ -4616,21 +4794,19 @@ class FestivalStore {
       !c.assignedJudgeIds || c.assignedJudgeIds.length === 0 || !c.participants || c.participants.length < 2
     ).length;
 
-    // Student Category breakdown
+    // Category breakdown (Sub Junior, Junior, Senior, General)
     const categoryBreakdown = {
-      Minor: 0,
       SubJunior: 0,
       Junior: 0,
       Senior: 0,
       General: 0
     };
     competitions.forEach(c => {
-      const cat = (c.category || '').toLowerCase().replace(/[\s-_]/g, '');
-      if (cat === 'minor') categoryBreakdown.Minor++;
-      else if (cat === 'subjunior') categoryBreakdown.SubJunior++;
-      else if (cat === 'junior') categoryBreakdown.Junior++;
-      else if (cat === 'senior') categoryBreakdown.Senior++;
-      else if (cat === 'general') categoryBreakdown.General++;
+      const norm = normalizeCategoryName(c.category, { migrateLegacy: true });
+      if (norm === 'Sub Junior') categoryBreakdown.SubJunior++;
+      else if (norm === 'Junior') categoryBreakdown.Junior++;
+      else if (norm === 'Senior') categoryBreakdown.Senior++;
+      else categoryBreakdown.General++;
     });
 
     // Venue breakdown
@@ -5015,7 +5191,7 @@ class FestivalStore {
     return { success: true };
   }
 
-  registerParticipantForCompetition(competitionId, studentId) {
+  registerParticipantForCompetition(competitionId, studentId, options = {}) {
     const comp = (this.data.programmeAssignments || []).find(c =>
       c.id === competitionId || c.competitionId === competitionId || c.competitionCode === competitionId
     );
@@ -5026,52 +5202,19 @@ class FestivalStore {
 
     if (!Array.isArray(comp.participants)) comp.participants = [];
 
-    // Duplicate check
-    if (comp.participants.some(pt => pt.studentId === student.id || pt.chestNo === student.chestNo)) {
-      throw new Error(`Candidate ${student.name} (${student.chestNo}) is already registered in ${comp.competitionTitle}.`);
-    }
-
-    // 1. Official Category Check (Charter Page 3 & 5-9)
-    const compCategory = comp.category || 'General';
-    const studentCategory = student.classCategory || student.category || '';
-    if (compCategory !== 'General' && studentCategory && compCategory.toLowerCase() !== studentCategory.toLowerCase()) {
-      throw new Error(`Category Mismatch: Candidate ${student.name} is in "${studentCategory}" category, but ${comp.competitionTitle} is restricted to "${compCategory}" category.`);
-    }
-
-    // 2. Student Participation Limits (Charter Page 3: Max 4 Stage, Max 4 Off-Stage)
-    const isStageEvent = (comp.format || '').toLowerCase().includes('stage') && !(comp.format || '').toLowerCase().includes('off');
-    const allAssignments = this.data.programmeAssignments || [];
-    let studentStageCount = 0;
-    let studentOffStageCount = 0;
-
-    allAssignments.forEach(a => {
-      if (Array.isArray(a.participants) && a.participants.some(pt => pt.studentId === student.id || pt.chestNo === student.chestNo)) {
-        const isAStage = (a.format || '').toLowerCase().includes('stage') && !(a.format || '').toLowerCase().includes('off');
-        if (isAStage) studentStageCount++;
-        else studentOffStageCount++;
-      }
+    // Centralized eligibility, category-specific limit (4+5 SubJunior, 5+6 Junior/Senior), and team quota check
+    const check = validateParticipantRegistration({
+      student,
+      competition: comp,
+      allCompetitions: this.data.programmeAssignments || [],
+      scoringConfig: this.getScoringConfig()
     });
-
-    if (isStageEvent && studentStageCount >= 4) {
-      throw new Error(`Stage Limit Exceeded: Candidate ${student.name} has already registered in 4 stage items (Maximum allowed per student: 4 items, Charter Page 3).`);
-    }
-    if (!isStageEvent && studentOffStageCount >= 4) {
-      throw new Error(`Off-Stage Limit Exceeded: Candidate ${student.name} has already registered in 4 off-stage items (Maximum allowed per student: 4 items, Charter Page 3).`);
+    if (!check.allowed) {
+      throw new Error(check.reason);
     }
 
-    // 3. Team Entry Limits (Charter Page 3: Max 3 entries for Individual, Max 2 entries for Group)
-    const isGroupEvent = (comp.type || '').toLowerCase() === 'group';
-    const studentTeamId = student.teamId;
-    if (studentTeamId) {
-      const teamEntries = comp.participants.filter(pt => pt.teamId === studentTeamId).length;
-      const maxTeamLimit = isGroupEvent ? 2 : 3;
-      if (teamEntries >= maxTeamLimit) {
-        throw new Error(`Team Entry Limit Reached: ${student.teamName || 'Team'} already has ${teamEntries} entries in ${comp.competitionTitle} (Maximum allowed: ${maxTeamLimit} per Charter Page 3).`);
-      }
-    }
-
-    // 4. Overall Capacity check
-    const max = comp.maxParticipants || (isGroupEvent ? 16 : 24);
+    const isGroupEvent = isGroupOrGeneralProgramme(comp);
+    const max = comp.maxParticipants || (isGroupEvent ? ((comp.requiredMembers || 4) * 4) : 24);
     if (comp.participants.length >= max) {
       throw new Error(`Registration limit reached for this event (${max} max participants).`);
     }
@@ -5082,18 +5225,93 @@ class FestivalStore {
       name: student.name,
       teamId: student.teamId || null,
       teamName: student.teamName || 'Unassigned',
+      entryIndex: options.entryIndex || 1,
+      entryType: isGroupEvent ? 'Group' : 'Individual',
       registeredAt: new Date().toISOString().split('T')[0]
     };
 
     comp.participants.push(participantEntry);
     comp.totalParticipants = comp.participants.length;
 
+    syncCompetitionToFirebase(comp).catch(() => {});
     this.addAuditLog(
       'PARTICIPANT_REGISTERED',
       `Registered ${student.name} (${student.chestNo}) for ${comp.competitionTitle}`
     );
     this.saveData();
     return { success: true, participant: participantEntry };
+  }
+
+  registerGeneralTeamEntry({ competitionId, teamId, memberIds = [], entryIndex = 1 }) {
+    const comp = (this.data.programmeAssignments || []).find(c =>
+      c.id === competitionId || c.competitionId === competitionId || c.competitionCode === competitionId
+    );
+    if (!comp) throw new Error('Target General / Group competition not found.');
+    if (!isGroupOrGeneralProgramme(comp)) {
+      throw new Error('Selected competition is not a General / Group item.');
+    }
+
+    const team = (this.data.teams || []).find(t => t.id === teamId);
+    if (!team) throw new Error('Team not found.');
+
+    const idxNum = Number(entryIndex || 1);
+    const maxEntriesPerTeam = Number(this.getScoringConfig()?.entryLimits?.maxEntriesPerTeamGroup || 2);
+    if (idxNum < 1 || idxNum > maxEntriesPerTeam) {
+      throw new Error(`Invalid General entry slot #${idxNum}. Maximum ${maxEntriesPerTeam} entries permitted per team.`);
+    }
+
+    const cleanMemberIds = Array.from(new Set(memberIds)).filter(Boolean);
+    if (comp.requiredMembers && cleanMemberIds.length !== Number(comp.requiredMembers)) {
+      throw new Error(`${comp.competitionTitle} requires exactly ${comp.requiredMembers} members per team entry (selected ${cleanMemberIds.length}).`);
+    }
+
+    const members = cleanMemberIds.map(mId => {
+      const stu = (this.data.registeredStudents || []).find(s => s.id === mId || s.chestNo === mId);
+      if (!stu) throw new Error(`Member "${mId}" not found in student registry.`);
+      if (stu.teamId !== teamId) throw new Error(`${stu.name} belongs to ${stu.teamName}, not ${team.name}.`);
+      return stu;
+    });
+
+    if (!Array.isArray(comp.generalEntries)) comp.generalEntries = [];
+    comp.generalEntries = comp.generalEntries.filter(ge => !(ge.teamId === teamId && Number(ge.entryIndex) === idxNum));
+
+    const entryRecord = {
+      id: `GEN-${team.id}-E${idxNum}`,
+      teamId: team.id,
+      teamName: team.name,
+      entryIndex: idxNum,
+      entryLabel: `${team.name} — Entry #${idxNum}`,
+      memberIds: members.map(m => m.id),
+      memberNames: members.map(m => m.name),
+      chestNos: members.map(m => m.chestNo),
+      registeredAt: new Date().toISOString()
+    };
+    comp.generalEntries.push(entryRecord);
+
+    // Sync participants list cleanly for that team entry slot
+    comp.participants = (comp.participants || []).filter(p => !(p.teamId === teamId && Number(p.entryIndex || 1) === idxNum));
+    members.forEach(m => {
+      comp.participants.push({
+        studentId: m.id,
+        chestNo: m.chestNo,
+        name: m.name,
+        teamId: team.id,
+        teamName: team.name,
+        entryIndex: idxNum,
+        entryType: 'Group',
+        registeredAt: new Date().toISOString().split('T')[0]
+      });
+    });
+    comp.totalParticipants = comp.participants.length;
+
+    syncCompetitionToFirebase(comp).catch(() => {});
+    this.addAuditLog(
+      'GENERAL_ENTRY_REGISTERED',
+      `Registered ${team.name} Entry #${idxNum} (${members.map(m => m.name).join(', ')}) for ${comp.competitionTitle}`
+    );
+    this.saveData();
+    this._notify();
+    return { success: true, entry: entryRecord, competition: comp };
   }
 
   removeParticipantFromCompetition(competitionId, studentId) {
@@ -5190,21 +5408,25 @@ class FestivalStore {
 
   getScoringRules() {
     const config = this.getScoringConfig();
+    const pos = getPositionPointsTable(config);
     return {
       individual: {
-        first: config.positionPoints?.individual?.first ?? 3,
-        second: config.positionPoints?.individual?.second ?? 2,
-        third: config.positionPoints?.individual?.third ?? 1,
-        label: 'Individual Event (3 - 2 - 1 Points per Charter Page 4)'
+        first: pos.individual[1],
+        second: pos.individual[2],
+        third: pos.individual[3],
+        label: `Individual Event (${pos.individual[1]} - ${pos.individual[2]} - ${pos.individual[3]} Points per Updated Charter p.4)`
       },
       group: {
-        first: config.positionPoints?.group?.first ?? 10,
-        second: config.positionPoints?.group?.second ?? 8,
-        third: config.positionPoints?.group?.third ?? 6,
-        label: 'Group Event (10 - 8 - 6 Points per Charter Page 4)'
+        first: pos.group[1],
+        second: pos.group[2],
+        third: pos.group[3],
+        label: `Group / General Event (${pos.group[1]} - ${pos.group[2]} - ${pos.group[3]} Points per Updated Charter p.4)`
       },
       isGradePointsActive: Boolean(config.isGradePointsActive),
       grades: config.grades || OFFICIAL_SCORING_CONFIG.grades,
+      gradeRules: config.gradeRules || OFFICIAL_SCORING_CONFIG.gradeRules,
+      tieHandlingMode: config.tieHandlingMode || 'FLAG_FOR_ADMIN',
+      pendingAdminConfirmations: config.pendingAdminConfirmations || OFFICIAL_SCORING_CONFIG.pendingAdminConfirmations,
       entryLimits: config.entryLimits || OFFICIAL_SCORING_CONFIG.entryLimits
     };
   }
@@ -5214,10 +5436,15 @@ class FestivalStore {
       this.data.scoringConfig = JSON.parse(JSON.stringify(OFFICIAL_SCORING_CONFIG));
     }
 
-    // Only allow activating grade points if authorized admin confirmation is explicitly provided
     if (newConfig.isGradePointsActive && !this.data.scoringConfig.isGradePointsActive) {
       if (!adminConfirmation) {
         throw new Error('Authorized Main Admin confirmation is strictly required before activating automatic grade points.');
+      }
+      // Ensure numeric grade thresholds & points exist when activating
+      const grades = newConfig.grades || this.data.scoringConfig.grades || [];
+      const hasMissingThreshold = grades.some(g => g.minMarks === null || g.minMarks === undefined || g.minMarks === '');
+      if (hasMissingThreshold) {
+        throw new Error('Please configure numeric minimum mark percentages (%) for all grades (A+, A, B, C) before activating grade points.');
       }
     }
 
@@ -5231,8 +5458,11 @@ class FestivalStore {
       }
     };
 
+    syncScoringConfigToFirebase(this.data.scoringConfig).catch(() => {});
+    this._recomputeStandingsIntoData(this.data);
     this.addAuditLog('SCORING_CONFIG_UPDATED', `Scoring & Grade configuration updated by ${updatedBy}`);
     this.saveData();
+    this._notify();
     return { success: true, scoringConfig: this.data.scoringConfig };
   }
 
@@ -5302,8 +5532,8 @@ class FestivalStore {
   }
 
   calculateAggregatedResults(competitionId, options = {}) {
-    const aggregationMode = options.aggregationMode || 'average'; // 'average' or 'sum'
-    const tieBreakerRule = options.tieBreakerRule || 'criteria_weight'; // 'criteria_weight' or 'highest_single_mark' or 'shared'
+    const aggregationMode = options.aggregationMode || 'average';
+    const tieBreakerRule = options.tieBreakerRule || 'criteria_weight';
 
     const assignment = (this.data.programmeAssignments || []).find(a =>
       a.competitionId === competitionId || a.id === competitionId || a.competitionCode === competitionId
@@ -5314,72 +5544,82 @@ class FestivalStore {
       e.competitionId === assignment.competitionId || e.assignmentId === assignment.id
     );
 
-    const isGeneral = (assignment.type || '').toLowerCase() === 'general';
-    const positionPointsConfig = isGeneral
-      ? { first: 10, second: 8, third: 6 }
-      : { first: 3, second: 2, third: 1 };
-
+    const isGroup = isGroupOrGeneralProgramme(assignment);
     const participantMap = {};
 
-    // 1. Seed from assignment.participants if any
-    (assignment.participants || []).forEach(p => {
-      const key = p.studentId || p.teamId || p.id;
-      if (!key) return;
-      participantMap[key] = {
-        studentId: p.studentId || null,
-        chestNo: p.chestNo || '',
-        name: p.name || p.teamName,
-        teamId: p.teamId,
-        teamName: p.teamName || p.name,
-        judgeScores: [],
-        criteriaTotals: {},
-        totalSum: 0,
-        averageScore: 0,
-        computedScore: 0,
-        grade: 'B',
-        rank: 0,
-        isTie: false,
-        pointsAwarded: 0,
-        disqualified: false
-      };
-    });
+    // 1. Seed entries from active competition (handles General multi-entry slots cleanly)
+    if (isGroup && Array.isArray(assignment.generalEntries) && assignment.generalEntries.length > 0) {
+      assignment.generalEntries.forEach(ge => {
+        const key = `${ge.teamId}::${ge.entryIndex || 1}`;
+        participantMap[key] = {
+          studentId: null,
+          chestNo: '',
+          name: ge.entryLabel || ge.teamName,
+          entryLabel: ge.entryLabel || ge.teamName,
+          entryIndex: ge.entryIndex || 1,
+          teamId: ge.teamId,
+          teamName: ge.teamName,
+          memberIds: ge.memberIds || [],
+          memberNames: ge.memberNames || [],
+          judgeScores: [],
+          criteriaTotals: {},
+          totalSum: 0,
+          averageScore: 0
+        };
+      });
+    } else if (!isGroup) {
+      (assignment.participants || []).forEach(p => {
+        const key = p.studentId || p.chestNo || p.id;
+        if (!key) return;
+        participantMap[key] = {
+          studentId: p.studentId || null,
+          chestNo: p.chestNo || '',
+          name: p.name || p.teamName,
+          teamId: p.teamId,
+          teamName: p.teamName || p.name,
+          judgeScores: [],
+          criteriaTotals: {},
+          totalSum: 0,
+          averageScore: 0
+        };
+      });
+    }
 
-    // 2. Also incorporate all evaluation scores dynamically
+    // 2. Fold all evaluation sheets dynamically
     evals.forEach(ev => {
       if (Array.isArray(ev.scores)) {
         ev.scores.forEach(sc => {
-          const key = sc.studentId || sc.teamId;
+          const key = isGroup
+            ? `${sc.teamId}::${sc.entryIndex || 1}`
+            : (sc.studentId || sc.teamId);
           if (!key) return;
           if (!participantMap[key]) {
             participantMap[key] = {
               studentId: sc.studentId || null,
               chestNo: sc.chestNo || '',
-              name: sc.name || sc.teamName,
+              name: sc.entryLabel || sc.name || sc.teamName,
+              entryLabel: sc.entryLabel || sc.name || sc.teamName,
+              entryIndex: sc.entryIndex || 1,
               teamId: sc.teamId,
               teamName: sc.teamName || sc.name,
+              memberIds: sc.memberIds || [],
+              memberNames: sc.memberNames || [],
               judgeScores: [],
               criteriaTotals: {},
               totalSum: 0,
-              averageScore: 0,
-              computedScore: 0,
-              grade: 'B',
-              rank: 0,
-              isTie: false,
-              pointsAwarded: 0,
-              disqualified: false
+              averageScore: 0
             };
           }
           const p = participantMap[key];
+          const val = Number(sc.total ?? sc.score ?? 0);
           p.judgeScores.push({
             judgeId: ev.judgeId,
             judgeName: ev.judgeName,
             criteriaMarks: sc.criteriaMarks || {},
-            total: sc.total || 0,
+            total: val,
             remarks: sc.remarks || ''
           });
-          p.totalSum += (sc.total || 0);
-
-          // Accumulate criteria-wise totals
+          p.totalSum += val;
           if (sc.criteriaMarks) {
             Object.entries(sc.criteriaMarks).forEach(([critId, mark]) => {
               p.criteriaTotals[critId] = (p.criteriaTotals[critId] || 0) + (mark || 0);
@@ -5389,78 +5629,47 @@ class FestivalStore {
       }
     });
 
-    // Compute final aggregated scores & grades
-    const rankedParticipants = Object.values(participantMap).map(p => {
+    const averagedEntries = Object.values(participantMap).map(p => {
       const count = p.judgeScores.length || 1;
-      p.averageScore = parseFloat((p.totalSum / count).toFixed(1));
-      p.computedScore = aggregationMode === 'average' ? p.averageScore : p.totalSum;
-      p.finalScore = p.computedScore;
-
-      // Grade calculation based on 0-100 score
-      const scoreVal = p.averageScore;
-      if (scoreVal >= 85) p.grade = 'A+';
-      else if (scoreVal >= 75) p.grade = 'A';
-      else if (scoreVal >= 65) p.grade = 'B+';
-      else if (scoreVal >= 50) p.grade = 'B';
-      else p.grade = 'C';
-
-      return p;
+      const avg = parseFloat((p.totalSum / count).toFixed(2));
+      return {
+        ...p,
+        averageScore: avg,
+        score: aggregationMode === 'average' ? avg : p.totalSum
+      };
     });
 
-    // Sort participants by computed score descending
-    rankedParticipants.sort((a, b) => {
-      if (b.computedScore !== a.computedScore) {
-        return b.computedScore - a.computedScore;
-      }
-      // Tie breaker handling
-      if (tieBreakerRule === 'criteria_weight') {
-        const crit1A = a.criteriaTotals['c1'] || 0;
-        const crit1B = b.criteriaTotals['c1'] || 0;
-        if (crit1B !== crit1A) return crit1B - crit1A;
-      } else if (tieBreakerRule === 'highest_single_mark') {
-        const maxA = Math.max(...(a.judgeScores.map(j => j.total) || [0]));
-        const maxB = Math.max(...(b.judgeScores.map(j => j.total) || [0]));
-        if (maxB !== maxA) return maxB - maxA;
-      }
-      return 0;
+    // Delegate strictly to centralized scoringEngine
+    const calc = calculateCompetitionResults({
+      competition: assignment,
+      scores: averagedEntries,
+      scoringConfig: this.getScoringConfig(),
+      teams: this.data.teams || [],
+      registeredStudents: this.data.registeredStudents || []
     });
 
-    // Detect ties and assign official ranks & Charter position points
-    let hasTie = false;
-    const tieDetails = [];
-
-    rankedParticipants.forEach((p, idx) => {
-      p.rank = idx + 1;
-      if (idx > 0 && rankedParticipants[idx - 1].computedScore === p.computedScore) {
-        p.isTie = true;
-        rankedParticipants[idx - 1].isTie = true;
-        hasTie = true;
-        tieDetails.push({
-          rank: p.rank,
-          score: p.computedScore,
-          participants: [rankedParticipants[idx - 1].name, p.name]
-        });
-      }
-
-      // Official Position Points (Individual 3-2-1, General 10-8-6)
-      let posPoints = 0;
-      if (idx === 0) posPoints = positionPointsConfig.first;
-      else if (idx === 1) posPoints = positionPointsConfig.second;
-      else if (idx === 2) posPoints = positionPointsConfig.third;
-
-      p.positionPoints = posPoints;
-      p.pointsAwarded = posPoints;
-    });
-
-    const isComplete = evals.length > 0;
+    const rankedParticipants = calc.entries.map(e => ({
+      ...e,
+      averageScore: e.totalScore,
+      computedScore: e.totalScore,
+      finalScore: e.totalScore,
+      isTie: e.isTied,
+      pointsAwarded: e.totalPoints,
+      grade: e.grade || 'Pending Admin',
+      disqualified: false
+    }));
 
     return {
       assignment,
       totalJudgesAssigned: assignment.assignedJudgeIds ? assignment.assignedJudgeIds.length : 1,
       judgesSubmitted: evals.length,
       rankedParticipants,
-      hasTie,
-      isComplete,
+      hasTie: calc.hasTie,
+      tieDetails: calc.tieDetails,
+      positionPointRule: calc.positionPointRule,
+      isGradePointsActive: calc.isGradePointsActive,
+      hasConfiguredGradeThresholds: calc.hasConfiguredGradeThresholds,
+      isComplete: evals.length > 0,
       aggregationMode,
       tieBreakerRule
     };
@@ -5564,12 +5773,14 @@ class FestivalStore {
       this.data.resultPosters.unshift(posterData);
     }
 
-    assignment.status = 'Approved';
+    assignment.status = 'APPROVED';
     assignment.isPublished = true;
     assignment.publishedAt = now;
 
-    // Recalculate official Leaderboard idempotently from all published results
-    this.recalculateTeamLeaderboard();
+    // Recompute team & student standings strictly via centralized scoringEngine
+    this.recalculateApprovedTeamPoints();
+    syncPublishedResultToFirebase(posterData).catch(() => {});
+    syncCompetitionToFirebase(assignment).catch(() => {});
 
     this.addAuditLog(
       'RESULT_OFFICIALLY_PUBLISHED',
@@ -7615,13 +7826,13 @@ class FestivalStore {
     const teams = this.getTeams();
     const students = this.getStudents();
     const competitions = this.getCompetitions();
-    const posters = (this.data.resultPosters || []).filter(p => p.status === 'Published');
+    const standings = this.getCentralizedStandings();
+    const standingMap = new Map(standings.teamStandings.map(s => [s.id, s]));
 
     let reports = teams.map(t => {
-      // Find students belonging to this team
       const teamStudents = students.filter(s => s.teamId === t.id);
+      const calcTeam = standingMap.get(t.id) || {};
 
-      // Count competition registrations for this team
       let compRegs = 0;
       competitions.forEach(c => {
         (c.participants || []).forEach(p => {
@@ -7631,63 +7842,33 @@ class FestivalStore {
         });
       });
 
-      // Aggregate awards won by this team
-      let firsts = 0;
-      let seconds = 0;
-      let thirds = 0;
       const resultsList = [];
-      const categoryPoints = {};
-
-      posters.forEach(p => {
-        if (p.firstPrize?.teamId === t.id) {
-          firsts++;
-          const pts = p.firstPrize.points || 30;
-          categoryPoints[p.category] = (categoryPoints[p.category] || 0) + pts;
-          resultsList.push({
-            competitionTitle: p.competitionTitle,
-            category: p.category,
-            position: '1st Prize (Gold)',
-            rank: 1,
-            studentName: p.firstPrize.name,
-            chestNo: p.firstPrize.chestNo,
-            score: p.firstPrize.score,
-            points: pts,
-            date: p.date
-          });
-        }
-        if (p.secondPrize?.teamId === t.id) {
-          seconds++;
-          const pts = p.secondPrize.points || 20;
-          categoryPoints[p.category] = (categoryPoints[p.category] || 0) + pts;
-          resultsList.push({
-            competitionTitle: p.competitionTitle,
-            category: p.category,
-            position: '2nd Prize (Silver)',
-            rank: 2,
-            studentName: p.secondPrize.name,
-            chestNo: p.secondPrize.chestNo,
-            score: p.secondPrize.score,
-            points: pts,
-            date: p.date
-          });
-        }
-        if (p.thirdPrize?.teamId === t.id) {
-          thirds++;
-          const pts = p.thirdPrize.points || 10;
-          categoryPoints[p.category] = (categoryPoints[p.category] || 0) + pts;
-          resultsList.push({
-            competitionTitle: p.competitionTitle,
-            category: p.category,
-            position: '3rd Prize (Bronze)',
-            rank: 3,
-            studentName: p.thirdPrize.name,
-            chestNo: p.thirdPrize.chestNo,
-            score: p.thirdPrize.score,
-            points: pts,
-            date: p.date
-          });
-        }
+      standings.computedCompetitions.forEach(comp => {
+        comp.entries.forEach(entry => {
+          if (entry.teamId === t.id && (entry.totalPoints > 0 || entry.rank <= 3)) {
+            resultsList.push({
+              competitionTitle: comp.competitionTitle,
+              competitionCode: comp.competitionCode,
+              category: comp.category,
+              classification: comp.classification,
+              isGroup: comp.isGroup,
+              position: entry.positionLabel,
+              rank: entry.rank,
+              studentName: entry.entryLabel || entry.name,
+              chestNo: entry.chestNo,
+              score: `${entry.totalScore} / ${comp.maxMarks}`,
+              grade: entry.grade,
+              positionPoints: entry.positionPoints,
+              gradePoints: entry.gradePoints,
+              points: entry.totalPoints
+            });
+          }
+        });
       });
+
+      const firsts = calcTeam.goldCount || 0;
+      const seconds = calcTeam.silverCount || 0;
+      const thirds = calcTeam.bronzeCount || 0;
 
       return {
         teamId: t.id,
@@ -7704,12 +7885,14 @@ class FestivalStore {
         secondPositions: seconds,
         thirdPositions: thirds,
         totalAwards: firsts + seconds + thirds,
-        totalPoints: t.points || 0,
-        currentRank: t.rank || 1,
+        individualPoints: calcTeam.individualPoints || 0,
+        groupGeneralPoints: calcTeam.groupGeneralPoints || 0,
+        totalPoints: calcTeam.points || 0,
+        currentRank: calcTeam.rank || 1,
         badge: t.badge,
         status: t.status || 'Active',
         results: resultsList,
-        categoryPerformance: categoryPoints
+        categoryPerformance: calcTeam.categoryPoints || {}
       };
     });
 
@@ -7743,10 +7926,10 @@ class FestivalStore {
   getStudentPerformanceReports(filters = {}) {
     const students = this.getStudents();
     const competitions = this.getCompetitions();
-    const posters = (this.data.resultPosters || []).filter(p => p.status === 'Published');
+    const standings = this.getCentralizedStandings();
+    const stuCalcMap = new Map(standings.studentLeaderboard.map(s => [s.id, s]));
 
     let reports = students.map(s => {
-      // Competitions registered
       const regComps = [];
       competitions.forEach(c => {
         const isParticipant = (c.participants || []).some(
@@ -7765,54 +7948,18 @@ class FestivalStore {
         }
       });
 
-      // Awards won
-      const awards = [];
-      let earnedPoints = 0;
-
-      posters.forEach(p => {
-        if (p.firstPrize && (p.firstPrize.chestNo === s.chestNo || p.firstPrize.name.toLowerCase() === s.name.toLowerCase())) {
-          const pts = p.firstPrize.points || 30;
-          earnedPoints += pts;
-          awards.push({
-            competitionTitle: p.competitionTitle,
-            competitionCode: p.competitionCode,
-            category: p.category,
-            position: '1st Prize (Gold)',
-            rank: 1,
-            score: p.firstPrize.score,
-            points: pts,
-            publishedAt: p.publishedAt
-          });
-        }
-        if (p.secondPrize && (p.secondPrize.chestNo === s.chestNo || p.secondPrize.name.toLowerCase() === s.name.toLowerCase())) {
-          const pts = p.secondPrize.points || 20;
-          earnedPoints += pts;
-          awards.push({
-            competitionTitle: p.competitionTitle,
-            competitionCode: p.competitionCode,
-            category: p.category,
-            position: '2nd Prize (Silver)',
-            rank: 2,
-            score: p.secondPrize.score,
-            points: pts,
-            publishedAt: p.publishedAt
-          });
-        }
-        if (p.thirdPrize && (p.thirdPrize.chestNo === s.chestNo || p.thirdPrize.name.toLowerCase() === s.name.toLowerCase())) {
-          const pts = p.thirdPrize.points || 10;
-          earnedPoints += pts;
-          awards.push({
-            competitionTitle: p.competitionTitle,
-            competitionCode: p.competitionCode,
-            category: p.category,
-            position: '3rd Prize (Bronze)',
-            rank: 3,
-            score: p.thirdPrize.score,
-            points: pts,
-            publishedAt: p.publishedAt
-          });
-        }
-      });
+      const calcStu = stuCalcMap.get(s.id);
+      const compResults = (calcStu?.competitions || []).map(c => ({
+        competitionTitle: c.title,
+        competitionCode: c.code,
+        category: c.category,
+        position: c.positionLabel,
+        rank: c.rank,
+        score: `${c.score} / ${c.maxMarks}`,
+        grade: c.grade,
+        points: c.isGroup ? c.teamPointsAwarded : c.totalPoints,
+        isGroup: Boolean(c.isGroup)
+      }));
 
       return {
         studentId: s.id,
@@ -7820,13 +7967,13 @@ class FestivalStore {
         name: s.name,
         teamId: s.teamId,
         teamName: s.teamName,
-        classCategory: s.classCategory || 'General',
+        classCategory: normalizeCategoryName(s.classCategory, { migrateLegacy: true }),
         institution: s.institution,
         registeredCompetitions: regComps,
-        registeredCount: regComps.length || s.registeredEventsCount || 0,
-        results: awards,
-        prizesCount: awards.length,
-        totalPoints: earnedPoints || s.totalPoints || 0
+        registeredCount: regComps.length,
+        results: compResults,
+        prizesCount: compResults.filter(r => r.rank <= 3).length,
+        totalPoints: calcStu ? calcStu.points : 0
       };
     });
 
@@ -8088,72 +8235,62 @@ class FestivalStore {
   getResultScoringReports(filters = {}) {
     const posters = (this.data.resultPosters || []).filter(p => p.status === 'Published');
     const competitions = this.getCompetitions();
-    const teams = this.getTeams();
+    const standings = this.getCentralizedStandings();
 
     const winnersList = [];
-    posters.forEach(p => {
-      if (p.firstPrize) {
-        winnersList.push({
-          competitionId: p.competitionId,
-          competitionTitle: p.competitionTitle,
-          competitionCode: p.competitionCode,
-          category: p.category,
-          position: '1st Prize (Gold)',
-          rank: 1,
-          name: p.firstPrize.name,
-          chestNo: p.firstPrize.chestNo,
-          teamId: p.firstPrize.teamId,
-          teamName: p.firstPrize.teamName,
-          score: p.firstPrize.score,
-          points: p.firstPrize.points || 30,
-          publishedAt: p.publishedAt
+    const generalProgrammeReports = [];
+
+    standings.computedCompetitions.forEach(comp => {
+      if (comp.isGroup) {
+        generalProgrammeReports.push({
+          competitionId: comp.competitionId,
+          competitionCode: comp.competitionCode,
+          competitionTitle: comp.competitionTitle,
+          requiredMembers: comp.requiredMembers,
+          entries: comp.entries
         });
       }
-      if (p.secondPrize) {
-        winnersList.push({
-          competitionId: p.competitionId,
-          competitionTitle: p.competitionTitle,
-          competitionCode: p.competitionCode,
-          category: p.category,
-          position: '2nd Prize (Silver)',
-          rank: 2,
-          name: p.secondPrize.name,
-          chestNo: p.secondPrize.chestNo,
-          teamId: p.secondPrize.teamId,
-          teamName: p.secondPrize.teamName,
-          score: p.secondPrize.score,
-          points: p.secondPrize.points || 20,
-          publishedAt: p.publishedAt
-        });
-      }
-      if (p.thirdPrize) {
-        winnersList.push({
-          competitionId: p.competitionId,
-          competitionTitle: p.competitionTitle,
-          competitionCode: p.competitionCode,
-          category: p.category,
-          position: '3rd Prize (Bronze)',
-          rank: 3,
-          name: p.thirdPrize.name,
-          chestNo: p.thirdPrize.chestNo,
-          teamId: p.thirdPrize.teamId,
-          teamName: p.thirdPrize.teamName,
-          score: p.thirdPrize.score,
-          points: p.thirdPrize.points || 10,
-          publishedAt: p.publishedAt
-        });
-      }
+      comp.entries.forEach(entry => {
+        if (entry.rank <= 3 || entry.totalPoints > 0) {
+          winnersList.push({
+            competitionId: comp.competitionId,
+            competitionTitle: comp.competitionTitle,
+            competitionCode: comp.competitionCode,
+            category: comp.category,
+            classification: comp.classification,
+            isGroup: comp.isGroup,
+            position: entry.positionLabel,
+            rank: entry.rank,
+            name: entry.entryLabel || entry.name,
+            chestNo: entry.chestNo,
+            teamId: entry.teamId,
+            teamName: entry.teamName,
+            score: `${entry.totalScore} / ${comp.maxMarks}`,
+            grade: entry.grade,
+            positionPoints: entry.positionPoints,
+            gradePoints: entry.gradePoints,
+            points: entry.totalPoints,
+            memberNames: entry.memberNames || []
+          });
+        }
+      });
     });
 
-    const pendingApprovals = competitions.filter(c => !c.isPublished && c.status === 'Under Verification');
+    const pendingApprovals = competitions.filter(c =>
+      !isOfficiallyApprovedStatus(c.status) && !c.isPublished && (c.status === 'Pending Approval' || c.status === 'Under Verification' || c.status === 'Submitted')
+    );
 
     return {
-      publishedResultsCount: posters.length,
+      publishedResultsCount: standings.approvedCompetitionCount,
       pendingApprovalsCount: pendingApprovals.length,
       publishedResults: posters,
+      computedCompetitions: standings.computedCompetitions,
+      generalProgrammeReports,
       pendingCompetitions: pendingApprovals,
       winnersList,
-      teamLeaderboard: [...teams].sort((a, b) => (b.points || 0) - (a.points || 0))
+      teamLeaderboard: standings.teamStandings,
+      studentLeaderboard: standings.studentLeaderboard,
+      categoryLeaderboard: standings.categoryLeaderboard
     };
   }
 
@@ -9425,8 +9562,8 @@ class FestivalStore {
     );
     if (!assignment) throw new Error('Competition not found.');
 
-    if (!assignment.convenerApproved && assignment.status !== 'Approved by Convener') {
-      throw new Error('Result must be reviewed and approved by Convener before it can be officially published.');
+    if (!assignment.convenerApproved && !assignment.adminApproved && !isOfficiallyApprovedStatus(assignment.status)) {
+      throw new Error('Result must be reviewed and approved by Main Admin or Convener before it can be officially published.');
     }
 
     // Call underlying verified publishing engine (handles poster creation and idempotent team points)
@@ -9513,6 +9650,9 @@ class FestivalStore {
         }
       }
     });
+
+    this.recalculateApprovedTeamPoints();
+    syncCompetitionToFirebase(assignment).catch(() => {});
 
     this.addAuditLog(
       'ADMINISTRATIVE_SCORE_CORRECTION',
@@ -9721,15 +9861,11 @@ class FestivalStore {
     const students = team.students || [];
     const studentIds = students.map(s => s.id);
 
-    // Official 4 categories breakdown strictly for this team
+    // Official 3 student categories breakdown strictly for this team (23 Members)
     const categoryCounts = {
-      Minor: students.filter(s => (s.category || s.classCategory || '').toLowerCase() === 'minor').length,
-      SubJunior: students.filter(s => {
-        const cat = (s.category || s.classCategory || '').toLowerCase().replace(/[\s-_]/g, '');
-        return cat === 'subjunior';
-      }).length,
-      Junior: students.filter(s => (s.category || s.classCategory || '').toLowerCase() === 'junior').length,
-      Senior: students.filter(s => (s.category || s.classCategory || '').toLowerCase() === 'senior').length
+      SubJunior: students.filter(s => normalizeCategoryName(s.category || s.classCategory) === 'Sub Junior').length,
+      Junior: students.filter(s => normalizeCategoryName(s.category || s.classCategory) === 'Junior').length,
+      Senior: students.filter(s => normalizeCategoryName(s.category || s.classCategory) === 'Senior').length
     };
 
     // Central registry unallocated students
@@ -9772,7 +9908,7 @@ class FestivalStore {
     if (leaderName) completionScore += 20;
     if (asstLeaderName) completionScore += 20;
     if (team.leaderContact || leaderProfile.phone) completionScore += 20;
-    if (students.length === 22) completionScore += 20;
+    if (students.length === 23) completionScore += 20;
 
     return {
       teamName: team.name,
@@ -9999,17 +10135,32 @@ class FestivalStore {
 
     if (!assignment.participants) assignment.participants = [];
 
-    // Verify all studentIds belong to this team
+    const isGroup = isGroupOrGeneralProgramme(assignment);
+    if (isGroup && assignment.requiredMembers && validStudentIds.length === Number(assignment.requiredMembers)) {
+      const existingSlot1 = (assignment.generalEntries || []).some(ge => ge.teamId === teamId && Number(ge.entryIndex) === 1);
+      const entryIndex = existingSlot1 ? 2 : 1;
+      return this.registerGeneralTeamEntry({
+        competitionId: assignment.id,
+        teamId,
+        memberIds: validStudentIds,
+        entryIndex
+      });
+    }
+
+    // Validate & register every selected candidate against Charter category & 4+5 / 5+6 limits
     validStudentIds.forEach(sId => {
       const candidate = teamStudents.find(s => s.id === sId);
       if (!candidate) {
         throw new Error(`Student ${sId} does not belong to your team roster.`);
       }
-
-      // Check duplicate
-      const alreadyRegistered = assignment.participants.some(p => p.studentId === sId);
-      if (alreadyRegistered) {
-        throw new Error(`Candidate ${candidate.name} (${candidate.chestNo}) is already registered for this competition.`);
+      const check = validateParticipantRegistration({
+        student: candidate,
+        competition: assignment,
+        allCompetitions: this.data.programmeAssignments || [],
+        scoringConfig: this.getScoringConfig()
+      });
+      if (!check.allowed) {
+        throw new Error(check.reason);
       }
 
       assignment.participants.push({
@@ -10018,7 +10169,7 @@ class FestivalStore {
         name: candidate.name,
         teamId: team.id,
         teamName: team.name,
-        entryType,
+        entryType: isGroup ? 'Group' : entryType,
         registeredAt: new Date().toISOString()
       });
     });
@@ -10138,37 +10289,45 @@ class FestivalStore {
   }
 
   getTeamOfficialPublishedResults(teamId) {
-    const posters = (this.data.resultPosters || []).filter(p => p.status === 'Published' || p.isPublished);
-
+    const standings = this.getCentralizedStandings();
+    const assignments = this.data.programmeAssignments || [];
     const teamResults = [];
 
-    posters.forEach(poster => {
-      const awards = [];
-      if (poster.firstPrize && poster.firstPrize.teamId === teamId) {
-        awards.push({ position: 'First Prize', prizeBadge: '🥇 1st', ...poster.firstPrize });
-      }
-      if (poster.secondPrize && poster.secondPrize.teamId === teamId) {
-        awards.push({ position: 'Second Prize', prizeBadge: '🥈 2nd', ...poster.secondPrize });
-      }
-      if (poster.thirdPrize && poster.thirdPrize.teamId === teamId) {
-        awards.push({ position: 'Third Prize', prizeBadge: '🥉 3rd', ...poster.thirdPrize });
-      }
+    standings.computedCompetitions.forEach(comp => {
+      const ownEntries = comp.entries.filter(e => e.teamId === teamId);
+      if (ownEntries.length === 0) return;
 
-      if (awards.length > 0) {
-        teamResults.push({
-          posterId: poster.id,
-          competitionId: poster.competitionId,
-          competitionCode: poster.competitionCode,
-          competitionTitle: poster.competitionTitle,
-          category: poster.category,
-          venue: poster.venue,
-          date: poster.date,
-          publishedAt: poster.publishedAt,
-          status: 'Published',
-          isOfficial: true,
-          awards
-        });
-      }
+      const meta = assignments.find(a => a.competitionId === comp.competitionId || a.id === comp.competitionId) || {};
+      const awards = ownEntries.map(e => ({
+        position: e.positionLabel,
+        prizeBadge: e.rank === 1 ? '🥇 1st' : e.rank === 2 ? '🥈 2nd' : e.rank === 3 ? '🥉 3rd' : `#${e.rank}`,
+        rank: e.rank,
+        name: e.entryLabel || e.name,
+        chestNo: e.chestNo,
+        teamId: e.teamId,
+        teamName: e.teamName,
+        score: `${e.totalScore} / ${comp.maxMarks}`,
+        grade: e.grade,
+        positionPoints: e.positionPoints,
+        gradePoints: e.gradePoints,
+        points: e.totalPoints,
+        memberNames: e.memberNames || []
+      }));
+
+      teamResults.push({
+        competitionId: comp.competitionId,
+        competitionCode: comp.competitionCode,
+        competitionTitle: comp.competitionTitle,
+        category: comp.category,
+        classification: comp.classification,
+        isGroup: comp.isGroup,
+        venue: meta.venue || 'Main Arena',
+        date: meta.date || '',
+        publishedAt: comp.approvedAt || meta.publishedAt || '',
+        status: 'Approved & Published',
+        isOfficial: true,
+        awards
+      });
     });
 
     return teamResults;
@@ -10686,46 +10845,41 @@ class FestivalStore {
     const student = (this.data.registeredStudents || []).find(s => s.id === studentId || s.chestNo === studentId);
     if (!student) return [];
 
-    const posters = (this.data.resultPosters || []).filter(p => p.status === 'Published' || p.isPublished);
+    const standings = this.getCentralizedStandings();
+    const assignments = this.data.programmeAssignments || [];
     const results = [];
 
-    posters.forEach(poster => {
-      let prizeWon = null;
-      let positionText = '';
-      let badge = '';
+    standings.computedCompetitions.forEach(comp => {
+      comp.entries.forEach(entry => {
+        const isOwnIndividual = !comp.isGroup && (entry.studentId === student.id || (entry.chestNo && entry.chestNo === student.chestNo));
+        const isOwnGroupMember = comp.isGroup && Array.isArray(entry.memberIds) && entry.memberIds.includes(student.id);
 
-      if (poster.firstPrize && (poster.firstPrize.chestNo === student.chestNo || poster.firstPrize.studentId === student.id || poster.firstPrize.name === student.name)) {
-        prizeWon = poster.firstPrize;
-        positionText = 'First Prize';
-        badge = '🥇 1st Prize (Gold)';
-      } else if (poster.secondPrize && (poster.secondPrize.chestNo === student.chestNo || poster.secondPrize.studentId === student.id || poster.secondPrize.name === student.name)) {
-        prizeWon = poster.secondPrize;
-        positionText = 'Second Prize';
-        badge = '🥈 2nd Prize (Silver)';
-      } else if (poster.thirdPrize && (poster.thirdPrize.chestNo === student.chestNo || poster.thirdPrize.studentId === student.id || poster.thirdPrize.name === student.name)) {
-        prizeWon = poster.thirdPrize;
-        positionText = 'Third Prize';
-        badge = '🥉 3rd Prize (Bronze)';
-      }
-
-      if (prizeWon) {
-        results.push({
-          posterId: poster.id,
-          competitionId: poster.competitionId,
-          competitionCode: poster.competitionCode,
-          competitionTitle: poster.competitionTitle,
-          category: poster.category,
-          venue: poster.venue,
-          date: poster.date,
-          publishedAt: poster.publishedAt,
-          position: positionText,
-          badge,
-          score: prizeWon.score || prizeWon.totalScore || 'N/A',
-          points: prizeWon.points || 0,
-          isOfficial: true,
-          status: 'Published'
-        });
-      }
+        if (isOwnIndividual || isOwnGroupMember) {
+          const meta = assignments.find(a => a.competitionId === comp.competitionId || a.id === comp.competitionId) || {};
+          const badge = entry.rank === 1 ? '🥇 1st Prize' : entry.rank === 2 ? '🥈 2nd Prize' : entry.rank === 3 ? '🥉 3rd Prize' : `Rank #${entry.rank}`;
+          results.push({
+            competitionId: comp.competitionId,
+            competitionCode: comp.competitionCode,
+            competitionTitle: comp.competitionTitle,
+            category: comp.category,
+            classification: comp.classification,
+            isGroup: comp.isGroup,
+            venue: meta.venue || 'Main Arena',
+            date: meta.date || '',
+            publishedAt: comp.approvedAt || meta.publishedAt || '',
+            position: entry.positionLabel,
+            rank: entry.rank,
+            badge,
+            score: `${entry.totalScore} / ${comp.maxMarks}`,
+            grade: entry.grade,
+            positionPoints: entry.positionPoints,
+            gradePoints: entry.gradePoints,
+            points: isOwnGroupMember ? entry.totalPoints : entry.totalPoints,
+            isOfficial: true,
+            status: 'Published'
+          });
+        }
+      });
     });
 
     return results;
@@ -12272,146 +12426,41 @@ class FestivalStore {
   }
 
   recalculateTeamLeaderboard() {
-    const teamMap = {};
-    (this.data.teams || []).forEach(t => {
-      teamMap[t.id] = {
-        ...t,
-        points: 0,
-        firstPlaces: 0,
-        secondPlaces: 0,
-        thirdPlaces: 0,
-        categoryBreakdown: {
-          Minor: 0,
-          'Sub-Junior': 0,
-          Junior: 0,
-          Senior: 0,
-          General: 0
-        }
-      };
-    });
-
-    const scoringRules = this.getScoringRules();
-    const posters = this.data.resultPosters || [];
-
-    posters.forEach(poster => {
-      const comp = (this.data.programmeAssignments || []).find(c =>
-        c.competitionId === poster.competitionId || c.competitionCode === poster.competitionCode
-      );
-      const isGroup = (comp?.type || '').toLowerCase() === 'group';
-      const category = comp?.category || poster.category || 'General';
-      const pointsTable = isGroup ? scoringRules.group : scoringRules.individual;
-
-      if (poster.firstPrize && poster.firstPrize.teamId && teamMap[poster.firstPrize.teamId]) {
-        const t = teamMap[poster.firstPrize.teamId];
-        const pts = pointsTable.first;
-        t.points += pts;
-        t.firstPlaces += 1;
-        if (t.categoryBreakdown[category] !== undefined) t.categoryBreakdown[category] += pts;
-      }
-      if (poster.secondPrize && poster.secondPrize.teamId && teamMap[poster.secondPrize.teamId]) {
-        const t = teamMap[poster.secondPrize.teamId];
-        const pts = pointsTable.second;
-        t.points += pts;
-        t.secondPlaces += 1;
-        if (t.categoryBreakdown[category] !== undefined) t.categoryBreakdown[category] += pts;
-      }
-      if (poster.thirdPrize && poster.thirdPrize.teamId && teamMap[poster.thirdPrize.teamId]) {
-        const t = teamMap[poster.thirdPrize.teamId];
-        const pts = pointsTable.third;
-        t.points += pts;
-        t.thirdPlaces += 1;
-        if (t.categoryBreakdown[category] !== undefined) t.categoryBreakdown[category] += pts;
-      }
-    });
-
-    this.data.teams.forEach(t => {
-      if (teamMap[t.id]) {
-        t.points = teamMap[t.id].points;
-        t.firstPlaces = teamMap[t.id].firstPlaces;
-        t.secondPlaces = teamMap[t.id].secondPlaces;
-        t.thirdPlaces = teamMap[t.id].thirdPlaces;
-        t.categoryBreakdown = teamMap[t.id].categoryBreakdown;
-      }
-    });
-
+    this.recalculateApprovedTeamPoints();
     this.recalculateTeamRankings();
-    this.saveData();
     return this.data.teams;
   }
 
   getStudentLeaderboard() {
-    const studentMap = {};
-    (this.data.registeredStudents || []).forEach(s => {
-      studentMap[s.id] = {
+    const standings = this.getCentralizedStandings();
+    return standings.studentLeaderboard
+      .filter(s => s.points > 0)
+      .map(s => ({
         id: s.id,
         chestNo: s.chestNo,
         name: s.name,
         category: s.classCategory,
         teamId: s.teamId,
         teamName: s.teamName,
-        points: 0,
-        firstPlaces: 0,
-        secondPlaces: 0,
-        thirdPlaces: 0,
-        eventsCount: 0
-      };
-    });
-
-    const posters = this.data.resultPosters || [];
-    const indPoints = this.getScoringRules().individual;
-
-    posters.forEach(poster => {
-      const comp = (this.data.programmeAssignments || []).find(c =>
-        c.competitionId === poster.competitionId || c.competitionCode === poster.competitionCode
-      );
-      if ((comp?.type || '').toLowerCase() !== 'group') {
-        [
-          { key: 'firstPrize', pts: indPoints.first, rank: 1 },
-          { key: 'secondPrize', pts: indPoints.second, rank: 2 },
-          { key: 'thirdPrize', pts: indPoints.third, rank: 3 }
-        ].forEach(({ key, pts, rank }) => {
-          const winner = poster[key];
-          if (winner) {
-            const student = (this.data.registeredStudents || []).find(s =>
-              s.chestNo === winner.chestNo || s.name === winner.name
-            );
-            if (student && studentMap[student.id]) {
-              studentMap[student.id].points += pts;
-              if (rank === 1) studentMap[student.id].firstPlaces += 1;
-              else if (rank === 2) studentMap[student.id].secondPlaces += 1;
-              else studentMap[student.id].thirdPlaces += 1;
-            }
-          }
-        });
-      }
-    });
-
-    return Object.values(studentMap)
-      .filter(s => s.points > 0)
-      .sort((a, b) => b.points - a.points || b.firstPlaces - a.firstPlaces);
+        points: s.points,
+        firstPlaces: s.firstCount,
+        secondPlaces: s.secondCount,
+        thirdPlaces: s.thirdCount,
+        eventsCount: s.competitions.length
+      }));
   }
 
   getCategoryLeaderboard() {
-    const categories = ['Minor', 'Sub-Junior', 'Junior', 'Senior', 'General'];
-    const scoringRules = this.getScoringRules();
+    const categories = ['Sub Junior', 'Junior', 'Senior', 'General'];
+    const standings = this.getCentralizedStandings();
+    const team1Stand = standings.teamStandings.find(t => t.id === 'team-1') || { categoryPoints: {} };
+    const team2Stand = standings.teamStandings.find(t => t.id === 'team-2') || { categoryPoints: {} };
 
     return categories.map(cat => {
-      const progs = (this.data.programmeAssignments || []).filter(p => p.category === cat);
-      const published = progs.filter(p => p.isPublished).length;
-
-      let dazzlersPts = 0;
-      let dynamosPts = 0;
-
-      const posters = (this.data.resultPosters || []).filter(p => p.category === cat);
-      posters.forEach(poster => {
-        ['firstPrize', 'secondPrize', 'thirdPrize'].forEach(key => {
-          const w = poster[key];
-          if (w && w.points) {
-            if (w.teamId === 'team-1' || w.teamName === 'Dazzlers') dazzlersPts += w.points;
-            else if (w.teamId === 'team-2' || w.teamName === 'Dynamos') dynamosPts += w.points;
-          }
-        });
-      });
+      const progs = (this.data.programmeAssignments || []).filter(p => normalizeCategoryName(p.category) === cat);
+      const published = progs.filter(p => p.isPublished || isOfficiallyApprovedStatus(p.status)).length;
+      const dazzlersPts = team1Stand.categoryPoints?.[cat] || 0;
+      const dynamosPts = team2Stand.categoryPoints?.[cat] || 0;
 
       return {
         category: cat,

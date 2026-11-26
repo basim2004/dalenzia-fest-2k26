@@ -312,8 +312,8 @@ export default function ConvenerEvents() {
                       onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                       className="w-full bg-[#FAF7F0] px-3.5 py-2 rounded-xl border border-stone-300 text-xs font-semibold text-stone-900 focus:outline-none focus:border-[#A91F35]"
                     >
-                      <option value="Individual">Individual (30 - 20 - 10)</option>
-                      <option value="Group">Group Event (45 - 30 - 15)</option>
+                      <option value="Individual">Individual (5 - 3 - 1 Pts)</option>
+                      <option value="Group">Group Event (15 - 10 - 5 Pts)</option>
                     </select>
                   </div>
                 </div>

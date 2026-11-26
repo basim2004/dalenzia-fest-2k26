@@ -110,8 +110,16 @@ export default function StudentResults({ studentSession }) {
                     <span className="font-bold text-stone-900">{res.score}</span>
                   </div>
                   <div className="flex items-center justify-between">
+                    <span className="text-stone-500">Official Grade:</span>
+                    <span className="font-bold text-stone-900">{res.grade || 'Pending Admin Cutoffs'}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
                     <span className="text-stone-500">Award Position:</span>
                     <span className="font-bold text-[#A91F35]">{res.position}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-stone-500">Points Contributed:</span>
+                    <span className="font-bold text-emerald-700">+{res.points || 0} pts</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-stone-500">Published Date:</span>

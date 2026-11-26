@@ -79,8 +79,7 @@ export default function TeamLeaderStudents({ teamId }) {
     return {
       Senior: squadStudents.filter(s => (s.classCategory || s.category) === 'Senior').length,
       Junior: squadStudents.filter(s => (s.classCategory || s.category) === 'Junior').length,
-      'Sub Junior': squadStudents.filter(s => (s.classCategory || s.category) === 'Sub Junior').length,
-      Minor: squadStudents.filter(s => (s.classCategory || s.category) === 'Minor').length
+      'Sub Junior': squadStudents.filter(s => (s.classCategory || s.category) === 'Sub Junior').length
     };
   }, [squadStudents]);
 
@@ -229,7 +228,6 @@ export default function TeamLeaderStudents({ teamId }) {
         return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'Sub Junior':
         return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-      case 'Minor':
       default:
         return 'bg-amber-100 text-amber-800 border-amber-200';
     }
@@ -339,13 +337,7 @@ export default function TeamLeaderStudents({ teamId }) {
         <div className="p-4 rounded-2xl bg-white border border-emerald-200 shadow-2xs">
           <div className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Sub Junior</div>
           <div className="text-2xl font-serif font-black text-stone-900 mt-1">{categoryCounts['Sub Junior']}</div>
-          <div className="text-[10px] text-stone-500 font-medium">Class Category</div>
-        </div>
-
-        <div className="p-4 rounded-2xl bg-white border border-amber-200 shadow-2xs">
-          <div className="text-[10px] font-bold text-amber-700 uppercase tracking-wider">Minor</div>
-          <div className="text-2xl font-serif font-black text-stone-900 mt-1">{categoryCounts.Minor}</div>
-          <div className="text-[10px] text-stone-500 font-medium">Class Category</div>
+          <div className="text-[10px] text-stone-500 font-medium">Class 5 to 9</div>
         </div>
       </div>
 
@@ -419,7 +411,6 @@ export default function TeamLeaderStudents({ teamId }) {
               <option value="senior">Senior</option>
               <option value="junior">Junior</option>
               <option value="sub junior">Sub Junior</option>
-              <option value="minor">Minor</option>
             </select>
           </div>
 
@@ -476,7 +467,7 @@ export default function TeamLeaderStudents({ teamId }) {
                   filteredSquadStudents.map((student, idx) => {
                     const isLeader = student.id === team.leaderStudentId || student.name === team.leader;
                     const isAsstLeader = student.id === team.asstLeaderStudentId || student.name === team.asstLeader;
-                    const cat = student.classCategory || student.category || 'Minor';
+                    const cat = student.classCategory || student.category || 'Sub Junior';
 
                     return (
                       <tr key={student.id} className="hover:bg-stone-50/60 transition-colors">
@@ -594,7 +585,7 @@ export default function TeamLeaderStudents({ teamId }) {
                     const isInMyTeam = student.teamId === team.id;
                     const isOtherTeam = Boolean(student.teamId && student.teamId !== team.id && student.teamId !== 'Unassigned');
                     const isUnassigned = !student.teamId || student.teamId === 'Unassigned';
-                    const cat = student.classCategory || student.category || 'Minor';
+                    const cat = student.classCategory || student.category || 'Sub Junior';
 
                     return (
                       <tr key={student.id} className="hover:bg-stone-50/60 transition-colors">
@@ -720,7 +711,6 @@ export default function TeamLeaderStudents({ teamId }) {
                       <option value="Senior">Senior</option>
                       <option value="Junior">Junior</option>
                       <option value="Sub Junior">Sub Junior</option>
-                      <option value="Minor">Minor</option>
                     </select>
                   </div>
                 </div>
@@ -924,7 +914,7 @@ export default function TeamLeaderStudents({ teamId }) {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-stone-500 font-semibold">Class Category:</span>
-                    <span className="font-bold text-[#A91F35]">{inspectStudent.classCategory || 'Minor'}</span>
+                    <span className="font-bold text-[#A91F35]">{inspectStudent.classCategory || 'Sub Junior'}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-stone-500 font-semibold">Assigned Team:</span>

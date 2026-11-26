@@ -286,18 +286,35 @@ export default function JudgePortal({ onNavigatePublic }) {
     showToast('Removed candidate from competition.');
   };
 
-  // Submit Mark Sheet (Handles both Individual and General)
+  // Submit Mark Sheet (Handles both Individual and Group / General)
   const handleSubmitMarkSheet = (assignment) => {
-    const isGeneral = (assignment.type || '').toLowerCase() === 'general' || (assignment.category || '').toLowerCase() === 'general';
+    const isGeneral =
+      (assignment.type || '').toLowerCase() === 'general' ||
+      (assignment.type || '').toLowerCase() === 'group' ||
+      (assignment.category || '').toLowerCase() === 'general';
     const evalCriteria = assignment.evaluationCriteria || assignment.criteria || [];
 
     let candidateList = [];
     if (isGeneral) {
-      candidateList = (storeData.teams || []).map(t => ({
-        teamId: t.id,
-        teamName: t.displayName || t.name,
-        name: t.displayName || t.name
-      }));
+      if (Array.isArray(assignment.generalEntries) && assignment.generalEntries.length > 0) {
+        candidateList = assignment.generalEntries.map(ge => ({
+          entryKey: `${ge.teamId}::${ge.entryIndex || 1}`,
+          teamId: ge.teamId,
+          teamName: ge.teamName,
+          entryIndex: ge.entryIndex || 1,
+          name: ge.entryLabel || `${ge.teamName} (Entry #${ge.entryIndex || 1})`,
+          memberIds: ge.memberIds || [],
+          memberNames: ge.memberNames || []
+        }));
+      } else {
+        candidateList = (storeData.teams || []).map(t => ({
+          entryKey: t.id,
+          teamId: t.id,
+          teamName: t.displayName || t.name,
+          entryIndex: 1,
+          name: t.displayName || t.name
+        }));
+      }
     } else {
       candidateList = Array.isArray(assignment.participants) ? assignment.participants : [];
     }
@@ -314,19 +331,24 @@ export default function JudgePortal({ onNavigatePublic }) {
     let scoresPayload = [];
     if (isGeneral) {
       scoresPayload = candidateList.map(t => {
-        const pScores = markSheetForm[t.teamId] || {};
+        const key = t.entryKey || t.teamId;
+        const pScores = markSheetForm[key] || markSheetForm[t.teamId] || {};
         const criteriaMarks = {};
         evalCriteria.forEach(cr => {
           criteriaMarks[cr.id] = pScores[cr.id] || 0;
         });
-        const total = calculateParticipantTotal(t.teamId, evalCriteria);
+        const total = calculateParticipantTotal(key, evalCriteria) || calculateParticipantTotal(t.teamId, evalCriteria);
         return {
           teamId: t.teamId,
           teamName: t.teamName,
+          entryIndex: t.entryIndex || 1,
+          entryLabel: t.name,
           name: t.name,
+          memberIds: t.memberIds || [],
+          memberNames: t.memberNames || [],
           criteriaMarks,
           total,
-          remarks: pScores.remarks || 'Team Evaluation'
+          remarks: pScores.remarks || 'Group / General Team Evaluation'
         };
       });
     } else {
@@ -1044,26 +1066,41 @@ export default function JudgePortal({ onNavigatePublic }) {
                 const isApproved = existingSheet && (existingSheet.status === 'APPROVED' || existingSheet.status === 'Approved');
                 const isLocked = existingSheet && !isReturned;
 
-                const isGeneral = (currentAssignment.type || '').toLowerCase() === 'general' ||
+                const isGeneral =
+                  (currentAssignment.type || '').toLowerCase() === 'general' ||
+                  (currentAssignment.type || '').toLowerCase() === 'group' ||
                   (currentAssignment.category || '').toLowerCase() === 'general';
                 const evalCriteria = currentAssignment.evaluationCriteria || currentAssignment.criteria || [];
 
                 // Determine active candidates list
                 let activeCandidatesList = [];
                 if (isGeneral) {
-                  activeCandidatesList = (storeData.teams || []).map(t => ({
-                    teamId: t.id,
-                    teamName: t.displayName || t.name,
-                    name: t.displayName || t.name,
-                    chestNo: t.code || t.id
-                  }));
+                  if (Array.isArray(currentAssignment.generalEntries) && currentAssignment.generalEntries.length > 0) {
+                    activeCandidatesList = currentAssignment.generalEntries.map(ge => ({
+                      entryKey: `${ge.teamId}::${ge.entryIndex || 1}`,
+                      teamId: ge.teamId,
+                      teamName: ge.teamName,
+                      entryIndex: ge.entryIndex || 1,
+                      name: ge.entryLabel || `${ge.teamName} (Entry #${ge.entryIndex || 1})`,
+                      chestNo: `${ge.teamId === 'team-1' ? 'T1' : 'T2'}-E${ge.entryIndex || 1}`
+                    }));
+                  } else {
+                    activeCandidatesList = (storeData.teams || []).map(t => ({
+                      entryKey: t.id,
+                      teamId: t.id,
+                      teamName: t.displayName || t.name,
+                      entryIndex: 1,
+                      name: t.displayName || t.name,
+                      chestNo: t.code || t.id
+                    }));
+                  }
                 } else {
                   activeCandidatesList = Array.isArray(currentAssignment.participants) ? currentAssignment.participants : [];
                 }
 
                 // Compute real-time leaderboard preview
                 const sortedPreview = [...activeCandidatesList].map(cand => {
-                  const idKey = isGeneral ? cand.teamId : cand.studentId;
+                  const idKey = cand.entryKey || (isGeneral ? cand.teamId : cand.studentId);
                   const total = calculateParticipantTotal(idKey, evalCriteria);
                   return { ...cand, idKey, total };
                 }).sort((a, b) => b.total - a.total);
@@ -1120,10 +1157,22 @@ export default function JudgePortal({ onNavigatePublic }) {
 
                       <div className="flex items-center gap-2">
                         <span className="px-2.5 py-1 rounded-lg bg-white border border-stone-200 text-[11px] font-bold text-stone-700">
-                          Scoring: {isGeneral ? '1st: 10, 2nd: 8, 3rd: 6 pts' : '1st: 3, 2nd: 2, 3rd: 1 pt'}
+                          Scoring: {(() => {
+                            const sr = festivalStore.getScoringRules();
+                            return isGeneral
+                              ? `1st: ${sr.group.first}, 2nd: ${sr.group.second}, 3rd: ${sr.group.third} pts`
+                              : `1st: ${sr.individual.first}, 2nd: ${sr.individual.second}, 3rd: ${sr.individual.third} pt`;
+                          })()}
                         </span>
                       </div>
                     </div>
+
+                    {currentAssignment.judgingGuideline && (
+                      <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs text-amber-950">
+                        <strong className="text-[#A91F35] uppercase text-[10px] tracking-wider block mb-0.5">Official Charter Judging Rule</strong>
+                        {currentAssignment.judgingGuideline}
+                      </div>
+                    )}
 
                     {/* Individual Candidate Search & Add Bar */}
                     {!isGeneral && !isLocked && (
@@ -1151,7 +1200,9 @@ export default function JudgePortal({ onNavigatePublic }) {
                             {(storeData.registeredStudents || [])
                               .filter(s => {
                                 if (currentAssignment.category && currentAssignment.category !== 'General') {
-                                  if (s.category && s.category.toLowerCase() !== currentAssignment.category.toLowerCase()) return false;
+                                  const sCat = (s.classCategory || s.category || '').toLowerCase().replace(/[\s_-]/g, '');
+                                  const cCat = (currentAssignment.category || '').toLowerCase().replace(/[\s_-]/g, '');
+                                  if (sCat && sCat !== cCat) return false;
                                 }
                                 if (!candidateSearchQuery.trim()) return true;
                                 const q = candidateSearchQuery.toLowerCase();
@@ -1161,7 +1212,7 @@ export default function JudgePortal({ onNavigatePublic }) {
                               })
                               .map(s => (
                                 <option key={s.id} value={s.id}>
-                                  {s.chestNo ? `[${s.chestNo}] ` : ''}{s.name} ({s.category}) — {s.teamName || 'Team'}
+                                  {s.chestNo ? `[${s.chestNo}] ` : ''}{s.name} ({s.classCategory || s.category}) — {s.teamName || 'Team'}
                                 </option>
                               ))}
                           </select>
@@ -1205,7 +1256,7 @@ export default function JudgePortal({ onNavigatePublic }) {
                             </tr>
                           ) : (
                             activeCandidatesList.map((cand) => {
-                              const idKey = isGeneral ? cand.teamId : cand.studentId;
+                              const idKey = cand.entryKey || (isGeneral ? cand.teamId : cand.studentId);
                               const pScores = markSheetForm[idKey] || {};
                               const total = calculateParticipantTotal(idKey, evalCriteria);
 
@@ -1302,7 +1353,10 @@ export default function JudgePortal({ onNavigatePublic }) {
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                           {sortedPreview.slice(0, 3).map((item, idx) => {
-                            const pts = isGeneral ? [10, 8, 6][idx] : [3, 2, 1][idx];
+                            const sr = festivalStore.getScoringRules();
+                            const pts = isGeneral
+                              ? [sr.group.first, sr.group.second, sr.group.third][idx]
+                              : [sr.individual.first, sr.individual.second, sr.individual.third][idx];
                             const labels = ['1st Place (Gold)', '2nd Place (Silver)', '3rd Place (Bronze)'];
                             return (
                               <div key={idx} className="p-2.5 rounded-xl bg-white border border-stone-200 flex items-center justify-between text-xs">
@@ -1733,7 +1787,7 @@ export default function JudgePortal({ onNavigatePublic }) {
                     <input
                       type="text"
                       disabled
-                      value="General Team (10-8-6 Pts)"
+                      value="General Team (15-10-5 Pts)"
                       className="w-full px-3 py-2 rounded-xl border border-stone-200 bg-stone-100 text-stone-700 font-bold"
                     />
                   ) : (
@@ -1742,8 +1796,8 @@ export default function JudgePortal({ onNavigatePublic }) {
                       onChange={(e) => setCreateCompForm(prev => ({ ...prev, type: e.target.value }))}
                       className="w-full px-3 py-2 rounded-xl border border-stone-300 focus:outline-none focus:border-[#A91F35] font-bold"
                     >
-                      <option value="Individual">Individual (3-2-1 Pts)</option>
-                      <option value="Group">Group (10-8-6 Pts)</option>
+                      <option value="Individual">Individual (5-3-1 Pts)</option>
+                      <option value="Group">Group (15-10-5 Pts)</option>
                     </select>
                   )}
                 </div>
@@ -1763,10 +1817,9 @@ export default function JudgePortal({ onNavigatePublic }) {
                       onChange={(e) => setCreateCompForm(prev => ({ ...prev, category: e.target.value }))}
                       className="w-full px-3 py-2 rounded-xl border border-stone-300 focus:outline-none focus:border-[#A91F35] font-bold"
                     >
-                      <option value="Minor">Minor (Class 5 to 9)</option>
-                      <option value="Sub Junior">Sub Junior (Class 10)</option>
-                      <option value="Junior">Junior (+1, +2)</option>
-                      <option value="Senior">Senior (Degree)</option>
+                      <option value="Sub Junior">Sub Junior (Class 5 to 9)</option>
+                      <option value="Junior">Junior (Class 10, +1)</option>
+                      <option value="Senior">Senior (+2, Degree)</option>
                     </select>
                   )}
                 </div>

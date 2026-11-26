@@ -15,8 +15,10 @@ import {
   UserCheck
 } from 'lucide-react';
 import { festivalStore } from '../../admin/data/festivalStore';
+import ProgrammeChartDualModal from '../../components/ProgrammeChartDualModal';
 
 export default function ConvenerProgrammes() {
+  const [isChartOpen, setIsChartOpen] = useState(false);
   const [programmes, setProgrammes] = useState(() => festivalStore.getProgrammes());
   const [stages, setStages] = useState(() => festivalStore.getProgrammeStages());
   const [guests, setGuests] = useState(() => festivalStore.getProgrammeGuests());
@@ -152,13 +154,22 @@ export default function ConvenerProgrammes() {
           <h2 className="text-lg font-serif font-bold text-stone-900">Festival Programme Operations</h2>
           <p className="text-xs text-stone-500">Stage colloquiums, keynote lectures, ceremonies and symposiums</p>
         </div>
-        <button
-          onClick={openCreateModal}
-          className="px-4 py-2.5 rounded-2xl bg-[#A91F35] text-white hover:bg-[#8B1A2C] text-xs font-bold shadow-md flex items-center gap-2 self-start sm:self-auto transition-all active:scale-95"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Add New Programme</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => setIsChartOpen(true)}
+            className="px-4 py-2.5 rounded-2xl bg-[#E6A916] text-stone-950 hover:bg-[#d69b0f] text-xs font-black shadow-xs flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
+          >
+            <Calendar className="w-4 h-4" />
+            <span>Programme Chart (77 Items)</span>
+          </button>
+          <button
+            onClick={openCreateModal}
+            className="px-4 py-2.5 rounded-2xl bg-[#A91F35] text-white hover:bg-[#8B1A2C] text-xs font-bold shadow-md flex items-center gap-2 self-start sm:self-auto transition-all active:scale-95 cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add New Programme</span>
+          </button>
+        </div>
       </div>
 
       {/* Toast Notification */}
@@ -465,6 +476,21 @@ export default function ConvenerProgrammes() {
           </div>
         )}
       </AnimatePresence>
+
+      <ProgrammeChartDualModal
+        isOpen={isChartOpen}
+        onClose={() => setIsChartOpen(false)}
+        canConfigure={true}
+        onConfigureProgramme={(prog) => {
+          const res = festivalStore.activateCharterProgramme(prog.id);
+          reloadData();
+          if (res?.success) {
+            showToast(`Activated "${prog.name}" (${prog.code}) as a live competition.`);
+          } else if (res?.error) {
+            showToast(res.error);
+          }
+        }}
+      />
     </div>
   );
 }

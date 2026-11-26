@@ -253,7 +253,6 @@ export default function ConvenerStudents() {
             <option value="Senior">Senior</option>
             <option value="Junior">Junior</option>
             <option value="Sub Junior">Sub Junior</option>
-            <option value="Minor">Minor</option>
           </select>
         </div>
       </div>
@@ -418,7 +417,6 @@ export default function ConvenerStudents() {
                       <option value="Senior">Senior</option>
                       <option value="Junior">Junior</option>
                       <option value="Sub Junior">Sub Junior</option>
-                      <option value="Minor">Minor</option>
                     </select>
                   </div>
 

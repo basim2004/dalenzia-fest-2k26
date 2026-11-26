@@ -31,55 +31,47 @@ import {
 } from 'lucide-react';
 import { festivalStore } from '../admin/data/festivalStore';
 
-// Event Categories from Official Dalenzia Charter (Dalenzia_2K26_Festival_Charter_BW.pdf)
+// Event Categories from Updated Dalenzia 2K26 Festival Charter (77 Programmes)
 const CATEGORIES = [
   {
     id: 'all',
     name: 'All Official Events',
-    malayalam: 'എല്ലാ ഇനങ്ങളും (83 ഇനങ്ങൾ)',
+    malayalam: 'എല്ലാ ഇനങ്ങളും (77 ഇനങ്ങൾ)',
     icon: Layers,
-    count: 83,
-    description: 'Complete official festival portfolio comprising all 83 stage and off-stage programmes across 5 categories.'
+    count: 77,
+    description: 'Complete official festival portfolio comprising all 77 stage, off-stage, and general programmes across 4 divisions.'
   },
   {
-    id: 'Minor',
-    name: 'Minor',
-    malayalam: 'മൈനർ (18 ഇനങ്ങൾ)',
-    icon: BookOpen,
-    count: 18,
-    description: 'Foundation tier: 18 official programmes (9 On Stage, 9 Off Stage) for Minor candidates.'
-  },
-  {
-    id: 'Sub-Junior',
-    name: 'Sub-Junior',
+    id: 'Sub Junior',
+    name: 'Sub Junior',
     malayalam: 'സബ് ജൂനിയർ (19 ഇനങ്ങൾ)',
-    icon: Sparkles,
+    icon: BookOpen,
     count: 19,
-    description: 'Intermediate lower tier: 19 official programmes (11 On Stage, 8 Off Stage) for Sub-Junior candidates.'
+    description: 'Class 5 to 9 division: 19 official programmes (10 Stage, 9 Off Stage). Max 4 Stage + 5 Off Stage per student.'
   },
   {
     id: 'Junior',
     name: 'Junior',
-    malayalam: 'ജൂനിയർ (18 ഇനങ്ങൾ)',
+    malayalam: 'ജൂനിയർ (23 ഇനങ്ങൾ)',
     icon: Award,
-    count: 18,
-    description: 'Intermediate upper tier: 18 official programmes (10 On Stage, 8 Off Stage) for Junior candidates.'
+    count: 23,
+    description: 'Class 10 & +1 division: 23 official programmes (11 Stage, 12 Off Stage). Max 5 Stage + 6 Off Stage per student.'
   },
   {
     id: 'Senior',
     name: 'Senior',
-    malayalam: 'സീനിയർ (17 ഇനങ്ങൾ)',
+    malayalam: 'സീനിയർ (21 ഇനങ്ങൾ)',
     icon: Crown,
-    count: 17,
-    description: 'Advanced scholar tier: 17 official programmes (10 On Stage, 7 Off Stage) for Senior candidates.'
+    count: 21,
+    description: '+2 & Degree division: 21 official programmes (11 Stage, 10 Off Stage). Max 5 Stage + 6 Off Stage per student.'
   },
   {
     id: 'General',
     name: 'General',
-    malayalam: 'ജനറൽ (11 ഇനങ്ങൾ)',
+    malayalam: 'ജനറൽ (14 ഇനങ്ങൾ)',
     icon: Users,
-    count: 11,
-    description: 'Open & Ensemble tier: 11 official programmes (9 On Stage, 2 Off Stage; Group & Team items).'
+    count: 14,
+    description: 'Open & Ensemble division: 14 official Group/Team programmes (Max 2 entries per team).'
   }
 ];
 
@@ -109,7 +101,11 @@ export default function EventsPage({ onNavigateHome }) {
   // Filter logic
   const filteredCompetitions = useMemo(() => {
     return competitionsList.filter((item) => {
-      if (selectedCategory !== 'all' && item.category !== selectedCategory) return false;
+      if (selectedCategory !== 'all') {
+        const itemCat = (item.category || '').toLowerCase().replace(/[\s_-]/g, '');
+        const selCat = selectedCategory.toLowerCase().replace(/[\s_-]/g, '');
+        if (itemCat !== selCat) return false;
+      }
       if (typeFilter !== 'all' && item.type !== typeFilter) return false;
       if (statusFilter !== 'all' && item.status !== statusFilter) return false;
       if (searchQuery.trim() !== '') {

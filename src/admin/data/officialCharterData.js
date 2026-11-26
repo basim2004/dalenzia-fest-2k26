@@ -1,80 +1,108 @@
-// Dalenzia Fest 2K26 - Official Charter Data (from Dalenzia_2K26_Festival_Charter_BW.pdf)
+// Official DALENZIA FEST 2K26 Updated Rulebook Data (12-Page Festival Charter + Team Charts)
+// Verified against Dalenzia_2K26_Festival_Charter_Updated.pdf, dalenzia_team_tick_charts.pdf, dalenzia_general_tick_chart.pdf
+
+export const OFFICIAL_CHARTER_METADATA = {
+  version: '2K26-v2-12p',
+  title: 'DALENZIA FEST 2K26 — Official Updated Rulebook & Programme Charter',
+  totalProgrammes: 77,
+  totalStageProgrammes: 32,
+  totalOffStageProgrammes: 31,
+  totalGeneralProgrammes: 14,
+  totalStudents: 46,
+  totalTeams: 2,
+  maxIndividualPerTeam: 3,
+  maxGeneralEntriesPerTeam: 2,
+  confirmedDates: 'December 21, 22, 23, 2026',
+  venue: 'Thaqwa Juma Masjid & Dalailussunna Dars, Ayiroor'
+};
 
 export const OFFICIAL_PROGRAMME_CATEGORIES = [
   {
-    id: 'CAT-MIN',
-    code: 'MIN',
-    name: 'Minor',
-    displayName: 'Minor Category',
-    description: 'Foundation tier: 18 official programmes (9 On Stage, 9 Off Stage)',
-    color: '#10B981',
-    badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    totalItems: 18,
-    stageItems: 9,
-    offStageItems: 9,
-    isActive: true
-  },
-  {
     id: 'CAT-SUB',
     code: 'SUB',
-    name: 'Sub-Junior',
-    displayName: 'Sub-Junior Category',
-    description: 'Intermediate lower tier: 19 official programmes (11 On Stage, 8 Off Stage)',
+    name: 'Sub Junior',
+    malayalamName: 'സബ് ജൂനിയർ',
+    displayName: 'Sub Junior Category',
+    eligibility: 'Class 5 to 9 (5 മുതൽ 9 വരെ ക്ലാസ്)',
+    description: '19 official programmes (10 Stage, 9 Off Stage). Max 4 Stage + 5 Off Stage per student.',
     color: '#2563EB',
     badgeBg: 'bg-blue-50 text-blue-800 border-blue-200',
     totalItems: 19,
-    stageItems: 11,
-    offStageItems: 8,
+    stageItems: 10,
+    offStageItems: 9,
+    generalItems: 0,
+    maxStagePerStudent: 4,
+    maxOffStagePerStudent: 5,
+    studentTargets: { team1: 10, team2: 9, total: 19 },
     isActive: true
   },
   {
     id: 'CAT-JUN',
     code: 'JUN',
     name: 'Junior',
+    malayalamName: 'ജൂനിയർ',
     displayName: 'Junior Category',
-    description: 'Intermediate upper tier: 18 official programmes (10 On Stage, 8 Off Stage)',
+    eligibility: 'Class 10, +1 (10-ാം ക്ലാസ്, +1)',
+    description: '23 official programmes (11 Stage, 12 Off Stage). Max 5 Stage + 6 Off Stage per student.',
     color: '#8B5CF6',
     badgeBg: 'bg-purple-50 text-purple-800 border-purple-200',
-    totalItems: 18,
-    stageItems: 10,
-    offStageItems: 8,
+    totalItems: 23,
+    stageItems: 11,
+    offStageItems: 12,
+    generalItems: 0,
+    maxStagePerStudent: 5,
+    maxOffStagePerStudent: 6,
+    studentTargets: { team1: 7, team2: 8, total: 15 },
     isActive: true
   },
   {
     id: 'CAT-SEN',
     code: 'SEN',
     name: 'Senior',
+    malayalamName: 'സീനിയർ',
     displayName: 'Senior Category',
-    description: 'Advanced scholar tier: 17 official programmes (10 On Stage, 7 Off Stage)',
+    eligibility: '+2, Degree (+2, ഡിഗ്രി)',
+    description: '21 official programmes (11 Stage, 10 Off Stage). Max 5 Stage + 6 Off Stage per student.',
     color: '#A91F35',
     badgeBg: 'bg-rose-50 text-rose-800 border-rose-200',
-    totalItems: 17,
-    stageItems: 10,
-    offStageItems: 7,
+    totalItems: 21,
+    stageItems: 11,
+    offStageItems: 10,
+    generalItems: 0,
+    maxStagePerStudent: 5,
+    maxOffStagePerStudent: 6,
+    studentTargets: { team1: 6, team2: 6, total: 12 },
     isActive: true
   },
   {
     id: 'CAT-GEN',
     code: 'GEN',
     name: 'General',
-    displayName: 'General Category',
-    description: 'Open & Ensemble tier: 11 official programmes (9 On Stage, 2 Off Stage; Group & Team items)',
+    malayalamName: 'ജനറൽ',
+    displayName: 'General Programmes',
+    eligibility: 'All Active Team Members (Group & Team items; Max 2 entries per team)',
+    description: '14 official Group/Team programmes (Page 8). 1st: 15 pts, 2nd: 10 pts, 3rd: 5 pts.',
     color: '#E6A916',
     badgeBg: 'bg-amber-50 text-amber-900 border-amber-200',
-    totalItems: 11,
-    stageItems: 9,
-    offStageItems: 2,
+    totalItems: 14,
+    stageItems: 0,
+    offStageItems: 0,
+    generalItems: 14,
+    maxEntriesPerTeam: 2,
+    studentTargets: { team1: 23, team2: 23, total: 46 },
     isActive: true
   }
 ];
 
-// Official Charter Student Strength Targets per Category (Pages 1-3)
 export const OFFICIAL_CHARTER_STUDENT_TARGETS = {
-  Minor: 19,
-  SubJunior: 12,
-  Junior: 7,
-  Senior: 8,
-  total: 46
+  SubJunior: 19,
+  Junior: 15,
+  Senior: 12,
+  total: 46,
+  byTeam: {
+    'team-1': { SubJunior: 10, Junior: 7, Senior: 6, total: 23 },
+    'team-2': { SubJunior: 9, Junior: 8, Senior: 6, total: 23 }
+  }
 };
 
 export const OFFICIAL_TEAMS = [
@@ -92,10 +120,11 @@ export const OFFICIAL_TEAMS = [
     badge: '👑',
     leader: 'Noufal',
     leaderStudentId: 'STU-1001',
-    asstLeader: 'Hafiz Hassan',
+    asstLeader: 'Hassan',
     asstLeaderStudentId: 'STU-1002',
     points: 0,
-    members: 22,
+    members: 23,
+    countsByCategory: { Senior: 6, Junior: 7, SubJunior: 10 },
     status: 'Active',
     students: []
   },
@@ -116,238 +145,408 @@ export const OFFICIAL_TEAMS = [
     asstLeader: 'Irfan Edayyur',
     asstLeaderStudentId: 'STU-1008',
     points: 0,
-    members: 22,
+    members: 23,
+    countsByCategory: { Senior: 6, Junior: 8, SubJunior: 9 },
     status: 'Active',
     students: []
   }
 ];
 
-// Official Charter Scoring Configuration (Charter Page 4)
 export const OFFICIAL_SCORING_CONFIG = {
-  // Official Position Points
+  charterVersion: '2K26-v2-12p',
   positionPoints: {
     individual: {
-      first: 3,
-      second: 2,
+      first: 5,
+      second: 3,
       third: 1,
-      label: 'Individual Event (3 - 2 - 1 Points)'
+      label: 'Individual Event (5 - 3 - 1 Points)'
     },
     group: {
-      first: 10,
-      second: 8,
-      third: 6,
-      label: 'Group Event (10 - 8 - 6 Points)'
+      first: 15,
+      second: 10,
+      third: 5,
+      label: 'Group / General Event (15 - 10 - 5 Points)'
     }
   },
-  // Official Grades (Charter Page 4: A+, A, B, C)
-  // Charter notes grade points differ between Individual and Group, but does NOT specify numbers in text.
-  // Left unconfigured / inactive until authorized Main Admin confirmation.
+  // Grade thresholds & numeric grade points are NOT published in the updated 12-page Charter PDF (p.4 table values are blank).
+  // Kept inactive until explicitly confirmed & saved by Main Admin.
   isGradePointsActive: false,
   grades: [
     {
       grade: 'A+',
-      minMarks: 85,
+      minMarks: null,
       individualPoints: null,
       groupPoints: null,
-      label: 'Distinction / Outstanding',
+      label: 'A+ (Threshold & Grade Points Pending Admin Confirmation)',
       isActive: true
     },
     {
       grade: 'A',
-      minMarks: 75,
+      minMarks: null,
       individualPoints: null,
       groupPoints: null,
-      label: 'First Class / Excellent',
+      label: 'A (Threshold & Grade Points Pending Admin Confirmation)',
       isActive: true
     },
     {
       grade: 'B',
-      minMarks: 60,
+      minMarks: null,
       individualPoints: null,
       groupPoints: null,
-      label: 'Second Class / Good',
+      label: 'B (Threshold & Grade Points Pending Admin Confirmation)',
       isActive: true
     },
     {
       grade: 'C',
-      minMarks: 45,
+      minMarks: null,
       individualPoints: null,
       groupPoints: null,
-      label: 'Pass / Satisfactory',
+      label: 'C (Threshold & Grade Points Pending Admin Confirmation)',
       isActive: true
     }
   ],
-  // Entry Limits per Charter Page 3
+  gradeRules: {
+    officialGrades: ['A+', 'A', 'B', 'C'],
+    groupGradeNote: 'മൂന്നിലധികം അംഗങ്ങൾ (Charter p.4 Group grade column specifies >3 / 3+ members)',
+    allowTwoMemberGroupGradePoints: false
+  },
+  tieHandlingMode: 'FLAG_FOR_ADMIN',
+  pendingAdminConfirmations: [
+    {
+      id: 'CONF-GRADE-THRESHOLDS',
+      title: 'Official Mark Ranges (%) for Grades A+, A, B, C',
+      detail: 'Charter Page 4 lists Grades A+, A, B, C without numeric mark cutoffs. Grade assignment remains inactive until Admin sets cutoffs.'
+    },
+    {
+      id: 'CONF-GRADE-POINTS',
+      title: 'Numeric Grade Points for Individual & Group Events',
+      detail: 'Charter Page 4 table leaves Individual and Group grade point cells blank. Grade points remain 0 until Admin sets numeric values.'
+    },
+    {
+      id: 'CONF-TWO-MEMBER-GROUP-GRADE',
+      title: 'Group Grade Eligibility for 2-Member General Event (Talk Master Arabic)',
+      detail: 'Charter Page 4 notes "മൂന്നിലധികം അംഗങ്ങൾ" (>3 members) on Group Grades while GEN-14 Talk Master Arabic has 2 members.'
+    },
+    {
+      id: 'CONF-TIE-POLICY',
+      title: 'Tie-Breaking & Shared Position Points Rule',
+      detail: 'Ties are detected automatically and flagged for Admin confirmation (Full Points vs Split Points) before final publishing.'
+    },
+    {
+      id: 'CONF-GENERAL-DUAL-ENTRY-SCORING',
+      title: 'Scoring When One Team Wins Multiple Podium Slots in Group/General (Max 2 Entries/Team)',
+      detail: 'General items permit max 2 entries per team. Confirm whether a team placing 1st & 2nd receives both 15 + 10 = 25 pts.'
+    }
+  ],
   entryLimits: {
+    byCategory: {
+      'Sub Junior': { maxStageItemsPerStudent: 4, maxOffStageItemsPerStudent: 5, label: 'Max 4 Stage + 5 Off Stage' },
+      Junior: { maxStageItemsPerStudent: 5, maxOffStageItemsPerStudent: 6, label: 'Max 5 Stage + 6 Off Stage' },
+      Senior: { maxStageItemsPerStudent: 5, maxOffStageItemsPerStudent: 6, label: 'Max 5 Stage + 6 Off Stage' }
+    },
     maxStageItemsPerStudent: 4,
-    maxOffStageItemsPerStudent: 4,
+    maxOffStageItemsPerStudent: 5,
     maxEntriesPerTeamIndividual: 3,
     maxEntriesPerTeamGroup: 2
   },
   audit: {
-    lastUpdatedBy: 'Charter Default',
-    lastUpdatedAt: '2026-11-21',
+    lastUpdatedBy: 'Charter 2K26-v2 (12-Page Updated Rulebook)',
+    lastUpdatedAt: '2026-11-26',
     confirmedByAdmin: false
   }
 };
 
-// All 83 Official Programmes strictly from Charter Pages 5 - 9
-// 40 Stage + 32 Off Stage + 11 General = 83 Master Definitions
-export const OFFICIAL_CHARTER_PROGRAMMES = [
-  // STAGE PROGRAMMES (40 Total)
-  // Minor (9 Items) - Page 5
-  { id: 'PRG-MIN-STG-01', code: 'MIN-STG-01', name: 'Tarteel', classification: 'Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 1, maxMarks: 100 },
-  { id: 'PRG-MIN-STG-02', code: 'MIN-STG-02', name: 'Elocution Malayalam', classification: 'Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 2, maxMarks: 100 },
-  { id: 'PRG-MIN-STG-03', code: 'MIN-STG-03', name: 'Madh Song', classification: 'Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 3, maxMarks: 100 },
-  { id: 'PRG-MIN-STG-04', code: 'MIN-STG-04', name: 'Quiz', classification: 'Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 4, maxMarks: 100 },
-  { id: 'PRG-MIN-STG-05', code: 'MIN-STG-05', name: 'Swarf Test', classification: 'Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 5, maxMarks: 100 },
-  { id: 'PRG-MIN-STG-06', code: 'MIN-STG-06', name: 'Talk Master Arabic', classification: 'Stage', category: 'Minor', type: 'Group', requiredMembers: 2, source: 'Official Festival Charter', status: 'Available', order: 6, maxMarks: 100 },
-  { id: 'PRG-MIN-STG-07', code: 'MIN-STG-07', name: 'Word Game Arabic', classification: 'Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 7, maxMarks: 100 },
-  { id: 'PRG-MIN-STG-08', code: 'MIN-STG-08', name: 'Story Telling Malayalam', classification: 'Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 8, maxMarks: 100 },
-  { id: 'PRG-MIN-STG-09', code: 'MIN-STG-09', name: 'News Reading', classification: 'Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 9, maxMarks: 100 },
-
-  // Sub Junior (11 Items) - Page 6
-  { id: 'PRG-SUB-STG-01', code: 'SUB-STG-01', name: 'Tarteel', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 10, maxMarks: 100 },
-  { id: 'PRG-SUB-STG-02', code: 'SUB-STG-02', name: 'Elocution Malayalam', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 11, maxMarks: 100 },
-  { id: 'PRG-SUB-STG-03', code: 'SUB-STG-03', name: 'Elocution English', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 12, maxMarks: 100 },
-  { id: 'PRG-SUB-STG-04', code: 'SUB-STG-04', name: 'Talk Master Arabic', classification: 'Stage', category: 'Sub Junior', type: 'Group', requiredMembers: 2, source: 'Official Festival Charter', status: 'Available', order: 13, maxMarks: 100 },
-  { id: 'PRG-SUB-STG-05', code: 'SUB-STG-05', name: 'Madh Song', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 14, maxMarks: 100 },
-  { id: 'PRG-SUB-STG-06', code: 'SUB-STG-06', name: 'Quiz', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 15, maxMarks: 100 },
-  { id: 'PRG-SUB-STG-07', code: 'SUB-STG-07', name: 'Swarf Test', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 16, maxMarks: 100 },
-  { id: 'PRG-SUB-STG-08', code: 'SUB-STG-08', name: 'Mappila Pattu', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 17, maxMarks: 100 },
-  { id: 'PRG-SUB-STG-09', code: 'SUB-STG-09', name: 'Ibarath Reading', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 18, maxMarks: 100 },
-  { id: 'PRG-SUB-STG-10', code: 'SUB-STG-10', name: 'Poem Recitation (Arabic)', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 19, maxMarks: 100 },
-  { id: 'PRG-SUB-STG-11', code: 'SUB-STG-11', name: 'Imla', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 20, maxMarks: 100 },
-
-  // Junior (10 Items) - Page 7
-  { id: 'PRG-JUN-STG-01', code: 'JUN-STG-01', name: 'Tarteel', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 21, maxMarks: 100 },
-  { id: 'PRG-JUN-STG-02', code: 'JUN-STG-02', name: 'Elocution Malayalam', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 22, maxMarks: 100 },
-  { id: 'PRG-JUN-STG-03', code: 'JUN-STG-03', name: 'Elocution English', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 23, maxMarks: 100 },
-  { id: 'PRG-JUN-STG-04', code: 'JUN-STG-04', name: 'Elocution Arabic', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 24, maxMarks: 100 },
-  { id: 'PRG-JUN-STG-05', code: 'JUN-STG-05', name: 'Devotional Song (ഭക്തിഗാനം)', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 25, maxMarks: 100 },
-  { id: 'PRG-JUN-STG-06', code: 'JUN-STG-06', name: 'Madh Song', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 26, maxMarks: 100 },
-  { id: 'PRG-JUN-STG-07', code: 'JUN-STG-07', name: 'Mappilapattu', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 27, maxMarks: 100 },
-  { id: 'PRG-JUN-STG-08', code: 'JUN-STG-08', name: 'Ibarath Reading', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 28, maxMarks: 100 },
-  { id: 'PRG-JUN-STG-09', code: 'JUN-STG-09', name: 'Quiz', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 29, maxMarks: 100 },
-  { id: 'PRG-JUN-STG-10', code: 'JUN-STG-10', name: 'Extempore Malayalam', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 30, maxMarks: 100 },
-
-  // Senior (10 Items) - Page 8
-  { id: 'PRG-SEN-STG-01', code: 'SEN-STG-01', name: 'Tarteel', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 31, maxMarks: 100 },
-  { id: 'PRG-SEN-STG-02', code: 'SEN-STG-02', name: 'Elocution Malayalam', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 32, maxMarks: 100 },
-  { id: 'PRG-SEN-STG-03', code: 'SEN-STG-03', name: 'Elocution English', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 33, maxMarks: 100 },
-  { id: 'PRG-SEN-STG-04', code: 'SEN-STG-04', name: 'Elocution Arabic', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 34, maxMarks: 100 },
-  { id: 'PRG-SEN-STG-05', code: 'SEN-STG-05', name: "Musha'ara Alfiya", classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 35, maxMarks: 100 },
-  { id: 'PRG-SEN-STG-06', code: 'SEN-STG-06', name: 'Madh Song', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 36, maxMarks: 100 },
-  { id: 'PRG-SEN-STG-07', code: 'SEN-STG-07', name: 'Dua Recitation', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 37, maxMarks: 100 },
-  { id: 'PRG-SEN-STG-08', code: 'SEN-STG-08', name: 'Quiz', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 38, maxMarks: 100 },
-  { id: 'PRG-SEN-STG-09', code: 'SEN-STG-09', name: 'Thadrees', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 39, maxMarks: 100 },
-  { id: 'PRG-SEN-STG-10', code: 'SEN-STG-10', name: 'Extempore Malayalam', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 40, maxMarks: 100 },
-
-  // OFF STAGE PROGRAMMES (32 Total)
-  // Minor (9 Items) - Page 5
-  { id: 'PRG-MIN-OFF-01', code: 'MIN-OFF-01', name: 'Essay Malayalam', classification: 'Off Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 41, maxMarks: 100 },
-  { id: 'PRG-MIN-OFF-02', code: 'MIN-OFF-02', name: 'Story Malayalam', classification: 'Off Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 42, maxMarks: 100 },
-  { id: 'PRG-MIN-OFF-03', code: 'MIN-OFF-03', name: 'Book Test', classification: 'Off Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 43, maxMarks: 100 },
-  { id: 'PRG-MIN-OFF-04', code: 'MIN-OFF-04', name: 'Water Colouring', classification: 'Off Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 44, maxMarks: 100 },
-  { id: 'PRG-MIN-OFF-05', code: 'MIN-OFF-05', name: 'Pencil Drawing', classification: 'Off Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 45, maxMarks: 100 },
-  { id: 'PRG-MIN-OFF-06', code: 'MIN-OFF-06', name: 'Handwriting English', classification: 'Off Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 46, maxMarks: 100 },
-  { id: 'PRG-MIN-OFF-07', code: 'MIN-OFF-07', name: 'Handwriting Arabic', classification: 'Off Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 47, maxMarks: 100 },
-  { id: 'PRG-MIN-OFF-08', code: 'MIN-OFF-08', name: 'Memory Test', classification: 'Off Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 48, maxMarks: 100 },
-  { id: 'PRG-MIN-OFF-09', code: 'MIN-OFF-09', name: 'Spelling Bee', classification: 'Off Stage', category: 'Minor', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 49, maxMarks: 100 },
-
-  // Sub Junior (8 Items) - Page 6
-  { id: 'PRG-SUB-OFF-01', code: 'SUB-OFF-01', name: 'Essay Malayalam', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 50, maxMarks: 100 },
-  { id: 'PRG-SUB-OFF-02', code: 'SUB-OFF-02', name: 'Poem Malayalam', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 51, maxMarks: 100 },
-  { id: 'PRG-SUB-OFF-03', code: 'SUB-OFF-03', name: 'Water Colouring', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 52, maxMarks: 100 },
-  { id: 'PRG-SUB-OFF-04', code: 'SUB-OFF-04', name: 'Pencil Drawing', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 53, maxMarks: 100 },
-  { id: 'PRG-SUB-OFF-05', code: 'SUB-OFF-05', name: 'Handwriting Arabic', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 54, maxMarks: 100 },
-  { id: 'PRG-SUB-OFF-06', code: 'SUB-OFF-06', name: 'Book Test', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 55, maxMarks: 100 },
-  { id: 'PRG-SUB-OFF-07', code: 'SUB-OFF-07', name: 'Caption Writing', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 56, maxMarks: 100 },
-  { id: 'PRG-SUB-OFF-08', code: 'SUB-OFF-08', name: 'Maths Relay', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 57, maxMarks: 100 },
-
-  // Junior (8 Items) - Page 7
-  { id: 'PRG-JUN-OFF-01', code: 'JUN-OFF-01', name: 'Essay Malayalam', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 58, maxMarks: 100 },
-  { id: 'PRG-JUN-OFF-02', code: 'JUN-OFF-02', name: 'Essay Arabic', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 59, maxMarks: 100 },
-  { id: 'PRG-JUN-OFF-03', code: 'JUN-OFF-03', name: 'Pencil Drawing', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 60, maxMarks: 100 },
-  { id: 'PRG-JUN-OFF-04', code: 'JUN-OFF-04', name: 'Calligraphy Arabic', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 61, maxMarks: 100 },
-  { id: 'PRG-JUN-OFF-05', code: 'JUN-OFF-05', name: 'Poem Malayalam', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 62, maxMarks: 100 },
-  { id: 'PRG-JUN-OFF-06', code: 'JUN-OFF-06', name: 'Caption Writing', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 63, maxMarks: 100 },
-  { id: 'PRG-JUN-OFF-07', code: 'JUN-OFF-07', name: 'Translation Arabic – Malayalam', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 64, maxMarks: 100 },
-  { id: 'PRG-JUN-OFF-08', code: 'JUN-OFF-08', name: 'Book Test', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 65, maxMarks: 100 },
-
-  // Senior (7 Items) - Page 8
-  { id: 'PRG-SEN-OFF-01', code: 'SEN-OFF-01', name: 'Essay Malayalam', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 66, maxMarks: 100 },
-  { id: 'PRG-SEN-OFF-02', code: 'SEN-OFF-02', name: 'Essay Arabic', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 67, maxMarks: 100 },
-  { id: 'PRG-SEN-OFF-03', code: 'SEN-OFF-03', name: 'Poem Malayalam', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 68, maxMarks: 100 },
-  { id: 'PRG-SEN-OFF-04', code: 'SEN-OFF-04', name: 'Poem Arabic', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 69, maxMarks: 100 },
-  { id: 'PRG-SEN-OFF-05', code: 'SEN-OFF-05', name: 'Translation English – Malayalam', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 70, maxMarks: 100 },
-  { id: 'PRG-SEN-OFF-06', code: 'SEN-OFF-06', name: 'Translation Arabic – Malayalam', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 71, maxMarks: 100 },
-  { id: 'PRG-SEN-OFF-07', code: 'SEN-OFF-07', name: 'Slogan Writing Malayalam', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 72, maxMarks: 100 },
-
-  // GENERAL PROGRAMMES – TEAM BASED (11 Items) - Page 9
-  { id: 'PRG-GEN-01', code: 'GEN-01', name: 'Spot Magazine', classification: 'General', category: 'General', type: 'Team', requiredMembers: 5, source: 'Official Festival Charter', status: 'Available', order: 73, maxMarks: 100 },
-  { id: 'PRG-GEN-02', code: 'GEN-02', name: 'Group Song', classification: 'General', category: 'General', type: 'Team', requiredMembers: 4, source: 'Official Festival Charter', status: 'Available', order: 74, maxMarks: 100 },
-  { id: 'PRG-GEN-03', code: 'GEN-03', name: 'Nasheeda', classification: 'General', category: 'General', type: 'Team', requiredMembers: 5, source: 'Official Festival Charter', status: 'Available', order: 75, maxMarks: 100 },
-  { id: 'PRG-GEN-04', code: 'GEN-04', name: 'Moulid Parayanam', classification: 'General', category: 'General', type: 'Team', requiredMembers: 4, source: 'Official Festival Charter', status: 'Available', order: 76, maxMarks: 100 },
-  { id: 'PRG-GEN-05', code: 'GEN-05', name: 'Qaseeda Parayanam', classification: 'General', category: 'General', type: 'Team', requiredMembers: 4, source: 'Official Festival Charter', status: 'Available', order: 77, maxMarks: 100 },
-  { id: 'PRG-GEN-06', code: 'GEN-06', name: 'Qawwali', classification: 'General', category: 'General', type: 'Team', requiredMembers: 5, source: 'Official Festival Charter', status: 'Available', order: 78, maxMarks: 100 },
-  { id: 'PRG-GEN-07', code: 'GEN-07', name: 'Mappilapattu Rachana', classification: 'General', category: 'General', type: 'Team', requiredMembers: 3, source: 'Official Festival Charter', status: 'Available', order: 79, maxMarks: 100 },
-  { id: 'PRG-GEN-08', code: 'GEN-08', name: "Musha'ara", classification: 'General', category: 'General', type: 'Team', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 80, maxMarks: 100 },
-  { id: 'PRG-GEN-09', code: 'GEN-09', name: 'Malappattu', classification: 'General', category: 'General', type: 'Team', requiredMembers: 4, source: 'Official Festival Charter', status: 'Available', order: 81, maxMarks: 100 },
-  { id: 'PRG-GEN-10', code: 'GEN-10', name: 'Vayal', classification: 'General', category: 'General', type: 'Team', requiredMembers: 3, source: 'Official Festival Charter', status: 'Available', order: 82, maxMarks: 100 },
-  { id: 'PRG-GEN-11', code: 'GEN-11', name: 'Ideal Speech', classification: 'General', category: 'General', type: 'Team', requiredMembers: null, source: 'Official Festival Charter', status: 'Available', order: 83, maxMarks: 100 }
+export const OFFICIAL_JUDGING_GUIDELINES = [
+  {
+    id: 'RULE-ELOCUTION',
+    programmePattern: 'Elocution',
+    categories: ['Sub Junior', 'Junior', 'Senior'],
+    timeLimit: '5 minutes',
+    summary: 'Time limit 5 minutes. Sub Junior & Junior participants select from pre-announced topics. Senior draws topic 5 minutes before speech.',
+    malayalamRule: 'സമയപരിധി 5 മിനിറ്റ്. സബ് ജൂനിയർ, ജൂനിയർ വിഭാഗങ്ങൾ മുൻകൂട്ടി നൽകിയ വിഷയങ്ങളിൽ നിന്ന് തിരഞ്ഞെടുക്കാം. സീനിയർ വിഭാഗത്തിന് 5 മിനിറ്റ് മുമ്പ് നറുക്കെടുപ്പിലൂടെ വിഷയം നൽകും.',
+    criteria: ['Content & Clarity (35)', 'Language & Diction (25)', 'Delivery & Confidence (25)', 'Time & Overall Impact (15)']
+  },
+  {
+    id: 'RULE-EXTEMPORE',
+    programmePattern: 'Extempore',
+    categories: ['Senior'],
+    timeLimit: '5 minutes',
+    summary: 'Senior Stage Malayalam Extempore: 5 minutes speaking duration; topic provided 5 minutes prior to performance.',
+    malayalamRule: 'വിഷയം 5 മിനിറ്റ് മുമ്പ് നൽകുന്നു. പ്രസംഗ സമയപരിധി 5 മിനിറ്റ്.',
+    criteria: ['Spontaneity & Structure (35)', 'Content Relevance (30)', 'Fluency & Vocabulary (20)', 'Stage Presence (15)']
+  },
+  {
+    id: 'RULE-IBARATH',
+    programmePattern: 'Ibarath Reading',
+    categories: ['Junior'],
+    timeLimit: 'Per stage call',
+    summary: 'Judged on grammatical accuracy (Irab), reading speed, clarity of pronunciation, and natural fluency.',
+    malayalamRule: 'കൃത്യത (Accuracy), വേഗത (Speed), വ്യക്തത (Clarity), ഒഴുക്ക് (Fluency) എന്നിവ അടിസ്ഥാനമാക്കിയാണ് മൂല്യനിർണ്ണയം.',
+    criteria: ['Accuracy / കൃത്യത (35)', 'Clarity / വ്യക്തത (25)', 'Fluency / ഒഴുക്ക് (25)', 'Speed / വേഗത (15)']
+  },
+  {
+    id: 'RULE-QUIZ',
+    programmePattern: 'Quiz',
+    categories: ['Sub Junior', 'Junior', 'Senior'],
+    timeLimit: 'Session rounds',
+    summary: 'Covers Current Affairs, General Knowledge, Mental Ability, Science, and Islamic Studies.',
+    malayalamRule: 'ആനുകാലികം (Current Affairs), പൊതുവിജ്ഞാനം (GK), മാനസിക ശേഷി (Mental Ability), ശാസ്ത്രം (Science), ഇസ്‌ലാം.',
+    criteria: ['Correct Answers (100)']
+  },
+  {
+    id: 'RULE-CAPTION',
+    programmePattern: 'Caption Writing',
+    categories: ['Junior'],
+    timeLimit: 'Session duration',
+    summary: 'Strict word limit of maximum 5 words. Creative relevance to provided visual prompt.',
+    malayalamRule: 'പരമാവധി 5 വാക്കുകളിൽ കവിയരുത്.',
+    criteria: ['Creativity & Wit (40)', 'Prompt Relevance (35)', 'Brevity <= 5 Words (25)']
+  },
+  {
+    id: 'RULE-TALK-MASTER',
+    programmePattern: 'Talk Master Arabic',
+    categories: ['General'],
+    timeLimit: 'Per stage call',
+    summary: '2 members per team entry; maximum 2 teams/entries per house.',
+    malayalamRule: 'ഒരു ടീമിൽ 2 അംഗങ്ങൾ. ഒരു ഗ്രൂപ്പിന് പരമാവധി 2 ടീമുകളെ പങ്കെടുപ്പിക്കാം.',
+    criteria: ['Arabic Fluency & Accent (35)', 'Dialogue Engagement (30)', 'Vocabulary & Grammar (20)', 'Confidence (15)']
+  },
+  {
+    id: 'RULE-GROUP-SONG',
+    programmePattern: 'Group Song',
+    categories: ['General'],
+    timeLimit: 'Per stage call',
+    summary: '4 members including Daff accompaniment; Madh song theme; maximum 2 entries per house.',
+    malayalamRule: 'ദഫ് ഉൾപ്പെടെ 4 അംഗങ്ങൾ. മദ്ഹ് ഗാനം ആയിരിക്കണം. ഒരു ടീമിന് പരമാവധി 2 എൻട്രികൾ.',
+    criteria: ['Vocal Harmony & Melody (35)', 'Rhythm & Daff Coordination (25)', 'Madh Lyric Theme & Tala (25)', 'Stage Synchrony (15)']
+  },
+  {
+    id: 'RULE-MAPPILAPATTU-RACHANA',
+    programmePattern: 'Mappilapattu Rachana',
+    categories: ['General'],
+    timeLimit: 'Session duration',
+    summary: '3 members per team entry; evaluated on classical meter (Vritham), rhyme (Prasam), and traditional Ishal fidelity.',
+    malayalamRule: '3 അംഗങ്ങൾ. വൃത്തം, പ്രാസം, ഇശൽ എന്നിവയുടെ കൃത്യത പരിശോധിക്കുന്നു.',
+    criteria: ['Ishal & Prosody / ഇശൽ & വൃത്തം (40)', 'Poetic Rhyme / പ്രാസം & ഭാവന (35)', 'Theme & Literary Quality (25)']
+  },
+  {
+    id: 'RULE-COLLAGE',
+    programmePattern: 'Collage',
+    categories: ['General'],
+    timeLimit: 'Live session',
+    summary: '4 members per entry; A3 live design on topic given 1 week prior. Drawing, painting, writing, photos & newspaper cuttings allowed; A3 sheet provided by committee. Max 2 entries per team.',
+    malayalamRule: '4 അംഗങ്ങൾ. ഒരാഴ്ച മുമ്പ് നൽകുന്ന വിഷയത്തിൽ A3 പേപ്പറിൽ തത്സമയ നിർമ്മാണം (പേപ്പർ കമ്മിറ്റി നൽകും). ചിത്രരചന, പെയിന്റിംഗ്, എഴുത്ത്, ഫോട്ടോ, പത്രക്കട്ടിംഗ് അനുവദനീയമാണ്.',
+    criteria: ['Visual Composition & Creativity (35)', 'Topic Relevance (30)', 'Craftsmanship & Technique (20)', 'Overall Impact (15)']
+  },
+  {
+    id: 'RULE-QAWWALI',
+    programmePattern: 'Qawwali',
+    categories: ['General'],
+    timeLimit: 'Per stage call',
+    summary: '5 members including Daff; any language permitted; strict scrutiny of doctrinal / ideological appropriateness.',
+    malayalamRule: 'ദഫ് ഉൾപ്പെടെ 5 അംഗങ്ങൾ. ഏത് ഭാഷയിലും ആകാം; ആശയപരമായ ശുദ്ധി പ്രത്യേകം ശ്രദ്ധിക്കണം.',
+    criteria: ['Ideological Appropriateness & Lyrics (35)', 'Vocal Power & Qawwali Style (30)', 'Harmony & Daff (20)', 'Presentation (15)']
+  }
 ];
 
-// Helper to convert charter programmes into configured Competition Assignment schema
+function getDefaultCriteria(name, classification) {
+  const n = String(name || '').toLowerCase();
+  if (n.includes('quiz') || n.includes('book test') || n.includes('swarf') || n.includes('imla') || n.includes('maths') || n.includes('memory') || n.includes('spelling')) {
+    return [
+      { id: 'c1', name: 'Accuracy & Correct Answers', maxMarks: 70 },
+      { id: 'c2', name: 'Speed & Tie-Break Mastery', maxMarks: 30 }
+    ];
+  }
+  if (n.includes('ibarath')) {
+    return [
+      { id: 'c1', name: 'Accuracy / കൃത്യത (Irab & Grammar)', maxMarks: 35 },
+      { id: 'c2', name: 'Clarity / വ്യക്തത', maxMarks: 25 },
+      { id: 'c3', name: 'Fluency / ഒഴുക്ക്', maxMarks: 25 },
+      { id: 'c4', name: 'Speed / വേഗത', maxMarks: 15 }
+    ];
+  }
+  if (n.includes('elocution') || n.includes('extempore') || n.includes('khutba') || n.includes('ideal speech') || n.includes('thadrees')) {
+    return [
+      { id: 'c1', name: 'Content & Depth / പ്രമേയം', maxMarks: 35 },
+      { id: 'c2', name: 'Language & Diction / ഭാഷാശുദ്ധി', maxMarks: 25 },
+      { id: 'c3', name: 'Delivery & Stage Presence / അവതരണം', maxMarks: 25 },
+      { id: 'c4', name: 'Overall Impact & Time Discipline', maxMarks: 15 }
+    ];
+  }
+  if (classification === 'General') {
+    return [
+      { id: 'c1', name: 'Content, Theme & Authenticity', maxMarks: 35 },
+      { id: 'c2', name: 'Team Synchrony & Execution', maxMarks: 35 },
+      { id: 'c3', name: 'Creativity & Overall Presentation', maxMarks: 30 }
+    ];
+  }
+  return [
+    { id: 'c1', name: 'Content & Expression / തനിമ & പ്രമേയം', maxMarks: 40 },
+    { id: 'c2', name: 'Style & Pronunciation / ശൈലി & ഉച്ചാരണം', maxMarks: 30 },
+    { id: 'c3', name: 'Accuracy & Technique / കൃത്യത', maxMarks: 20 },
+    { id: 'c4', name: 'Overall Impression / സവിശേഷ പ്രകടനം', maxMarks: 10 }
+  ];
+}
+
+function getMatchingGuideline(name) {
+  const n = String(name || '').toLowerCase();
+  const hit = OFFICIAL_JUDGING_GUIDELINES.find(g => n.includes(g.programmePattern.toLowerCase()));
+  return hit ? hit.summary : 'Evaluate strictly per official DALENZIA 2K26 Festival Charter criteria (Max 100 marks).';
+}
+
+const rawCharterDefinitions = [
+  // SUB JUNIOR — STAGE (10 Items) — Charter Page 5
+  { id: 'PRG-SUB-STG-01', code: 'SUB-STG-01', itemNo: '01', name: 'Tarteel', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 1 },
+  { id: 'PRG-SUB-STG-02', code: 'SUB-STG-02', itemNo: '02', name: 'Elocution Malayalam', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, timeLimitMinutes: 5, order: 2 },
+  { id: 'PRG-SUB-STG-03', code: 'SUB-STG-03', itemNo: '03', name: 'Madh Song', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 3 },
+  { id: 'PRG-SUB-STG-04', code: 'SUB-STG-04', itemNo: '04', name: 'Quiz', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 4 },
+  { id: 'PRG-SUB-STG-05', code: 'SUB-STG-05', itemNo: '05', name: 'Swarf Test', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 5 },
+  { id: 'PRG-SUB-STG-06', code: 'SUB-STG-06', itemNo: '06', name: 'News Reading', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 6 },
+  { id: 'PRG-SUB-STG-07', code: 'SUB-STG-07', itemNo: '07', name: 'Word Game Arabic', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 7 },
+  { id: 'PRG-SUB-STG-08', code: 'SUB-STG-08', itemNo: '08', name: 'Story Telling Malayalam', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 8 },
+  { id: 'PRG-SUB-STG-09', code: 'SUB-STG-09', itemNo: '09', name: 'Mappila Pattu', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 9 },
+  { id: 'PRG-SUB-STG-10', code: 'SUB-STG-10', itemNo: '10', name: 'Adhan', classification: 'Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 10 },
+
+  // SUB JUNIOR — OFF STAGE (9 Items) — Charter Page 5
+  { id: 'PRG-SUB-OFF-01', code: 'SUB-OFF-01', itemNo: '01', name: 'Essay Malayalam', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 11 },
+  { id: 'PRG-SUB-OFF-02', code: 'SUB-OFF-02', itemNo: '02', name: 'Story Malayalam', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 12 },
+  { id: 'PRG-SUB-OFF-03', code: 'SUB-OFF-03', itemNo: '03', name: 'Book Test', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 13 },
+  { id: 'PRG-SUB-OFF-04', code: 'SUB-OFF-04', itemNo: '04', name: 'Water Colouring', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 14 },
+  { id: 'PRG-SUB-OFF-05', code: 'SUB-OFF-05', itemNo: '05', name: 'Pencil Drawing', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 15 },
+  { id: 'PRG-SUB-OFF-06', code: 'SUB-OFF-06', itemNo: '06', name: 'Handwriting English', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 16 },
+  { id: 'PRG-SUB-OFF-07', code: 'SUB-OFF-07', itemNo: '07', name: 'Handwriting Arabic', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 17 },
+  { id: 'PRG-SUB-OFF-08', code: 'SUB-OFF-08', itemNo: '08', name: 'Memory Test', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 18 },
+  { id: 'PRG-SUB-OFF-09', code: 'SUB-OFF-09', itemNo: '09', name: 'Spelling Bee', classification: 'Off Stage', category: 'Sub Junior', type: 'Individual', requiredMembers: null, order: 19 },
+
+  // JUNIOR — STAGE (11 Items) — Charter Page 6
+  { id: 'PRG-JUN-STG-01', code: 'JUN-STG-01', itemNo: '01', name: 'Tarteel', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 20 },
+  { id: 'PRG-JUN-STG-02', code: 'JUN-STG-02', itemNo: '02', name: 'Elocution Malayalam', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, timeLimitMinutes: 5, order: 21 },
+  { id: 'PRG-JUN-STG-03', code: 'JUN-STG-03', itemNo: '03', name: 'Elocution English', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, timeLimitMinutes: 5, order: 22 },
+  { id: 'PRG-JUN-STG-04', code: 'JUN-STG-04', itemNo: '04', name: 'Elocution Arabic', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, timeLimitMinutes: 5, order: 23 },
+  { id: 'PRG-JUN-STG-05', code: 'JUN-STG-05', itemNo: '05', name: 'Madh Song', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 24 },
+  { id: 'PRG-JUN-STG-06', code: 'JUN-STG-06', itemNo: '06', name: 'Quiz', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 25 },
+  { id: 'PRG-JUN-STG-07', code: 'JUN-STG-07', itemNo: '07', name: 'Swarf Test', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 26 },
+  { id: 'PRG-JUN-STG-08', code: 'JUN-STG-08', itemNo: '08', name: 'Mappila Pattu', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 27 },
+  { id: 'PRG-JUN-STG-09', code: 'JUN-STG-09', itemNo: '09', name: 'Ibarath Reading', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 28 },
+  { id: 'PRG-JUN-STG-10', code: 'JUN-STG-10', itemNo: '10', name: 'Poem Recitation (Arabic)', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 29 },
+  { id: 'PRG-JUN-STG-11', code: 'JUN-STG-11', itemNo: '11', name: 'Imla', classification: 'Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 30 },
+
+  // JUNIOR — OFF STAGE (12 Items) — Charter Page 6
+  { id: 'PRG-JUN-OFF-01', code: 'JUN-OFF-01', itemNo: '01', name: 'Essay Malayalam', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 31 },
+  { id: 'PRG-JUN-OFF-02', code: 'JUN-OFF-02', itemNo: '02', name: 'Poem Malayalam', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 32 },
+  { id: 'PRG-JUN-OFF-03', code: 'JUN-OFF-03', itemNo: '03', name: 'Water Colouring', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 33 },
+  { id: 'PRG-JUN-OFF-04', code: 'JUN-OFF-04', itemNo: '04', name: 'Pencil Drawing', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 34 },
+  { id: 'PRG-JUN-OFF-05', code: 'JUN-OFF-05', itemNo: '05', name: 'Handwriting Arabic', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 35 },
+  { id: 'PRG-JUN-OFF-06', code: 'JUN-OFF-06', itemNo: '06', name: 'Book Test', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 36 },
+  { id: 'PRG-JUN-OFF-07', code: 'JUN-OFF-07', itemNo: '07', name: 'Caption Writing', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 37 },
+  { id: 'PRG-JUN-OFF-08', code: 'JUN-OFF-08', itemNo: '08', name: 'Maths Relay', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 38 },
+  { id: 'PRG-JUN-OFF-09', code: 'JUN-OFF-09', itemNo: '09', name: 'Essay Arabic', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 39 },
+  { id: 'PRG-JUN-OFF-10', code: 'JUN-OFF-10', itemNo: '10', name: 'Essay English', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 40 },
+  { id: 'PRG-JUN-OFF-11', code: 'JUN-OFF-11', itemNo: '11', name: 'Spelling Bee', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 41 },
+  { id: 'PRG-JUN-OFF-12', code: 'JUN-OFF-12', itemNo: '12', name: 'Word Game Arabic', classification: 'Off Stage', category: 'Junior', type: 'Individual', requiredMembers: null, order: 42 },
+
+  // SENIOR — STAGE (11 Items) — Charter Page 7
+  { id: 'PRG-SEN-STG-01', code: 'SEN-STG-01', itemNo: '01', name: 'Tarteel', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 43 },
+  { id: 'PRG-SEN-STG-02', code: 'SEN-STG-02', itemNo: '02', name: 'Elocution Malayalam', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, timeLimitMinutes: 5, order: 44 },
+  { id: 'PRG-SEN-STG-03', code: 'SEN-STG-03', itemNo: '03', name: 'Elocution English', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, timeLimitMinutes: 5, order: 45 },
+  { id: 'PRG-SEN-STG-04', code: 'SEN-STG-04', itemNo: '04', name: 'Elocution Arabic', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, timeLimitMinutes: 5, order: 46 },
+  { id: 'PRG-SEN-STG-05', code: 'SEN-STG-05', itemNo: '05', name: "Musha'ara Alfiya", classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 47 },
+  { id: 'PRG-SEN-STG-06', code: 'SEN-STG-06', itemNo: '06', name: 'Madh Song', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 48 },
+  { id: 'PRG-SEN-STG-07', code: 'SEN-STG-07', itemNo: '07', name: 'Dua Recitation', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 49 },
+  { id: 'PRG-SEN-STG-08', code: 'SEN-STG-08', itemNo: '08', name: 'Quiz', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 50 },
+  { id: 'PRG-SEN-STG-09', code: 'SEN-STG-09', itemNo: '09', name: 'Thadrees', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 51 },
+  { id: 'PRG-SEN-STG-10', code: 'SEN-STG-10', itemNo: '10', name: 'Extempore Malayalam', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, timeLimitMinutes: 5, order: 52 },
+  { id: 'PRG-SEN-STG-11', code: 'SEN-STG-11', itemNo: '11', name: 'Devotional Song (ഭക്തിഗാനം)', classification: 'Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 53 },
+
+  // SENIOR — OFF STAGE (10 Items) — Charter Page 7
+  { id: 'PRG-SEN-OFF-01', code: 'SEN-OFF-01', itemNo: '01', name: 'Essay Malayalam', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 54 },
+  { id: 'PRG-SEN-OFF-02', code: 'SEN-OFF-02', itemNo: '02', name: 'Essay Arabic', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 55 },
+  { id: 'PRG-SEN-OFF-03', code: 'SEN-OFF-03', itemNo: '03', name: 'Poem Malayalam', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 56 },
+  { id: 'PRG-SEN-OFF-04', code: 'SEN-OFF-04', itemNo: '04', name: 'Poem Arabic', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 57 },
+  { id: 'PRG-SEN-OFF-05', code: 'SEN-OFF-05', itemNo: '05', name: 'Translation English – Malayalam', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 58 },
+  { id: 'PRG-SEN-OFF-06', code: 'SEN-OFF-06', itemNo: '06', name: 'Translation Arabic – Malayalam', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 59 },
+  { id: 'PRG-SEN-OFF-07', code: 'SEN-OFF-07', itemNo: '07', name: 'Slogan Writing Malayalam', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 60 },
+  { id: 'PRG-SEN-OFF-08', code: 'SEN-OFF-08', itemNo: '08', name: 'Essay English', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 61 },
+  { id: 'PRG-SEN-OFF-09', code: 'SEN-OFF-09', itemNo: '09', name: 'Calligraphy Arabic', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 62 },
+  { id: 'PRG-SEN-OFF-10', code: 'SEN-OFF-10', itemNo: '10', name: 'Pencil Drawing', classification: 'Off Stage', category: 'Senior', type: 'Individual', requiredMembers: null, order: 63 },
+
+  // GENERAL PROGRAMMES (14 Items, Group/Team) — Charter Page 8 & General Tick Chart
+  { id: 'PRG-GEN-01', code: 'GEN-01', itemNo: '01', name: 'Spot Magazine', classification: 'General', category: 'General', type: 'Group', requiredMembers: 5, order: 64 },
+  { id: 'PRG-GEN-02', code: 'GEN-02', itemNo: '02', name: 'Group Song', classification: 'General', category: 'General', type: 'Group', requiredMembers: 4, order: 65 },
+  { id: 'PRG-GEN-03', code: 'GEN-03', itemNo: '03', name: 'Nasheeda', classification: 'General', category: 'General', type: 'Group', requiredMembers: 4, order: 66 },
+  { id: 'PRG-GEN-04', code: 'GEN-04', itemNo: '04', name: 'Moulid Parayanam', classification: 'General', category: 'General', type: 'Group', requiredMembers: 4, order: 67 },
+  { id: 'PRG-GEN-05', code: 'GEN-05', itemNo: '05', name: 'Qaseeda Parayanam', classification: 'General', category: 'General', type: 'Group', requiredMembers: 4, order: 68 },
+  { id: 'PRG-GEN-06', code: 'GEN-06', itemNo: '06', name: 'Qawwali', classification: 'General', category: 'General', type: 'Group', requiredMembers: 5, order: 69 },
+  { id: 'PRG-GEN-07', code: 'GEN-07', itemNo: '07', name: 'Mappilapattu Rachana', classification: 'General', category: 'General', type: 'Group', requiredMembers: 3, order: 70 },
+  { id: 'PRG-GEN-08', code: 'GEN-08', itemNo: '08', name: "Musha'ara", classification: 'General', category: 'General', type: 'Group', requiredMembers: 4, order: 71 },
+  { id: 'PRG-GEN-09', code: 'GEN-09', itemNo: '09', name: 'Malappattu', classification: 'General', category: 'General', type: 'Group', requiredMembers: 4, order: 72 },
+  { id: 'PRG-GEN-10', code: 'GEN-10', itemNo: '10', name: 'Vayal', classification: 'General', category: 'General', type: 'Group', requiredMembers: 3, order: 73 },
+  { id: 'PRG-GEN-11', code: 'GEN-11', itemNo: '11', name: 'Ideal Speech', classification: 'General', category: 'General', type: 'Group', requiredMembers: 3, order: 74 },
+  { id: 'PRG-GEN-12', code: 'GEN-12', itemNo: '12', name: 'Collage', classification: 'General', category: 'General', type: 'Group', requiredMembers: 4, order: 75 },
+  { id: 'PRG-GEN-13', code: 'GEN-13', itemNo: '13', name: 'Khutba', classification: 'General', category: 'General', type: 'Group', requiredMembers: 3, order: 76 },
+  { id: 'PRG-GEN-14', code: 'GEN-14', itemNo: '14', name: 'Talk Master Arabic', classification: 'General', category: 'General', type: 'Group', requiredMembers: 2, order: 77 }
+];
+
+export const OFFICIAL_CHARTER_PROGRAMMES = rawCharterDefinitions.map(p => ({
+  ...p,
+  source: 'Official Festival Charter 2K26 (12-Page Updated)',
+  status: 'Available',
+  maxMarks: 100,
+  maxEntriesPerTeam: p.type === 'Group' ? 2 : 3,
+  chartPage: p.classification === 'General' ? 2 : 1,
+  judgingGuideline: getMatchingGuideline(p.name),
+  evaluationCriteria: getDefaultCriteria(p.name, p.classification)
+}));
+
+// Factory to convert the 77 Charter Programmes into live manageable Competition Assignments on demand
 export function createDefaultProgrammeAssignments() {
   return OFFICIAL_CHARTER_PROGRAMMES.map((p, idx) => {
-    const isStage = p.classification === 'Stage';
-    const stageId = isStage ? (idx % 2 === 0 ? 'STG-01' : 'STG-02') : 'OFF-STAGE';
-    const stageName = isStage ? (idx % 2 === 0 ? 'Cordova Grand Stage (Stage 01)' : 'Al-Farabi Heritage Hall (Stage 02)') : 'Academic Halls / Off Stage';
-    const day = (idx % 3) + 21; // 21, 22, 23 Dec 2026
+    const isGeneral = p.classification === 'General';
+    const isOffStage = p.classification === 'Off Stage';
+    const stageId = isGeneral ? 'STG-01' : (isOffStage ? 'STG-03' : (idx % 2 === 0 ? 'STG-01' : 'STG-02'));
+    const stageName = isGeneral
+      ? 'Cordova Grand Stage (Stage 01)'
+      : (isOffStage ? 'Ibn Khaldun Academic Hall (Stage 03)' : (idx % 2 === 0 ? 'Cordova Grand Stage (Stage 01)' : 'Al-Farabi Heritage Hall (Stage 02)'));
 
-    const defaultCriteria = [
-      { id: 'c1', name: 'Content & Expression / തനിമ & പ്രമേയം', maxMarks: 40 },
-      { id: 'c2', name: 'Presentation & Pronunciation / ശൈലി & ഉച്ചാരണം', maxMarks: 30 },
-      { id: 'c3', name: 'Accuracy & Grammar / കൃത്യത & വ്യാകരണം', maxMarks: 20 },
-      { id: 'c4', name: 'Overall Impression / സവിശേഷ പ്രകടനം', maxMarks: 10 }
-    ];
+    const criteria = p.evaluationCriteria || getDefaultCriteria(p.name, p.classification);
 
     return {
       id: p.id,
       competitionId: p.id,
       competitionCode: p.code,
       code: p.code,
+      itemNo: p.itemNo,
       title: p.name,
       competitionTitle: p.name,
       name: p.name,
       category: p.category,
-      categoryCode: p.category.toUpperCase().slice(0, 3),
+      categoryCode: p.category === 'Sub Junior' ? 'SUB' : p.category === 'Junior' ? 'JUN' : p.category === 'Senior' ? 'SEN' : 'GEN',
       classification: p.classification,
       format: p.classification,
       type: p.type,
       requiredMembers: p.requiredMembers,
       source: p.source,
       order: p.order,
-      stageId: stageId,
+      stageId,
       stage: stageName,
       venue: stageName,
-      date: `2026-12-${day}`,
-      time: '10:00 AM',
-      startTime: '10:00 AM',
-      endTime: '12:00 PM',
+      date: idx < 26 ? '2026-12-21' : idx < 52 ? '2026-12-22' : '2026-12-23',
+      time: isGeneral ? '02:00 PM' : '10:00 AM',
+      startTime: isGeneral ? '02:00 PM' : '10:00 AM',
+      endTime: isGeneral ? '04:30 PM' : '12:00 PM',
       duration: '45 mins',
       status: 'Scheduled',
       isOfficialCharter: true,
-      maxParticipants: p.type === 'Team' || p.type === 'Group' ? 16 : 24,
-      maxEntriesPerTeam: p.type === 'Team' || p.type === 'Group' ? 2 : 3,
+      maxParticipants: p.type === 'Group' ? 10 : 24,
+      maxEntriesPerTeam: p.type === 'Group' ? 2 : 3,
       groupSize: p.requiredMembers ? `${p.requiredMembers} Members` : (p.type === 'Individual' ? '1 Student' : 'Team'),
       assignedJudgeIds: ['JDG-1001', 'JDG-001'],
       participants: [],
-      maxMarks: p.maxMarks || 100,
-      totalMaxMarks: p.maxMarks || 100,
-      criteria: defaultCriteria,
-      evaluationCriteria: defaultCriteria,
+      maxMarks: 100,
+      totalMaxMarks: 100,
+      criteria,
+      evaluationCriteria: criteria,
+      judgingGuideline: p.judgingGuideline,
       desc: `Official DALENZIA FEST 2K26 ${p.category} ${p.classification} event: ${p.name}.`,
       isPublished: false,
       publishedAt: null
@@ -355,7 +554,35 @@ export function createDefaultProgrammeAssignments() {
   });
 }
 
-// Exactly 7 Official Festival Events (Confirmed from Festival Charter)
+// Structured Two-Page Programme Chart Model A Metadata
+export const OFFICIAL_TWO_PAGE_PROGRAMME_CHART = {
+  page1: {
+    pageNumber: 1,
+    title: 'DALENZIA FEST 2K26 — OFFICIAL PROGRAMME CHART (PAGE 1: CATEGORY PROGRAMMES)',
+    subtitle: 'Updated 12-Page Festival Charter • Individual Stage & Off Stage Events (63 Items)',
+    categories: ['Sub Junior', 'Junior', 'Senior'],
+    rulesSummary: [
+      'Individual Position Points: 1st = 5 pts | 2nd = 3 pts | 3rd = 1 pt',
+      'Sub Junior (Class 5–9): Max 4 Stage + 5 Off Stage per student (19 items: 10 Stage, 9 Off Stage)',
+      'Junior (Class 10, +1): Max 5 Stage + 6 Off Stage per student (23 items: 11 Stage, 12 Off Stage)',
+      'Senior (+2, Degree): Max 5 Stage + 6 Off Stage per student (21 items: 11 Stage, 10 Off Stage)',
+      'Team Quota: Maximum 3 entries per team per Individual item'
+    ]
+  },
+  page2: {
+    pageNumber: 2,
+    title: 'DALENZIA FEST 2K26 — OFFICIAL PROGRAMME CHART (PAGE 2: GENERAL PROGRAMMES & RULES)',
+    subtitle: 'Open / Team General Items (14 Items) + Official Judging Guidelines',
+    categories: ['General'],
+    rulesSummary: [
+      'Group / General Position Points: 1st = 15 pts | 2nd = 10 pts | 3rd = 5 pts',
+      'General Quota: Maximum 2 entries per team per General programme',
+      'Grade Classification: A+, A, B, C (Mark thresholds & numeric grade points pending Admin confirmation)',
+      'Student Allocation: Team 1 Dazzlers (23 scholars) vs Team 2 Dynamos (23 scholars) = 46 scholars total'
+    ]
+  }
+};
+
 export const OFFICIAL_CONFIRMED_FESTIVAL_EVENTS = [
   // Day 01 – Dec 21, 2026
   {

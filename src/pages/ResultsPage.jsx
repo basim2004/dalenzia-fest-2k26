@@ -450,7 +450,7 @@ export default function ResultsPage({
                 2 Official Squads
               </span>
               <span className="text-stone-300">|</span>
-              <span>83 Official Programmes</span>
+              <span>77 Official Programmes</span>
               <span className="text-stone-300">|</span>
               <span className="font-serif text-[#A91F35] font-bold">
                 {resultsList.length > 0 ? `${resultsList.length} Results Published` : 'Official Results Center'}
@@ -655,10 +655,10 @@ export default function ResultsPage({
                     <div>
                       <div className="text-[10px] font-black text-[#A91F35] uppercase tracking-wider">Official Breakdown</div>
                       <h4 className="text-lg font-serif font-black text-stone-900 mt-0.5">
-                        Category Championship Standings (5 Official Categories)
+                        Category Championship Standings (4 Official Divisions)
                       </h4>
                     </div>
-                    <span className="text-xs text-stone-500 font-medium">83 Total Programmes</span>
+                    <span className="text-xs text-stone-500 font-medium">77 Total Programmes</span>
                   </div>
 
                   <div className="overflow-x-auto rounded-2xl border border-stone-200">

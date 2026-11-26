@@ -7,8 +7,10 @@ import {
   BookOpen, Mic, Palette, Film, HelpCircle, Music
 } from 'lucide-react';
 import { festivalStore } from '../data/festivalStore';
+import ProgrammeChartDualModal from '../../components/ProgrammeChartDualModal';
 
 export default function CompetitionsModule({ activeSection }) {
+  const [isTwoPageChartOpen, setIsTwoPageChartOpen] = useState(false);
   // Navigation tabs: 'overview' | 'directory' | 'registration' | 'judges' | 'reports'
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -28,7 +30,7 @@ export default function CompetitionsModule({ activeSection }) {
   const [judges, setJudges] = useState(() => festivalStore.getJudges());
   const [teams, setTeams] = useState(() => festivalStore.getTeams());
 
-  // Charter Master State (83 Official Definitions)
+  // Charter Master State (77 Official Definitions)
   const [charterProgrammes, setCharterProgrammes] = useState(() => festivalStore.getCharterProgrammes());
   const [charterStats, setCharterStats] = useState(() => festivalStore.getCharterStats());
   const [charterSearch, setCharterSearch] = useState('');
@@ -104,7 +106,6 @@ export default function CompetitionsModule({ activeSection }) {
 
   const categories = [
     'All Categories',
-    'Minor',
     'Sub Junior',
     'Junior',
     'Senior',
@@ -455,7 +456,7 @@ export default function CompetitionsModule({ activeSection }) {
         <div className="flex items-center gap-2 mt-8 pt-6 border-t border-white/10 overflow-x-auto no-scrollbar">
           {[
             { id: 'overview', label: 'Dashboard & Classification Metrics', icon: Trophy },
-            { id: 'charter', label: 'Charter Master List (83)', icon: BookOpen },
+            { id: 'charter', label: 'Programme Chart & Charter (77)', icon: BookOpen },
             { id: 'directory', label: `Competition Directory (${competitions.length})`, icon: Layers },
             { id: 'registration', label: 'Registration Monitoring', icon: UserCheck },
             { id: 'judges', label: 'Adjudicator & Rubric Sync', icon: Shield },
@@ -493,7 +494,7 @@ export default function CompetitionsModule({ activeSection }) {
               { label: 'Stage', value: stats.stageCount || 0, sub: 'Stage Programmes', icon: Mic, color: '#A91F35', bg: 'bg-rose-50 text-rose-700' },
               { label: 'Off Stage', value: stats.offStageCount || 0, sub: 'Off Stage Events', icon: BookOpen, color: '#047857', bg: 'bg-emerald-50 text-emerald-700' },
               { label: 'General', value: stats.generalCount || 0, sub: 'Team Competitions', icon: Sparkles, color: '#D97706', bg: 'bg-amber-50 text-amber-700' },
-              { label: 'Individual', value: stats.individualCount || 0, sub: 'Solo Events (3-2-1 pts)', icon: Users, color: '#2563EB', bg: 'bg-blue-50 text-blue-700' },
+              { label: 'Individual', value: stats.individualCount || 0, sub: 'Solo Events (5-3-1 pts)', icon: Users, color: '#2563EB', bg: 'bg-blue-50 text-blue-700' },
               { label: 'Active / Live', value: stats.activeCount || 0, sub: 'Ongoing Now', icon: Clock, color: '#EA580C', bg: 'bg-orange-50 text-orange-700' },
               { label: 'Published', value: stats.completedCount || 0, sub: 'Results Verified', icon: CheckCircle2, color: '#059669', bg: 'bg-teal-50 text-teal-700' },
               { label: 'Candidates', value: stats.totalParticipants || 0, sub: 'Enrolled Entries', icon: UserCheck, color: '#7C3AED', bg: 'bg-purple-50 text-purple-700' }
@@ -592,7 +593,7 @@ export default function CompetitionsModule({ activeSection }) {
       )}
 
       {/* ========================================================================= */}
-      {/* TAB: CHARTER MASTER PROGRAMMES (83 DEFINITIONS) */}
+      {/* TAB: CHARTER MASTER PROGRAMMES (77 DEFINITIONS) */}
       {/* ========================================================================= */}
       {activeTab === 'charter' && (
         <div className="space-y-6">
@@ -602,22 +603,29 @@ export default function CompetitionsModule({ activeSection }) {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#A91F35] text-white uppercase tracking-wider">
-                    Official Festival Charter
+                    Official Updated Charter
                   </span>
-                  <span className="text-xs text-stone-500 font-medium">Pages 5–9</span>
+                  <span className="text-xs text-stone-500 font-medium">Pages 5–8</span>
                 </div>
                 <h2 className="text-lg font-bold text-stone-900 mt-1 font-serif">
-                  Programme Master Definitions (83 Items)
+                  Programme Master Definitions (77 Items)
                 </h2>
                 <p className="text-xs text-stone-600 mt-0.5">
-                  Standardized festival programmes available to be activated into live competitions by authorized conveners and judges.
+                  Standardized festival programmes available to be activated into live competitions by Main Admin and Festival Convener.
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  onClick={() => setIsTwoPageChartOpen(true)}
+                  className="px-4 py-2 rounded-xl bg-[#E6A916] text-stone-950 text-xs font-black hover:bg-[#d69b0f] flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  Official Two-Page Chart (Model A / B)
+                </button>
                 <button
                   onClick={handleOpenAddModal}
-                  className="px-4 py-2 rounded-xl bg-[#A91F35] text-white text-xs font-bold hover:bg-[#851627] flex items-center gap-1.5 transition-all shadow-sm"
+                  className="px-4 py-2 rounded-xl bg-[#A91F35] text-white text-xs font-bold hover:bg-[#851627] flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   Custom Competition
@@ -636,8 +644,8 @@ export default function CompetitionsModule({ activeSection }) {
                 }`}
               >
                 <div className="text-[10px] uppercase font-bold text-stone-500 tracking-wider">All Definitions</div>
-                <div className="text-xl font-black text-stone-900 font-mono mt-1">83</div>
-                <div className="text-[10px] text-stone-500 mt-0.5">Complete Charter Master</div>
+                <div className="text-xl font-black text-stone-900 font-mono mt-1">77</div>
+                <div className="text-[10px] text-stone-500 mt-0.5">Updated Charter Master</div>
               </div>
 
               <div
@@ -651,8 +659,8 @@ export default function CompetitionsModule({ activeSection }) {
                 <div className="text-[10px] uppercase font-bold text-red-700 tracking-wider flex items-center gap-1">
                   <Mic className="w-3 h-3" /> Stage
                 </div>
-                <div className="text-xl font-black text-stone-900 font-mono mt-1">40</div>
-                <div className="text-[10px] text-stone-500 mt-0.5">Pages 5–8 (Minor: 9, Sub: 11, Jr: 10, Sr: 10)</div>
+                <div className="text-xl font-black text-stone-900 font-mono mt-1">32</div>
+                <div className="text-[10px] text-stone-500 mt-0.5">Pages 5–7 (Sub: 10, Jr: 11, Sr: 11)</div>
               </div>
 
               <div
@@ -666,8 +674,8 @@ export default function CompetitionsModule({ activeSection }) {
                 <div className="text-[10px] uppercase font-bold text-emerald-700 tracking-wider flex items-center gap-1">
                   <BookOpen className="w-3 h-3" /> Off Stage
                 </div>
-                <div className="text-xl font-black text-stone-900 font-mono mt-1">32</div>
-                <div className="text-[10px] text-stone-500 mt-0.5">Pages 5–8 (Minor: 9, Sub: 8, Jr: 8, Sr: 7)</div>
+                <div className="text-xl font-black text-stone-900 font-mono mt-1">31</div>
+                <div className="text-[10px] text-stone-500 mt-0.5">Pages 5–7 (Sub: 9, Jr: 12, Sr: 10)</div>
               </div>
 
               <div
@@ -681,8 +689,8 @@ export default function CompetitionsModule({ activeSection }) {
                 <div className="text-[10px] uppercase font-bold text-amber-800 tracking-wider flex items-center gap-1">
                   <Users className="w-3 h-3" /> General (Team)
                 </div>
-                <div className="text-xl font-black text-stone-900 font-mono mt-1">11</div>
-                <div className="text-[10px] text-stone-500 mt-0.5">Page 9 Team-Based Contests</div>
+                <div className="text-xl font-black text-stone-900 font-mono mt-1">14</div>
+                <div className="text-[10px] text-stone-500 mt-0.5">Page 8 Group / Team Items</div>
               </div>
             </div>
 
@@ -692,7 +700,7 @@ export default function CompetitionsModule({ activeSection }) {
                 <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
                 <input
                   type="text"
-                  placeholder="Search 83 Charter programmes by name, category, or code..."
+                  placeholder="Search 77 Charter programmes by name, category, or code..."
                   value={charterSearch}
                   onChange={(e) => setCharterSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs font-medium text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
@@ -705,12 +713,11 @@ export default function CompetitionsModule({ activeSection }) {
                   onChange={(e) => setCharterCatFilter(e.target.value)}
                   className="px-3 py-2 rounded-xl border border-stone-200 bg-stone-50 text-xs font-bold text-stone-700"
                 >
-                  <option value="all">All Categories (5)</option>
-                  <option value="Minor">Minor (18)</option>
+                  <option value="all">All Categories (4)</option>
                   <option value="Sub Junior">Sub Junior (19)</option>
-                  <option value="Junior">Junior (18)</option>
-                  <option value="Senior">Senior (17)</option>
-                  <option value="General">General (11)</option>
+                  <option value="Junior">Junior (23)</option>
+                  <option value="Senior">Senior (21)</option>
+                  <option value="General">General (14)</option>
                 </select>
                 {(charterSearch || charterClassFilter !== 'all' || charterCatFilter !== 'all') && (
                   <button
@@ -1338,7 +1345,7 @@ export default function CompetitionsModule({ activeSection }) {
                 <label className="block text-amber-900 mb-1 flex items-center justify-between">
                   <span className="font-bold flex items-center gap-1.5">
                     <BookOpen className="w-3.5 h-3.5 text-amber-800" />
-                    Load from Official Festival Charter (83 Master Items)
+                    Load from Official Festival Charter (77 Master Items)
                   </span>
                   <span className="text-[10px] text-amber-700 font-normal">Optional Preset</span>
                 </label>
@@ -1361,18 +1368,18 @@ export default function CompetitionsModule({ activeSection }) {
                   }}
                   className="w-full px-3 py-2 rounded-xl border border-amber-300 bg-white text-xs font-medium focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
                 >
-                  <option value="">-- Choose Official Programme Preset --</option>
-                  <optgroup label="Stage Programmes (40)">
+                  <option value="">-- Choose Official Programme Preset (77 Items) --</option>
+                  <optgroup label="Stage Programmes (32)">
                     {charterProgrammes.filter(p => p.classification === 'Stage').map(p => (
                       <option key={p.id} value={p.id}>[{p.category}] {p.name} ({p.code})</option>
                     ))}
                   </optgroup>
-                  <optgroup label="Off Stage Programmes (32)">
+                  <optgroup label="Off Stage Programmes (31)">
                     {charterProgrammes.filter(p => p.classification === 'Off Stage').map(p => (
                       <option key={p.id} value={p.id}>[{p.category}] {p.name} ({p.code})</option>
                     ))}
                   </optgroup>
-                  <optgroup label="General Programmes (11)">
+                  <optgroup label="General Programmes (14)">
                     {charterProgrammes.filter(p => p.classification === 'General').map(p => (
                       <option key={p.id} value={p.id}>[General] {p.name} ({p.code})</option>
                     ))}
@@ -1444,7 +1451,6 @@ export default function CompetitionsModule({ activeSection }) {
                       <option value="Senior">Senior</option>
                       <option value="Junior">Junior</option>
                       <option value="Sub Junior">Sub Junior</option>
-                      <option value="Minor">Minor</option>
                     </select>
                   )}
                 </div>
@@ -1454,7 +1460,7 @@ export default function CompetitionsModule({ activeSection }) {
                     <input
                       type="text"
                       disabled
-                      value="General Team (10-8-6 Pts)"
+                      value="General Team (15-10-5 Pts)"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-100 text-stone-600 text-xs font-bold"
                     />
                   ) : (
@@ -1463,8 +1469,8 @@ export default function CompetitionsModule({ activeSection }) {
                       onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
                     >
-                      <option value="Individual">Individual (3-2-1 Pts)</option>
-                      <option value="Group">Group / Team (10-8-6 Pts)</option>
+                      <option value="Individual">Individual (5-3-1 Pts)</option>
+                      <option value="Group">Group / Team (15-10-5 Pts)</option>
                     </select>
                   )}
                 </div>
@@ -1632,7 +1638,6 @@ export default function CompetitionsModule({ activeSection }) {
                       <option value="Senior">Senior</option>
                       <option value="Junior">Junior</option>
                       <option value="Sub Junior">Sub Junior</option>
-                      <option value="Minor">Minor</option>
                     </select>
                   )}
                 </div>
@@ -1642,7 +1647,7 @@ export default function CompetitionsModule({ activeSection }) {
                     <input
                       type="text"
                       disabled
-                      value="General Team (10-8-6 Pts)"
+                      value="General Team (15-10-5 Pts)"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-100 text-stone-600 text-xs font-bold"
                     />
                   ) : (
@@ -1651,8 +1656,8 @@ export default function CompetitionsModule({ activeSection }) {
                       onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs font-bold focus:ring-2 focus:ring-[#A91F35]/20 focus:border-[#A91F35]"
                     >
-                      <option value="Individual">Individual (3-2-1 Pts)</option>
-                      <option value="Group">Group / Team (10-8-6 Pts)</option>
+                      <option value="Individual">Individual (5-3-1 Pts)</option>
+                      <option value="Group">Group / Team (15-10-5 Pts)</option>
                     </select>
                   )}
                 </div>
@@ -2211,6 +2216,21 @@ export default function CompetitionsModule({ activeSection }) {
           </div>
         </div>
       )}
+
+      <ProgrammeChartDualModal
+        isOpen={isTwoPageChartOpen}
+        onClose={() => setIsTwoPageChartOpen(false)}
+        canConfigure={true}
+        onConfigureProgramme={(prog) => {
+          const res = festivalStore.activateCharterProgramme(prog.id);
+          if (res?.success) {
+            refreshData();
+            setIsTwoPageChartOpen(false);
+          } else if (res?.error) {
+            alert(res.error);
+          }
+        }}
+      />
     </div>
   );
 }

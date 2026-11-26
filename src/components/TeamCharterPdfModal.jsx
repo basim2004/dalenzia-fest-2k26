@@ -44,7 +44,6 @@ export default function TeamCharterPdfModal({ isOpen, onClose, highlightTeamId =
         return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'Sub Junior':
         return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-      case 'Minor':
       default:
         return 'bg-amber-100 text-amber-800 border-amber-200';
     }
@@ -198,7 +197,7 @@ export default function TeamCharterPdfModal({ isOpen, onClose, highlightTeamId =
                             member.classCategory
                           )}`}
                         >
-                          {member.classCategory || 'Minor'}
+                          {member.classCategory || 'Sub Junior'}
                         </span>
                       </div>
                     ))
@@ -271,7 +270,7 @@ export default function TeamCharterPdfModal({ isOpen, onClose, highlightTeamId =
                             member.classCategory
                           )}`}
                         >
-                          {member.classCategory || 'Minor'}
+                          {member.classCategory || 'Sub Junior'}
                         </span>
                       </div>
                     ))

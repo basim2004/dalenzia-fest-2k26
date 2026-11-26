@@ -429,7 +429,9 @@ export default function ScoringCalculatorModule({ activeSection }) {
 
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-3 py-1.5 rounded-xl bg-purple-50 text-purple-800 text-xs font-bold border border-purple-200">
-                {selectedComp?.type === 'Group' ? 'Group Event (45 - 30 - 15)' : 'Individual Event (30 - 20 - 10)'}
+                {(selectedComp?.type === 'Group' || selectedComp?.type === 'General' || selectedComp?.category === 'General')
+                  ? `Group / General Event (${scoringConfig?.positionPoints?.group?.first ?? 15} - ${scoringConfig?.positionPoints?.group?.second ?? 10} - ${scoringConfig?.positionPoints?.group?.third ?? 5} Pts)`
+                  : `Individual Event (${scoringConfig?.positionPoints?.individual?.first ?? 5} - ${scoringConfig?.positionPoints?.individual?.second ?? 3} - ${scoringConfig?.positionPoints?.individual?.third ?? 1} Pts)`}
               </span>
             </div>
           </div>
@@ -657,6 +659,118 @@ export default function ScoringCalculatorModule({ activeSection }) {
       {/* ========================================================================= */}
       {activeTab === 'verification' && (
         <div className="bg-white rounded-3xl border border-stone-200/80 shadow-sm p-6 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-stone-100">
+            <div>
+              <h2 className="text-lg font-bold text-stone-900">Result Verification & Approval Desk</h2>
+              <p className="text-xs text-stone-600 mt-0.5">
+                Either Main Admin or Festival Convener may approve verified judge submissions or return them for mandatory correction.
+              </p>
+            </div>
+            <span className="px-3 py-1.5 rounded-xl bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">
+              {competitions.filter(c => c.status === 'Pending Approval' || c.status === 'Under Verification' || c.status === 'Submitted' || c.status === 'RETURNED').length} Competitions In Review Queue
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            {competitions
+              .filter(c => {
+                const hasEvals = evaluations.some(e => e.competitionId === c.competitionId || e.assignmentId === c.id);
+                return hasEvals || c.status === 'Pending Approval' || c.status === 'APPROVED' || c.status === 'RETURNED';
+              })
+              .map(comp => {
+                const agg = festivalStore.calculateAggregatedResults(comp.competitionId || comp.id);
+                const isApproved = comp.status === 'APPROVED' || comp.status === 'Approved' || comp.isPublished;
+                const isReturned = comp.status === 'RETURNED';
+                return (
+                  <div key={comp.id} className="p-5 rounded-2xl border border-stone-200 bg-stone-50/50 space-y-4">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-xs font-bold text-[#A91F35]">{comp.competitionCode || comp.code}</span>
+                          <span className="px-2 py-0.5 rounded-md bg-white border border-stone-200 text-[10px] font-bold">{comp.category}</span>
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                            isApproved ? 'bg-emerald-100 text-emerald-800' : isReturned ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800'
+                          }`}>
+                            {comp.isPublished ? 'Published' : comp.status}
+                          </span>
+                        </div>
+                        <h3 className="font-serif font-black text-base text-stone-900 mt-1">{comp.competitionTitle || comp.title}</h3>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2">
+                        {!isApproved && agg?.rankedParticipants?.length > 0 && (
+                          <button
+                            onClick={() => {
+                              festivalStore.approveEvaluation(comp.competitionId || comp.id, {
+                                approvedByRole: 'ADMIN',
+                                approvedByName: 'Main Admin'
+                              });
+                              refreshData();
+                            }}
+                            className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold cursor-pointer"
+                          >
+                            Approve Result
+                          </button>
+                        )}
+                        {isApproved && !comp.isPublished && (
+                          <button
+                            onClick={() => {
+                              festivalStore.approveAndPublishResult(comp.competitionId || comp.id);
+                              refreshData();
+                            }}
+                            className="px-3.5 py-2 rounded-xl bg-[#A91F35] hover:bg-[#8B1A2C] text-white text-xs font-bold cursor-pointer"
+                          >
+                            Publish Official Poster
+                          </button>
+                        )}
+                        {!comp.isPublished && agg?.rankedParticipants?.length > 0 && (
+                          <button
+                            onClick={() => {
+                              const reason = window.prompt('Enter mandatory reason for returning evaluation to judge:');
+                              if (reason && reason.trim()) {
+                                festivalStore.returnEvaluationForCorrection(comp.competitionId || comp.id, {
+                                  returnedByRole: 'ADMIN',
+                                  returnedByName: 'Main Admin',
+                                  reason: reason.trim()
+                                });
+                                refreshData();
+                              }
+                            }}
+                            className="px-3.5 py-2 rounded-xl bg-white border border-rose-300 text-rose-700 hover:bg-rose-50 text-xs font-bold cursor-pointer"
+                          >
+                            Return for Correction
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    {agg?.hasTie && (
+                      <div className="p-3 rounded-xl bg-amber-100/80 border border-amber-300 text-amber-950 text-xs font-bold">
+                        Tie Detected — Admin confirmation recommended before final publishing.
+                      </div>
+                    )}
+
+                    {agg?.rankedParticipants?.length > 0 && (
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                        {agg.rankedParticipants.slice(0, 3).map((p, idx) => (
+                          <div key={idx} className="p-3 rounded-xl bg-white border border-stone-200">
+                            <div className="text-[10px] font-bold text-stone-400">RANK #{p.rank} • {p.grade}</div>
+                            <div className="font-bold text-stone-900 mt-0.5">{p.name}</div>
+                            <div className="text-[11px] text-stone-600">{p.teamName} • Score: {p.totalScore} • <strong>+{p.pointsAwarded} pts</strong></div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+            {evaluations.length === 0 && (
+              <div className="p-10 text-center text-xs text-stone-500 bg-stone-50 rounded-2xl border border-stone-200">
+                No judge evaluations submitted yet for verification.
+              </div>
+            )}
+          </div>
         </div>
       )}
 

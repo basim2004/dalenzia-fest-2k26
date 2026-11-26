@@ -134,7 +134,6 @@ export default function ConvenerTeams() {
         return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'Sub Junior':
         return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-      case 'Minor':
       default:
         return 'bg-amber-100 text-amber-800 border-amber-200';
     }
@@ -320,7 +319,7 @@ export default function ConvenerTeams() {
             </div>
 
             {/* Category Distribution Pills */}
-            <div className="p-3 bg-stone-50 border-b border-stone-200 grid grid-cols-4 gap-2 text-center text-[10px]">
+            <div className="p-3 bg-stone-50 border-b border-stone-200 grid grid-cols-3 gap-2 text-center text-[10px]">
               <div className="p-1.5 rounded-lg bg-white border border-stone-200">
                 <span className="text-stone-500 block font-medium">Senior</span>
                 <strong className="text-stone-900 text-xs">{team1?.countsByCategory?.Senior || 0}</strong>
@@ -332,10 +331,6 @@ export default function ConvenerTeams() {
               <div className="p-1.5 rounded-lg bg-white border border-stone-200">
                 <span className="text-stone-500 block font-medium">Sub-Jnr</span>
                 <strong className="text-stone-900 text-xs">{team1?.countsByCategory?.['Sub Junior'] || 0}</strong>
-              </div>
-              <div className="p-1.5 rounded-lg bg-white border border-stone-200">
-                <span className="text-stone-500 block font-medium">Minor</span>
-                <strong className="text-stone-900 text-xs">{team1?.countsByCategory?.Minor || 0}</strong>
               </div>
             </div>
 
@@ -409,7 +404,7 @@ export default function ConvenerTeams() {
             </div>
 
             {/* Category Distribution Pills */}
-            <div className="p-3 bg-stone-50 border-b border-stone-200 grid grid-cols-4 gap-2 text-center text-[10px]">
+            <div className="p-3 bg-stone-50 border-b border-stone-200 grid grid-cols-3 gap-2 text-center text-[10px]">
               <div className="p-1.5 rounded-lg bg-white border border-stone-200">
                 <span className="text-stone-500 block font-medium">Senior</span>
                 <strong className="text-stone-900 text-xs">{team2?.countsByCategory?.Senior || 0}</strong>
@@ -421,10 +416,6 @@ export default function ConvenerTeams() {
               <div className="p-1.5 rounded-lg bg-white border border-stone-200">
                 <span className="text-stone-500 block font-medium">Sub-Jnr</span>
                 <strong className="text-stone-900 text-xs">{team2?.countsByCategory?.['Sub Junior'] || 0}</strong>
-              </div>
-              <div className="p-1.5 rounded-lg bg-white border border-stone-200">
-                <span className="text-stone-500 block font-medium">Minor</span>
-                <strong className="text-stone-900 text-xs">{team2?.countsByCategory?.Minor || 0}</strong>
               </div>
             </div>
 
@@ -507,7 +498,6 @@ export default function ConvenerTeams() {
                   <option value="Senior">Senior</option>
                   <option value="Junior">Junior</option>
                   <option value="Sub Junior">Sub Junior</option>
-                  <option value="Minor">Minor</option>
                 </select>
               </div>
             </div>
@@ -566,7 +556,7 @@ export default function ConvenerTeams() {
                                 s.classCategory
                               )}`}
                             >
-                              {s.classCategory || 'Minor'}
+                              {s.classCategory || 'Sub Junior'}
                             </span>
                           </td>
                           <td className="py-3 px-4">

@@ -11,14 +11,17 @@ import {
   orderBy,
   serverTimestamp
 } from "firebase/firestore";
-import { db, auth, analytics } from "./config";
+import { db, auth, analytics } from "./config.js";
+
+const isIsolatedTestEnv = () => Boolean(typeof globalThis !== 'undefined' && globalThis.__DALENZIA_ISOLATED_TEST__);
 
 /**
  * Collections schema for DALENZIA FEST 2K26:
  * - 'registrations': Centralized registration desk records (Main Admin & Convener)
- * - 'students': Official Dalailussunna Dars student registry
- * - 'programmes': 83 official charter programmes across 5 categories
+ * - 'students': Official Dalailussunna Dars student registry (46 scholars)
+ * - 'programmes': 77 official charter programmes across Sub Junior, Junior, Senior, General
  * - 'evaluations': Judge score sheets and submitted evaluations
+ * - 'published_results': Verified and published competition results & posters
  * - 'system_config': Scoring configurations, marks schema, and festival metadata
  */
 
@@ -28,6 +31,7 @@ export const COLLECTIONS = {
   PROGRAMMES: "programmes",
   SCHEDULES: "programme_schedules",
   EVALUATIONS: "evaluations",
+  PUBLISHED_RESULTS: "published_results",
   TEAMS: "teams",
   TEAM_ALLOCATIONS: "team_allocations",
   CONFIG: "system_config",
@@ -39,7 +43,7 @@ export const COLLECTIONS = {
  */
 export async function syncTeamToFirebase(teamRecord) {
   try {
-    if (!teamRecord || !teamRecord.id) return { success: false, error: "Missing team ID" };
+    if (isIsolatedTestEnv() || !teamRecord || !teamRecord.id) return { success: false, error: "Skipped or missing team ID" };
     const docRef = doc(db, COLLECTIONS.TEAMS, String(teamRecord.id));
     await setDoc(docRef, {
       ...teamRecord,
@@ -232,6 +236,7 @@ export function subscribeToRegistrations(onUpdate, onError) {
  */
 export async function syncScoringConfigToFirebase(scoringConfig) {
   try {
+    if (isIsolatedTestEnv() || !db || !scoringConfig) return { success: false };
     const docRef = doc(db, COLLECTIONS.CONFIG, "scoring_engine");
     await setDoc(docRef, {
       ...scoringConfig,
@@ -353,6 +358,156 @@ export async function deleteScheduleFromFirebase(scheduleId) {
     return { success: true };
   } catch (error) {
     console.error("Error deleting schedule from Firebase:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Sync an active competition / programme assignment to Firestore
+ */
+export async function syncCompetitionToFirebase(competitionData) {
+  try {
+    if (isIsolatedTestEnv() || !db || !competitionData?.id) return { success: false, error: "Invalid competition data or Firebase unavailable" };
+    const compRef = doc(db, COLLECTIONS.PROGRAMMES, String(competitionData.id));
+    await setDoc(compRef, {
+      ...competitionData,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+    return { success: true };
+  } catch (error) {
+    console.error("Error syncing competition to Firebase:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Real-time listener for active competitions / programme assignments
+ */
+export function subscribeToCompetitions(onUpdate, onError) {
+  if (isIsolatedTestEnv() || !db) return () => {};
+  try {
+    const colRef = collection(db, COLLECTIONS.PROGRAMMES);
+    return onSnapshot(colRef, (snapshot) => {
+      const list = [];
+      snapshot.forEach(d => list.push({ id: d.id, ...d.data() }));
+      onUpdate(list);
+    }, (err) => {
+      console.error("Competitions subscription error:", err);
+      if (onError) onError(err);
+    });
+  } catch (error) {
+    return () => {};
+  }
+}
+
+/**
+ * Sync judge evaluation / approval status to Firestore
+ */
+export async function syncEvaluationToFirebase(evaluationData) {
+  try {
+    if (isIsolatedTestEnv() || !db || !evaluationData?.id) return { success: false, error: "Invalid evaluation data" };
+    const evalRef = doc(db, COLLECTIONS.EVALUATIONS, String(evaluationData.id));
+    await setDoc(evalRef, {
+      ...evaluationData,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+    return { success: true };
+  } catch (error) {
+    console.error("Error syncing evaluation to Firebase:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Real-time listener for judge evaluations & approvals
+ */
+export function subscribeToEvaluations(onUpdate, onError) {
+  if (isIsolatedTestEnv() || !db) return () => {};
+  try {
+    const colRef = collection(db, COLLECTIONS.EVALUATIONS);
+    return onSnapshot(colRef, (snapshot) => {
+      const list = [];
+      snapshot.forEach(d => list.push({ id: d.id, ...d.data() }));
+      onUpdate(list);
+    }, (err) => {
+      console.error("Evaluations subscription error:", err);
+      if (onError) onError(err);
+    });
+  } catch (error) {
+    return () => {};
+  }
+}
+
+/**
+ * Sync official published result poster / verification state to Firestore
+ */
+export async function syncPublishedResultToFirebase(resultData) {
+  try {
+    if (isIsolatedTestEnv() || !db || !resultData?.competitionId) return { success: false, error: "Invalid published result" };
+    const resRef = doc(db, COLLECTIONS.PUBLISHED_RESULTS, String(resultData.competitionId));
+    await setDoc(resRef, {
+      ...resultData,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+    return { success: true };
+  } catch (error) {
+    console.error("Error syncing published result to Firebase:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Real-time listener for official published results
+ */
+export function subscribeToPublishedResults(onUpdate, onError) {
+  if (!db) return () => {};
+  try {
+    const colRef = collection(db, COLLECTIONS.PUBLISHED_RESULTS);
+    return onSnapshot(colRef, (snapshot) => {
+      const list = [];
+      snapshot.forEach(d => list.push({ id: d.id, ...d.data() }));
+      onUpdate(list);
+    }, (err) => {
+      console.error("Published results subscription error:", err);
+      if (onError) onError(err);
+    });
+  } catch (error) {
+    return () => {};
+  }
+}
+
+/**
+ * Real-time listener for Scoring Config document
+ */
+export function subscribeToScoringConfig(onUpdate, onError) {
+  if (isIsolatedTestEnv() || !db) return () => {};
+  try {
+    const configRef = doc(db, COLLECTIONS.CONFIG, "scoring_engine");
+    return onSnapshot(configRef, (snap) => {
+      if (snap.exists()) {
+        onUpdate(snap.data());
+      }
+    }, (err) => {
+      if (onError) onError(err);
+    });
+  } catch (error) {
+    return () => {};
+  }
+}
+
+/**
+ * Save pre-migration charter v1 snapshot safely into Firestore system_config
+ */
+export async function syncCharterMigrationBackupToFirebase(backupSnapshot) {
+  try {
+    if (isIsolatedTestEnv() || !db) return { success: false, error: "Firebase not initialized" };
+    const backupRef = doc(db, COLLECTIONS.CONFIG, "charter_v1_backup");
+    await setDoc(backupRef, {
+      ...backupSnapshot,
+      backedUpAt: serverTimestamp()
+    }, { merge: true });
+    return { success: true };
+  } catch (error) {
     return { success: false, error: error.message };
   }
 }

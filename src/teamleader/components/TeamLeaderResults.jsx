@@ -170,8 +170,11 @@ export default function TeamLeaderResults({ teamId }) {
                       </div>
                       <div className="font-bold text-stone-900 text-sm">{award.name}</div>
                       <div className="text-[10px] text-stone-500 font-mono">
-                        Chest: <strong className="text-[#A91F35]">{award.chestNo}</strong> | Score: {award.score}
+                        {award.chestNo ? `Chest: ${award.chestNo} | ` : ''}Score: {award.score}{award.grade ? ` | Grade: ${award.grade}` : ''}
                       </div>
+                      {Array.isArray(award.memberNames) && award.memberNames.length > 0 && (
+                        <div className="text-[10px] text-stone-500">Members: {award.memberNames.join(', ')}</div>
+                      )}
                     </div>
 
                     <div className="text-right">

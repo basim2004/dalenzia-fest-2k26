@@ -145,14 +145,6 @@ export default function TeamLeaderDashboard({ teamId, onNavigateModule }) {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="p-3.5 rounded-2xl bg-amber-50/60 border border-amber-200/80 flex flex-col justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900">Minor Category</span>
-            <div className="mt-2 flex items-baseline justify-between">
-              <span className="text-2xl font-black text-stone-900 font-serif">{stats.categoryCounts?.Minor || 0}</span>
-              <span className="text-[10px] text-stone-500">Students</span>
-            </div>
-          </div>
-
           <div className="p-3.5 rounded-2xl bg-blue-50/60 border border-blue-200/80 flex flex-col justify-between">
             <span className="text-[10px] font-bold uppercase tracking-wider text-blue-900">Sub Junior Category</span>
             <div className="mt-2 flex items-baseline justify-between">

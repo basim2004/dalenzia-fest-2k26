@@ -97,7 +97,7 @@ export default function FestivalNumbers() {
       seenChestNos.add(chestNo);
       return true;
     });
-    return valid.length > 0 ? valid.length : 44;
+    return valid.length > 0 ? valid.length : 46;
   };
 
   // 1. TOTAL PARTICIPANTS (Live Firebase / store count)
@@ -106,17 +106,17 @@ export default function FestivalNumbers() {
     return calcValidStudentsCount(localStudents);
   });
 
-  // 2. TOTAL PROGRAMMES (83 from official Programme Master List: 40 Stage + 32 Off Stage + 11 General)
+  // 2. TOTAL PROGRAMMES (77 from updated Programme Master List: 32 Stage + 31 Off Stage + 14 General)
   const totalProgrammes = useMemo(() => {
     const stats = festivalStore.getCharterStats ? festivalStore.getCharterStats() : null;
-    if (stats && stats.stage === 40 && stats.offStage === 32 && stats.general === 11) {
+    if (stats && stats.total > 0) {
       return stats.total;
     }
     const charterList = festivalStore.getCharterProgrammes ? festivalStore.getCharterProgrammes() : [];
-    if (Array.isArray(charterList) && charterList.length === 83) {
-      return 83;
+    if (Array.isArray(charterList) && charterList.length > 0) {
+      return charterList.length;
     }
-    return 83;
+    return 77;
   }, []);
 
   // 3. TOTAL TEAMS (Live Firebase / store count of active official teams: Dazzlers & Dynamos)

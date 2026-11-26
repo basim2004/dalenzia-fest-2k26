@@ -571,7 +571,7 @@ export default function ConvenerResults() {
                         allJudges.find(j => j.id === id) || { id, name: id }
                       );
                       const isPublished = comp.isOfficialPublished || comp.isPublished;
-                      const isApproved = comp.convenerApproved || comp.status === 'Approved by Convener';
+                      const isApproved = comp.convenerApproved || comp.adminApproved || comp.status === 'APPROVED' || comp.status === 'Approved' || comp.status === 'Approved by Convener';
 
                       return (
                         <tr key={comp.id} className="hover:bg-stone-50/60 transition-colors">
@@ -1133,7 +1133,7 @@ export default function ConvenerResults() {
                     const isPodium = idx < 3;
                     return (
                       <tr
-                        key={p.studentId}
+                        key={p.studentId || `${p.teamId || 'team'}-${p.entryIndex || idx}`}
                         className={`hover:bg-stone-50/60 transition-colors ${
                           idx === 0 ? 'bg-amber-50/30 font-medium' : ''
                         }`}

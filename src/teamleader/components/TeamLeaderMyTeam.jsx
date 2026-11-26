@@ -39,7 +39,6 @@ export default function TeamLeaderMyTeam({ teamId, onNavigateModule }) {
   const seniorCount = students.filter(s => (s.classCategory || s.category) === 'Senior').length;
   const juniorCount = students.filter(s => (s.classCategory || s.category) === 'Junior').length;
   const subJuniorCount = students.filter(s => (s.classCategory || s.category) === 'Sub Junior').length;
-  const minorCount = students.filter(s => (s.classCategory || s.category) === 'Minor').length;
 
   const isTeam1 = teamId === 'team-1';
   const themeBg = isTeam1 ? 'bg-[#A91F35]' : 'bg-[#E6A916]';
@@ -51,10 +50,8 @@ export default function TeamLeaderMyTeam({ teamId, onNavigateModule }) {
       case 'Junior':
         return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'Sub Junior':
-        return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-      case 'Minor':
       default:
-        return 'bg-amber-100 text-amber-800 border-amber-200';
+        return 'bg-emerald-100 text-emerald-800 border-emerald-200';
     }
   };
 
@@ -113,7 +110,7 @@ export default function TeamLeaderMyTeam({ teamId, onNavigateModule }) {
             <div className="text-xl font-serif font-black text-stone-900 mt-1">{students.length} Students</div>
             <div className="text-[11px] text-stone-500 mt-1 flex flex-wrap gap-1.5">
               <span>{seniorCount} Snr</span> • <span>{juniorCount} Jnr</span> •{' '}
-              <span>{subJuniorCount} Sub-Jnr</span> • <span>{minorCount} Mnr</span>
+              <span>{subJuniorCount} Sub-Jnr</span>
             </div>
           </div>
           <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
@@ -206,7 +203,7 @@ export default function TeamLeaderMyTeam({ teamId, onNavigateModule }) {
                             s.classCategory
                           )}`}
                         >
-                          {s.classCategory || 'Minor'}
+                          {s.classCategory || 'Sub Junior'}
                         </span>
                       </td>
                       <td className="py-3 px-4">

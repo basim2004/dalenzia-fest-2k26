@@ -444,7 +444,6 @@ export default function ReportsModule({ activeSection }) {
                     <option value="Senior">Senior Division</option>
                     <option value="Junior">Junior Division</option>
                     <option value="Sub Junior">Sub Junior Division</option>
-                    <option value="Minor">Minor Division</option>
                   </>
                 )}
               </select>

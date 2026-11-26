@@ -50,6 +50,42 @@ export default function PortalAccountsManagement() {
     adminSession.portalRole === 'admin'
   );
 
+  const [accounts, setAccounts] = useState(() => (isAuthorizedAdmin ? getUnifiedPortalAccounts() : []));
+  const [selectedRole, setSelectedRole] = useState('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3500);
+  };
+
+  const refreshData = () => {
+    setAccounts(getUnifiedPortalAccounts());
+  };
+
+  useEffect(() => {
+    if (!isAuthorizedAdmin) return;
+    refreshData();
+    const unsub = festivalStore.subscribe(() => {
+      refreshData();
+    });
+    return () => unsub();
+  }, [isAuthorizedAdmin]);
+
+  const filteredAccounts = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return accounts.filter(acc => {
+      const matchRole = selectedRole === 'ALL' || acc.role === selectedRole;
+      const matchQuery = !q ||
+        (acc.name && acc.name.toLowerCase().includes(q)) ||
+        (acc.loginUsername && acc.loginUsername.toLowerCase().includes(q)) ||
+        (acc.linkedEntity && acc.linkedEntity.toLowerCase().includes(q)) ||
+        (acc.id && acc.id.toLowerCase().includes(q));
+      return matchRole && matchQuery;
+    });
+  }, [accounts, selectedRole, searchQuery]);
+
   if (!isAuthorizedAdmin) {
     return (
       <div className="bg-white rounded-3xl p-8 border-2 border-rose-300 shadow-xl text-center space-y-4 max-w-lg mx-auto my-8">
@@ -70,40 +106,6 @@ export default function PortalAccountsManagement() {
       </div>
     );
   }
-
-  const [accounts, setAccounts] = useState(() => getUnifiedPortalAccounts());
-  const [selectedRole, setSelectedRole] = useState('ALL');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [toast, setToast] = useState(null);
-
-  const showToast = (message, type = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3500);
-  };
-
-  const refreshData = () => {
-    setAccounts(getUnifiedPortalAccounts());
-  };
-
-  useEffect(() => {
-    const unsub = festivalStore.subscribe(() => {
-      refreshData();
-    });
-    return () => unsub();
-  }, []);
-
-  const filteredAccounts = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
-    return accounts.filter(acc => {
-      const matchRole = selectedRole === 'ALL' || acc.role === selectedRole;
-      const matchQuery = !q ||
-        (acc.name && acc.name.toLowerCase().includes(q)) ||
-        (acc.loginUsername && acc.loginUsername.toLowerCase().includes(q)) ||
-        (acc.linkedEntity && acc.linkedEntity.toLowerCase().includes(q)) ||
-        (acc.id && acc.id.toLowerCase().includes(q));
-      return matchRole && matchQuery;
-    });
-  }, [accounts, selectedRole, searchQuery]);
 
   const handleToggleStatus = (acc) => {
     const newStatus = acc.status === 'Active' ? 'Inactive' : 'Active';

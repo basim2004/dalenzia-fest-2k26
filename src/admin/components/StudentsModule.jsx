@@ -390,10 +390,9 @@ export default function StudentsModule({ activeSection }) {
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3">
             {[
               { label: 'Total Students', value: stats.totalStudents, sub: 'Enrolled in Portal', icon: Users, color: '#A91F35', bg: 'bg-red-50 text-red-700' },
-              { label: 'Senior Count', value: stats.categoryBreakdown?.Senior || 0, sub: 'Senior Division', icon: Award, color: '#D97706', bg: 'bg-amber-50 text-amber-700' },
-              { label: 'Junior Count', value: stats.categoryBreakdown?.Junior || 0, sub: 'Junior Division', icon: Sparkles, color: '#A91F35', bg: 'bg-rose-50 text-rose-700' },
-              { label: 'Sub Junior Count', value: stats.categoryBreakdown?.SubJunior || 0, sub: 'Sub-Junior Division', icon: BookOpen, color: '#047857', bg: 'bg-emerald-50 text-emerald-700' },
-              { label: 'Minor Count', value: stats.categoryBreakdown?.Minor || 0, sub: 'Minor Division', icon: Star, color: '#7C3AED', bg: 'bg-purple-50 text-purple-700' },
+              { label: 'Senior Count', value: stats.categoryBreakdown?.Senior || 0, sub: 'Senior (+2, Degree)', icon: Award, color: '#D97706', bg: 'bg-amber-50 text-amber-700' },
+              { label: 'Junior Count', value: stats.categoryBreakdown?.Junior || 0, sub: 'Junior (Class 10, +1)', icon: Sparkles, color: '#A91F35', bg: 'bg-rose-50 text-rose-700' },
+              { label: 'Sub Junior Count', value: stats.categoryBreakdown?.SubJunior || 0, sub: 'Sub-Junior (Class 5–9)', icon: BookOpen, color: '#047857', bg: 'bg-emerald-50 text-emerald-700' },
               { label: 'Assigned Students', value: stats.assignedStudents, sub: 'In Active Squads', icon: Trophy, color: '#2563EB', bg: 'bg-blue-50 text-blue-700' },
               { label: 'Unassigned Students', value: stats.unassignedStudents, sub: 'Unassigned Pool', icon: UserX, color: '#F59E0B', bg: 'bg-yellow-50 text-yellow-800' },
               { label: 'Active Candidates', value: stats.activeStudents, sub: 'Eligible for Stage', icon: UserCheck, color: '#10B981', bg: 'bg-teal-50 text-teal-700' }
@@ -421,19 +420,18 @@ export default function StudentsModule({ activeSection }) {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-stone-900 uppercase tracking-wide">Category Distribution</h3>
-                  <p className="text-xs text-stone-600 mt-0.5">Four official academic divisions across registered cohort</p>
+                  <p className="text-xs text-stone-600 mt-0.5">Three official student divisions across registered cohort</p>
                 </div>
                 <span className="px-2.5 py-1 rounded-full bg-stone-100 text-stone-700 text-[10px] font-bold">
-                  4 Official Categories
+                  3 Student Categories
                 </span>
               </div>
 
               <div className="space-y-3">
                 {[
-                  { name: 'Senior Division', count: stats.categoryBreakdown?.Senior || 0, color: '#D97706', bg: 'bg-amber-600', sub: 'Degree Scholars' },
-                  { name: 'Junior Division', count: stats.categoryBreakdown?.Junior || 0, color: '#A91F35', bg: 'bg-[#A91F35]', sub: '+1 & +2 Scholars' },
-                  { name: 'Sub Junior Division', count: stats.categoryBreakdown?.SubJunior || 0, color: '#047857', bg: 'bg-emerald-600', sub: 'Class 10 Scholars' },
-                  { name: 'Minor Division', count: stats.categoryBreakdown?.Minor || 0, color: '#7C3AED', bg: 'bg-purple-600', sub: 'Class 5 to 9 Scholars' }
+                  { name: 'Senior Division', count: stats.categoryBreakdown?.Senior || 0, color: '#D97706', bg: 'bg-amber-600', sub: '+2 & Degree Scholars (Max 5 Stage + 6 Off Stage)' },
+                  { name: 'Junior Division', count: stats.categoryBreakdown?.Junior || 0, color: '#A91F35', bg: 'bg-[#A91F35]', sub: 'Class 10 & +1 Scholars (Max 5 Stage + 6 Off Stage)' },
+                  { name: 'Sub Junior Division', count: stats.categoryBreakdown?.SubJunior || 0, color: '#047857', bg: 'bg-emerald-600', sub: 'Class 5 to 9 Scholars (Max 4 Stage + 5 Off Stage)' }
                 ].map((cat, idx) => {
                   const pct = stats.totalStudents > 0 ? Math.round((cat.count / stats.totalStudents) * 100) : 0;
                   return (
@@ -616,7 +614,6 @@ export default function StudentsModule({ activeSection }) {
                 <option value="Senior">Senior</option>
                 <option value="Junior">Junior</option>
                 <option value="Sub Junior">Sub Junior</option>
-                <option value="Minor">Minor</option>
               </select>
 
               {/* Status Filter */}
@@ -1115,8 +1112,7 @@ export default function StudentsModule({ activeSection }) {
                     <option value="Senior">Senior</option>
                     <option value="Junior">Junior</option>
                     <option value="Sub Junior">Sub Junior</option>
-                    <option value="Minor">Minor</option>
-                  </select>
+                      </select>
                 </div>
 
                 <div>

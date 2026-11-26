@@ -300,7 +300,7 @@ export default function SystemSettingsModule() {
                             <div className="p-3 rounded-2xl bg-stone-50 border border-stone-200/60">
                                 <div className="text-[10px] font-bold text-stone-500 uppercase">Programmes</div>
                                 <div className="font-black text-xl text-stone-900 mt-1">{stats.programmes}</div>
-                                <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">83 Official Charter</div>
+                                <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">77 Official Charter</div>
                             </div>
 
                             <div className="p-3 rounded-2xl bg-stone-50 border border-stone-200/60">

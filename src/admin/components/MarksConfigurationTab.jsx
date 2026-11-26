@@ -33,15 +33,19 @@ export default function MarksConfigurationTab() {
   );
 
   const getPreviewGrade = (mark) => {
-    if (mark >= (formData.grades.find(g => g.grade === 'A+')?.minMarks || 85)) return 'A+';
-    if (mark >= (formData.grades.find(g => g.grade === 'A')?.minMarks || 75)) return 'A';
-    if (mark >= (formData.grades.find(g => g.grade === 'B')?.minMarks || 60)) return 'B';
-    if (mark >= (formData.grades.find(g => g.grade === 'C')?.minMarks || 45)) return 'C';
-    return 'No Grade';
+    const configured = (formData.grades || [])
+      .filter(g => g.minMarks !== null && g.minMarks !== undefined && Number.isFinite(Number(g.minMarks)))
+      .sort((a, b) => Number(b.minMarks) - Number(a.minMarks));
+    if (configured.length === 0) return 'Pending Admin Cutoffs';
+    const hit = configured.find(g => mark >= Number(g.minMarks));
+    return hit ? hit.grade : 'No Grade';
   };
 
   const previewGrade = getPreviewGrade(previewAvg);
-  const previewPosPoints = previewType === 'Individual' ? 3 : 10; // Assuming 1st place
+  const previewPosPoints =
+    previewType === 'Individual'
+      ? Number(formData.positionPoints?.individual?.first ?? 5)
+      : Number(formData.positionPoints?.group?.first ?? 15);
   const gradeRule = formData.grades.find(g => g.grade === previewGrade);
   const previewGradePoints = formData.isGradePointsActive
     ? (previewType === 'Individual' ? (gradeRule?.individualPoints || 0) : (gradeRule?.groupPoints || 0))
@@ -117,7 +121,7 @@ export default function MarksConfigurationTab() {
               OFFICIAL CHARTER REFERENCE
             </span>
             <span className="text-[11px] text-stone-400 font-mono">
-              Dalenzia_2K26_Festival_Charter_BW.pdf • Pages 3 & 4
+              Dalenzia 2K26 Updated 12-Page Charter • Pages 3, 4 & 9–11
             </span>
           </div>
           <h2 className="text-xl md:text-2xl font-serif font-black text-white">
@@ -185,17 +189,17 @@ export default function MarksConfigurationTab() {
             <div className="grid grid-cols-3 gap-3 text-center">
               <div className="p-3.5 rounded-xl bg-white border border-[#A91F35]/20 shadow-sm">
                 <div className="text-[10px] text-stone-500 font-bold uppercase">1st Place</div>
-                <div className="text-2xl font-black text-[#A91F35] mt-1">3 <span className="text-xs font-normal">PTS</span></div>
+                <div className="text-2xl font-black text-[#A91F35] mt-1">{formData.positionPoints?.individual?.first ?? 5} <span className="text-xs font-normal">PTS</span></div>
                 <div className="text-[9px] text-stone-400 mt-0.5">Winner</div>
               </div>
               <div className="p-3.5 rounded-xl bg-white border border-stone-200 shadow-sm">
                 <div className="text-[10px] text-stone-500 font-bold uppercase">2nd Place</div>
-                <div className="text-2xl font-black text-stone-800 mt-1">2 <span className="text-xs font-normal">PTS</span></div>
+                <div className="text-2xl font-black text-stone-800 mt-1">{formData.positionPoints?.individual?.second ?? 3} <span className="text-xs font-normal">PTS</span></div>
                 <div className="text-[9px] text-stone-400 mt-0.5">Runner Up</div>
               </div>
               <div className="p-3.5 rounded-xl bg-white border border-stone-200 shadow-sm">
                 <div className="text-[10px] text-stone-500 font-bold uppercase">3rd Place</div>
-                <div className="text-2xl font-black text-amber-700 mt-1">1 <span className="text-xs font-normal">PT</span></div>
+                <div className="text-2xl font-black text-amber-700 mt-1">{formData.positionPoints?.individual?.third ?? 1} <span className="text-xs font-normal">PT</span></div>
                 <div className="text-[9px] text-stone-400 mt-0.5">Second Runner Up</div>
               </div>
             </div>
@@ -215,17 +219,17 @@ export default function MarksConfigurationTab() {
             <div className="grid grid-cols-3 gap-3 text-center">
               <div className="p-3.5 rounded-xl bg-white border border-[#E6A916]/30 shadow-sm">
                 <div className="text-[10px] text-stone-500 font-bold uppercase">1st Place</div>
-                <div className="text-2xl font-black text-amber-700 mt-1">10 <span className="text-xs font-normal">PTS</span></div>
+                <div className="text-2xl font-black text-amber-700 mt-1">{formData.positionPoints?.group?.first ?? 15} <span className="text-xs font-normal">PTS</span></div>
                 <div className="text-[9px] text-stone-400 mt-0.5">Team Credit</div>
               </div>
               <div className="p-3.5 rounded-xl bg-white border border-stone-200 shadow-sm">
                 <div className="text-[10px] text-stone-500 font-bold uppercase">2nd Place</div>
-                <div className="text-2xl font-black text-stone-800 mt-1">8 <span className="text-xs font-normal">PTS</span></div>
+                <div className="text-2xl font-black text-stone-800 mt-1">{formData.positionPoints?.group?.second ?? 10} <span className="text-xs font-normal">PTS</span></div>
                 <div className="text-[9px] text-stone-400 mt-0.5">Team Credit</div>
               </div>
               <div className="p-3.5 rounded-xl bg-white border border-stone-200 shadow-sm">
                 <div className="text-[10px] text-stone-500 font-bold uppercase">3rd Place</div>
-                <div className="text-2xl font-black text-stone-700 mt-1">6 <span className="text-xs font-normal">PTS</span></div>
+                <div className="text-2xl font-black text-stone-700 mt-1">{formData.positionPoints?.group?.third ?? 5} <span className="text-xs font-normal">PTS</span></div>
                 <div className="text-[9px] text-stone-400 mt-0.5">Team Credit</div>
               </div>
             </div>
@@ -402,24 +406,24 @@ export default function MarksConfigurationTab() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
           <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200">
-            <div className="text-xs font-bold text-stone-700">Student Stage Limit</div>
-            <div className="text-2xl font-black text-[#A91F35] mt-1">4 Items</div>
-            <div className="text-[10px] text-stone-500 mt-0.5">Maximum on-stage events per candidate</div>
+            <div className="text-xs font-bold text-stone-700">Sub Junior Limit (Class 5–9)</div>
+            <div className="text-xl font-black text-[#A91F35] mt-1">4 Stage + 5 Off</div>
+            <div className="text-[10px] text-stone-500 mt-0.5">Max items per Sub Junior student</div>
           </div>
           <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200">
-            <div className="text-xs font-bold text-stone-700">Student Off-Stage Limit</div>
-            <div className="text-2xl font-black text-[#A91F35] mt-1">4 Items</div>
-            <div className="text-[10px] text-stone-500 mt-0.5">Maximum off-stage events per candidate</div>
+            <div className="text-xs font-bold text-stone-700">Junior & Senior Limit</div>
+            <div className="text-xl font-black text-[#A91F35] mt-1">5 Stage + 6 Off</div>
+            <div className="text-[10px] text-stone-500 mt-0.5">Max items per Junior / Senior student</div>
           </div>
           <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200">
             <div className="text-xs font-bold text-stone-700">Team Individual Entries</div>
-            <div className="text-2xl font-black text-amber-700 mt-1">3 Entries</div>
+            <div className="text-xl font-black text-amber-700 mt-1">3 Entries</div>
             <div className="text-[10px] text-stone-500 mt-0.5">Max participants per team in individual items</div>
           </div>
           <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200">
-            <div className="text-xs font-bold text-stone-700">Team Group Entries</div>
-            <div className="text-2xl font-black text-amber-700 mt-1">2 Entries</div>
-            <div className="text-[10px] text-stone-500 mt-0.5">Max group entries per team in group items</div>
+            <div className="text-xs font-bold text-stone-700">Team General / Group Entries</div>
+            <div className="text-xl font-black text-amber-700 mt-1">2 Entries</div>
+            <div className="text-[10px] text-stone-500 mt-0.5">Max entries per team in General group items</div>
           </div>
         </div>
       </div>

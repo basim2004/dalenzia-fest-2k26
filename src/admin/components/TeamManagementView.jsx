@@ -928,7 +928,7 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
                     </span>
                   </div>
 
-                  <div className="p-3 bg-stone-50 border-b border-stone-200 grid grid-cols-4 gap-2 text-center text-[10px]">
+                  <div className="p-3 bg-stone-50 border-b border-stone-200 grid grid-cols-3 gap-2 text-center text-[10px]">
                     <div className="p-1.5 rounded-lg bg-white border border-stone-200">
                       <span className="text-stone-500 block font-medium">Senior</span>
                       <strong className="text-stone-900 text-xs">{t1?.countsByCategory?.Senior || 0}</strong>
@@ -940,10 +940,6 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
                     <div className="p-1.5 rounded-lg bg-white border border-stone-200">
                       <span className="text-stone-500 block font-medium">Sub-Jnr</span>
                       <strong className="text-stone-900 text-xs">{t1?.countsByCategory?.['Sub Junior'] || 0}</strong>
-                    </div>
-                    <div className="p-1.5 rounded-lg bg-white border border-stone-200">
-                      <span className="text-stone-500 block font-medium">Minor</span>
-                      <strong className="text-stone-900 text-xs">{t1?.countsByCategory?.Minor || 0}</strong>
                     </div>
                   </div>
 
@@ -1002,7 +998,7 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
                     </span>
                   </div>
 
-                  <div className="p-3 bg-stone-50 border-b border-stone-200 grid grid-cols-4 gap-2 text-center text-[10px]">
+                  <div className="p-3 bg-stone-50 border-b border-stone-200 grid grid-cols-3 gap-2 text-center text-[10px]">
                     <div className="p-1.5 rounded-lg bg-white border border-stone-200">
                       <span className="text-stone-500 block font-medium">Senior</span>
                       <strong className="text-stone-900 text-xs">{t2?.countsByCategory?.Senior || 0}</strong>
@@ -1014,10 +1010,6 @@ export default function TeamManagementView({ activeSection = 'teams' }) {
                     <div className="p-1.5 rounded-lg bg-white border border-stone-200">
                       <span className="text-stone-500 block font-medium">Sub-Jnr</span>
                       <strong className="text-stone-900 text-xs">{t2?.countsByCategory?.['Sub Junior'] || 0}</strong>
-                    </div>
-                    <div className="p-1.5 rounded-lg bg-white border border-stone-200">
-                      <span className="text-stone-500 block font-medium">Minor</span>
-                      <strong className="text-stone-900 text-xs">{t2?.countsByCategory?.Minor || 0}</strong>
                     </div>
                   </div>
 
