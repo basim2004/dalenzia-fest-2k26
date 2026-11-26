@@ -672,7 +672,7 @@ export default function ResultsPage({
                   </div>
 
                   <div className="overflow-x-auto rounded-2xl border border-stone-200">
-                    <table className="w-full text-left border-collapse text-xs">
+                    <table className="w-full min-w-[620px] text-left border-collapse text-xs">
                       <thead>
                         <tr className="bg-stone-50 border-b border-stone-200 text-stone-700 font-bold uppercase text-[10px] tracking-wider">
                           <th className="p-3.5">Category</th>
@@ -733,7 +733,7 @@ export default function ResultsPage({
                     </div>
 
                     <div className="overflow-x-auto rounded-2xl border border-stone-200">
-                      <table className="w-full text-left border-collapse text-xs">
+                      <table className="w-full min-w-[620px] text-left border-collapse text-xs">
                         <thead>
                           <tr className="bg-stone-50 border-b border-stone-200 text-stone-700 font-bold uppercase text-[10px] tracking-wider">
                             <th className="p-3.5">Rank</th>
@@ -994,7 +994,7 @@ export default function ResultsPage({
           {/* Matrix Table */}
           <div className="bg-[#FAF7F0] rounded-3xl overflow-hidden border border-[#A91F35]/15 shadow-md">
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full min-w-[720px] text-left border-collapse">
                 <thead>
                   <tr className="bg-[#A91F35] text-white text-xs font-black uppercase tracking-wider">
                     <th className="py-4 px-6">Rank</th>

@@ -253,15 +253,17 @@ export default function Navbar({ lang, setLang, currentPage = 'home', setCurrent
                     <img src="/assets/dalenzia_fest_logo.png" alt="Dalenzia Fest" className="h-full w-auto object-contain" />
                   </div>
                 </div>
-                <h3 className="text-lg font-serif text-white font-bold">
-                  Dalenzia Fest 2K26
-                </h3>
-                <p className="text-xs text-[#E6A916] font-semibold mt-0.5">
-                  Second Edition · 21, 22, 23 DECEMBER 2026
-                </p>
-                <p className="text-[11px] text-white/70">
-                  Dalailussunna Dars, Ayiroor, Malappuram
-                </p>
+                <div className="border-l-2 border-[#E6A916] pl-2.5 py-0.5 space-y-0.5 mt-2">
+                  <p className="text-xs font-bold text-[#E6A916] tracking-wider uppercase font-serif">
+                    2026 DECEMBER 21, 22, 23
+                  </p>
+                  <p className="text-[11px] font-semibold text-white">
+                    Thaqwa Juma Masjid Ayiroor
+                  </p>
+                  <p className="text-[10px] font-medium text-white/80">
+                    Venue : Masjidul Liwah, Kandu Bazaar, Puthanpalli, Ayiroor.
+                  </p>
+                </div>
               </div>
 
               <nav className="flex flex-col space-y-2">

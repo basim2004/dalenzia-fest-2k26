@@ -10,7 +10,8 @@ const PRECACHE_ASSETS = [
   '/icons/icon-512x512.png',
   '/apple-touch-icon.png',
   '/assets/dalenzia_fest_logo.png',
-  '/assets/nueva_era_logo.png'
+  '/assets/nueva_era_logo.png',
+  '/assets/brand/dalenzia_3d_official_logo.png'
 ];
 
 // Install: precache critical shell assets

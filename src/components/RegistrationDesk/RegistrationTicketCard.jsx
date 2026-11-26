@@ -227,7 +227,7 @@ export default function RegistrationTicketCard({ registration, onClose, onViewSt
               <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4">
                 {/* Left: DALENZIA 2K26 Gold Official Logo */}
                 <div className="flex items-center gap-3">
-                  <div className="h-12 sm:h-14 w-auto flex items-center">
+                  <div className="h-10 sm:h-12 w-auto flex items-center">
                     <img
                       src="/assets/brand/official_dalenzia_fest_gold.png"
                       alt="Dalenzia Fest 2K26"
@@ -237,7 +237,7 @@ export default function RegistrationTicketCard({ registration, onClose, onViewSt
                       }}
                     />
                   </div>
-                  <div className="h-9 w-px bg-white/20 hidden sm:block" />
+                  <div className="h-8 sm:h-9 w-px bg-white/20 hidden sm:block" />
                   <div className="hidden sm:block">
                     <span className="block text-[10px] tracking-widest uppercase font-black text-[#E6A916]">
                       Official Pass
@@ -250,7 +250,7 @@ export default function RegistrationTicketCard({ registration, onClose, onViewSt
 
                 {/* Right: NUEVA ERA Theme Gold Official Logo */}
                 <div className="flex items-center gap-2">
-                  <div className="h-9 sm:h-11 w-auto flex items-center">
+                  <div className="h-10 sm:h-12 w-auto flex items-center">
                     <img
                       src="/assets/brand/official_nueva_era_gold.png"
                       alt="Nueva Era"

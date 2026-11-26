@@ -2668,7 +2668,7 @@ export default function PreviousEditionPage({ onNavigateHome }) {
                 <button
                   key={article.id}
                   onClick={() => setActiveArticleIndex(idx)}
-                  className={`flex-1 min-w-[200px] px-4 py-3 rounded-xl text-xs font-bold transition-all text-center cursor-pointer ${
+                  className={`flex-1 min-w-[140px] sm:min-w-[200px] px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all text-center cursor-pointer ${
                     isActive
                       ? 'bg-[#A91F35] text-white shadow-md'
                       : 'bg-white/80 hover:bg-white text-stone-700 hover:text-stone-900 border border-stone-300/50'

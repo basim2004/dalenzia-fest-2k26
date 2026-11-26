@@ -17,16 +17,16 @@ export default function Footer({ lang }) {
       <div className="max-w-md mx-auto px-6 relative z-10 space-y-6 text-center">
         {/* Emblem & Branding */}
         <div className="flex flex-col items-center gap-3">
-          <div className="flex items-center justify-center gap-3.5 sm:gap-5 md:gap-6 bg-black/20 px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl border border-white/10 shadow-xs max-w-fit mx-auto">
-            <div className="h-8 sm:h-9 md:h-10 lg:h-11 flex items-center justify-center shrink-0">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 md:gap-5 bg-black/20 px-3.5 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-2xl border border-white/10 shadow-xs max-w-fit mx-auto">
+            <div className="h-8 sm:h-9 md:h-10 flex items-center justify-center shrink-0">
               <img
                 src="/assets/dalenzia_fest_logo.png"
                 alt="Dalenzia Fest"
                 className="h-full w-auto object-contain"
               />
             </div>
-            <span className="h-9 sm:h-11 md:h-14 w-[1px] bg-white/25 shrink-0" />
-            <div className="h-13 sm:h-16 md:h-20 lg:h-[84px] flex items-center justify-center shrink-0">
+            <span className="h-7 sm:h-8 md:h-9 w-[1px] bg-white/25 shrink-0" />
+            <div className="h-8 sm:h-9 md:h-10 flex items-center justify-center shrink-0">
               <img
                 src="/assets/brand/official_nueva_era_reverse_white.png"
                 alt="Nueva Era"
@@ -43,28 +43,25 @@ export default function Footer({ lang }) {
           </p>
         </div>
 
-        {/* Institution Info Card (Corrected verified data) */}
+        {/* Official Festival Date & Address (Approved Reference) */}
         <div className="bg-white/10 rounded-2xl p-4 border border-white/15 text-xs text-white/90 space-y-2 text-left">
-          <div className="flex items-start gap-2.5">
-            <MapPin className="w-4 h-4 text-[#E6A916] flex-shrink-0 mt-0.5" />
-            <div>
-              <span className="font-bold block text-white">
-                DALAILUSSUNNA DARS
-              </span>
-              <span>Perumpadappu, Ayiroor, Malappuram 679580, Kerala, India</span>
-            </div>
+          <div className="border-l-2 border-[#E6A916] pl-3 py-0.5 space-y-0.5">
+            <p className="text-xs font-bold text-[#E6A916] tracking-wider uppercase font-serif">
+              2026 DECEMBER 21, 22, 23
+            </p>
+            <p className="text-[11px] font-semibold text-white">
+              Thaqwa Juma Masjid Ayiroor
+            </p>
+            <p className="text-[10px] font-medium text-white/80">
+              Venue : Masjidul Liwah, Kandu Bazaar, Puthanpalli, Ayiroor.
+            </p>
           </div>
 
-          <div className="flex items-center gap-2.5 pt-1 border-t border-white/10">
+          <div className="flex items-center gap-2.5 pt-1.5 border-t border-white/10">
             <Phone className="w-4 h-4 text-[#E6A916] flex-shrink-0" />
             <a href={OFFICIAL_DEVELOPER_CONTACT.tel} className="font-mono hover:text-[#E6A916] transition-colors">
               {OFFICIAL_DEVELOPER_CONTACT.primaryPhone}
             </a>
-          </div>
-
-          <div className="flex items-center justify-between pt-1 border-t border-white/10 text-[11px] text-[#E6A916] font-semibold">
-            <span>Festival Dates:</span>
-            <span className="text-white font-bold">21, 22, 23 DECEMBER 2026</span>
           </div>
         </div>
 
