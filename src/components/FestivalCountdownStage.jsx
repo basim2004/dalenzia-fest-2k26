@@ -53,8 +53,8 @@ export default function FestivalCountdownStage() {
             Three Days, One Era
           </p>
 
-          <p className="text-xs md:text-sm text-white/80 font-medium">
-            Join the grand congregation at Dalailussunna Dars, Ayiroor on December 21–23, 2026.
+          <p className="text-xs md:text-sm text-white/90 font-medium">
+            2026 DECEMBER 21, 22, 23 • Thaqwa Juma Masjid Ayiroor • Venue : Masjidul Liwah, Kandu Bazaar, Puthanpalli, Ayiroor.
           </p>
         </motion.div>
 
@@ -81,39 +81,39 @@ export default function FestivalCountdownStage() {
           </motion.div>
 
           {/* 4 Responsive Countdown Blocks */}
-          <div className="grid grid-cols-4 gap-3 md:gap-6">
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl md:rounded-3xl p-4 md:p-6 border border-white/20 shadow-xl flex flex-col items-center min-w-[70px] md:min-w-[105px]">
-              <span className="font-mono text-3xl md:text-5xl font-black text-white">
+          <div className="grid grid-cols-4 gap-1.5 sm:gap-3 md:gap-6 w-full max-w-md md:max-w-none justify-center">
+            <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl md:rounded-3xl p-2.5 sm:p-4 md:p-6 border border-white/20 shadow-xl flex flex-col items-center min-w-0">
+              <span className="font-mono text-xl sm:text-3xl md:text-5xl font-black text-white">
                 {String(timeLeft.days).padStart(2, '0')}
               </span>
-              <span className="text-[10px] md:text-xs uppercase tracking-widest text-[#E6A916] font-bold mt-1">
+              <span className="text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest text-[#E6A916] font-bold mt-0.5 sm:mt-1">
                 Days
               </span>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl md:rounded-3xl p-4 md:p-6 border border-white/20 shadow-xl flex flex-col items-center min-w-[70px] md:min-w-[105px]">
-              <span className="font-mono text-3xl md:text-5xl font-black text-white">
+            <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl md:rounded-3xl p-2.5 sm:p-4 md:p-6 border border-white/20 shadow-xl flex flex-col items-center min-w-0">
+              <span className="font-mono text-xl sm:text-3xl md:text-5xl font-black text-white">
                 {String(timeLeft.hours).padStart(2, '0')}
               </span>
-              <span className="text-[10px] md:text-xs uppercase tracking-widest text-[#E6A916] font-bold mt-1">
+              <span className="text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest text-[#E6A916] font-bold mt-0.5 sm:mt-1">
                 Hours
               </span>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl md:rounded-3xl p-4 md:p-6 border border-white/20 shadow-xl flex flex-col items-center min-w-[70px] md:min-w-[105px]">
-              <span className="font-mono text-3xl md:text-5xl font-black text-white">
+            <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl md:rounded-3xl p-2.5 sm:p-4 md:p-6 border border-white/20 shadow-xl flex flex-col items-center min-w-0">
+              <span className="font-mono text-xl sm:text-3xl md:text-5xl font-black text-white">
                 {String(timeLeft.minutes).padStart(2, '0')}
               </span>
-              <span className="text-[10px] md:text-xs uppercase tracking-widest text-[#E6A916] font-bold mt-1">
+              <span className="text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest text-[#E6A916] font-bold mt-0.5 sm:mt-1">
                 Minutes
               </span>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl md:rounded-3xl p-4 md:p-6 border border-white/20 shadow-xl flex flex-col items-center min-w-[70px] md:min-w-[105px]">
-              <span className="font-mono text-3xl md:text-5xl font-black text-[#E6A916]">
+            <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl md:rounded-3xl p-2.5 sm:p-4 md:p-6 border border-white/20 shadow-xl flex flex-col items-center min-w-0">
+              <span className="font-mono text-xl sm:text-3xl md:text-5xl font-black text-[#E6A916]">
                 {String(timeLeft.seconds).padStart(2, '0')}
               </span>
-              <span className="text-[10px] md:text-xs uppercase tracking-widest text-[#E6A916] font-bold mt-1">
+              <span className="text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest text-[#E6A916] font-bold mt-0.5 sm:mt-1">
                 Seconds
               </span>
             </div>

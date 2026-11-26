@@ -102,8 +102,8 @@ export default function AdminPortal({ onNavigatePublic }) {
   }
 
   // 2. Strict role authorization:
-  // Only verified administrator roles may access Main Admin Control Centre
-  const ADMIN_AUTHORIZED_ROLES = ['super_admin', 'admin', 'developer', 'MAIN_ADMIN', 'result_mgr', 'reg_mgr'];
+  // Verified administrator and convener roles may access Control Centre modules
+  const ADMIN_AUTHORIZED_ROLES = ['super_admin', 'admin', 'developer', 'MAIN_ADMIN', 'result_mgr', 'reg_mgr', 'CONVENER', 'convener'];
   const isAuthorizedAdmin = userSession && (
     ADMIN_AUTHORIZED_ROLES.includes(userSession.role) ||
     ADMIN_AUTHORIZED_ROLES.includes(userSession.roleKey) ||

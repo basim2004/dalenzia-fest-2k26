@@ -96,10 +96,15 @@ export async function unifiedLogin(username, password, expectedRole) {
 
   // Enforce strict Role-Based Access Control (RBAC)
   if (expectedRole && parsed.role !== expectedRole) {
-    return {
-      success: false,
-      error: `Access Denied: Account role (${ROLE_LABELS[parsed.role]}) is not authorized to access this portal (${ROLE_LABELS[expectedRole]}).`
-    };
+    if (expectedRole === PORTAL_ROLES.MAIN_ADMIN && parsed.role === PORTAL_ROLES.CONVENER) {
+      // Allow authorized Convener to authenticate into the administrative console
+      expectedRole = PORTAL_ROLES.CONVENER;
+    } else {
+      return {
+        success: false,
+        error: `Access Denied: Account role (${ROLE_LABELS[parsed.role]}) is not authorized to access this portal (${ROLE_LABELS[expectedRole]}).`
+      };
+    }
   }
 
   // 1. Verify credentials via Festival Data Store engine

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowUp, MapPin, Phone, Mail, Globe, Heart } from 'lucide-react';
+import { OFFICIAL_DEVELOPER_CONTACT } from '../data/centralContactConfig';
 
 export default function Footer({ lang }) {
   const scrollToTop = () => {
@@ -56,8 +57,8 @@ export default function Footer({ lang }) {
 
           <div className="flex items-center gap-2.5 pt-1 border-t border-white/10">
             <Phone className="w-4 h-4 text-[#E6A916] flex-shrink-0" />
-            <a href="tel:+918589951951" className="font-mono hover:text-[#E6A916] transition-colors">
-              +91 8589951951
+            <a href={OFFICIAL_DEVELOPER_CONTACT.tel} className="font-mono hover:text-[#E6A916] transition-colors">
+              {OFFICIAL_DEVELOPER_CONTACT.primaryPhone}
             </a>
           </div>
 

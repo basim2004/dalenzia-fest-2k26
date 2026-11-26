@@ -19,6 +19,7 @@ import PostersPage from './pages/PostersPage';
 import PreviousEditionPage from './pages/PreviousEditionPage';
 import RegisterPage from './pages/RegisterPage';
 import CountdownPage from './pages/CountdownPage';
+import HelpResourcesPage from './pages/HelpResourcesPage';
 import AdminPortal from './admin/AdminPortal';
 import JudgePortal from './judge/JudgePortal';
 import ConvenerPortal from './convener/ConvenerPortal';
@@ -26,6 +27,9 @@ import TeamLeaderPortal from './teamleader/TeamLeaderPortal';
 import StudentPortal from './student/StudentPortal';
 import StageControllerPortal from './stagecontroller/StageControllerPortal';
 import LiveStageDisplay from './stagedisplay/LiveStageDisplay';
+import PWAUpdateToast from './components/pwa/PWAUpdateToast';
+import PWAInstallButton from './components/pwa/PWAInstallButton';
+import { registerPwaService, activateAppUpdate } from './services/pwaService';
 
 export default function App() {
   const [loading, setLoading] = useState(() => {
@@ -53,6 +57,14 @@ export default function App() {
   });
   const [lang, setLang] = useState('en');
   const [isTeaserOpen, setIsTeaserOpen] = useState(false);
+  const [showUpdateToast, setShowUpdateToast] = useState(false);
+
+  useEffect(() => {
+    document.title = 'DALENZIA 2K26';
+    registerPwaService(() => {
+      setShowUpdateToast(true);
+    });
+  }, []);
   const [currentPage, setCurrentPage] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.toLowerCase();
@@ -68,6 +80,7 @@ export default function App() {
       if (hash === '#admin' || hash.startsWith('#admin/') || hash === '#developer' || hash.startsWith('#developer/') || path === '/admin' || path.startsWith('/admin/')) return 'admin';
       if (hash === '#results' || path === '/results') return 'results';
       if (hash === '#downloads' || path === '/downloads' || hash === '#posters' || path === '/posters') return 'downloads';
+      if (hash === '#help' || hash === '#help-resources' || path === '/help' || path === '/help-resources') return 'help';
       if (hash === '#gallery' || path === '/gallery') return 'gallery';
       if (hash === '#schedule' || path === '/schedule') return 'schedule';
       if (hash === '#guests' || path === '/guests') return 'guests';
@@ -117,6 +130,8 @@ export default function App() {
         setCurrentPage('results');
       } else if (hash === '#downloads' || path === '/downloads' || hash === '#posters' || path === '/posters') {
         setCurrentPage('downloads');
+      } else if (hash === '#help' || hash === '#help-resources' || path === '/help' || path === '/help-resources') {
+        setCurrentPage('help');
       } else if (hash === '#gallery' || path === '/gallery') {
         setCurrentPage('gallery');
       } else if (hash === '#schedule' || path === '/schedule') {
@@ -300,6 +315,11 @@ export default function App() {
           onNavigateHome={navigateToHome}
           onNavigateRegister={navigateToRegister}
         />
+      ) : currentPage === 'help' || currentPage === 'help-resources' ? (
+        <>
+          <HelpResourcesPage onNavigateHome={navigateToHome} />
+          <FooterCinematic />
+        </>
       ) : (
         <>
           {/* Homepage Main Flow */}
@@ -333,6 +353,16 @@ export default function App() {
         isOpen={isTeaserOpen}
         onClose={() => setIsTeaserOpen(false)}
       />
+
+      {/* PWA Update System Notification Toast */}
+      <PWAUpdateToast
+        isOpen={showUpdateToast}
+        onUpdate={() => activateAppUpdate()}
+        onDismiss={() => setShowUpdateToast(false)}
+      />
+
+      {/* Floating PWA Install Promotion (desktop/tablet/mobile) */}
+      <PWAInstallButton variant="floating" />
     </div>
   );
 }

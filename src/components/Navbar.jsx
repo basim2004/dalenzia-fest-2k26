@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight, Flame, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
+import PWAInstallButton from './pwa/PWAInstallButton';
 
 export default function Navbar({ lang, setLang, currentPage = 'home', setCurrentPage }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,6 +23,7 @@ export default function Navbar({ lang, setLang, currentPage = 'home', setCurrent
     { name: 'Results', href: '#results', id: 'results' },
     { name: '2K25 Edition', href: '#previous', id: 'previous' },
     { name: 'Downloads', href: '#downloads', id: 'downloads' },
+    { name: 'Help & Resources', href: '#help', id: 'help' },
     { name: 'Gallery', href: '#gallery', id: 'gallery' },
     { name: 'Countdown', href: '#countdown', id: 'countdown' },
   ];
@@ -111,6 +113,15 @@ export default function Navbar({ lang, setLang, currentPage = 'home', setCurrent
       return;
     }
 
+    if (link.id === 'help') {
+      if (setCurrentPage) {
+        setCurrentPage('help');
+        window.location.hash = '#help';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
     if (link.id === 'home') {
       if (setCurrentPage) {
         setCurrentPage('home');
@@ -195,8 +206,10 @@ export default function Navbar({ lang, setLang, currentPage = 'home', setCurrent
             })}
           </nav>
 
-          {/* Right Action: Register Now CTA */}
-          <div className="flex items-center gap-3">
+          {/* Right Action: PWA Install & Register Now CTA */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <PWAInstallButton variant="navbar" />
+
             <button
               type="button"
               onClick={handleRegisterClick}
@@ -276,6 +289,8 @@ export default function Navbar({ lang, setLang, currentPage = 'home', setCurrent
             </div>
 
             <div className="relative z-10 border-t border-white/20 pt-6 space-y-3">
+              <PWAInstallButton variant="drawer" />
+
               <button
                 type="button"
                 onClick={handleRegisterClick}
@@ -303,7 +318,20 @@ export default function Navbar({ lang, setLang, currentPage = 'home', setCurrent
               </div>
 
               <div className="flex items-center justify-between text-xs text-white/70 pt-1">
-                <span>Helpdesk: +91 8589951951</span>
+                <a
+                  href="#help"
+                  onClick={() => {
+                    setIsOpen(false);
+                    if (setCurrentPage) {
+                      setCurrentPage('help');
+                      window.location.hash = '#help';
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                  }}
+                  className="hover:text-[#E6A916] transition-colors flex items-center gap-1 font-semibold text-white/90"
+                >
+                  <span>Help & Resources ↗</span>
+                </a>
                 <span>Ayiroor, Kerala</span>
               </div>
             </div>

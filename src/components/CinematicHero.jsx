@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Calendar, MapPin, ArrowRight, Play, ChevronDown, Trophy, Users, Layers, Clock, Sparkles } from 'lucide-react';
-import festivalStore from '../admin/data/festivalStore';
+import { ArrowRight, Play, Sparkles } from 'lucide-react';
+import OfficialFestivalDateVenue from './OfficialFestivalDateVenue';
 
 // Responsive & Lightweight Golden Sand Particles Canvas
 function GoldenSandCanvas({ mouse }) {
@@ -77,14 +77,7 @@ export default function CinematicHero({ onOpenTeaser }) {
   const containerRef = useRef(null);
   const mouse = useRef({ x: 0, y: 0 });
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [highlights, setHighlights] = useState(() => festivalStore.getFestivalHighlights());
   const shouldReduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    const update = () => setHighlights(festivalStore.getFestivalHighlights());
-    const unsub = festivalStore.subscribe(update);
-    return () => unsub();
-  }, []);
 
   // Mouse tilt tracking for desktop
   const handleMouseMove = (e) => {
@@ -174,9 +167,9 @@ export default function CinematicHero({ onOpenTeaser }) {
           className="lg:col-span-6 flex flex-col items-start space-y-6 text-left"
         >
           {/* Subtle Festival Eyebrow Badge */}
-          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#A91F35]/10 border border-[#A91F35]/25 text-[#A91F35] text-xs font-black tracking-widest uppercase shadow-2xs backdrop-blur-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#E6A916] animate-spin-slow" />
-            <span>Dalailussunna Dars Presents · 2K26 Edition</span>
+          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#A91F35]/10 border border-[#A91F35]/25 text-[#A91F35] text-[10px] sm:text-xs font-black tracking-wider sm:tracking-widest uppercase shadow-2xs backdrop-blur-xs max-w-full">
+            <Sparkles className="w-3.5 h-3.5 text-[#E6A916] animate-spin-slow shrink-0" />
+            <span className="truncate">Dalailussunna Dars Presents · 2K26 Edition</span>
           </motion.div>
 
           {/* Main Headline: Festival Tagline in Prominent Editorial Typography */}
@@ -189,24 +182,16 @@ export default function CinematicHero({ onOpenTeaser }) {
             </p>
           </motion.div>
 
-          {/* Date & Venue Badges */}
-          <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs sm:text-sm font-semibold text-[#1c1917]/85 pt-0.5">
-            <div className="flex items-center gap-2 text-[#A91F35] font-bold">
-              <Calendar className="w-4 h-4 text-[#E6A916]" />
-              <span>December 21–23, 2026</span>
-            </div>
-            <span className="hidden sm:inline text-stone-300">•</span>
-            <div className="flex items-center gap-2 text-[#A91F35] font-bold">
-              <MapPin className="w-4 h-4 text-[#E6A916]" />
-              <span>Dalailussunna Dars, Ayiroor</span>
-            </div>
+          {/* Official Approved Date & Address Block */}
+          <motion.div variants={fadeInUp} className="pt-1 pb-1">
+            <OfficialFestivalDateVenue align="left" size="md" />
           </motion.div>
 
           {/* Primary Action Buttons */}
-          <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-3.5 pt-2 w-full sm:w-auto">
+          <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2 w-full sm:w-auto">
             <a
               href="#about"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#A91F35] hover:bg-[#8d182b] text-white text-xs md:text-sm font-bold tracking-wide shadow-lg hover:shadow-xl active:scale-95 transition-all group"
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-[#A91F35] hover:bg-[#8d182b] text-white text-xs md:text-sm font-bold tracking-wide shadow-lg hover:shadow-xl active:scale-95 transition-all group text-center"
             >
               <span>Explore Festival</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
@@ -214,7 +199,7 @@ export default function CinematicHero({ onOpenTeaser }) {
 
             <button
               onClick={onOpenTeaser}
-              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-white/95 hover:bg-white border border-[#A91F35]/25 text-[#A91F35] text-xs md:text-sm font-bold tracking-wide shadow-sm hover:shadow-md active:scale-95 transition-all group cursor-pointer"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3 sm:py-3.5 rounded-full bg-white/95 hover:bg-white border border-[#A91F35]/25 text-[#A91F35] text-xs md:text-sm font-bold tracking-wide shadow-sm hover:shadow-md active:scale-95 transition-all group cursor-pointer text-center"
             >
               <div className="w-6 h-6 rounded-full bg-[#A91F35] text-white flex items-center justify-center shadow-xs group-hover:scale-110 transition-transform">
                 <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
@@ -282,82 +267,6 @@ export default function CinematicHero({ onOpenTeaser }) {
           </div>
         </motion.div>
       </div>
-
-      {/* Bottom Bar: 4 Metrics & Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full mt-6 pt-4 border-t border-[#A91F35]/15"
-      >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
-          <div className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10 group-hover:scale-105 group-hover:border-[#E6A916]/50 transition-all">
-              <Trophy className="w-5 h-5 text-[#A91F35]" />
-            </div>
-            <div>
-              <span className="font-mono text-base md:text-lg font-black text-[#A91F35] block leading-none">
-                {highlights.competitionsDisplay}
-              </span>
-              <span className="text-[11px] font-bold text-stone-600">Competitions</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10 group-hover:scale-105 group-hover:border-[#E6A916]/50 transition-all">
-              <Users className="w-5 h-5 text-[#A91F35]" />
-            </div>
-            <div>
-              <span className="font-mono text-xs md:text-sm font-black text-[#A91F35] block leading-tight">
-                {highlights.isGuestsConfirmed ? highlights.guestsDisplay : 'TBA'}
-              </span>
-              <span className="text-[11px] font-bold text-stone-600">Guests of Honour</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10 group-hover:scale-105 group-hover:border-[#E6A916]/50 transition-all">
-              <Layers className="w-5 h-5 text-[#A91F35]" />
-            </div>
-            <div>
-              <span className="font-mono text-xs md:text-sm font-black text-[#A91F35] block leading-tight">
-                {highlights.isSessionsConfigured ? highlights.sessionsDisplay : 'Coming Soon'}
-              </span>
-              <span className="text-[11px] font-bold text-stone-600">Academic Sessions</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#A91F35] border border-[#A91F35]/10 group-hover:scale-105 group-hover:border-[#E6A916]/50 transition-all">
-              <Clock className="w-5 h-5 text-[#A91F35]" />
-            </div>
-            <div>
-              <span className="font-mono text-base md:text-lg font-black text-[#A91F35] block leading-none">
-                {highlights.vibrantDaysDisplay}
-              </span>
-              <span className="text-[11px] font-bold text-stone-600">Vibrant Days</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll To Explore Indicator with Motion Bounce */}
-        <div className="flex justify-center items-center gap-2 mt-4 text-[11px] font-bold uppercase tracking-widest text-[#A91F35]">
-          <span className="w-12 h-[1px] bg-[#A91F35]/30" />
-          <motion.div
-            animate={shouldReduceMotion ? {} : { y: [0, 4, 0] }}
-            transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-            className="flex items-center gap-1.5 cursor-pointer hover:text-[#8d182b] transition-colors"
-            onClick={() => {
-              const aboutEl = document.getElementById('about');
-              if (aboutEl) aboutEl.scrollIntoView({ behavior: 'smooth' });
-            }}
-          >
-            <span>Scroll to Explore</span>
-            <ChevronDown className="w-4 h-4 text-[#E6A916]" />
-          </motion.div>
-          <span className="w-12 h-[1px] bg-[#A91F35]/30" />
-        </div>
-      </motion.div>
     </section>
   );
 }

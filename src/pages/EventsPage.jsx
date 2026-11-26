@@ -30,6 +30,7 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 import { festivalStore } from '../admin/data/festivalStore';
+import OfficialFestivalDateVenue from '../components/OfficialFestivalDateVenue';
 
 // Event Categories from Updated Dalenzia 2K26 Festival Charter (77 Programmes)
 const CATEGORIES = [
@@ -187,17 +188,9 @@ export default function EventsPage({ onNavigateHome }) {
               A vibrant line-up of literary, creative, debating and intellectual events that bring out the finest in student eloquence, analytical brilliance, and cultural expression.
             </p>
 
-            {/* Date & Venue Info */}
-            <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm font-semibold text-[#1c1917] pt-1">
-              <span className="flex items-center gap-1.5 text-[#A91F35]">
-                <Calendar className="w-4 h-4" />
-                21, 22, 23 DECEMBER 2026
-              </span>
-              <span className="text-stone-300">•</span>
-              <span className="flex items-center gap-1.5 text-[#A91F35]">
-                <MapPin className="w-4 h-4" />
-                Dalailussunna Dars, Ayiroor
-              </span>
+            {/* Official Date & Venue Info */}
+            <div className="pt-2 pb-1">
+              <OfficialFestivalDateVenue align="left" size="sm" />
             </div>
 
             {/* Action Buttons */}
@@ -211,7 +204,7 @@ export default function EventsPage({ onNavigateHome }) {
               </button>
 
               <a
-                href="https://wa.me/918589951951?text=Hello%20Dalenzia%20Fest%202K26,%20I%20want%20to%20inquire%20about%20event%20registration."
+                href="https://wa.me/916282925271?text=Hello%20Dalenzia%20Fest%202K26,%20I%20want%20to%20inquire%20about%20event%20registration."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#E6A916] text-[#A91F35] hover:bg-[#ffd166] text-xs md:text-sm font-extrabold shadow-md transition-all active:scale-95 group"
@@ -773,7 +766,7 @@ export default function EventsPage({ onNavigateHome }) {
             </button>
 
             <a
-              href="https://wa.me/918589951951?text=Hello%20Dalenzia%20Fest%202K26,%20I%20would%20like%20to%20register%20for%20the%20competitions."
+              href="https://wa.me/916282925271?text=Hello%20Dalenzia%20Fest%202K26,%20I%20would%20like%20to%20register%20for%20the%20competitions."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/15 hover:bg-white/25 text-white font-bold text-xs md:text-sm transition-all"
@@ -789,10 +782,6 @@ export default function EventsPage({ onNavigateHome }) {
               <Home className="w-4 h-4" />
               <span>Return Home</span>
             </button>
-          </div>
-
-          <div className="pt-4 text-xs text-white/70">
-            <span>Official Helpdesk: +91 8589951951 • Dalailussunna Dars, Ayiroor, Malappuram</span>
           </div>
 
         </div>
@@ -907,7 +896,7 @@ export default function EventsPage({ onNavigateHome }) {
                   </span>
 
                   <a
-                    href={`https://wa.me/918589951951?text=Hello%20Dalenzia%20Fest%202K26,%20I%20would%20like%20to%20register%20for%20the%20competition:%20${encodeURIComponent(activeModalEvent.name)}`}
+                    href={`https://wa.me/916282925271?text=Hello%20Dalenzia%20Fest%202K26,%20I%20would%20like%20to%20register%20for%20the%20competition:%20${encodeURIComponent(activeModalEvent.name)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#E6A916] text-[#A91F35] hover:bg-[#ffd166] text-xs font-extrabold shadow-md transition-all active:scale-95"

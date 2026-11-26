@@ -25,6 +25,7 @@ import {
   Info
 } from 'lucide-react';
 import { festivalStore } from '../admin/data/festivalStore';
+import OfficialFestivalDateVenue from '../components/OfficialFestivalDateVenue';
 
 // Authentic Dalenzia Guests Data based on Official Model Showcase
 const STATIC_GUESTS = [];
@@ -142,17 +143,9 @@ export default function GuestsPage({ onNavigateHome, onNavigateEvents }) {
               The Minds Behind the Inspiration. Eminent Islamic scholars, academic thinkers, writers, and cultural dignitaries gracing the second edition arenas of Dalenzia Fest.
             </p>
 
-            {/* Date & Venue Info */}
-            <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm font-semibold text-[#1c1917] pt-1">
-              <span className="flex items-center gap-1.5 text-[#A91F35]">
-                <Calendar className="w-4 h-4" />
-                21, 22, 23 DECEMBER 2026
-              </span>
-              <span className="text-stone-300">•</span>
-              <span className="flex items-center gap-1.5 text-[#A91F35]">
-                <MapPin className="w-4 h-4" />
-                Dalailussunna Dars, Ayiroor
-              </span>
+            {/* Official Date & Venue Info */}
+            <div className="pt-2 pb-1">
+              <OfficialFestivalDateVenue align="left" size="sm" />
             </div>
 
             {/* Action Buttons */}
@@ -673,10 +666,6 @@ export default function GuestsPage({ onNavigateHome, onNavigateEvents }) {
             </button>
           </div>
 
-          <div className="pt-4 text-xs text-white/70">
-            <span>Dalailussunna Dars, Ayiroor, Malappuram • Helpdesk: +91 8589951951</span>
-          </div>
-
         </div>
       </section>
 
@@ -802,7 +791,7 @@ export default function GuestsPage({ onNavigateHome, onNavigateEvents }) {
                   </span>
 
                   <a
-                    href={`https://wa.me/918589951951?text=Hello%20Dalenzia%20Fest%202K26,%20I%20have%20an%20inquiry%20regarding%20the%20session%20by%20${encodeURIComponent(selectedGuest.name)}`}
+                    href={`https://wa.me/916282925271?text=Hello%20Dalenzia%20Fest%202K26,%20I%20have%20an%20inquiry%20regarding%20the%20session%20by%20${encodeURIComponent(selectedGuest.name)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E6A916] text-[#A91F35] hover:bg-[#ffd166] text-xs font-extrabold shadow-md transition-all active:scale-95"

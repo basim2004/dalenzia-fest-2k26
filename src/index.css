@@ -116,12 +116,18 @@ body {
 .animate-marquee-live {
   display: flex;
   width: max-content;
-  animation: marqueeLive 28s linear infinite;
+  animation: marqueeLive 35s linear infinite;
   will-change: transform;
 }
 
 .animate-marquee-live:hover {
   animation-play-state: paused;
+}
+
+@media (max-width: 640px) {
+  .animate-marquee-live {
+    animation-duration: 26s;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -130,3 +136,52 @@ body {
     transform: none;
   }
 }
+
+/* ========================================================================= */
+/* PWA STANDALONE & MOBILE RESPONSIVE ENHANCEMENTS                          */
+/* ========================================================================= */
+
+html {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  -webkit-tap-highlight-color: transparent;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* When running as installed standalone PWA app */
+@media all and (display-mode: standalone) {
+  body {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  input, textarea, [contenteditable="true"] {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+}
+
+/* Mobile Touch Target & Layout Guardrails (320px - 428px) */
+@media (max-width: 640px) {
+  /* Prevent horizontal card blowouts */
+  img, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Safe container padding on narrow devices (e.g. 320px iPhone SE) */
+  .container-safe {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+}
+

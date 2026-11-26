@@ -28,6 +28,7 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 import { festivalStore } from '../admin/data/festivalStore';
+import OfficialFestivalDateVenue from '../components/OfficialFestivalDateVenue';
 
 // Official 7 Confirmed Festival Events from Dalenzia Charter
 const SCHEDULE_DATA = {
@@ -318,22 +319,9 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
               Three Days. Countless Moments. One NUEVA ERA. Explore the complete three-day schedule detailing session hours, stage venues, competitive rounds, and presidential ceremonies across Ayiroor.
             </p>
 
-            {/* Date & Venue Info */}
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs md:text-sm font-semibold text-[#1c1917] pt-1">
-              <span className="flex items-center gap-1.5 text-[#A91F35]">
-                <Calendar className="w-4 h-4" />
-                December 21–23, 2026
-              </span>
-              <span className="text-stone-300">•</span>
-              <span className="flex items-center gap-1.5 text-[#A91F35]">
-                <MapPin className="w-4 h-4" />
-                Dalailussunna Dars, Ayiroor
-              </span>
-              <span className="text-stone-300">•</span>
-              <span className="flex items-center gap-1.5 text-[#E6A916] font-bold">
-                <Clock className="w-4 h-4" />
-                3 Vibrant Days · 5 Grand Arenas
-              </span>
+            {/* Official Date & Venue Info */}
+            <div className="pt-2 pb-1">
+              <OfficialFestivalDateVenue align="center" size="sm" />
             </div>
 
             {/* Action Buttons Centred */}
@@ -721,10 +709,6 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
             </button>
           </div>
 
-          <div className="pt-4 text-xs text-white/70">
-            <span>Official Helpline: +91 8589951951 • Dalailussunna Dars, Ayiroor, Malappuram</span>
-          </div>
-
         </div>
       </section>
 
@@ -856,7 +840,7 @@ export default function SchedulePage({ onNavigateHome, onNavigateEvents, onNavig
                 {/* Actions inside modal */}
                 <div className="pt-4 border-t border-stone-200 flex items-center justify-between">
                   <span className="text-xs text-stone-500">
-                    Dalailussunna Dars, Ayiroor, Malappuram • Helpdesk: +91 8589951951
+                    21, 22, 23 DEC 2026 • Masjidul Liwah, Ayiroor
                   </span>
 
                   <button

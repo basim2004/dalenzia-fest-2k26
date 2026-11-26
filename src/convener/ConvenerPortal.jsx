@@ -16,6 +16,7 @@ import ConvenerReports from './components/ConvenerReports';
 import ConvenerAuditLogs from './components/ConvenerAuditLogs';
 import ConvenerResults from './components/ConvenerResults';
 import ConvenerHelpdesk from '../components/ConvenerHelpdesk';
+import HelpResourcesPage from '../pages/HelpResourcesPage';
 import RegistrationDeskModule from '../components/RegistrationDesk/RegistrationDeskModule';
 
 export default function ConvenerPortal({ onNavigatePublic }) {
@@ -48,6 +49,7 @@ export default function ConvenerPortal({ onNavigatePublic }) {
       if (hash.includes('activities')) return 'activities';
       if (hash.includes('reports')) return 'reports';
       if (hash.includes('audit')) return 'audit';
+      if (hash.includes('help_resources') || hash.includes('resources')) return 'help_resources';
       if (hash.includes('helpdesk')) return 'helpdesk';
     }
     return 'dashboard';
@@ -81,6 +83,7 @@ export default function ConvenerPortal({ onNavigatePublic }) {
       else if (hash.includes('activities')) setActiveModule('activities');
       else if (hash.includes('reports')) setActiveModule('reports');
       else if (hash.includes('audit')) setActiveModule('audit');
+      else if (hash.includes('help_resources') || hash.includes('resources')) setActiveModule('help_resources');
       else if (hash.includes('helpdesk')) setActiveModule('helpdesk');
       else if (hash === '#convener' || hash === '#convener/dashboard') setActiveModule('dashboard');
     };
@@ -145,6 +148,8 @@ export default function ConvenerPortal({ onNavigatePublic }) {
           userProfile={convenerSession}
           isConvenerView={true}
         />
+      ) : activeModule === 'help_resources' ? (
+        <HelpResourcesPage />
       ) : (
         <ConvenerAuditLogs />
       )}

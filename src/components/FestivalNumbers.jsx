@@ -49,7 +49,7 @@ function StatCard({ icon: Icon, targetValue, suffix, label, delay }) {
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}
       whileHover={shouldReduceMotion ? {} : { y: -6, scale: 1.015 }}
-      className="relative bg-white rounded-3xl p-6 md:p-8 border border-[#A91F35]/15 shadow-md flex flex-col items-center text-center group hover:shadow-2xl hover:border-[#A91F35]/35 transition-all duration-300 overflow-hidden"
+      className="relative bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-[#A91F35]/15 shadow-md flex flex-col items-center text-center group hover:shadow-2xl hover:border-[#A91F35]/35 transition-all duration-300 overflow-hidden"
     >
       {/* Decorative Gold & Crimson Top Accent Strip */}
       <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#A91F35] via-[#E6A916] to-[#A91F35] group-hover:h-2 transition-all duration-300" />
@@ -75,7 +75,7 @@ function StatCard({ icon: Icon, targetValue, suffix, label, delay }) {
       </div>
 
       {/* Label */}
-      <span className="relative z-10 text-xs md:text-sm font-bold uppercase tracking-wider text-[#1c1917]/75 mt-2">
+      <span className="relative z-10 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider text-[#1c1917]/75 mt-2 line-clamp-1">
         {label}
       </span>
     </motion.div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Calendar, MapPin, Sparkles, Eye, Trophy, Users, Layers, Clock, ArrowRight, Hourglass } from 'lucide-react';
+import { Sparkles, Eye, Trophy, Users, Layers, Clock, ArrowRight, Hourglass } from 'lucide-react';
 import festivalStore from '../admin/data/festivalStore';
 import HeritageArticlesSection from './HeritageArticles/HeritageArticlesSection';
 
@@ -62,19 +62,6 @@ export default function AboutSection() {
           <p className="text-xs md:text-sm text-[#1c1917]/75 leading-relaxed font-normal max-w-2xl mx-auto">
             Rooted in centuries-old classical Islamic educational traditions and propelled by the visionary theme <strong className="text-[#A91F35]">"Nueva Era"</strong>, the festival bridges sacred heritage with modern digital thought and student creativity.
           </p>
-
-          {/* Date & Venue Info */}
-          <div className="flex flex-wrap items-center justify-center gap-4 text-xs md:text-sm font-bold text-[#1c1917] pt-2">
-            <div className="flex items-center gap-2 text-[#A91F35]">
-              <Calendar className="w-4 h-4 text-[#E6A916]" />
-              <span>December 21–23, 2026</span>
-            </div>
-            <span className="text-stone-300">•</span>
-            <div className="flex items-center gap-2 text-[#A91F35]">
-              <MapPin className="w-4 h-4 text-[#E6A916]" />
-              <span>Dalailussunna Dars, Ayiroor</span>
-            </div>
-          </div>
         </motion.div>
 
         {/* Bottom 3-Card Grid: Theme (NUEVA ERA with Hourglass Motion), Vision & Highlights */}

@@ -200,21 +200,21 @@ export default function WhatsAppCommunitySection({
             </div>
 
             {/* Action Buttons Bar */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2 w-full">
               <a
                 href={WHATSAPP_GROUP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-7 py-4 rounded-2xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-black text-sm sm:text-base flex items-center justify-center gap-3 shadow-lg hover:shadow-[0_10px_25px_rgba(37,211,102,0.4)] transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
+                className="px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-black text-xs sm:text-base flex items-center justify-center gap-2.5 sm:gap-3 shadow-lg hover:shadow-[0_10px_25px_rgba(37,211,102,0.4)] transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 text-center"
               >
-                <WhatsAppIcon className="w-5 h-5 text-white" />
+                <WhatsAppIcon className="w-5 h-5 text-white shrink-0" />
                 <span>JOIN WHATSAPP GROUP</span>
-                <ExternalLink className="w-4 h-4 text-white/80" />
+                <ExternalLink className="w-4 h-4 text-white/80 shrink-0" />
               </a>
 
               <button
                 onClick={handleCopyLink}
-                className={`px-5 py-4 rounded-2xl border font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+                className={`px-5 py-3.5 sm:py-4 rounded-2xl border font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center ${
                   isArchival
                     ? 'bg-stone-900 border-white/15 text-stone-300 hover:text-white hover:bg-stone-800'
                     : 'bg-white border-stone-300 text-stone-700 hover:bg-stone-50 hover:text-stone-900 shadow-sm'

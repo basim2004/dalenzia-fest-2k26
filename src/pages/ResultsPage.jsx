@@ -176,54 +176,64 @@ export default function ResultsPage({
     return items;
   }, [resultsList, announcements, hasApprovedScores, sortedTeams]);
 
+  // Ensure seamless, calm continuous announcement items
+  const tickerItems = useMemo(() => {
+    if (liveTickerUpdates && liveTickerUpdates.length > 0) {
+      return liveTickerUpdates;
+    }
+    return [
+      "Official results will be published here as soon as approved by the Tabulation Committee.",
+      "Live standings and verified marks update continuously across all festival categories.",
+      "Dalenzia Fest 2K26 — Second Edition • Nueva Era"
+    ];
+  }, [liveTickerUpdates]);
+
   return (
     <div className="relative min-h-screen bg-[#F7F3E9] text-[#1c1917] selection:bg-[#A91F35] selection:text-white font-sans overflow-x-hidden">
-      {/* SECTION 07: Top Live Breaking Ticker with Continuous Marquee Animation */}
-      <div className="bg-[#A91F35] text-white py-2.5 px-4 shadow-md sticky top-[60px] md:top-[72px] z-40 border-y border-[#E6A916]/40 backdrop-blur-md overflow-hidden">
+      {/* Top Live Update Information Strip */}
+      <div className="bg-[#A91F35] text-white py-2 px-3 sm:px-4 shadow-md sticky top-[60px] md:top-[72px] z-40 border-y border-[#E6A916]/40 backdrop-blur-md overflow-hidden select-none">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-xs md:text-sm font-semibold tracking-wide">
-          <div className="flex items-center gap-3 flex-1 min-w-0 overflow-hidden">
-            <span className="flex items-center gap-1.5 bg-[#E6A916] text-[#A91F35] text-[10px] uppercase font-black px-2 py-0.5 rounded-full shrink-0 shadow-sm animate-pulse z-10">
+          {/* Fixed Left Label Anchor (Static, solid gold badge, no flashing or pulsing) */}
+          <div className="shrink-0 flex items-center z-20 bg-[#A91F35] pr-2.5 sm:pr-3">
+            <span className="flex items-center gap-1.5 bg-[#E6A916] text-[#A91F35] text-[10px] md:text-[11px] uppercase font-black px-2.5 py-0.5 rounded-full shrink-0 shadow-xs tracking-wider">
               <span className="w-1.5 h-1.5 rounded-full bg-[#A91F35]" />
               LIVE UPDATE
             </span>
+          </div>
 
-            {/* Seamless Infinite Marquee Track */}
-            <div className="relative flex-1 overflow-hidden select-none whitespace-nowrap mask-[linear-gradient(to_right,transparent,black_2%,black_98%,transparent)]">
-              {liveTickerUpdates.length > 0 ? (
-                <div className="animate-marquee-live flex items-center gap-8 cursor-default">
-                  {/* First segment */}
-                  <div className="flex items-center gap-8 shrink-0">
-                    {liveTickerUpdates.map((item, idx) => (
-                      <span key={`first-${idx}`} className="flex items-center gap-8 text-white/95">
-                        <span>{item}</span>
-                        <span className="text-[#E6A916] font-bold">•</span>
-                      </span>
-                    ))}
-                  </div>
-                  {/* Duplicated segment for seamless infinite loop */}
-                  <div className="flex items-center gap-8 shrink-0" aria-hidden="true">
-                    {liveTickerUpdates.map((item, idx) => (
-                      <span key={`second-${idx}`} className="flex items-center gap-8 text-white/95">
-                        <span>{item}</span>
-                        <span className="text-[#E6A916] font-bold">•</span>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <div className="text-white/90 text-xs font-medium tracking-wide">
-                  Official results will be published here as soon as approved by the Tabulation Committee.
-                </div>
-              )}
+          {/* Calm Continuous Marquee Track (Smooth horizontal right-to-left loop, strictly bounded) */}
+          <div className="relative flex-1 min-w-0 overflow-hidden whitespace-nowrap">
+            <div className="animate-marquee-live flex items-center cursor-default">
+              {/* Primary Sequence */}
+              <div className="flex items-center gap-8 shrink-0 pr-8">
+                {tickerItems.map((item, idx) => (
+                  <span key={`ticker-item-1-${idx}`} className="flex items-center gap-8 text-white/95 text-xs font-medium tracking-wide">
+                    <span>{item}</span>
+                    <span className="text-[#E6A916] font-bold select-none">•</span>
+                  </span>
+                ))}
+              </div>
+              {/* Duplicate Sequence for Seamless Infinite Loop */}
+              <div className="flex items-center gap-8 shrink-0 pr-8" aria-hidden="true">
+                {tickerItems.map((item, idx) => (
+                  <span key={`ticker-item-2-${idx}`} className="flex items-center gap-8 text-white/95 text-xs font-medium tracking-wide">
+                    <span>{item}</span>
+                    <span className="text-[#E6A916] font-bold select-none">•</span>
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
-          <button
-            onClick={() => setActiveTab('leaderboard')}
-            className="hidden sm:inline-flex items-center gap-1 text-[#E6A916] hover:text-white transition-colors shrink-0 font-bold ml-4 text-xs underline underline-offset-4 z-10 cursor-pointer"
-          >
-            View Live Standings →
-          </button>
+          {/* Fixed Right Standings Link Anchor (Strictly bounded, never overlapped) */}
+          <div className="shrink-0 z-20 bg-[#A91F35] pl-2.5 sm:pl-3">
+            <button
+              onClick={() => setActiveTab('leaderboard')}
+              className="inline-flex items-center gap-1 text-[#E6A916] hover:text-white transition-colors font-bold text-xs underline underline-offset-4 cursor-pointer whitespace-nowrap"
+            >
+              <span>View Live Standings →</span>
+            </button>
+          </div>
         </div>
       </div>
 

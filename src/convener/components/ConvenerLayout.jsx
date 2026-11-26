@@ -67,7 +67,8 @@ export default function ConvenerLayout({
     { id: 'activities', name: 'Operational Activities', icon: ClipboardList },
     { id: 'reports', name: 'Operational Reports', icon: FileText },
     { id: 'audit', name: 'Activity Audit Trail', icon: Clock },
-    { id: 'helpdesk', name: 'Convener Helpdesk', icon: LifeBuoy, highlight: true }
+    { id: 'helpdesk', name: 'Convener Helpdesk', icon: LifeBuoy, highlight: true },
+    { id: 'help_resources', name: 'Resources & Guides', icon: FileText, highlight: true }
   ];
 
   const handlePasswordChangeSubmit = (e) => {
@@ -223,6 +224,18 @@ export default function ConvenerLayout({
                 <span>Judge Portal</span>
               </div>
               <ExternalLink className="w-3 h-3 text-[#E6A916]" />
+            </a>
+
+            <a
+              href="#developer"
+              className="w-full flex items-center justify-between px-3.5 py-2 rounded-2xl text-[11px] font-bold text-[#E6A916] bg-black/25 hover:bg-[#E6A916] hover:text-[#A91F35] transition-all border border-[#E6A916]/30 shadow-xs"
+              title="Authorized Developer & Admin Console"
+            >
+              <div className="flex items-center gap-2.5">
+                <Shield className="w-3.5 h-3.5" />
+                <span>Developer & Admin Console</span>
+              </div>
+              <ExternalLink className="w-3 h-3" />
             </a>
           </div>
         </nav>

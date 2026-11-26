@@ -8936,12 +8936,20 @@ class FestivalStore {
 
   verifyAdminLogin(identifier, password, role = 'super_admin') {
     const cleanId = (identifier || '').trim().toLowerCase();
-    // Strictly prevent convener from accessing Developer/Admin
-    if (cleanId === 'convener' || cleanId === 'convener@dalenziafest.in') {
-      return {
-        success: false,
-        error: 'Access Denied: Convener account cannot access the Developer / Admin Control Centre. Please use the designated Convener portal.'
-      };
+    // Authorized Convener credentials authentication
+    if (cleanId === 'convener' || cleanId === 'convener@dalenziafest.in' || cleanId === 'irfan@convener' || cleanId === 'irfan') {
+      const convenerRes = this.verifyConvenerLogin(cleanId.includes('@') ? cleanId : 'irfan@convener', password);
+      if (convenerRes.success) {
+        return {
+          success: true,
+          session: {
+            ...convenerRes.session,
+            portalRole: 'admin',
+            roleLabel: 'Festival Convener (Authorized)'
+          }
+        };
+      }
+      return convenerRes;
     }
 
     const validUser = (

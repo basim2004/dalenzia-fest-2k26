@@ -36,12 +36,17 @@ export default function AdminLogin({ onLoginSuccess }) {
     setIsLoading(true);
 
     try {
-      const res = await unifiedLogin(identifier, password, 'MAIN_ADMIN');
+      const cleanIdent = identifier.trim().toLowerCase();
+      const isConvenerAttempt = cleanIdent.includes('convener') || cleanIdent.includes('irfan');
+      const targetRole = isConvenerAttempt ? 'CONVENER' : 'MAIN_ADMIN';
+      const res = await unifiedLogin(identifier, password, targetRole);
       setIsLoading(false);
 
       if (res.success) {
-        sessionStorage.removeItem('dalenzia_convener_session');
-        sessionStorage.setItem('dalenzia_admin_session', JSON.stringify(res.session));
+        sessionStorage.setItem('dalenzia_admin_session', JSON.stringify({ ...res.session, portalRole: 'admin' }));
+        if (targetRole === 'CONVENER') {
+          sessionStorage.setItem('dalenzia_convener_session', JSON.stringify(res.session));
+        }
         onLoginSuccess(res.session);
       } else {
         setError(res.error || 'Invalid administrator credentials. Access restricted.');

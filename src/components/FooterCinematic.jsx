@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   ArrowUp,
-  MapPin,
   Phone,
   Mail,
   ArrowRight,
@@ -10,6 +9,7 @@ import {
   Shield,
   MessageCircle
 } from 'lucide-react';
+import { OFFICIAL_DEVELOPER_CONTACT } from '../data/centralContactConfig';
 
 /* Crisp Inline Brand SVGs */
 const InstagramIcon = ({ className = "w-3.5 h-3.5" }) => (
@@ -91,20 +91,28 @@ export default function FooterCinematic() {
               Annual literary and cultural festival celebrating Islamic scholarship, art, and intellectual dynamism at Dalailussunna Dars.
             </p>
 
-            {/* Compact Venue & Contact Details */}
-            <div className="text-[11px] text-[#F7F3E9]/90 space-y-1 font-medium">
-              <p className="flex items-center gap-2">
-                <MapPin className="w-3 h-3 text-[#E6A916] shrink-0" />
-                <span>Dalailussunna Dars, Ayiroor, Malappuram 679580, Kerala</span>
-              </p>
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                <a href="tel:+918589951951" className="flex items-center gap-1.5 hover:text-[#E6A916] transition-colors">
+            {/* Official Date & Venue Presentation */}
+            <div className="space-y-2 text-left">
+              <div className="space-y-0.5 border-l-2 border-[#E6A916] pl-3 py-0.5">
+                <p className="text-xs sm:text-sm font-bold text-[#E6A916] tracking-wider uppercase font-serif">
+                  2026 DECEMBER 21, 22, 23
+                </p>
+                <p className="text-[11px] sm:text-xs font-semibold text-[#F7F3E9]">
+                  Thaqwa Juma Masjid Ayiroor
+                </p>
+                <p className="text-[10px] sm:text-[11px] font-medium text-[#F7F3E9]/80">
+                  Venue : Masjidul Liwah, Kandu Bazaar, Puthanpalli, Ayiroor.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-[#F7F3E9]/90 font-medium">
+                <a href={OFFICIAL_DEVELOPER_CONTACT.tel} className="flex items-center gap-1.5 hover:text-[#E6A916] transition-colors">
                   <Phone className="w-3 h-3 text-[#E6A916] shrink-0" />
-                  <span>+91 8589951951</span>
+                  <span>{OFFICIAL_DEVELOPER_CONTACT.primaryPhone}</span>
                 </a>
-                <a href="mailto:dalenziafest@gmail.com" className="flex items-center gap-1.5 hover:text-[#E6A916] transition-colors">
+                <a href={`mailto:${OFFICIAL_DEVELOPER_CONTACT.email}`} className="flex items-center gap-1.5 hover:text-[#E6A916] transition-colors">
                   <Mail className="w-3 h-3 text-[#E6A916] shrink-0" />
-                  <span>dalenziafest@gmail.com</span>
+                  <span>{OFFICIAL_DEVELOPER_CONTACT.email}</span>
                 </a>
               </div>
             </div>
@@ -165,6 +173,9 @@ export default function FooterCinematic() {
               <a href="#downloads" className="hover:text-[#E6A916] transition-colors flex items-center gap-1 truncate">
                 <ArrowRight className="w-2.5 h-2.5 text-[#E6A916] shrink-0" /> Downloads
               </a>
+              <a href="#help" className="hover:text-[#E6A916] transition-colors flex items-center gap-1 truncate font-bold text-[#E6A916]">
+                <ArrowRight className="w-2.5 h-2.5 text-[#E6A916] shrink-0" /> Help & Resources
+              </a>
               <a href="#gallery" className="hover:text-[#E6A916] transition-colors flex items-center gap-1 truncate">
                 <ArrowRight className="w-2.5 h-2.5 text-[#E6A916] shrink-0" /> Gallery
               </a>
@@ -201,11 +212,12 @@ export default function FooterCinematic() {
                 <MessageCircle className="w-3.5 h-3.5" />
               </a>
               <a
-                href="https://youtube.com"
+                href="https://www.youtube.com/channel/UCTz2Q9EmgNeVQW_SDmE4LQA"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#E6A916] text-white hover:text-[#A91F35] flex items-center justify-center transition-all border border-white/15 shadow-sm"
-                title="YouTube"
+                title="Official Dalenzia Fest YouTube Channel"
+                aria-label="Official Dalenzia Fest YouTube Channel"
               >
                 <YoutubeIcon className="w-3.5 h-3.5" />
               </a>
@@ -223,12 +235,12 @@ export default function FooterCinematic() {
             {/* Direct Contact Links & Back to Top */}
             <div className="flex flex-col items-start gap-2 pt-0.5">
               <a
-                href="https://wa.me/918589951951"
+                href={OFFICIAL_DEVELOPER_CONTACT.whatsappUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="text-[11px] text-[#F7F3E9]/80 hover:text-[#E6A916] flex items-center gap-1.5 font-medium transition-colors"
               >
-                <span>💬 Helpdesk WhatsApp Direct</span>
+                <span>💬 Developer Helpdesk WhatsApp</span>
               </a>
 
               <button
