@@ -52,7 +52,7 @@ export default function FooterCinematic() {
   };
 
   return (
-    <footer className="relative bg-[#A91F35] text-white pt-8 pb-5 overflow-hidden select-none border-t border-[#E6A916]/30">
+    <footer className="relative bg-[#A91F35] text-white pt-6 pb-4 sm:pt-8 sm:pb-5 overflow-hidden select-none border-t border-[#E6A916]/30">
       {/* Subtle Decorative Wave Texture */}
       <div className="absolute top-0 left-0 right-0 w-full overflow-hidden leading-none opacity-15 pointer-events-none">
         <img src="/assets/wave_lines.png" alt="" className="w-full h-auto object-cover" />
@@ -66,22 +66,22 @@ export default function FooterCinematic() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start">
           
           {/* COLUMN 01 – BRAND & CONTACT (5 cols) */}
-          <div className="md:col-span-5 space-y-3 text-left">
-            {/* Dual Logos (Visually Balanced Artwork Dimensions with Zero Negative Padding) */}
-            <div className="flex items-center gap-3 sm:gap-4 md:gap-5 bg-black/20 px-3.5 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-2xl border border-white/10 shadow-xs max-w-fit">
-              <div className="h-8 sm:h-9 md:h-10 flex items-center justify-center shrink-0">
+          <div className="md:col-span-5 space-y-2.5 text-left">
+            {/* Dual Logos (Strict Bounds to Prevent Mobile Image Blowout) */}
+            <div className="flex items-center gap-3 bg-black/20 px-3 py-1.5 rounded-xl border border-white/10 shadow-xs max-w-fit overflow-hidden">
+              <div className="h-6 sm:h-7 flex items-center justify-center shrink-0">
                 <img
                   src="/assets/brand/official_dalenzia_fest_gold.png"
                   alt="Dalenzia Fest 2K26"
-                  className="h-full w-auto object-contain"
+                  className="h-5 sm:h-6 w-auto max-w-[95px] sm:max-w-[110px] object-contain"
                 />
               </div>
-              <span className="h-7 sm:h-8 md:h-9 w-[1px] bg-white/25 shrink-0" />
-              <div className="h-8 sm:h-9 md:h-10 flex items-center justify-center shrink-0">
+              <span className="h-5 sm:h-6 w-[1px] bg-white/25 shrink-0" />
+              <div className="h-6 sm:h-7 flex items-center justify-center shrink-0">
                 <img
                   src="/assets/brand/official_nueva_era_reverse_white.png"
                   alt="Nueva Era 2K26"
-                  className="h-full w-auto object-contain"
+                  className="h-5 sm:h-6 w-auto max-w-[70px] sm:max-w-[85px] object-contain"
                 />
               </div>
             </div>
@@ -91,30 +91,16 @@ export default function FooterCinematic() {
               Annual literary and cultural festival celebrating Islamic scholarship, art, and intellectual dynamism at Dalailussunna Dars.
             </p>
 
-            {/* Official Date & Venue Presentation */}
-            <div className="space-y-2 text-left">
-              <div className="space-y-0.5 border-l-2 border-[#E6A916] pl-3 py-0.5">
-                <p className="text-xs sm:text-sm font-bold text-[#E6A916] tracking-wider uppercase font-serif">
-                  2026 DECEMBER 21, 22, 23
-                </p>
-                <p className="text-[11px] sm:text-xs font-semibold text-[#F7F3E9]">
-                  Thaqwa Juma Masjid Ayiroor
-                </p>
-                <p className="text-[10px] sm:text-[11px] font-medium text-[#F7F3E9]/80">
-                  Venue : Masjidul Liwah, Kandu Bazaar, Puthanpalli, Ayiroor.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-[#F7F3E9]/90 font-medium">
-                <a href={OFFICIAL_DEVELOPER_CONTACT.tel} className="flex items-center gap-1.5 hover:text-[#E6A916] transition-colors">
-                  <Phone className="w-3 h-3 text-[#E6A916] shrink-0" />
-                  <span>{OFFICIAL_DEVELOPER_CONTACT.primaryPhone}</span>
-                </a>
-                <a href={`mailto:${OFFICIAL_DEVELOPER_CONTACT.email}`} className="flex items-center gap-1.5 hover:text-[#E6A916] transition-colors">
-                  <Mail className="w-3 h-3 text-[#E6A916] shrink-0" />
-                  <span>{OFFICIAL_DEVELOPER_CONTACT.email}</span>
-                </a>
-              </div>
+            {/* Direct Official Contact */}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-[#F7F3E9]/90 font-medium">
+              <a href={OFFICIAL_DEVELOPER_CONTACT.tel} className="flex items-center gap-1.5 hover:text-[#E6A916] transition-colors">
+                <Phone className="w-3 h-3 text-[#E6A916] shrink-0" />
+                <span>{OFFICIAL_DEVELOPER_CONTACT.primaryPhone}</span>
+              </a>
+              <a href={`mailto:${OFFICIAL_DEVELOPER_CONTACT.email}`} className="flex items-center gap-1.5 hover:text-[#E6A916] transition-colors">
+                <Mail className="w-3 h-3 text-[#E6A916] shrink-0" />
+                <span>{OFFICIAL_DEVELOPER_CONTACT.email}</span>
+              </a>
             </div>
 
             {/* Authorized Login Entry Pill Buttons */}

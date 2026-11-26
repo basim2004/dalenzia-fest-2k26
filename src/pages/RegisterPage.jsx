@@ -256,23 +256,23 @@ export default function RegisterPage({ onNavigateHome }) {
             </div>
 
             {/* Official Logos Side-by-Side Lockup */}
-            <div className="flex items-center gap-3.5 sm:gap-4 bg-white/10 p-3 sm:p-3.5 rounded-2xl border border-white/15 backdrop-blur-sm shrink-0">
-              <div className="h-10 sm:h-12 w-auto flex items-center">
+            <div className="flex items-center gap-3 sm:gap-4 bg-white/10 p-2 sm:p-3 rounded-xl border border-white/15 backdrop-blur-sm shrink-0 overflow-hidden">
+              <div className="h-8 sm:h-10 w-auto flex items-center justify-center shrink-0">
                 <img
                   src="/assets/brand/official_dalenzia_fest_gold.png"
                   alt="Dalenzia Fest 2K26"
-                  className="h-full w-auto object-contain filter drop-shadow-sm"
+                  className="h-7 sm:h-9 w-auto max-w-[110px] sm:max-w-[130px] object-contain filter drop-shadow-sm"
                   onError={(e) => {
                     e.target.src = '/assets/dalenzia_fest_logo.png';
                   }}
                 />
               </div>
-              <div className="h-8 sm:h-9 w-px bg-white/20" />
-              <div className="h-10 sm:h-12 w-auto flex items-center">
+              <div className="h-6 sm:h-8 w-px bg-white/20 shrink-0" />
+              <div className="h-8 sm:h-10 w-auto flex items-center justify-center shrink-0">
                 <img
                   src="/assets/brand/official_nueva_era_gold.png"
                   alt="Nueva Era"
-                  className="h-full w-auto object-contain filter drop-shadow-sm"
+                  className="h-7 sm:h-9 w-auto max-w-[85px] sm:max-w-[105px] object-contain filter drop-shadow-sm"
                   onError={(e) => {
                     e.target.src = '/assets/brand/official_nueva_era_logo.png';
                   }}

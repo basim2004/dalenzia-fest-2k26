@@ -162,25 +162,23 @@ export default function Navbar({ lang, setLang, currentPage = 'home', setCurrent
       <header
         className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-[#F7F3E9]/95 backdrop-blur-md shadow-md py-3 border-b border-[#A91F35]/15'
-            : 'bg-[#F7F3E9] py-4 border-b border-[#A91F35]/10'
+            ? 'bg-[#F7F3E9]/95 backdrop-blur-md shadow-md py-2.5 border-b border-[#A91F35]/15'
+            : 'bg-[#F7F3E9] py-3 border-b border-[#A91F35]/10'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
-          {/* Left: Festival Identity Only (DALENZIA FEST) */}
+          {/* Left: Festival Identity Only (DALENZIA FEST) - strictly constrained */}
           <button
             onClick={handleLogoClick}
-            className="flex items-center group focus:outline-none cursor-pointer text-left"
+            className="flex items-center group focus:outline-none cursor-pointer text-left shrink-0"
             title="Dalenzia Fest 2K26"
           >
-            {/* Official Dalenzia Fest Logo */}
-            <div className="h-8 sm:h-9 md:h-10 flex items-center">
-              <img
-                src="/assets/dalenzia_fest_logo.png"
-                alt="Dalenzia Fest 2K26"
-                className="h-full w-auto object-contain transition-transform group-hover:scale-105"
-              />
-            </div>
+            {/* Official Dalenzia Fest Logo - strictly bounded dimensions */}
+            <img
+              src="/assets/dalenzia_fest_logo.png"
+              alt="Dalenzia Fest 2K26"
+              className="h-6 sm:h-7 md:h-8 w-auto max-w-[125px] sm:max-w-[155px] md:max-w-[180px] object-contain transition-transform group-hover:scale-105"
+            />
           </button>
 
           {/* Desktop Nav Links */}
@@ -207,25 +205,25 @@ export default function Navbar({ lang, setLang, currentPage = 'home', setCurrent
           </nav>
 
           {/* Right Action: PWA Install & Register Now CTA */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <PWAInstallButton variant="navbar" />
 
             <button
               type="button"
               onClick={handleRegisterClick}
-              className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-[#E6A916] text-[#A91F35] hover:bg-[#ffd166] text-xs font-extrabold tracking-wide shadow-md transition-all active:scale-95 group cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full bg-[#E6A916] text-[#A91F35] hover:bg-[#ffd166] text-xs font-extrabold tracking-wide shadow-md transition-all active:scale-95 group cursor-pointer"
             >
               <span>Register Now</span>
               <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - aligned and compact */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden w-9 h-9 rounded-full bg-[#A91F35]/10 flex items-center justify-center text-[#A91F35] hover:bg-[#A91F35]/20 transition-colors focus:outline-none"
+              className="lg:hidden w-8 h-8 rounded-full bg-[#A91F35]/10 flex items-center justify-center text-[#A91F35] hover:bg-[#A91F35]/20 transition-colors focus:outline-none"
               aria-label="Toggle Navigation"
             >
-              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
         </div>
@@ -238,82 +236,72 @@ export default function Navbar({ lang, setLang, currentPage = 'home', setCurrent
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-            className="fixed inset-0 z-40 bg-[#A91F35] text-[#F7F3E9] flex flex-col justify-between p-6 pt-24 overflow-y-auto lg:hidden"
+            transition={{ type: 'spring', damping: 26, stiffness: 240 }}
+            className="fixed inset-0 z-50 bg-[#A91F35] text-[#F7F3E9] flex flex-col justify-between p-4 sm:p-6 overflow-y-auto lg:hidden"
           >
-            {/* Background watermark */}
-            <div className="absolute -bottom-16 -right-16 opacity-10 pointer-events-none w-96 h-96">
-              <img src="/assets/mandala.png" alt="" className="w-full h-full object-contain animate-spin-slow" />
-            </div>
-
-            <div className="relative z-10 space-y-6">
-              <div className="border-b border-white/20 pb-4">
-                <div className="flex items-center gap-3 bg-white/10 p-3 rounded-2xl backdrop-blur-md mb-3">
-                  <div className="h-9">
-                    <img src="/assets/dalenzia_fest_logo.png" alt="Dalenzia Fest" className="h-full w-auto object-contain" />
-                  </div>
-                </div>
-                <div className="border-l-2 border-[#E6A916] pl-2.5 py-0.5 space-y-0.5 mt-2">
-                  <p className="text-xs font-bold text-[#E6A916] tracking-wider uppercase font-serif">
-                    2026 DECEMBER 21, 22, 23
-                  </p>
-                  <p className="text-[11px] font-semibold text-white">
-                    Thaqwa Juma Masjid Ayiroor
-                  </p>
-                  <p className="text-[10px] font-medium text-white/80">
-                    Venue : Masjidul Liwah, Kandu Bazaar, Puthanpalli, Ayiroor.
-                  </p>
-                </div>
+            <div className="relative z-10 space-y-3">
+              {/* Clean Header Bar with Direct Close Button - No Duplicate Logo */}
+              <div className="flex items-center justify-between border-b border-white/15 pb-2.5">
+                <span className="text-xs font-serif font-black tracking-widest text-[#E6A916] uppercase">
+                  DALENZIA MENU
+                </span>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition-colors cursor-pointer"
+                  aria-label="Close Navigation Menu"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
 
-              <nav className="flex flex-col space-y-2">
+              <nav className="flex flex-col space-y-1">
                 {navLinks.map((item, idx) => {
                   const isActive = currentPage === item.id;
                   return (
                     <motion.button
                       key={item.name}
-                      initial={{ opacity: 0, x: 20 }}
+                      initial={{ opacity: 0, x: 12 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: idx * 0.04 }}
+                      transition={{ delay: idx * 0.025 }}
                       onClick={() => handleLinkClick(item)}
-                      className={`flex items-center justify-between py-3 px-3 rounded-xl transition-colors text-left text-base font-semibold group ${
+                      className={`flex items-center justify-between py-2 px-3 rounded-lg transition-colors text-left text-sm font-semibold group cursor-pointer ${
                         isActive
                           ? 'bg-white/20 text-[#E6A916]'
-                          : 'hover:bg-white/10 text-white'
+                          : 'hover:bg-white/10 text-white/95'
                       }`}
                     >
                       <span>{item.name}</span>
-                      <ArrowUpRight className="w-4 h-4 text-[#E6A916] opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                      <ArrowUpRight className="w-3.5 h-3.5 text-[#E6A916] opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
                     </motion.button>
                   );
                 })}
               </nav>
             </div>
 
-            <div className="relative z-10 border-t border-white/20 pt-6 space-y-3">
+            <div className="relative z-10 border-t border-white/15 pt-3.5 space-y-2 mt-3">
               <PWAInstallButton variant="drawer" />
 
               <button
                 type="button"
                 onClick={handleRegisterClick}
-                className="w-full py-3 px-4 bg-[#E6A916] text-[#A91F35] font-extrabold text-sm rounded-xl text-center shadow-lg block hover:bg-[#ffd166] transition-colors cursor-pointer"
+                className="w-full py-2.5 px-4 bg-[#E6A916] text-[#A91F35] font-black text-xs uppercase tracking-wider rounded-xl text-center shadow-md block hover:bg-[#ffd166] transition-colors cursor-pointer"
               >
                 Register Now ↗
               </button>
 
               {/* Authorized Login Options */}
-              <div className="pt-2 flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-2 pt-1">
                 <a
                   href="#convener"
                   onClick={() => setIsOpen(false)}
-                  className="px-4 py-2 rounded-full bg-white/10 hover:bg-[#E6A916] text-white hover:text-[#A91F35] text-xs font-black tracking-wider uppercase border border-white/20 transition-all text-center flex-1"
+                  className="px-3 py-1.5 rounded-full bg-white/10 hover:bg-[#E6A916] text-white hover:text-[#A91F35] text-[10px] font-black tracking-wider uppercase border border-white/20 transition-all text-center flex-1"
                 >
                   CONVENER
                 </a>
                 <a
                   href="#developer"
                   onClick={() => setIsOpen(false)}
-                  className="px-4 py-2 rounded-full bg-[#E6A916]/20 hover:bg-[#E6A916] text-[#E6A916] hover:text-[#A91F35] text-xs font-black tracking-wider uppercase border border-[#E6A916]/40 transition-all text-center flex-1"
+                  className="px-3 py-1.5 rounded-full bg-[#E6A916]/20 hover:bg-[#E6A916] text-[#E6A916] hover:text-[#A91F35] text-[10px] font-black tracking-wider uppercase border border-[#E6A916]/40 transition-all text-center flex-1"
                 >
                   DEVELOPER
                 </a>

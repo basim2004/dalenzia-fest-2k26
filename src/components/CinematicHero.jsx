@@ -164,57 +164,57 @@ export default function CinematicHero({ onOpenTeaser }) {
           variants={staggerContainer}
           initial="hidden"
           animate="show"
-          className="lg:col-span-6 flex flex-col items-start space-y-6 text-left"
+          className="lg:col-span-6 flex flex-col items-start space-y-4 sm:space-y-6 text-left"
         >
           {/* Subtle Festival Eyebrow Badge */}
-          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#A91F35]/10 border border-[#A91F35]/25 text-[#A91F35] text-[10px] sm:text-xs font-black tracking-wider sm:tracking-widest uppercase shadow-2xs backdrop-blur-xs max-w-full">
-            <Sparkles className="w-3.5 h-3.5 text-[#E6A916] animate-spin-slow shrink-0" />
+          <motion.div variants={fadeInUp} className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 rounded-full bg-[#A91F35]/10 border border-[#A91F35]/25 text-[#A91F35] text-[10px] sm:text-xs font-black tracking-wider sm:tracking-widest uppercase shadow-2xs backdrop-blur-xs max-w-full">
+            <Sparkles className="w-3 h-3 text-[#E6A916] animate-spin-slow shrink-0" />
             <span className="truncate">Dalailussunna Dars Presents · 2K26 Edition</span>
           </motion.div>
 
-          {/* Main Headline: Festival Tagline in Prominent Editorial Typography */}
+          {/* Main Headline: Festival Tagline in Balanced Typography */}
           <motion.div variants={fadeInUp} className="space-y-1">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-serif font-black tracking-tight text-[#1c1917] leading-[1.15] max-w-xl">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-[46px] font-serif font-black tracking-tight text-[#1c1917] leading-tight max-w-xl">
               A New Era of Ideas, Learning and Creative Expression
             </h1>
-            <p className="text-sm sm:text-base font-semibold text-[#A91F35] tracking-wide pt-1">
+            <p className="text-xs sm:text-base font-semibold text-[#A91F35] tracking-wide pt-0.5">
               Three Days, One Era
             </p>
           </motion.div>
 
           {/* Official Approved Date & Address Block */}
-          <motion.div variants={fadeInUp} className="pt-1 pb-1">
-            <OfficialFestivalDateVenue align="left" size="md" />
+          <motion.div variants={fadeInUp} className="pt-0.5 pb-0.5">
+            <OfficialFestivalDateVenue align="left" size="sm" />
           </motion.div>
 
           {/* Primary Action Buttons */}
-          <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2 w-full sm:w-auto">
+          <motion.div variants={fadeInUp} className="flex flex-row items-center gap-2.5 pt-1 w-full sm:w-auto">
             <a
               href="#about"
-              className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-[#A91F35] hover:bg-[#8d182b] text-white text-xs md:text-sm font-bold tracking-wide shadow-lg hover:shadow-xl active:scale-95 transition-all group text-center"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#A91F35] hover:bg-[#8d182b] text-white text-xs sm:text-sm font-bold tracking-wide shadow-md hover:shadow-lg active:scale-95 transition-all group text-center"
             >
               <span>Explore Festival</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </a>
 
             <button
               onClick={onOpenTeaser}
-              className="inline-flex items-center justify-center gap-2.5 px-6 py-3 sm:py-3.5 rounded-full bg-white/95 hover:bg-white border border-[#A91F35]/25 text-[#A91F35] text-xs md:text-sm font-bold tracking-wide shadow-sm hover:shadow-md active:scale-95 transition-all group cursor-pointer text-center"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-white/95 hover:bg-white border border-[#A91F35]/25 text-[#A91F35] text-xs sm:text-sm font-bold tracking-wide shadow-xs hover:shadow-sm active:scale-95 transition-all group cursor-pointer text-center"
             >
-              <div className="w-6 h-6 rounded-full bg-[#A91F35] text-white flex items-center justify-center shadow-xs group-hover:scale-110 transition-transform">
-                <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
+              <div className="w-5 h-5 rounded-full bg-[#A91F35] text-white flex items-center justify-center shadow-2xs group-hover:scale-105 transition-transform">
+                <Play className="w-2 h-2 fill-current ml-0.5" />
               </div>
               <span>Watch Teaser</span>
             </button>
           </motion.div>
         </motion.div>
 
-        {/* Right Column: Main 3D NUEVA ERA Theme Visual */}
+        {/* Right Column: Main 3D NUEVA ERA Theme Visual (Balanced Dimensions) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.95, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="lg:col-span-6 relative flex items-center justify-center min-h-[360px] sm:min-h-[440px] md:min-h-[500px]"
+          className="lg:col-span-6 relative flex items-center justify-center w-full min-h-auto lg:min-h-[460px]"
           style={{
             transformStyle: 'preserve-3d',
             transform: shouldReduceMotion ? 'none' : `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
@@ -222,42 +222,42 @@ export default function CinematicHero({ onOpenTeaser }) {
           }}
         >
           {/* Main 3D Theme Studio Composition */}
-          <div className="relative w-full max-w-[560px] flex flex-col items-center justify-center p-3 sm:p-5">
+          <div className="relative w-full max-w-[440px] sm:max-w-[520px] flex flex-col items-center justify-center p-2 sm:p-4">
             
             {/* Ambient Radial Studio Backlight */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#E6A916]/25 via-[#FAF6EE]/50 to-[#A91F35]/15 rounded-[40px] blur-3xl pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#E6A916]/20 via-[#FAF6EE]/40 to-[#A91F35]/10 rounded-[32px] blur-2xl pointer-events-none" />
 
             {/* Premium 3D Theme Showcase Stage Card */}
-            <div className="relative z-10 w-full bg-gradient-to-b from-white/95 via-[#FAF6EE]/90 to-[#F2EADC]/85 backdrop-blur-md rounded-[36px] p-6 sm:p-10 border border-[#A91F35]/15 shadow-2xl flex flex-col items-center justify-center overflow-hidden group">
+            <div className="relative z-10 w-full bg-gradient-to-b from-white/95 via-[#FAF6EE]/90 to-[#F2EADC]/85 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-[#A91F35]/15 shadow-xl flex flex-col items-center justify-center overflow-hidden group">
               
               {/* Subtle top studio highlight line */}
               <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#E6A916] to-transparent opacity-70" />
 
               {/* Floating 3D NUEVA ERA Typography & Symbols Composition */}
               <motion.div
-                animate={shouldReduceMotion ? {} : { y: [0, -10, 0] }}
+                animate={shouldReduceMotion ? {} : { y: [0, -6, 0] }}
                 transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut" }}
-                className="relative z-10 w-full flex items-center justify-center py-4"
+                className="relative z-10 w-full flex items-center justify-center py-2 sm:py-3"
               >
                 <img
                   src="/assets/nueva_era_logo_full.png"
                   alt="NUEVA ERA - 3D Theme Visual"
-                  className="w-full max-h-[260px] sm:max-h-[300px] object-contain drop-shadow-[0_20px_25px_rgba(169,31,53,0.2)] drop-shadow-[0_8px_12px_rgba(230,169,22,0.25)] transition-transform duration-300 group-hover:scale-[1.03]"
+                  className="w-full max-h-[140px] sm:max-h-[200px] md:max-h-[240px] object-contain drop-shadow-[0_12px_16px_rgba(169,31,53,0.18)] drop-shadow-[0_4px_8px_rgba(230,169,22,0.2)] transition-transform duration-300 group-hover:scale-[1.02]"
                 />
               </motion.div>
 
               {/* Realistic Contact Floor Shadow underneath the floating 3D composition */}
               <motion.div
-                animate={shouldReduceMotion ? {} : { scale: [1, 0.92, 1], opacity: [0.35, 0.22, 0.35] }}
+                animate={shouldReduceMotion ? {} : { scale: [1, 0.92, 1], opacity: [0.3, 0.18, 0.3] }}
                 transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut" }}
-                className="w-4/5 h-6 bg-gradient-to-r from-transparent via-stone-900 to-transparent blur-md rounded-full mt-2 pointer-events-none"
+                className="w-3/5 h-4 bg-gradient-to-r from-transparent via-stone-900 to-transparent blur-md rounded-full mt-1 pointer-events-none"
               />
 
               {/* Elegant Theme Caption Bar */}
-              <div className="mt-4 pt-3 border-t border-[#A91F35]/10 w-full flex items-center justify-between text-[11px] font-mono text-stone-600 font-bold">
+              <div className="mt-2.5 pt-2 border-t border-[#A91F35]/10 w-full flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-stone-600 font-bold">
                 <span className="text-[#A91F35] tracking-widest uppercase flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-[#E6A916] animate-pulse" />
-                  Official Festival Theme
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6A916] animate-pulse" />
+                  Official Theme
                 </span>
                 <span className="text-stone-500 tracking-wider">
                   The Awakening of Creative Flair
