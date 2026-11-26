@@ -172,8 +172,13 @@ body {
 
 /* Mobile Touch Target & Layout Guardrails (320px - 428px) */
 @media (max-width: 640px) {
-  /* Prevent horizontal card blowouts */
-  img, video, canvas, svg {
+  /* Prevent horizontal media blowouts without breaking fixed-dimension logos/badges */
+  video, canvas {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  img:not([style*="height"]):not([class*="h-"]):not([class*="max-h-"]) {
     max-width: 100%;
     height: auto;
   }

@@ -172,13 +172,24 @@ export default function Navbar({ lang, setLang, currentPage = 'home', setCurrent
             onClick={handleLogoClick}
             className="flex items-center group focus:outline-none cursor-pointer text-left shrink-0"
             title="Dalenzia Fest 2K26"
+            style={{ maxWidth: '145px', maxHeight: '36px' }}
           >
             {/* Official Dalenzia Fest Logo - strictly bounded dimensions */}
-            <img
-              src="/assets/dalenzia_fest_logo.png"
-              alt="Dalenzia Fest 2K26"
-              className="h-6 sm:h-7 md:h-8 w-auto max-w-[125px] sm:max-w-[155px] md:max-w-[180px] object-contain transition-transform group-hover:scale-105"
-            />
+            <div className="flex items-center justify-start overflow-hidden" style={{ maxHeight: '32px', maxWidth: '140px' }}>
+              <img
+                src="/assets/dalenzia_fest_logo.png"
+                alt="Dalenzia Fest 2K26"
+                className="w-auto object-contain transition-transform group-hover:scale-105"
+                style={{
+                  maxHeight: '28px',
+                  maxWidth: '135px',
+                  width: 'auto',
+                  height: '28px',
+                  objectFit: 'contain',
+                  display: 'block'
+                }}
+              />
+            </div>
           </button>
 
           {/* Desktop Nav Links */}

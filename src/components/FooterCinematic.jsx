@@ -69,19 +69,35 @@ export default function FooterCinematic() {
           <div className="md:col-span-5 space-y-2.5 text-left">
             {/* Dual Logos (Strict Bounds to Prevent Mobile Image Blowout) */}
             <div className="flex items-center gap-3 bg-black/20 px-3 py-1.5 rounded-xl border border-white/10 shadow-xs max-w-fit overflow-hidden">
-              <div className="h-6 sm:h-7 flex items-center justify-center shrink-0">
+              <div className="flex items-center justify-center shrink-0" style={{ maxHeight: '26px' }}>
                 <img
                   src="/assets/brand/official_dalenzia_fest_gold.png"
                   alt="Dalenzia Fest 2K26"
-                  className="h-5 sm:h-6 w-auto max-w-[95px] sm:max-w-[110px] object-contain"
+                  className="w-auto object-contain"
+                  style={{
+                    maxHeight: '24px',
+                    maxWidth: '95px',
+                    width: 'auto',
+                    height: '24px',
+                    objectFit: 'contain',
+                    display: 'block'
+                  }}
                 />
               </div>
               <span className="h-5 sm:h-6 w-[1px] bg-white/25 shrink-0" />
-              <div className="h-6 sm:h-7 flex items-center justify-center shrink-0">
+              <div className="flex items-center justify-center shrink-0" style={{ maxHeight: '26px' }}>
                 <img
                   src="/assets/brand/official_nueva_era_reverse_white.png"
                   alt="Nueva Era 2K26"
-                  className="h-5 sm:h-6 w-auto max-w-[70px] sm:max-w-[85px] object-contain"
+                  className="w-auto object-contain"
+                  style={{
+                    maxHeight: '22px',
+                    maxWidth: '75px',
+                    width: 'auto',
+                    height: '22px',
+                    objectFit: 'contain',
+                    display: 'block'
+                  }}
                 />
               </div>
             </div>

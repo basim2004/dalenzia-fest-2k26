@@ -77,11 +77,12 @@ export default function PageLoader({ onFinish }) {
           className="relative flex flex-col items-center justify-center [perspective:1200px]"
         >
           {/* Official 3D Extruded Logo */}
-          <div className="relative overflow-hidden py-3 px-4">
+          <div className="relative overflow-hidden py-3 px-4 flex items-center justify-center">
             <img
               src="/assets/brand/dalenzia_3d_official_logo.png"
               alt="DALENZIA"
-              className="w-full max-w-[320px] sm:max-w-[420px] md:max-w-[480px] h-auto object-contain select-none pointer-events-none drop-shadow-[0_22px_36px_rgba(0,0,0,0.65)] drop-shadow-[0_6px_14px_rgba(230,169,22,0.22)]"
+              className="w-full max-w-[280px] sm:max-w-[420px] md:max-w-[480px] h-auto object-contain select-none pointer-events-none drop-shadow-[0_22px_36px_rgba(0,0,0,0.65)] drop-shadow-[0_6px_14px_rgba(230,169,22,0.22)]"
+              style={{ maxWidth: 'min(80vw, 420px)', maxHeight: '200px', height: 'auto', objectFit: 'contain' }}
             />
 
             {/* Subtle Metallic Sheen Sweep */}

@@ -153,13 +153,9 @@ export default function EventsPage({ onNavigateHome }) {
             <span className="text-[#A91F35] font-bold">Events &amp; Competitions</span>
           </div>
 
-          {/* Official Fest Logo lockup */}
-          <div className="h-8 md:h-10">
-            <img
-              src="/assets/dalenzia_fest_logo.png"
-              alt="Dalenzia Fest Logo"
-              className="h-full w-auto object-contain"
-            />
+          {/* Subtle Edition Pill Badge (avoiding duplicate Dalenzia logo already present in Navbar) */}
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#A91F35]/10 text-[#A91F35] text-[10px] font-bold uppercase tracking-wider border border-[#A91F35]/20 shrink-0">
+            <span>NUEVA ERA · 2K26</span>
           </div>
         </div>
 

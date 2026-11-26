@@ -107,11 +107,12 @@ export default function WhatsAppCommunitySection({
             
             {/* Festival Identity Header */}
             <div className="flex items-center gap-4 pb-4 border-b border-stone-200/60 dark:border-white/10">
-              <div className="h-12 w-auto bg-white p-2 rounded-2xl shadow-sm border border-stone-200/80 flex items-center justify-center">
+              <div className="h-10 w-auto bg-white p-1.5 rounded-xl shadow-sm border border-stone-200/80 flex items-center justify-center shrink-0">
                 <img
                   src="/assets/dalenzia_fest_logo.png"
                   alt="Dalenzia Fest Logo"
-                  className="h-full w-auto object-contain"
+                  className="w-auto object-contain"
+                  style={{ maxHeight: '26px', maxWidth: '110px', width: 'auto', height: '26px', objectFit: 'contain' }}
                 />
               </div>
               <div>
@@ -258,12 +259,8 @@ export default function WhatsAppCommunitySection({
             >
               {/* Top Verified Identity Halo */}
               <div className="flex flex-col items-center space-y-2">
-                <div className="w-14 h-14 rounded-full bg-white p-2 flex items-center justify-center shadow-lg border-2 border-[#E6A916]">
-                  <img
-                    src="/assets/dalenzia_fest_logo.png"
-                    alt="Dalenzia Logo"
-                    className="w-full h-full object-contain"
-                  />
+                <div className="w-12 h-12 rounded-full bg-[#25D366]/15 p-2 flex items-center justify-center shadow-md border-2 border-[#25D366]">
+                  <MessageCircle className="w-6 h-6 text-[#25D366]" />
                 </div>
                 <div className="space-y-0.5">
                   <div className="flex items-center justify-center gap-1.5 text-xs font-mono font-black tracking-widest text-[#E6A916] uppercase">
