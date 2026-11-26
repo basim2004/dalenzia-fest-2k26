@@ -884,7 +884,7 @@ export default function JudgePortal({ onNavigatePublic }) {
                         <div className="pt-2 flex justify-end">
                           <button
                             onClick={() => {
-                              setSelectedProgId(prog.id);
+                              setSelectedCompForMarkEntry(prog.competitionId || prog.id);
                               setActiveTab('mark_entry');
                             }}
                             className="px-3.5 py-1.5 rounded-xl bg-[#A91F35] text-white font-bold text-xs hover:bg-[#8B1A2C] transition-all flex items-center gap-1.5 shadow-2xs"

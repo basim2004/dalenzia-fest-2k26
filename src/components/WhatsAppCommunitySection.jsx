@@ -9,7 +9,8 @@ import {
   Sparkles,
   ArrowRight,
   ShieldCheck,
-  Bell
+  Bell,
+  MessageCircle
 } from 'lucide-react';
 
 export const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/GgkjTHCZnXVI5ypcr5zO5g?s=cl&p=a&iam=2';

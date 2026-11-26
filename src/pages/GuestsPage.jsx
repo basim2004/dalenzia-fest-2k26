@@ -383,126 +383,132 @@ export default function GuestsPage({ onNavigateHome, onNavigateEvents }) {
             </div>
 
             {/* 3 Authentic Cards Grid matching the official design layout */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-              
-              {/* Card 1: Dr. Ahmed Faris */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="rounded-3xl bg-white border border-[#A91F35]/15 overflow-hidden shadow-md hover:shadow-xl hover:border-[#A91F35]/40 transition-all p-5 flex flex-col justify-between space-y-4 group cursor-pointer"
-                onClick={() => setSelectedGuest(GUESTS[1])}
-              >
-                <div className="flex items-center gap-4">
-                  {/* Portrait with Yellow Half-Moon Backdrop */}
-                  <div className="relative w-28 h-32 flex-shrink-0 rounded-2xl overflow-hidden bg-[#F7F3E9] p-1 border border-stone-200">
-                    <div className="absolute bottom-0 left-0 w-20 h-20 rounded-full bg-[#E6A916]/80 -z-0" />
-                    <img
-                      src={GUESTS[1].image}
-                      alt={GUESTS[1].name}
-                      className="w-full h-full object-cover relative z-10 group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
+            {(() => {
+              const GUESTS = (guestsList && guestsList.length >= 3) ? guestsList : (festivalStore.getPublicGuests() || []);
+              if (!GUESTS || GUESTS.length < 3) return null;
+              return (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                  
+                  {/* Card 1: Dr. Ahmed Faris */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="rounded-3xl bg-white border border-[#A91F35]/15 overflow-hidden shadow-md hover:shadow-xl hover:border-[#A91F35]/40 transition-all p-5 flex flex-col justify-between space-y-4 group cursor-pointer"
+                    onClick={() => setSelectedGuest(GUESTS[1])}
+                  >
+                    <div className="flex items-center gap-4">
+                      {/* Portrait with Yellow Half-Moon Backdrop */}
+                      <div className="relative w-28 h-32 flex-shrink-0 rounded-2xl overflow-hidden bg-[#F7F3E9] p-1 border border-stone-200">
+                        <div className="absolute bottom-0 left-0 w-20 h-20 rounded-full bg-[#E6A916]/80 -z-0" />
+                        <img
+                          src={GUESTS[1].image}
+                          alt={GUESTS[1].name}
+                          className="w-full h-full object-cover relative z-10 group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
 
-                  <div className="space-y-1.5 text-left">
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#E6A916] text-[#A91F35] text-[10px] font-extrabold uppercase">
-                      {GUESTS[1].categoryLabel}
-                    </span>
-                    <h3 className="text-xl font-serif font-bold text-[#1c1917] group-hover:text-[#A91F35] transition-colors leading-tight">
-                      {GUESTS[1].name}
-                    </h3>
-                    <p className="text-xs text-stone-600 font-medium">
-                      {GUESTS[1].designation}
-                    </p>
-                  </div>
+                      <div className="space-y-1.5 text-left">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#E6A916] text-[#A91F35] text-[10px] font-extrabold uppercase">
+                          {GUESTS[1].categoryLabel}
+                        </span>
+                        <h3 className="text-xl font-serif font-bold text-[#1c1917] group-hover:text-[#A91F35] transition-colors leading-tight">
+                          {GUESTS[1].name}
+                        </h3>
+                        <p className="text-xs text-stone-600 font-medium">
+                          {GUESTS[1].designation}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-[#A91F35] group-hover:translate-x-1 transition-transform">
+                      <span>View Profile</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
+                  </motion.div>
+
+                  {/* Card 2: Usthad Muhammed Rashid (CENTER, ELEVATED, CRIMSON CARD) */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="rounded-3xl bg-gradient-to-br from-[#A91F35] to-[#7f1325] text-white border-2 border-[#E6A916] overflow-hidden shadow-2xl p-6 flex flex-col justify-between space-y-5 relative group cursor-pointer md:-translate-y-2"
+                    onClick={() => setSelectedGuest(GUESTS[0])}
+                  >
+                    <div className="flex items-center gap-4">
+                      {/* Portrait with Golden Backdrop */}
+                      <div className="relative w-32 h-36 flex-shrink-0 rounded-2xl overflow-hidden bg-white/10 p-1 border border-white/30">
+                        <div className="absolute bottom-0 left-0 w-24 h-24 rounded-full bg-[#E6A916] -z-0" />
+                        <img
+                          src={GUESTS[0].image}
+                          alt={GUESTS[0].name}
+                          className="w-full h-full object-cover relative z-10 group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+
+                      <div className="space-y-2 text-left">
+                        <span className="px-3 py-1 rounded-full bg-[#E6A916] text-[#A91F35] text-[10px] font-extrabold uppercase shadow-sm">
+                          {GUESTS[0].categoryLabel}
+                        </span>
+                        <h3 className="text-2xl font-serif font-bold text-white tracking-tight leading-tight">
+                          {GUESTS[0].name}
+                        </h3>
+                        <p className="text-xs text-[#E6A916] font-semibold">
+                          {GUESTS[0].designation}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-3 border-t border-white/20 flex items-center justify-between text-xs font-bold text-[#E6A916] group-hover:translate-x-1 transition-transform">
+                      <span>View Complete Profile</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </motion.div>
+
+                  {/* Card 3: Usthad Salman Saqafi */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    className="rounded-3xl bg-white border border-[#A91F35]/15 overflow-hidden shadow-md hover:shadow-xl hover:border-[#A91F35]/40 transition-all p-5 flex flex-col justify-between space-y-4 group cursor-pointer"
+                    onClick={() => setSelectedGuest(GUESTS[2])}
+                  >
+                    <div className="flex items-center gap-4">
+                      {/* Portrait with Yellow Backdrop */}
+                      <div className="relative w-28 h-32 flex-shrink-0 rounded-2xl overflow-hidden bg-[#F7F3E9] p-1 border border-stone-200">
+                        <div className="absolute bottom-0 left-0 w-20 h-20 rounded-full bg-[#E6A916]/80 -z-0" />
+                        <img
+                          src={GUESTS[2].image}
+                          alt={GUESTS[2].name}
+                          className="w-full h-full object-cover relative z-10 group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5 text-left">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#E6A916] text-[#A91F35] text-[10px] font-extrabold uppercase">
+                          {GUESTS[2].categoryLabel}
+                        </span>
+                        <h3 className="text-xl font-serif font-bold text-[#1c1917] group-hover:text-[#A91F35] transition-colors leading-tight">
+                          {GUESTS[2].name}
+                        </h3>
+                        <p className="text-xs text-stone-600 font-medium">
+                          {GUESTS[2].designation}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-[#A91F35] group-hover:translate-x-1 transition-transform">
+                      <span>View Profile</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
+                  </motion.div>
+
                 </div>
-
-                <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-[#A91F35] group-hover:translate-x-1 transition-transform">
-                  <span>View Profile</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </div>
-              </motion.div>
-
-              {/* Card 2: Usthad Muhammed Rashid (CENTER, ELEVATED, CRIMSON CARD) */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="rounded-3xl bg-gradient-to-br from-[#A91F35] to-[#7f1325] text-white border-2 border-[#E6A916] overflow-hidden shadow-2xl p-6 flex flex-col justify-between space-y-5 relative group cursor-pointer md:-translate-y-2"
-                onClick={() => setSelectedGuest(GUESTS[0])}
-              >
-                <div className="flex items-center gap-4">
-                  {/* Portrait with Golden Backdrop */}
-                  <div className="relative w-32 h-36 flex-shrink-0 rounded-2xl overflow-hidden bg-white/10 p-1 border border-white/30">
-                    <div className="absolute bottom-0 left-0 w-24 h-24 rounded-full bg-[#E6A916] -z-0" />
-                    <img
-                      src={GUESTS[0].image}
-                      alt={GUESTS[0].name}
-                      className="w-full h-full object-cover relative z-10 group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-
-                  <div className="space-y-2 text-left">
-                    <span className="px-3 py-1 rounded-full bg-[#E6A916] text-[#A91F35] text-[10px] font-extrabold uppercase shadow-sm">
-                      {GUESTS[0].categoryLabel}
-                    </span>
-                    <h3 className="text-2xl font-serif font-bold text-white tracking-tight leading-tight">
-                      {GUESTS[0].name}
-                    </h3>
-                    <p className="text-xs text-[#E6A916] font-semibold">
-                      {GUESTS[0].designation}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-3 border-t border-white/20 flex items-center justify-between text-xs font-bold text-[#E6A916] group-hover:translate-x-1 transition-transform">
-                  <span>View Complete Profile</span>
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </motion.div>
-
-              {/* Card 3: Usthad Salman Saqafi */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="rounded-3xl bg-white border border-[#A91F35]/15 overflow-hidden shadow-md hover:shadow-xl hover:border-[#A91F35]/40 transition-all p-5 flex flex-col justify-between space-y-4 group cursor-pointer"
-                onClick={() => setSelectedGuest(GUESTS[2])}
-              >
-                <div className="flex items-center gap-4">
-                  {/* Portrait with Yellow Backdrop */}
-                  <div className="relative w-28 h-32 flex-shrink-0 rounded-2xl overflow-hidden bg-[#F7F3E9] p-1 border border-stone-200">
-                    <div className="absolute bottom-0 left-0 w-20 h-20 rounded-full bg-[#E6A916]/80 -z-0" />
-                    <img
-                      src={GUESTS[2].image}
-                      alt={GUESTS[2].name}
-                      className="w-full h-full object-cover relative z-10 group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5 text-left">
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#E6A916] text-[#A91F35] text-[10px] font-extrabold uppercase">
-                      {GUESTS[2].categoryLabel}
-                    </span>
-                    <h3 className="text-xl font-serif font-bold text-[#1c1917] group-hover:text-[#A91F35] transition-colors leading-tight">
-                      {GUESTS[2].name}
-                    </h3>
-                    <p className="text-xs text-stone-600 font-medium">
-                      {GUESTS[2].designation}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-[#A91F35] group-hover:translate-x-1 transition-transform">
-                  <span>View Profile</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </div>
-              </motion.div>
-
-            </div>
+              );
+            })()}
 
             {/* 5 Carousel Dots Indicator */}
             <div className="flex items-center justify-center gap-2 pt-8">

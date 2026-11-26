@@ -650,7 +650,7 @@ export default function DashboardView({ onNavigateModule }) {
                 <p className="text-[11px] text-stone-500">Official Updated Festival Charter Master List</p>
               </div>
               <button
-                onClick={() => onNavigate('competitions')}
+                onClick={() => onNavigateModule?.('competitions')}
                 className="text-xs font-bold text-[#A91F35] hover:underline"
               >
                 Browse Master &rarr;
@@ -699,7 +699,7 @@ export default function DashboardView({ onNavigateModule }) {
                 <span className="font-bold text-stone-900 font-mono">{stats.totalCompetitions || 0}</span>
               </div>
               <button
-                onClick={() => onNavigate('competitions')}
+                onClick={() => onNavigateModule?.('competitions')}
                 className="text-[11px] font-bold text-[#A91F35] bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-lg border border-red-200 transition-all"
               >
                 + Configure Competition

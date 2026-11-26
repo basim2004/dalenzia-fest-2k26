@@ -28,6 +28,7 @@ export default function ScoringCalculatorModule({ activeSection }) {
   const [competitions, setCompetitions] = useState(() => festivalStore.getCompetitions());
   const [teams, setTeams] = useState(() => festivalStore.getTeams());
   const [scoringRules, setScoringRules] = useState(() => festivalStore.getScoringRules());
+  const scoringConfig = scoringRules || festivalStore.getScoringRules();
   const [stats, setStats] = useState(() => festivalStore.getResultsDashboardStats());
   const [evaluations, setEvaluations] = useState(() => festivalStore.getAllSubmittedEvaluations());
   const [posters, setPosters] = useState(() => festivalStore.getPublishedResultPosters());
