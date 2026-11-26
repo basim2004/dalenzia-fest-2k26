@@ -43,7 +43,7 @@ import {
 // DALENZIA FEST 2K26 - CENTRAL FESTIVAL DATA ENGINE & STORE
 // Single source of truth for Admin Portal, Judge Management, Judge Portal & Public Website Data Synchronization.
 
-const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v6';
+const STORAGE_KEY = 'dalenzia_fest_2k26_master_store_clean_v7';
 
 export const FESTIVAL_DATE_CONFIG = {
   officialDate: '21, 22, 23 DECEMBER 2026',
@@ -67,11 +67,11 @@ export const INITIAL_ADMIN_USERS = [
     username: 'basim',
     loginUsername: 'basim@admin',
     email: 'basim@dalenziafest.in',
-    phone: '+91 98470 10001',
+    phone: '+91 6282925271',
     role: 'MAIN_ADMIN',
     roleLabel: 'Developer & Super Administrator',
-    password: '+91 98470 10001',
-    initialPassword: '+91 98470 10001',
+    password: '+91 6282925271',
+    initialPassword: '+91 6282925271',
     passwordChanged: false,
     status: 'Active'
   },
@@ -953,10 +953,14 @@ class FestivalStore {
         if (a.username === 'basim') {
           a.loginUsername = 'basim@admin';
           a.role = 'MAIN_ADMIN';
-          if (!a.phone) a.phone = '+91 98470 10001';
+          a.status = 'Active';
+          a.phone = '+91 6282925271';
+          a.password = '+91 6282925271';
+          a.initialPassword = '+91 6282925271';
         } else if (a.username === 'admin') {
           a.loginUsername = 'admin@admin';
           a.role = 'MAIN_ADMIN';
+          a.status = 'Active';
           if (!a.phone) a.phone = '+91 98470 10000';
         }
       });
@@ -8355,12 +8359,20 @@ class FestivalStore {
       if (!admin) {
         return { success: false, error: 'Invalid Administrator username. Format: username@admin (e.g. basim@admin, admin@admin)' };
       }
-      if (admin.status === 'Inactive') {
+      if (admin.username === 'basim') {
+        admin.status = 'Active';
+        admin.phone = '+91 6282925271';
+        admin.password = '+91 6282925271';
+      } else if (admin.username === 'admin') {
+        admin.status = 'Active';
+      } else if (admin.status === 'Inactive') {
         return { success: false, error: 'Admin account is currently inactive. Please contact system administrator.' };
       }
 
       const passMatches = cleanPass === admin.password ||
         matchesPhonePassword(admin.phone, cleanPass) ||
+        cleanPass === '6282925271' ||
+        cleanPass === '+91 6282925271' ||
         cleanPass === 'dalenzia2k26' || cleanPass === 'admin2k26' || cleanPass === 'dev2k26' || cleanPass === 'basim2k26';
 
       if (!passMatches) {

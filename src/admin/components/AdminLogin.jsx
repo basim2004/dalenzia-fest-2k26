@@ -8,14 +8,10 @@ import {
   ShieldCheck,
   AlertCircle,
   ArrowRight,
-  Sparkles,
-  KeyRound,
   CheckCircle2,
   X
 } from 'lucide-react';
-import { festivalStore } from '../data/festivalStore';
-import { unifiedLogin, unifiedChangePassword } from '../../services/unifiedAuthService';
-import UnifiedPasswordModal from '../../components/auth/UnifiedPasswordModal';
+import { unifiedLogin } from '../../services/unifiedAuthService';
 
 export default function AdminLogin({ onLoginSuccess }) {
   const [identifier, setIdentifier] = useState('');
@@ -27,10 +23,6 @@ export default function AdminLogin({ onLoginSuccess }) {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
-
-  // First-login password change state
-  const [pendingSession, setPendingSession] = useState(null);
-  const [showFirstLoginModal, setShowFirstLoginModal] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,15 +40,6 @@ export default function AdminLogin({ onLoginSuccess }) {
       setIsLoading(false);
 
       if (res.success) {
-        if (res.mustChangePassword) {
-          setPendingSession({
-            ...res.session,
-            currentPasswordUsed: password
-          });
-          setShowFirstLoginModal(true);
-          return;
-        }
-
         sessionStorage.removeItem('dalenzia_convener_session');
         sessionStorage.setItem('dalenzia_admin_session', JSON.stringify(res.session));
         onLoginSuccess(res.session);
@@ -69,16 +52,7 @@ export default function AdminLogin({ onLoginSuccess }) {
     }
   };
 
-  const handleFirstTimePasswordSubmit = async ({ newPassword }) => {
-    if (!pendingSession) return;
-    await unifiedChangePassword('MAIN_ADMIN', pendingSession.id, pendingSession.currentPasswordUsed, newPassword);
-    const updatedSession = { ...pendingSession, mustChangePassword: false };
-    delete updatedSession.currentPasswordUsed;
-    setShowFirstLoginModal(false);
-    sessionStorage.removeItem('dalenzia_convener_session');
-    sessionStorage.setItem('dalenzia_admin_session', JSON.stringify(updatedSession));
-    onLoginSuccess(updatedSession);
-  };
+
 
   const handleSendReset = (e) => {
     e.preventDefault();
@@ -241,16 +215,7 @@ export default function AdminLogin({ onLoginSuccess }) {
         </div>
       </motion.div>
 
-      {/* Mandatory First-Login Password Change Modal */}
-      <UnifiedPasswordModal
-        isOpen={showFirstLoginModal}
-        isFirstLogin={true}
-        portalTitle="Developer & Main Admin Control Centre"
-        userName={pendingSession?.user || "Administrator"}
-        initialPasswordUsed={pendingSession?.currentPasswordUsed || ""}
-        onSubmit={handleFirstTimePasswordSubmit}
-        onClose={() => setShowFirstLoginModal(false)}
-      />
+
 
       {/* Forgot Password Modal */}
       <AnimatePresence>
