@@ -8,6 +8,7 @@ import {
   Award, Trophy, Sparkles, RefreshCw, FileText, Check, Copy, UserX
 } from 'lucide-react';
 import { festivalStore } from '../data/festivalStore';
+import StudentIdCardStudio from './idcard/StudentIdCardStudio';
 
 export default function StudentsModule({ activeSection }) {
   // Navigation tabs: 'overview' | 'directory' | 'idcards' | 'reports'
@@ -878,107 +879,7 @@ export default function StudentsModule({ activeSection }) {
       {/* TAB 3: ID CARD STUDIO */}
       {/* ========================================================================= */}
       {activeTab === 'idcards' && (
-        <div className="bg-white rounded-3xl border border-stone-200/80 shadow-sm p-6 space-y-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-stone-100">
-            <div>
-              <h2 className="text-lg font-bold text-stone-900">Official Candidate ID Card Studio</h2>
-              <p className="text-xs text-stone-600 mt-0.5">
-                Generate high-resolution official badges with QR verification for arena entry and stage clearance.
-              </p>
-            </div>
-            <button
-              onClick={() => window.print()}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#A91F35] text-white text-xs font-bold hover:bg-[#851627] transition-all"
-            >
-              <Printer className="w-4 h-4" />
-              Print Batch ID Cards
-            </button>
-          </div>
-
-          {/* Quick Selector Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {students.slice(0, 6).map((student) => {
-              const assignedTeam = teams.find(t => t.id === student.teamId);
-              return (
-                <div
-                  key={student.id}
-                  className="p-5 rounded-3xl border-2 border-amber-500/20 bg-gradient-to-br from-stone-900 via-stone-900 to-black text-white relative shadow-xl overflow-hidden flex flex-col justify-between"
-                  style={{ minHeight: '360px' }}
-                >
-                  {/* Decorative golden accent lines */}
-                  <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#A91F35] via-[#E6A916] to-[#A91F35]" />
-                  
-                  {/* Card Header */}
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-lg bg-amber-400 text-stone-900 flex items-center justify-center font-black text-[10px]">
-                          DF
-                        </div>
-                        <div>
-                          <div className="text-[10px] font-black uppercase tracking-wider text-amber-400">DALENZIA FEST 2K26</div>
-                          <div className="text-[8px] tracking-widest text-stone-400 uppercase font-sans">NUEVA ERA • STAGE PASS</div>
-                        </div>
-                      </div>
-                      <span className="px-2 py-0.5 rounded text-[9px] font-black tracking-widest uppercase bg-white/10 text-stone-300 border border-white/15">
-                        {student.classCategory}
-                      </span>
-                    </div>
-
-                    {/* Photo + Details Center */}
-                    <div className="mt-5 flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#A91F35] to-[#E6A916] p-0.5 shadow-lg">
-                        <div className="w-full h-full rounded-[14px] bg-stone-900 flex items-center justify-center text-xl font-black text-amber-300">
-                          {student.name.charAt(0)}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] font-mono text-amber-400 uppercase tracking-widest">CHEST NO</div>
-                        <div className="text-2xl font-black font-mono tracking-tight text-white">{student.chestNo}</div>
-                        <div className="text-xs font-bold text-stone-200 line-clamp-1">{student.name}</div>
-                      </div>
-                    </div>
-
-                    {/* Metadata Strip */}
-                    <div className="mt-4 pt-3 border-t border-white/10 space-y-1 text-[10px]">
-                      <div className="flex justify-between text-stone-400">
-                        <span>Candidate ID:</span>
-                        <span className="font-mono text-stone-200">{student.id}</span>
-                      </div>
-                      <div className="flex justify-between text-stone-400">
-                        <span>Squad:</span>
-                        <span className="font-bold text-amber-300">{student.teamName}</span>
-                      </div>
-                      <div className="flex justify-between text-stone-400">
-                        <span>Institution:</span>
-                        <span className="text-stone-300 truncate max-w-[150px]">{student.institution}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card Footer with QR & Seal */}
-                  <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-10 h-10 rounded-lg bg-white p-1 flex items-center justify-center">
-                        <QrCode className="w-full h-full text-stone-900" />
-                      </div>
-                      <div className="text-[8px] text-stone-400 leading-tight">
-                        <div>OFFICIAL VERIFIED</div>
-                        <div className="text-amber-400 font-mono">SEC-ID: {student.id}</div>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => handleOpenIdCardModal(student)}
-                      className="px-3 py-1.5 rounded-xl bg-amber-400 text-stone-900 text-[10px] font-bold hover:bg-amber-300 transition-all"
-                    >
-                      Full Pass &rarr;
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <StudentIdCardStudio defaultStudents={students} teams={teams} />
       )}
 
       {/* ========================================================================= */}

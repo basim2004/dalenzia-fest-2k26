@@ -1,0 +1,52 @@
+Student ID,Chest No,Full Name,Category,Team,DOB,Institution,Phone,Email,Events Count,Points,Status
+STU-1001,C-101,Noufal,Senior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 98471 20001,noufal@dalanzia.org,1,10,Active
+STU-1002,C-102,Hafiz Hassan,Senior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,hafiz.hassan@dalanzia.org,2,15,Active
+STU-1003,C-103,Binyamin,Senior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,binyamin@dalanzia.org,3,20,Active
+STU-1004,C-104,Hafiz Sinan,Senior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,hafiz.sinan@dalanzia.org,4,25,Active
+STU-1013,C-113,Sulthan,Senior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,sulthan@dalanzia.org,1,30,Active
+STU-1014,C-114,Rizwan,Senior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,rizwan@dalanzia.org,2,10,Active
+STU-1005,C-105,Hashim,Senior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 98471 20002,hashim@dalanzia.org,3,15,Active
+STU-1008,C-108,Irfan Edayyur,Senior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,irfan.edayur@dalanzia.org,4,20,Active
+STU-1007,C-107,Hafiz Hussan,Senior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,hafiz.hussan@dalanzia.org,1,25,Active
+STU-1006,C-106,Aslam Sha,Senior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,aslam.sha@dalanzia.org,2,30,Active
+STU-1011,C-111,Shammas,Senior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,shammas@dalanzia.org,3,10,Active
+STU-1015,C-115,Husain Shinaf,Senior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,husain.shinaf@dalanzia.org,4,15,Active
+STU-1012,C-112,Razeen,Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,razeen@dalanzia.org,1,20,Active
+STU-1017,C-117,Anshid T,Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,anshid.t@dalanzia.org,2,25,Active
+STU-1018,C-118,Aflah P (Aflah Tirur),Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,aflah.p@dalanzia.org,3,30,Active
+STU-1009,C-109,Midlaj P (Midlaj Kadampuzha),Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,midlaj.p@dalanzia.org,4,10,Active
+STU-1022,C-122,Fakih,Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,fakih@dalanzia.org,1,15,Active
+STU-1024,C-124,Nihal,Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,nihal@dalanzia.org,2,20,Active
+STU-1026,C-126,Anshid,Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,anshid@dalanzia.org,3,25,Active
+STU-1021,C-121,Midlaj M (Midlaj Manoor),Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,midlaj.m@dalanzia.org,4,30,Active
+STU-1010,C-110,Sahal (Sahl),Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,sahal@dalanzia.org,1,10,Active
+STU-1016,C-116,Rayyan Razi,Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,rayyan.razi@dalanzia.org,2,15,Active
+STU-1019,C-119,Aflah AK,Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,aflah.ak@dalanzia.org,3,20,Active
+STU-1020,C-120,Athif,Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,athif@dalanzia.org,4,25,Active
+STU-1023,C-123,Uvais,Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,uvais@dalanzia.org,1,30,Active
+STU-1025,C-125,Ahnaf,Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,ahnaf@dalanzia.org,2,10,Active
+STU-1027,C-127,Zayan,Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,zayan@dalanzia.org,3,15,Active
+STU-1028,C-128,Rifaee,Sub Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,rifaee@dalanzia.org,4,20,Active
+STU-1030,C-130,Abdul Nasar,Sub Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,abdul.nasar@dalanzia.org,1,25,Active
+STU-1032,C-132,Sayyid Dilbar,Sub Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,seyyid.dilbar@dalanzia.org,2,30,Active
+STU-1034,C-134,Ali Akbar,Sub Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,ali.akbar@dalanzia.org,3,10,Active
+STU-1037,C-137,Subhan,Sub Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,subhan@dalanzia.org,4,15,Active
+STU-1042,C-142,Yaseen,Sub Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,yaseen@dalanzia.org,1,20,Active
+STU-1044,C-144,Fasil,Sub Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,fasil@dalanzia.org,2,25,Active
+STU-1036,C-136,Touheed,Sub Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,touheed@dalanzia.org,3,30,Active
+STU-1046,C-146,Ziyad,Sub Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,ziyad@dalanzia.org,4,10,Active
+STU-1038,C-138,Farhan,Sub Junior,Dazzlers,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,farhan@dalanzia.org,1,15,Active
+STU-1029,C-129,Rizwan,Sub Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,rizwan.2@dalanzia.org,2,20,Active
+STU-1031,C-131,Shaheen,Sub Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,shaheen@dalanzia.org,3,25,Active
+STU-1033,C-133,Nusaih,Sub Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,nusaih@dalanzia.org,4,30,Active
+STU-1035,C-135,Toufeeq,Sub Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,toufeeq@dalanzia.org,1,10,Active
+STU-1040,C-140,Faizan,Sub Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,faizan@dalanzia.org,2,15,Active
+STU-1041,C-141,Shidan,Sub Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,shidan@dalanzia.org,3,20,Active
+STU-1039,C-139,Thahir,Sub Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,thahir@dalanzia.org,4,25,Active
+STU-1045,C-145,Abdul Haq,Sub Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,abdul.haq@dalanzia.org,1,30,Active
+STU-1043,C-143,Sinan Edakkara,Sub Junior,Dynamos,2008-05-15,"Dalailussunna Dars, Ayiroor",+91 8589951951,sinan@dalanzia.org,2,10,Active
+STU-1047,C-147,മുഹമ്മദ് അൻഷിദ്,Junior,Dazzlers,2009-02-14,"Dalailussunna Dars, Ayiroor",+91 98471 20047,anshid.m@dalanzia.org,3,15,Active
+STU-1048,C-148,ഹാഫിസ് ഹസ്സൻ,Senior,Dynamos,2006-11-20,"Dalailussunna Dars, Ayiroor",+91 98471 20048,hafizhassan@dalanzia.org,4,20,Active
+STU-1049,C-149,Sayyid Muhammed Dilbar Thangal Al-Bukhari,Senior,Dazzlers,2007-06-18,"Dalailussunna Dars, Ayiroor",+91 98471 20049,dilbar.thangal@dalanzia.org,2,10,Active
+STU-1050,C-150,Zubair Ahmed (Withdrawn),Junior,Dynamos,2008-01-10,"Dalailussunna Dars, Ayiroor",+91 98471 20050,zubair@dalanzia.org,0,0,Inactive
+STU-1051,C-151,Kamil Mustafa (Medical Leave),Sub Junior,Dazzlers,2010-09-05,"Dalailussunna Dars, Ayiroor",+91 98471 20051,kamil@dalanzia.org,0,0,Inactive
